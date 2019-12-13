@@ -1,0 +1,98 @@
+__type: "tm_entity"
+__uuid: "f7f0200e-5cfe-b152-b547-8f2f438f358b"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "79e2b181-5790-8935-5dca-4925736ecae1"
+		position: {
+			__uuid: "08b26ebf-d606-a503-4316-9b006c12b9c7"
+		}
+		rotation: {
+			__uuid: "d3ee416e-e253-0089-8943-e010df4686a5"
+		}
+		scale: {
+			__uuid: "92f6800b-cfc3-5e7b-ba32-f1d5c950d86d"
+		}
+	}
+	{
+		__type: "tm_link_component"
+		__uuid: "6a750832-21d4-5e2d-443b-a1fdd12d879b"
+		position: {
+			__uuid: "bc1b53f7-6fb6-c609-fe72-71c31d8727d2"
+		}
+		rotation: {
+			__uuid: "7be571e3-3ab1-dc52-33a8-69dba4e815ac"
+		}
+		scale: {
+			__uuid: "a2921cf6-8d3b-a38e-bc9c-32d6dc778493"
+		}
+	}
+	{
+		__type: "tm_physics_shape_component"
+		__uuid: "c4d2ea3e-d963-7d18-db62-7ab9df10d1eb"
+		shape: {
+			__type: "tm_physics_shape_sphere"
+			__uuid: "d3334f6e-e8b9-3280-0501-2044a50e11e7"
+		}
+	}
+	{
+		__type: "tm_physics_body_component"
+		__uuid: "2677d9ea-308e-5208-1082-eb9b803acfd8"
+		center_of_mass: {
+			__uuid: "1b27fad4-6423-de25-ca3a-e478f85eab09"
+		}
+		inertia_tensor: {
+			__uuid: "3ff33270-6536-8724-3db4-ff45e2fe7b26"
+			x: 0.4000000059604645
+			y: 0.4000000059604645
+			z: 0.4000000059604645
+		}
+		inertia_tensor_rotation: {
+			__uuid: "8da9a2ba-3488-5950-2609-1877317b98e5"
+		}
+		enable_ccd: true
+	}
+]
+children: [
+	{
+		__uuid: "1d18fb03-26e4-4405-35f2-7b111b44dcd9"
+		name: "Mesh"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "e4359d3d-5b51-e7b7-cba6-75b2bc2caa9b"
+				position: {
+					__uuid: "54635475-0c71-a393-d398-fb2d6319aa2b"
+				}
+				rotation: {
+					__uuid: "83bd7e65-622d-5628-12f3-4af4e40257de"
+				}
+				scale: {
+					__uuid: "09161c57-56b0-a25c-b0a5-f7931dbd4034"
+				}
+			}
+			{
+				__type: "tm_link_component"
+				__uuid: "3e47709e-068d-8f11-3a12-349602b4bb1e"
+				position: {
+					__uuid: "8415f4d7-d6b0-ba7a-ac29-8b7cbd49c51b"
+				}
+				rotation: {
+					__uuid: "133e61e2-6209-959a-8972-bc603981aa6f"
+				}
+				scale: {
+					__uuid: "dd5b4025-8f6a-9d5c-bfce-c0b8c679bba4"
+					x: 2
+					y: 2
+					z: 2
+				}
+			}
+			{
+				__type: "tm_dcc_asset_component"
+				__uuid: "42d185d1-9d9b-b6fb-78d9-f5a9c1157865"
+				dcc_asset: "c8178b0e-821f-529d-63d3-075b84771f90"
+			}
+		]
+	}
+]
+__asset_uuid: "52b1f6a2-dc89-7e72-6a5f-f62be6734ae4"

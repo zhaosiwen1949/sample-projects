@@ -1,0 +1,153 @@
+__type: "tm_dcc_asset"
+__uuid: "8b0d96be-535d-9ecc-4b0b-75603b393ab3"
+scene: "f0be0f99-e0e2-1421-68f5-5f53a54682d3"
+accessors: [
+	{
+		__uuid: "d96fdfa0-18cb-abdf-cedd-b5f7c744e88e"
+		buffer: "f80751ef-c113-a89f-6c9e-c878ad452f3c"
+		count: 164
+		is_float: true
+		is_signed: true
+		bits: 32
+		component_count: 3
+	}
+	{
+		__uuid: "0490bb75-dacc-b14c-f9f7-662ad632721b"
+		buffer: "f80751ef-c113-a89f-6c9e-c878ad452f3c"
+		offset: 1968
+		count: 164
+		is_float: true
+		is_signed: true
+		bits: 32
+		component_count: 3
+	}
+	{
+		__uuid: "ec8a8a5d-05a1-a2a3-dc4e-eba3aa6452bb"
+		buffer: "11d15017-23e0-e9a0-aa51-c73ad32f70b7"
+		count: 164
+		is_float: true
+		is_signed: true
+		bits: 32
+		component_count: 2
+	}
+	{
+		__uuid: "a3972d39-6b0b-98fc-66f0-1d730d08ffc0"
+		buffer: "5a1638d6-94ec-069d-1e75-662747115cf6"
+		count: 288
+		bits: 16
+		component_count: 1
+	}
+]
+buffers: [
+	{
+		__uuid: "f80751ef-c113-a89f-6c9e-c878ad452f3c"
+		name: "bufferView_0"
+		data: "e6bdad2db4db4310"
+		stride: 12
+	}
+	{
+		__uuid: "11d15017-23e0-e9a0-aa51-c73ad32f70b7"
+		name: "bufferView_1"
+		data: "f5b5a39465f4e678"
+		stride: 8
+	}
+	{
+		__uuid: "5a1638d6-94ec-069d-1e75-662747115cf6"
+		name: "bufferView_2"
+		data: "0cb5c1f7af65d148"
+	}
+]
+materials: [
+	{
+		__uuid: "ff0dba0b-072f-a594-2025-6c60a08a5ae5"
+		name: "Dark_Grey"
+		base_color_factor: {
+			__uuid: "8a4aaf2e-403b-50a3-f3eb-b5515eafa3e9"
+			r: 0.6118000149726868
+			g: 0.6118000149726868
+			b: 0.6118000149726868
+			a: 1
+		}
+		emissive_factor: {
+			__type: "tm_dcc_asset_color_rgba"
+			__uuid: "9159c54e-275a-6892-7084-2e8bcff9aed2"
+			a: 1
+		}
+		pbr_metallic_roughness: {
+			__uuid: "42d009da-c7b2-8d87-48b0-9423e3b97b6e"
+			roughness_factor: 1
+		}
+		alpha_mode: 1
+	}
+]
+meshes: [
+	{
+		__uuid: "4b3eb649-95ed-19a8-ba11-db622d92ddda"
+		name: "Step_Pillar_Caps_1:Dark_Grey"
+		primitive_type: 2
+		material: "ff0dba0b-072f-a594-2025-6c60a08a5ae5"
+		attributes: [
+			{
+				__uuid: "aa014662-7388-e818-aa38-0dac80af44ac"
+				semantic: 1
+				accessor: "d96fdfa0-18cb-abdf-cedd-b5f7c744e88e"
+			}
+			{
+				__uuid: "f8c58106-b200-6212-b721-cfc492109648"
+				semantic: 2
+				accessor: "0490bb75-dacc-b14c-f9f7-662ad632721b"
+			}
+			{
+				__uuid: "5c79970c-69d6-2ed3-82f5-0ffc5b2f0da9"
+				semantic: 5
+				accessor: "ec8a8a5d-05a1-a2a3-dc4e-eba3aa6452bb"
+			}
+		]
+		indices: "a3972d39-6b0b-98fc-66f0-1d730d08ffc0"
+		bounds_min: {
+			__uuid: "53632dc8-c06b-af96-29a3-c63f5ed995a5"
+			x: -0.2000000029802322
+			z: -0.6499999761581421
+		}
+		bounds_max: {
+			__uuid: "6946bff2-1afa-29ad-bb8a-5bb474eab150"
+			x: 1.200000047683716
+			y: 0.2000000029802322
+			z: -0.3499999940395355
+		}
+	}
+]
+nodes: [
+	{
+		__uuid: "473d6aa2-2a3b-280c-57b1-4294fb4344f6"
+		name: "Step_Pillar_Caps"
+		position: {
+			__uuid: "c234aa9d-5aed-3f92-5070-504e0e701633"
+		}
+		rotation: {
+			__uuid: "d55194d3-069f-d08d-0b91-e130bac69d01"
+			w: 1
+		}
+		scale: {
+			__uuid: "6a5d5bbb-cd41-e4f4-c014-cc7d5c94a08c"
+			x: 1
+			y: 1
+			z: 1
+		}
+		meshes: [
+			"4b3eb649-95ed-19a8-ba11-db622d92ddda"
+		]
+	}
+]
+scenes: [
+	{
+		__uuid: "f0be0f99-e0e2-1421-68f5-5f53a54682d3"
+		root_nodes: [
+			"473d6aa2-2a3b-280c-57b1-4294fb4344f6"
+		]
+	}
+]
+settings: {
+	__uuid: "97e50ae0-0e04-7da2-3663-23c98305cb5a"
+}
+__asset_uuid: "f99abbe6-2926-1857-aea6-dd6ea2384fe8"

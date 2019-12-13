@@ -1,0 +1,153 @@
+__type: "tm_dcc_asset"
+__uuid: "9787a55a-2ba7-0423-b42f-357da217afbd"
+scene: "12413401-38f8-f06f-96a9-71609f03f6f3"
+accessors: [
+	{
+		__uuid: "927f3d24-076d-e701-c41e-3e3022bf6e03"
+		buffer: "a93f4c23-542f-77d8-c10e-7640c7e3d35a"
+		count: 24
+		is_float: true
+		is_signed: true
+		bits: 32
+		component_count: 3
+	}
+	{
+		__uuid: "c869f3a6-82de-52b8-e20a-0265b629eec0"
+		buffer: "a93f4c23-542f-77d8-c10e-7640c7e3d35a"
+		offset: 288
+		count: 24
+		is_float: true
+		is_signed: true
+		bits: 32
+		component_count: 3
+	}
+	{
+		__uuid: "7142d3df-eaf7-ce6b-9fd0-675e096e0440"
+		buffer: "35508a15-b003-2491-82b2-f3d4a7607672"
+		count: 24
+		is_float: true
+		is_signed: true
+		bits: 32
+		component_count: 2
+	}
+	{
+		__uuid: "1f0f072c-3f60-00bc-101c-10d4e435bfaa"
+		buffer: "9f8c2edf-434b-9871-7fdd-b20404b7c2d9"
+		count: 36
+		bits: 16
+		component_count: 1
+	}
+]
+buffers: [
+	{
+		__uuid: "a93f4c23-542f-77d8-c10e-7640c7e3d35a"
+		name: "bufferView_0"
+		data: "f01a58c2b856ff98"
+		stride: 12
+	}
+	{
+		__uuid: "35508a15-b003-2491-82b2-f3d4a7607672"
+		name: "bufferView_1"
+		data: "927324241fbd8782"
+		stride: 8
+	}
+	{
+		__uuid: "9f8c2edf-434b-9871-7fdd-b20404b7c2d9"
+		name: "bufferView_2"
+		data: "8fcca2642d87d7c8"
+	}
+]
+materials: [
+	{
+		__uuid: "8893df6c-fe99-fc99-78c2-4073aff2d440"
+		name: "Grey"
+		base_color_factor: {
+			__uuid: "b4c74233-ab2c-eeff-573b-aa3662dd9123"
+			r: 0.7372999787330627
+			g: 0.7372999787330627
+			b: 0.7372999787330627
+			a: 1
+		}
+		emissive_factor: {
+			__type: "tm_dcc_asset_color_rgba"
+			__uuid: "b3a961a4-196a-a99c-7136-35761894683f"
+			a: 1
+		}
+		pbr_metallic_roughness: {
+			__uuid: "6a733e5e-157d-7f7e-a59e-7e2fc6dcd7f7"
+			roughness_factor: 1
+		}
+		alpha_mode: 1
+	}
+]
+meshes: [
+	{
+		__uuid: "96096fbe-196f-f2a1-5572-ee604eb6b8d4"
+		name: "object1_1:Grey"
+		primitive_type: 2
+		material: "8893df6c-fe99-fc99-78c2-4073aff2d440"
+		attributes: [
+			{
+				__uuid: "1e281eb4-7cc1-4616-3054-b2df0f1884e7"
+				semantic: 1
+				accessor: "927f3d24-076d-e701-c41e-3e3022bf6e03"
+			}
+			{
+				__uuid: "2296f3c4-d37f-8370-e06d-6341a14f0c70"
+				semantic: 2
+				accessor: "c869f3a6-82de-52b8-e20a-0265b629eec0"
+			}
+			{
+				__uuid: "b8a90471-ba85-1480-ddac-2ba9455a9d8b"
+				semantic: 5
+				accessor: "7142d3df-eaf7-ce6b-9fd0-675e096e0440"
+			}
+		]
+		indices: "1f0f072c-3f60-00bc-101c-10d4e435bfaa"
+		bounds_min: {
+			__uuid: "803ead90-ce2b-5548-8117-b9803c3f551a"
+			x: -0.1535533964633942
+			z: -0.5535534024238586
+		}
+		bounds_max: {
+			__uuid: "073e8cf4-cee1-f79a-17e7-b890697d72cd"
+			x: 0.5535534024238586
+			y: 1
+			z: 0.1535533964633942
+		}
+	}
+]
+nodes: [
+	{
+		__uuid: "5640f6b7-d182-c8ad-64aa-b37a29838e4c"
+		name: "object1"
+		position: {
+			__uuid: "dd70a1ab-190d-286f-f946-5fdbe6e23476"
+		}
+		rotation: {
+			__uuid: "5da96c2f-05eb-137f-5072-11fdcfd33351"
+			w: 1
+		}
+		scale: {
+			__uuid: "f2752d41-0bd7-9f28-a4d5-e005adbf97c3"
+			x: 1
+			y: 1
+			z: 1
+		}
+		meshes: [
+			"96096fbe-196f-f2a1-5572-ee604eb6b8d4"
+		]
+	}
+]
+scenes: [
+	{
+		__uuid: "12413401-38f8-f06f-96a9-71609f03f6f3"
+		root_nodes: [
+			"5640f6b7-d182-c8ad-64aa-b37a29838e4c"
+		]
+	}
+]
+settings: {
+	__uuid: "3b937da4-f8d9-af70-5338-32987fc76787"
+}
+__asset_uuid: "c0fe745e-594c-45de-70ee-c4a6fd318485"

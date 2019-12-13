@@ -1,0 +1,108 @@
+__type: "tm_entity"
+__uuid: "9a6bd51d-5765-7d7e-fa67-63483068be20"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "ba5e98f7-05a5-ad44-a3e9-d61595cb9cbe"
+		position: {
+			__uuid: "519ad0cd-27ad-caf3-bf6e-bd22330fac35"
+		}
+		rotation: {
+			__uuid: "3072b4ea-e192-36e3-a732-5f95e4053686"
+		}
+		scale: {
+			__uuid: "0fdfee8c-8492-28e6-ec75-3f3d956e5fba"
+		}
+	}
+	{
+		__type: "tm_link_component"
+		__uuid: "1da74690-8730-0823-3234-8018492fa4a2"
+		position: {
+			__uuid: "abd21736-805d-e5f5-ba06-a6d95f7e9380"
+		}
+		rotation: {
+			__uuid: "ebde476e-72ee-13cc-0971-5a86c50f7a72"
+		}
+		scale: {
+			__uuid: "9622ff86-918d-0f9b-7965-43e50746e6b1"
+		}
+	}
+	{
+		__type: "tm_physics_shape_component"
+		__uuid: "b523ad7a-1915-9ff6-53c4-74c974b3b1c8"
+		shape: {
+			__type: "tm_physics_shape_sphere"
+			__uuid: "a92eb56b-4863-25bb-f83e-e587d788bee3"
+		}
+		material: "6b07bd0e-6967-6dcd-099b-c979289656e5"
+	}
+	{
+		__type: "tm_physics_body_component"
+		__uuid: "18643970-5f10-977d-9749-ac144dbd93e6"
+		center_of_mass: {
+			__uuid: "ec81d83e-bcd0-31f3-00a4-b6c11a32e538"
+		}
+		inertia_tensor: {
+			__uuid: "c010da7f-38fd-5f78-b3b1-67161c889b61"
+			x: 0.4000000059604645
+			y: 0.4000000059604645
+			z: 0.4000000059604645
+		}
+		inertia_tensor_rotation: {
+			__uuid: "9ed653bb-2225-6896-127e-2a50fed80742"
+		}
+		angular_damping: 0
+		disable_gravity: true
+		enable_ccd: true
+	}
+	{
+		__type: "tm_tag_component"
+		__uuid: "c59d3cc0-966d-7555-287b-45c7aee8a545"
+		tags: [
+			"4291a641-a9bf-b4ee-e8da-ba0b2e8f9e52"
+		]
+	}
+]
+children: [
+	{
+		__uuid: "bfe875c6-21ee-c41c-fa07-cb66797f8818"
+		name: "Mesh"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "c39f1d79-987c-e659-f314-6082398fd794"
+				position: {
+					__uuid: "9037559a-180c-6a89-2907-ef7fcef064d0"
+				}
+				rotation: {
+					__uuid: "0349d5b7-b778-1a71-fe5e-34cf58240443"
+				}
+				scale: {
+					__uuid: "05144caf-186b-88db-c3e8-87efffad9a97"
+				}
+			}
+			{
+				__type: "tm_link_component"
+				__uuid: "8dcc3b59-8339-b407-9f63-8660c282a3ec"
+				position: {
+					__uuid: "65361384-2b00-38df-c9cb-95d941ee6b7f"
+				}
+				rotation: {
+					__uuid: "9e3c69e8-4006-a78b-0fb4-370bd21881a0"
+				}
+				scale: {
+					__uuid: "33dc2880-b5a8-6430-b415-fb40f222232e"
+					x: 2
+					y: 2
+					z: 2
+				}
+			}
+			{
+				__type: "tm_dcc_asset_component"
+				__uuid: "d7a2c059-64a5-d7f0-708d-779cf9324ca7"
+				dcc_asset: "c8178b0e-821f-529d-63d3-075b84771f90"
+			}
+		]
+	}
+]
+__asset_uuid: "e9b510e7-30fe-ddaf-e39e-6d5e71aa64d6"
