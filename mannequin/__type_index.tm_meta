@@ -754,6 +754,46 @@
 		]
 	}
 	{
+		name: "tm_asm_event_reference"
+		properties: [
+			{
+				name: "asm_event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+		]
+	}
+	{
+		name: "tm_asm_variable_reference"
+		properties: [
+			{
+				name: "asm_variable"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+		]
+	}
+	{
+		name: "tm_asm_state_reference"
+		properties: [
+			{
+				name: "asm_state"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_animation_clip_reference"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b6e5de67c7549505"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_variable"
 		properties: [
 			{
@@ -844,6 +884,10 @@
 			}
 			{
 				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "width"
 				type: "float"
 			}
 			{
@@ -2389,6 +2433,19 @@
 			}
 			{
 				name: "max"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_mover_component"
+		properties: [
+			{
+				name: "height"
+				type: "float"
+			}
+			{
+				name: "radius"
 				type: "float"
 			}
 		]
