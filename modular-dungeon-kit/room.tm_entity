@@ -4831,7 +4831,7 @@ children: [
 					}
 					interface: {
 						__uuid: "0734d27b-d25c-c506-b594-dfe6ef8de4a5"
-						graph_version: 12
+						graph_version: 25
 					}
 				}
 			}
@@ -5030,7 +5030,7 @@ children: [
 					}
 					interface: {
 						__uuid: "f1f1cadf-af89-a0a1-f8dc-2b8966053dd0"
-						graph_version: 20
+						graph_version: 22
 					}
 				}
 			}
@@ -5092,6 +5092,91 @@ children: [
 				num_cascades: 3
 				shadow_distance: 30
 				uniform_log_weight: 0.831000030040741
+			}
+		]
+	}
+	{
+		__uuid: "7cdff6ba-5c17-6ddb-6abd-fc3929365336"
+		name: "cam 1"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "78fdbb00-15d8-1402-dcea-6016728c1faf"
+				position: {
+					__uuid: "74474166-7dde-fdb5-5c4a-a0be9fde0761"
+				}
+				rotation: {
+					__uuid: "12e0bc3c-7110-e47c-ca6a-a18a5acbdfd7"
+				}
+				scale: {
+					__uuid: "6c9ce506-eb80-3e3f-b966-c1f8ad6ea1f0"
+				}
+			}
+			{
+				__type: "tm_link_component"
+				__uuid: "be2f5252-36e1-a399-2d70-9aa8e0432f3f"
+				position: {
+					__uuid: "586cc2dd-0758-d33a-db98-b3591deb67cc"
+					x: -3.000402212142944
+					y: 1.375177979469299
+					z: -1.862179279327393
+				}
+				rotation: {
+					__uuid: "d2a9fa8f-d785-f1ff-1d28-6142a8ab3ee5"
+					x: -5.877499376083506e-08
+					y: 0.8914023637771606
+					z: -5.877499376083506e-08
+					w: -0.4532127678394318
+				}
+				scale: {
+					__uuid: "19911855-ed53-aeb0-dc9d-897b268dbdff"
+				}
+			}
+			{
+				__type: "tm_camera_component"
+				__uuid: "72d6c326-020a-4fe6-bcf9-174d93fa2b14"
+				vertical_fov: 1.382300734519958
+			}
+		]
+	}
+	{
+		__uuid: "5c9784f5-0234-c35b-e740-f28a014dd40c"
+		name: "cam 2"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "cb2dcea0-89c6-439f-d53a-1b511af98dfb"
+				position: {
+					__uuid: "6ff5845d-dcd3-ff66-e54e-db1e20544ac3"
+				}
+				rotation: {
+					__uuid: "6b83f5ba-009b-be0e-6a8f-ae1605b7ddc8"
+				}
+				scale: {
+					__uuid: "39cec33f-6b18-3a86-0f59-2bc79c873dc1"
+				}
+			}
+			{
+				__type: "tm_link_component"
+				__uuid: "6cde3698-a892-3cb7-4e1a-7fbbd3dc89b8"
+				position: {
+					__uuid: "ace501e7-4659-da84-8951-8f1be05afb44"
+					y: 6
+					z: 0.5
+				}
+				rotation: {
+					__uuid: "1992b286-a02e-30b9-bb38-98861d61ebc1"
+					x: -0.7071067690849304
+					w: 0.7071067690849304
+				}
+				scale: {
+					__uuid: "3699510a-0606-3e32-a516-28a54332bc2a"
+				}
+			}
+			{
+				__type: "tm_camera_component"
+				__uuid: "0301dd7a-07e9-e64d-692e-feb9d3ec4c21"
+				vertical_fov: 1.450368523597717
 			}
 		]
 	}

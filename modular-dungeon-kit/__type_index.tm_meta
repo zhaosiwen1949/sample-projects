@@ -316,6 +316,11 @@
 				name: "pick_counter"
 				type: "uint32_t"
 			}
+			{
+				name: "frame_object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
 		]
 	}
 	{
@@ -754,6 +759,46 @@
 		]
 	}
 	{
+		name: "tm_asm_event_reference"
+		properties: [
+			{
+				name: "asm_event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+		]
+	}
+	{
+		name: "tm_asm_variable_reference"
+		properties: [
+			{
+				name: "asm_variable"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+		]
+	}
+	{
+		name: "tm_asm_state_reference"
+		properties: [
+			{
+				name: "asm_state"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_animation_clip_reference"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b6e5de67c7549505"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_variable"
 		properties: [
 			{
@@ -844,6 +889,10 @@
 			}
 			{
 				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "width"
 				type: "float"
 			}
 			{
@@ -2034,6 +2083,27 @@
 		]
 	}
 	{
+		name: "tm_camera_component"
+		properties: [
+			{
+				name: "near_plane"
+				type: "float"
+			}
+			{
+				name: "far_plane"
+				type: "float"
+			}
+			{
+				name: "vertical_fov"
+				type: "float"
+			}
+			{
+				name: "translation_damping_time"
+				type: "float"
+			}
+		]
+	}
+	{
 		name: "tm_graph_component"
 		properties: [
 			{
@@ -2394,6 +2464,24 @@
 		]
 	}
 	{
+		name: "tm_physics_mover_component"
+		properties: [
+			{
+				name: "height"
+				type: "float"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "collision"
+				type: "reference"
+				type_hash: "a7877788271e981c"
+			}
+		]
+	}
+	{
 		name: "tm_physx_force_flags"
 		properties: [
 			{
@@ -2527,23 +2615,6 @@
 			{
 				name: "is_cut"
 				type: "bool"
-			}
-		]
-	}
-	{
-		name: "tm_camera_settings_component"
-		properties: [
-			{
-				name: "near_plane"
-				type: "float"
-			}
-			{
-				name: "far_plane"
-				type: "float"
-			}
-			{
-				name: "vertical_fov"
-				type: "float"
 			}
 		]
 	}
@@ -3061,9 +3132,9 @@
 		name: "tm_application_settings"
 		properties: [
 			{
-				name: "default_camera_settings"
+				name: "default_camera"
 				type: "subobject"
-				type_hash: "9a6d28d1b5aeda24"
+				type_hash: "41418a36f804f101"
 			}
 			{
 				name: "window_layouts"
@@ -3177,6 +3248,23 @@
 			}
 			{
 				name: "sort_index"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_camera_settings_component"
+		properties: [
+			{
+				name: "near_plane"
+				type: "float"
+			}
+			{
+				name: "far_plane"
+				type: "float"
+			}
+			{
+				name: "vertical_fov"
 				type: "float"
 			}
 		]
