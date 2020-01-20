@@ -81,6 +81,24 @@ components: [
 					position_x: -184.3355712890625
 					position_y: 444.9319763183594
 				}
+				{
+					__uuid: "1b7e5ed0-fbdb-604d-ae83-380533717ac8"
+					type: "tm_simulate_tab_set_camera_entity"
+					position_x: -251.4318389892578
+					position_y: 729.988525390625
+				}
+				{
+					__uuid: "b028598e-c957-4fd6-497f-e56d716b85d0"
+					type: "tm_init_event"
+					position_x: -513.5057983398438
+					position_y: 710.955078125
+				}
+				{
+					__uuid: "1c248fd7-a6d8-6739-6ad5-c1b1ba3f34d6"
+					type: "tm_scene_entity"
+					position_x: -600.8804931640625
+					position_y: 815.01123046875
+				}
 			]
 			connections: [
 				{
@@ -141,6 +159,18 @@ components: [
 					from_connector_hash: "8e497d19f0dc7ab3"
 					to_connector_hash: "6701fa343eb29740"
 				}
+				{
+					__uuid: "5c08eded-0ca5-0be3-9b04-9731453685eb"
+					from_node: "b028598e-c957-4fd6-497f-e56d716b85d0"
+					to_node: "1b7e5ed0-fbdb-604d-ae83-380533717ac8"
+				}
+				{
+					__uuid: "95ba3796-e9ed-1b7a-ad5a-dc372fc87e5e"
+					from_node: "1c248fd7-a6d8-6739-6ad5-c1b1ba3f34d6"
+					to_node: "1b7e5ed0-fbdb-604d-ae83-380533717ac8"
+					from_connector_hash: "9831ca893b0d087d"
+					to_connector_hash: "9831ca893b0d087d"
+				}
 			]
 			data: [
 				{
@@ -192,6 +222,16 @@ components: [
 						__type: "tm_asm_event_reference"
 						__uuid: "996c4f58-fac9-f729-bf45-fce7fa49cff7"
 						asm_event: "14306144-08ba-3c43-27a7-836f32d308c7"
+					}
+				}
+				{
+					__uuid: "5dda0893-d011-5483-e3f2-e80286d22574"
+					to_node: "1c248fd7-a6d8-6739-6ad5-c1b1ba3f34d6"
+					to_connector_hash: "9831ca893b0d087d"
+					data: {
+						__type: "tm_local_entity_asset_reference"
+						__uuid: "2f54003d-67ee-60fa-d9a5-28b7eaec525f"
+						entity: "b6d607b7-c5f4-b603-433f-95921d220db3"
 					}
 				}
 			]
@@ -633,6 +673,14 @@ children: [
 					y: 0.003000000026077032
 					z: 0.003000000026077032
 				}
+			}
+		]
+		children__instantiated: [
+			{
+				__uuid: "b6d607b7-c5f4-b603-433f-95921d220db3"
+				__prototype_type: "tm_entity"
+				__prototype_uuid: "b709c6ec-ca74-ac89-b606-74765bb7f007"
+				name: "3p camera"
 			}
 		]
 	}
