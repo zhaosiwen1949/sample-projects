@@ -1,0 +1,206 @@
+__type: "tm_animation_state_machine"
+__uuid: "0dadb2e0-54fe-559d-a979-830ef32a5769"
+preview_entity: "d8c93bba-e774-7df7-57e9-b0e55f1be2c4"
+layers: [
+	{
+		__uuid: "0d007bf1-8159-023c-e8a6-77ca79fda6fd"
+		name: "Locomotion"
+		default_state: "7f869057-b091-2827-2044-c91035c899a3"
+		default_state__type: "tm_asm_blend_state"
+		states: [
+			{
+				__type: "tm_asm_regular_state"
+				__uuid: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
+				name: "idle"
+				x: -432.40625
+				y: -168.375
+				speed: "1"
+				animation: "c4eb11c8-0503-77b8-edbb-90e107e2df98"
+				animation__type: "tm_animation_clip"
+			}
+			{
+				__type: "tm_asm_blend_state"
+				__uuid: "7f869057-b091-2827-2044-c91035c899a3"
+				name: "locomotion"
+				x: -113.25
+				y: -172.5
+				speed: "speed"
+				dimensions: 1
+				variable_x: "eb7068c2-4212-26b2-9774-5f5024c0a9b9"
+				variable_y: "d76f0c47-a1cc-6b41-e338-cbb69f67fa0d"
+				animations: [
+					{
+						__uuid: "cf487a3f-fd1f-bc09-e619-0bf343cf4881"
+						animation: "6c8776ce-ad1a-88d4-1446-bc7cccecee45"
+						x: 1
+					}
+					{
+						__uuid: "f66bcf8b-ba2f-d65d-38da-7045e74ed254"
+						animation: "867fcc6b-90fa-7d2a-9c34-ca716501857d"
+						x: 2
+					}
+					{
+						__uuid: "ca7b2de9-45ae-b1b3-5624-5604d83f2059"
+						animation: "a50e0cd1-37f6-de65-1cdf-532bc2412fa1"
+						x: 1
+						y: -1
+					}
+					{
+						__uuid: "d1b190aa-3d43-7166-9f96-2988e807894d"
+						animation: "8d835788-fdd5-d43b-b029-9ec25cafc26e"
+						x: 1
+						y: 1
+					}
+				]
+			}
+			{
+				__type: "tm_asm_regular_state"
+				__uuid: "6dc4fc27-6a0c-e3a0-f94b-a13e4797bda5"
+				name: "death"
+				x: -248.953125
+				y: 20.8125
+				speed: "1"
+				animation: "6dbad74a-7261-e347-e9fd-9ee357bb668f"
+				animation__type: "tm_animation_clip"
+			}
+		]
+		transitions: [
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "e4b53b4c-09dd-ae00-b8f7-2967be0aa15b"
+				name: ""
+				from: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
+				from__type: "tm_asm_regular_state"
+				to: "7f869057-b091-2827-2044-c91035c899a3"
+				to__type: "tm_asm_blend_state"
+				event: "8c26a4f4-cedb-bbe1-a793-5c1c539af18c"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "2adb3262-b695-334f-d96b-e912442b843d"
+				name: ""
+				from: "7f869057-b091-2827-2044-c91035c899a3"
+				from__type: "tm_asm_blend_state"
+				to: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
+				to__type: "tm_asm_regular_state"
+				event: "ee9acd8f-e589-c128-b5d0-dc06f25c505d"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "f1e34831-6dac-6d98-debc-635946fbd4d5"
+				name: ""
+				from: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
+				from__type: "tm_asm_regular_state"
+				to: "6dc4fc27-6a0c-e3a0-f94b-a13e4797bda5"
+				to__type: "tm_asm_regular_state"
+				event: "444fec27-8d96-f539-40f4-6103f9b259e1"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "352b753f-8c40-49d3-dc4d-2d4e12573002"
+				name: ""
+				from: "7f869057-b091-2827-2044-c91035c899a3"
+				from__type: "tm_asm_blend_state"
+				to: "6dc4fc27-6a0c-e3a0-f94b-a13e4797bda5"
+				to__type: "tm_asm_regular_state"
+				event: "444fec27-8d96-f539-40f4-6103f9b259e1"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "4e85d21b-1650-59c9-fa7c-bf9979a38c3b"
+				name: ""
+				from: "6dc4fc27-6a0c-e3a0-f94b-a13e4797bda5"
+				from__type: "tm_asm_regular_state"
+				to: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
+				to__type: "tm_asm_regular_state"
+				event: "672beb99-227e-1407-6014-699da4b641a2"
+				crossfade_time: 1
+			}
+		]
+	}
+	{
+		__uuid: "e0ea70d9-4b1a-628b-90fa-9266b803349b"
+		name: "Jump"
+		sort_order: 1
+		default_state: "5c38e59f-09a0-3e3e-6186-9ac91cf72662"
+		default_state__type: "tm_asm_empty_state"
+		states: [
+			{
+				__type: "tm_asm_empty_state"
+				__uuid: "5c38e59f-09a0-3e3e-6186-9ac91cf72662"
+				name: "empty"
+				x: -246.125
+				y: -82.75
+			}
+			{
+				__type: "tm_asm_regular_state"
+				__uuid: "a4fc8d20-c61e-a847-bc01-98ad50412e40"
+				name: "jump"
+				x: 108.875
+				y: -85.75
+				speed: "1"
+				animation: "54c4260a-c57a-aa9d-74e3-8a0171df420b"
+				animation__type: "tm_animation_clip"
+			}
+		]
+		transitions: [
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "a4e45b9d-5440-8975-3dfd-541271c8c916"
+				name: ""
+				from: "5c38e59f-09a0-3e3e-6186-9ac91cf72662"
+				from__type: "tm_asm_empty_state"
+				to: "a4fc8d20-c61e-a847-bc01-98ad50412e40"
+				to__type: "tm_asm_regular_state"
+				event: "e9bd8895-c027-7ee1-dded-7bb3cb827748"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "c861c7bd-935f-278a-a05f-f8361b216d0e"
+				name: ""
+				from: "a4fc8d20-c61e-a847-bc01-98ad50412e40"
+				from__type: "tm_asm_regular_state"
+				to: "5c38e59f-09a0-3e3e-6186-9ac91cf72662"
+				to__type: "tm_asm_empty_state"
+				on: 1
+			}
+		]
+	}
+]
+events: [
+	{
+		__uuid: "ee9acd8f-e589-c128-b5d0-dc06f25c505d"
+		name: "idle"
+	}
+	{
+		__uuid: "8c26a4f4-cedb-bbe1-a793-5c1c539af18c"
+		name: "move"
+	}
+	{
+		__uuid: "444fec27-8d96-f539-40f4-6103f9b259e1"
+		name: "death"
+	}
+	{
+		__uuid: "672beb99-227e-1407-6014-699da4b641a2"
+		name: "revive"
+	}
+	{
+		__uuid: "e9bd8895-c027-7ee1-dded-7bb3cb827748"
+		name: "jump"
+	}
+]
+variables: [
+	{
+		__uuid: "eb7068c2-4212-26b2-9774-5f5024c0a9b9"
+		name: "speed"
+		default: 1
+		min: -1
+		max: 2
+	}
+	{
+		__uuid: "d76f0c47-a1cc-6b41-e338-cbb69f67fa0d"
+		name: "strafe"
+		min: -1
+	}
+]
+__asset_uuid: "0e595fad-5232-79fe-59ee-b0c472a9ae4e"
