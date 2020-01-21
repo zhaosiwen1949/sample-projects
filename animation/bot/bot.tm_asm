@@ -73,7 +73,8 @@ layers: [
 				from__type: "tm_asm_regular_state"
 				to: "7f869057-b091-2827-2044-c91035c899a3"
 				to__type: "tm_asm_blend_state"
-				event: "8c26a4f4-cedb-bbe1-a793-5c1c539af18c"
+				on: 2
+				condition: "abs(speed) > 0.2"
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -83,7 +84,8 @@ layers: [
 				from__type: "tm_asm_blend_state"
 				to: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
 				to__type: "tm_asm_regular_state"
-				event: "ee9acd8f-e589-c128-b5d0-dc06f25c505d"
+				on: 2
+				condition: "abs(speed) < 0.3"
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -94,6 +96,7 @@ layers: [
 				to: "6dc4fc27-6a0c-e3a0-f94b-a13e4797bda5"
 				to__type: "tm_asm_regular_state"
 				event: "444fec27-8d96-f539-40f4-6103f9b259e1"
+				condition: ""
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -104,6 +107,7 @@ layers: [
 				to: "6dc4fc27-6a0c-e3a0-f94b-a13e4797bda5"
 				to__type: "tm_asm_regular_state"
 				event: "444fec27-8d96-f539-40f4-6103f9b259e1"
+				condition: ""
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -114,6 +118,7 @@ layers: [
 				to: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
 				to__type: "tm_asm_regular_state"
 				event: "672beb99-227e-1407-6014-699da4b641a2"
+				condition: ""
 				crossfade_time: 1
 			}
 		]
@@ -153,6 +158,7 @@ layers: [
 				to: "a4fc8d20-c61e-a847-bc01-98ad50412e40"
 				to__type: "tm_asm_regular_state"
 				event: "e9bd8895-c027-7ee1-dded-7bb3cb827748"
+				condition: ""
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -163,22 +169,16 @@ layers: [
 				to: "5c38e59f-09a0-3e3e-6186-9ac91cf72662"
 				to__type: "tm_asm_empty_state"
 				on: 1
+				condition: ""
 			}
 		]
 	}
 ]
 events: [
 	{
-		__uuid: "ee9acd8f-e589-c128-b5d0-dc06f25c505d"
-		name: "idle"
-	}
-	{
-		__uuid: "8c26a4f4-cedb-bbe1-a793-5c1c539af18c"
-		name: "move"
-	}
-	{
 		__uuid: "444fec27-8d96-f539-40f4-6103f9b259e1"
 		name: "death"
+		sort_order: -1
 	}
 	{
 		__uuid: "672beb99-227e-1407-6014-699da4b641a2"
@@ -187,20 +187,51 @@ events: [
 	{
 		__uuid: "e9bd8895-c027-7ee1-dded-7bb3cb827748"
 		name: "jump"
+		sort_order: -1.25
 	}
 ]
 variables: [
 	{
 		__uuid: "eb7068c2-4212-26b2-9774-5f5024c0a9b9"
 		name: "speed"
+		sort_order: -2
 		default: 1
 		min: -1
 		max: 2
+		computed: true
+		expression: "max(max(w,abs(s)), max(a,d)) * iff(s > w, -1, 1)"
 	}
 	{
 		__uuid: "d76f0c47-a1cc-6b41-e338-cbb69f67fa0d"
 		name: "strafe"
+		sort_order: -1
 		min: -1
+		computed: true
+		expression: "d - a"
+	}
+	{
+		__uuid: "6567db00-dd1f-f5d8-1bb3-5de9a3e897db"
+		name: "w"
+		sort_order: -3
+		expression: ""
+	}
+	{
+		__uuid: "05a24f23-4912-88dc-f126-891de9dc1e22"
+		name: "s"
+		sort_order: -2.5
+		expression: ""
+	}
+	{
+		__uuid: "28e811d4-6fa1-8829-1f4a-8d0d9f699fcc"
+		name: "a"
+		sort_order: -2.25
+		expression: ""
+	}
+	{
+		__uuid: "299ccf21-e6f3-5d78-44bf-76d5a855dd55"
+		name: "d"
+		sort_order: -2.125
+		expression: ""
 	}
 ]
 __asset_uuid: "0e595fad-5232-79fe-59ee-b0c472a9ae4e"
