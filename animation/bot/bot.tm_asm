@@ -22,8 +22,8 @@ layers: [
 				__type: "tm_asm_blend_state"
 				__uuid: "7f869057-b091-2827-2044-c91035c899a3"
 				name: "fwd"
-				x: 145.75
-				y: -167.5
+				x: 183.75
+				y: -345.5
 				speed: "loco_speed"
 				dimensions: 1
 				variable_x: "eb7068c2-4212-26b2-9774-5f5024c0a9b9"
@@ -65,8 +65,8 @@ layers: [
 				__type: "tm_asm_blend_state"
 				__uuid: "2e407138-6867-85e6-9f60-ed74d1a286df"
 				name: "bwd"
-				x: -593.25
-				y: -170.5
+				x: -637.25
+				y: -337.5
 				speed: "loco_speed"
 				dimensions: 1
 				variable_x: "eb7068c2-4212-26b2-9774-5f5024c0a9b9"
@@ -100,7 +100,7 @@ layers: [
 				to: "7f869057-b091-2827-2044-c91035c899a3"
 				to__type: "tm_asm_blend_state"
 				on: 2
-				condition: "fwd  > 0.2"
+				condition: "fwd  > 0.3"
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -111,7 +111,7 @@ layers: [
 				to: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
 				to__type: "tm_asm_regular_state"
 				on: 2
-				condition: "fwd < 0.3"
+				condition: "fwd < 0.2 && abs(left) < 0.2"
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -157,7 +157,7 @@ layers: [
 				to: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
 				to__type: "tm_asm_regular_state"
 				on: 2
-				condition: "fwd > -0.2"
+				condition: "fwd > -0.2 && abs(left) < 0.2"
 			}
 			{
 				__type: "tm_asm_regular_transition"
@@ -181,7 +181,43 @@ layers: [
 				to: "7f869057-b091-2827-2044-c91035c899a3"
 				to__type: "tm_asm_blend_state"
 				on: 2
-				condition: "fwd > -0.1 && abs(left) > 0.2"
+				condition: "fwd > -0.1 && abs(left) > 0.3"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "53f05bb9-82aa-8f7d-7d03-35ea9e43b8f8"
+				name: ""
+				sort_order: 4
+				from: "f1679b54-36b1-0652-1990-c7aa930a3b3b"
+				from__type: "tm_asm_regular_state"
+				to: "2e407138-6867-85e6-9f60-ed74d1a286df"
+				to__type: "tm_asm_blend_state"
+				on: 2
+				condition: "fwd < 0.1 && abs(left) > 0.3"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "a1df6cb2-7b32-a456-52f0-b0e2fc65bdd6"
+				name: ""
+				sort_order: 5
+				from: "7f869057-b091-2827-2044-c91035c899a3"
+				from__type: "tm_asm_blend_state"
+				to: "2e407138-6867-85e6-9f60-ed74d1a286df"
+				to__type: "tm_asm_blend_state"
+				on: 2
+				condition: "fwd < 0"
+			}
+			{
+				__type: "tm_asm_regular_transition"
+				__uuid: "bfaf8e11-36b9-5367-b7cd-978e42e41d6a"
+				name: ""
+				sort_order: 6
+				from: "2e407138-6867-85e6-9f60-ed74d1a286df"
+				from__type: "tm_asm_blend_state"
+				to: "7f869057-b091-2827-2044-c91035c899a3"
+				to__type: "tm_asm_blend_state"
+				on: 2
+				condition: "fwd > 0"
 			}
 		]
 	}

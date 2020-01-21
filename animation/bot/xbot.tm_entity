@@ -147,6 +147,37 @@ components: [
 					position_x: 128.9155120849609
 					position_y: 138.1504211425781
 				}
+				{
+					__uuid: "66ed6821-b2a7-5a90-094e-51612e846d41"
+					type: "tm_poll_key"
+					label: "Keyboard: Space"
+					position_x: 501.335205078125
+					position_y: -319.1906127929688
+				}
+				{
+					__uuid: "e8f93787-307e-abc3-18c3-816535599b13"
+					type: "tm_tick_event"
+					position_x: 504.3407897949219
+					position_y: -143.5118865966797
+				}
+				{
+					__uuid: "7b346ef3-4467-4e07-e9f9-a6c937e8d1b0"
+					type: "tm_animation_event"
+					position_x: 955.4514770507813
+					position_y: -298.3707580566406
+				}
+				{
+					__uuid: "bd8b0789-c4c8-1e06-6041-75c5d0d6bfe4"
+					type: "tm_scene_entity"
+					position_x: 753.8806762695313
+					position_y: -347.2300720214844
+				}
+				{
+					__uuid: "ea582168-c2ab-507a-09d4-8fa9ad289590"
+					type: "tm_if"
+					position_x: 749.7518920898438
+					position_y: -243.3708190917969
+				}
 			]
 			connections: [
 				{
@@ -261,6 +292,31 @@ components: [
 					from_node: "e85971fc-4069-8399-5df1-fb4487599d59"
 					to_node: "1d648027-49d5-9303-4b5b-8c019b230a31"
 					from_connector_hash: "d2aaca16aa05478e"
+				}
+				{
+					__uuid: "6e6e6f23-05cb-19b0-6698-cd33698693cb"
+					from_node: "bd8b0789-c4c8-1e06-6041-75c5d0d6bfe4"
+					to_node: "7b346ef3-4467-4e07-e9f9-a6c937e8d1b0"
+					from_connector_hash: "9831ca893b0d087d"
+					to_connector_hash: "9831ca893b0d087d"
+				}
+				{
+					__uuid: "04545d79-75c6-b3d6-f756-a49185db8edd"
+					from_node: "e8f93787-307e-abc3-18c3-816535599b13"
+					to_node: "ea582168-c2ab-507a-09d4-8fa9ad289590"
+				}
+				{
+					__uuid: "81e88ac8-7e93-4b5e-6e73-22b81f682153"
+					from_node: "ea582168-c2ab-507a-09d4-8fa9ad289590"
+					to_node: "7b346ef3-4467-4e07-e9f9-a6c937e8d1b0"
+					from_connector_hash: "47bf0dd9d7937e37"
+				}
+				{
+					__uuid: "d42ecb29-c30a-ce57-aa89-3cbeef6d0960"
+					from_node: "66ed6821-b2a7-5a90-094e-51612e846d41"
+					to_node: "ea582168-c2ab-507a-09d4-8fa9ad289590"
+					from_connector_hash: "8e497d19f0dc7ab3"
+					to_connector_hash: "6701fa343eb29740"
 				}
 			]
 			data: [
@@ -456,6 +512,26 @@ components: [
 						__uuid: "c7080751-0cfe-8ab3-2786-a36a7ad7b515"
 					}
 				}
+				{
+					__uuid: "330e500f-17ae-41df-639a-0fc40591da69"
+					to_node: "66ed6821-b2a7-5a90-094e-51612e846d41"
+					to_connector_hash: "c336a25c5e5820c3"
+					data: {
+						__type: "tm_keyboard_item"
+						__uuid: "9fca46d5-f442-b818-69dc-be91d6c142d7"
+						key: 32
+					}
+				}
+				{
+					__uuid: "7c37c624-e8d5-fd32-0986-4870f291a2e8"
+					to_node: "7b346ef3-4467-4e07-e9f9-a6c937e8d1b0"
+					to_connector_hash: "ceeef8e1db253a5a"
+					data: {
+						__type: "tm_asm_event_reference"
+						__uuid: "128a9dc3-8440-db16-a228-ae4043415050"
+						asm_event: "e9bd8895-c027-7ee1-dded-7bb3cb827748"
+					}
+				}
 			]
 			comments: [
 				{
@@ -466,6 +542,16 @@ components: [
 					font_scale: 2
 					color: {
 						__uuid: "8d2b1df8-413b-7de7-ced3-2847ff17141b"
+					}
+				}
+				{
+					__uuid: "b0827a3d-ba0e-0590-6405-aa7002d13bde"
+					text: "Jump"
+					position_x: 368.8566284179688
+					position_y: -407.8963317871094
+					font_scale: 2
+					color: {
+						__uuid: "7a2be2eb-671e-a2e1-5deb-93fd47879905"
 					}
 				}
 			]
