@@ -297,7 +297,7 @@ variables: [
 		min: -2
 		max: 2
 		computed: true
-		expression: "w - s"
+		expression: "ws - ss"
 	}
 	{
 		__uuid: "d76f0c47-a1cc-6b41-e338-cbb69f67fa0d"
@@ -305,7 +305,7 @@ variables: [
 		sort_order: -1
 		min: -1
 		computed: true
-		expression: "d - a"
+		expression: "ds - as"
 	}
 	{
 		__uuid: "6567db00-dd1f-f5d8-1bb3-5de9a3e897db"
@@ -336,6 +336,34 @@ variables: [
 		name: "loco_speed"
 		computed: true
 		expression: "max(abs(fwd), abs(left))"
+	}
+	{
+		__uuid: "0cb1a353-42b4-09e9-7093-eb4e954ace10"
+		name: "ws"
+		sort_order: -2.0625
+		computed: true
+		expression: "0.2 * w + 0.8 * ws"
+	}
+	{
+		__uuid: "d5e5e502-3ca2-1a6a-8e5b-2f668995ae9a"
+		name: "as"
+		sort_order: -2.03125
+		computed: true
+		expression: "0.2*a + 0.8*as"
+	}
+	{
+		__uuid: "e982ec1d-10aa-09f6-007d-3851b57231a7"
+		name: "ss"
+		sort_order: -2.046875
+		computed: true
+		expression: "0.2*s + 0.8*ss"
+	}
+	{
+		__uuid: "f9a2a635-ae57-0a69-3d4b-8c216a3c81dd"
+		name: "ds"
+		sort_order: -2.015625
+		computed: true
+		expression: "0.2*d + 0.8*ds"
 	}
 ]
 __asset_uuid: "0e595fad-5232-79fe-59ee-b0c472a9ae4e"
