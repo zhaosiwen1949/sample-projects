@@ -49,6 +49,18 @@ layers: [
 						animation: "8d835788-fdd5-d43b-b029-9ec25cafc26e"
 						y: 1
 					}
+					{
+						__uuid: "982617bf-00ab-2e11-ecb5-19435444072b"
+						animation: "a50e0cd1-37f6-de65-1cdf-532bc2412fa1"
+						x: 1
+						y: -1
+					}
+					{
+						__uuid: "42ce4c8c-d679-3ebd-cc89-43910567491b"
+						animation: "8d835788-fdd5-d43b-b029-9ec25cafc26e"
+						x: 1
+						y: 1
+					}
 				]
 			}
 			{
@@ -342,7 +354,7 @@ variables: [
 		name: "ws"
 		sort_order: -2.0625
 		computed: true
-		expression: "0.2 * w + 0.8 * ws"
+		expression: "0.2 * w  * iff(run, 2, 1)+ 0.8 * ws"
 	}
 	{
 		__uuid: "d5e5e502-3ca2-1a6a-8e5b-2f668995ae9a"
@@ -364,6 +376,12 @@ variables: [
 		sort_order: -2.015625
 		computed: true
 		expression: "0.2*d + 0.8*ds"
+	}
+	{
+		__uuid: "8b44cd6a-5b55-3f1e-00d2-741be0db40ae"
+		name: "run"
+		sort_order: -2.09375
+		expression: ""
 	}
 ]
 __asset_uuid: "0e595fad-5232-79fe-59ee-b0c472a9ae4e"
