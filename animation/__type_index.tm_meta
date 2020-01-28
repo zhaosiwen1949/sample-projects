@@ -1037,6 +1037,10 @@
 				name: "graph"
 				type: "uint64_t"
 			}
+			{
+				name: "node_index"
+				type: "uint32_t"
+			}
 		]
 	}
 	{
@@ -2646,49 +2650,63 @@
 		]
 	}
 	{
-		name: "tm_spin_component"
+		name: "tm_renderer_sampler_states"
 		properties: [
 			{
-				name: "angular_velocity"
-				type: "subobject"
-				type_hash: "7a29b8f6b1ca42ec"
-			}
-		]
-	}
-	{
-		name: "tm_tessellated_plane_component"
-		properties: [
-			{
-				name: "visibility_flags"
-				type: "subobject_set"
-				type_hash: "4f4a05b229f12ac9"
-			}
-			{
-				name: "size"
-				type: "float"
-			}
-			{
-				name: "tessellation"
+				name: "min_filter"
 				type: "uint32_t"
 			}
 			{
-				name: "color"
-				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
-			}
-		]
-	}
-	{
-		name: "tm_clipboard"
-		properties: [
-			{
-				name: "objects"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
+				name: "max_filter"
+				type: "uint32_t"
 			}
 			{
-				name: "is_cut"
+				name: "mip_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "address_u"
+				type: "uint32_t"
+			}
+			{
+				name: "address_v"
+				type: "uint32_t"
+			}
+			{
+				name: "address_w"
+				type: "uint32_t"
+			}
+			{
+				name: "mip_lod_bias"
+				type: "float"
+			}
+			{
+				name: "anisotropy_enable"
 				type: "bool"
+			}
+			{
+				name: "max_anisotropy"
+				type: "float"
+			}
+			{
+				name: "compare_enable"
+				type: "bool"
+			}
+			{
+				name: "compare_op"
+				type: "uint32_t"
+			}
+			{
+				name: "min_lod"
+				type: "float"
+			}
+			{
+				name: "max_lod"
+				type: "float"
+			}
+			{
+				name: "border_color"
+				type: "uint32_t"
 			}
 		]
 	}
@@ -3225,6 +3243,53 @@
 			{
 				name: "buffer"
 				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_spin_component"
+		properties: [
+			{
+				name: "angular_velocity"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+		]
+	}
+	{
+		name: "tm_tessellated_plane_component"
+		properties: [
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "size"
+				type: "float"
+			}
+			{
+				name: "tessellation"
+				type: "uint32_t"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+	}
+	{
+		name: "tm_clipboard"
+		properties: [
+			{
+				name: "objects"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "is_cut"
+				type: "bool"
 			}
 		]
 	}
