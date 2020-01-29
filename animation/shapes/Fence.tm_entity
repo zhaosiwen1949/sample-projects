@@ -1,0 +1,94 @@
+__type: "tm_entity"
+__uuid: "85749196-609e-125d-b95b-20ab64222a96"
+name: "Fence"
+components: [
+	{
+		__type: "tm_dcc_asset_component"
+		__uuid: "061f73d8-ea10-26af-64c3-27e39b90a518"
+		dcc_asset: "8cd9b46e-c852-52d9-87bc-3bef30c7f283"
+	}
+	{
+		__type: "tm_transform_component"
+		__uuid: "41181dc9-2e9f-94ee-a9d7-970808d3a3c4"
+		position: {
+			__uuid: "1a93eae5-eddc-e9b4-18ec-7fa4976c5e42"
+			x: -1.193362236022949
+			y: -9.5367431640625e-07
+			z: -15.21319580078125
+		}
+		rotation: {
+			__uuid: "cad9aa8d-343d-f2ab-6c71-11287106d19d"
+		}
+		scale: {
+			__uuid: "de71e076-3655-cf20-30c5-fd78f143a4d6"
+		}
+	}
+	{
+		__type: "tm_link_component"
+		__uuid: "33552792-21ec-219b-1933-47a7c71c1b99"
+		position: {
+			__uuid: "7d1de560-f0cf-3f64-4e77-87577759187b"
+			x: -1.193362236022949
+			y: -9.5367431640625e-07
+			z: -15.21319580078125
+		}
+		rotation: {
+			__uuid: "44b606b0-5baf-71b7-b3f8-45f9cb2a7913"
+		}
+		scale: {
+			__uuid: "623be6c8-6042-19c6-dc2d-2c28940b0f9d"
+		}
+	}
+]
+children: [
+	{
+		__uuid: "3a4afdbb-4369-0167-38b1-b923267b7239"
+		name: "Collider"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "c72c21da-4bef-3013-c083-c901e4cf57cd"
+				position: {
+					__uuid: "c9e5af18-35d1-f61c-b71b-6e24599cc659"
+				}
+				rotation: {
+					__uuid: "b4a8edce-8f54-062b-30f6-38436ec2e545"
+				}
+				scale: {
+					__uuid: "caa3af49-f552-ef93-2ea0-3b212e565d61"
+				}
+			}
+			{
+				__type: "tm_link_component"
+				__uuid: "dc066977-9f23-be5d-47ed-1dc02adcb123"
+				position: {
+					__uuid: "7277e745-46df-91fb-1e97-9bec394356af"
+					y: 1.197999954223633
+					z: -1.752720475196838
+				}
+				rotation: {
+					__uuid: "1f1293c9-bc0b-63c7-d4ca-b9b9a865e35d"
+				}
+				scale: {
+					__uuid: "97c837cf-f04c-8af7-a2e2-bc2c226effff"
+				}
+			}
+			{
+				__type: "tm_physics_shape_component"
+				__uuid: "ff127dae-04cb-8264-f42e-18bbe9dadb8b"
+				type: 4
+				shape: {
+					__type: "tm_physics_shape_box"
+					__uuid: "42ff436c-ec19-443e-531a-dd2af8fd4a4f"
+					half_extent: {
+						__uuid: "f2c06725-1807-bf22-df2f-39125b41ea3f"
+						x: 0.2000000029802322
+						y: 1.399999976158142
+						z: 2.099999904632568
+					}
+				}
+			}
+		]
+	}
+]
+__asset_uuid: "6be9df9c-440e-1f09-feb9-f8dd27e8c86d"
