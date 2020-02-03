@@ -295,6 +295,34 @@
 		]
 	}
 	{
+		name: "tm_core_index_entry"
+		properties: [
+			{
+				name: "core_id"
+				type: "uint64_t"
+			}
+			{
+				name: "object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "version"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_core_index"
+		properties: [
+			{
+				name: "entries"
+				type: "subobject_set"
+				type_hash: "a0a3650512fdc76e"
+			}
+		]
+	}
+	{
 		name: "tm_scene_tab"
 		properties: [
 			{
@@ -851,6 +879,27 @@
 		]
 	}
 	{
+		name: "tm_sound_data"
+		properties: [
+			{
+				name: "frequency"
+				type: "uint32_t"
+			}
+			{
+				name: "channels"
+				type: "uint32_t"
+			}
+			{
+				name: "format"
+				type: "uint32_t"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_variable"
 		properties: [
 			{
@@ -1093,20 +1142,6 @@
 			{
 				name: "public_display_tooltip"
 				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_creation_graph_constant_node_settings"
-		properties: [
-			{
-				name: "value_type_hash"
-				type: "uint64_t"
-			}
-			{
-				name: "value"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -2182,6 +2217,16 @@
 		]
 	}
 	{
+		name: "example_gameplay_component_empty"
+		properties: [
+		]
+	}
+	{
+		name: "example_gameplay_component_pure_c"
+		properties: [
+		]
+	}
+	{
 		name: "tm_graph_component"
 		properties: [
 			{
@@ -2711,6 +2756,20 @@
 		]
 	}
 	{
+		name: "tm_shader_system_constant_node_settings"
+		properties: [
+			{
+				name: "value_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
 		name: "tm_shader_system_repository"
 		properties: [
 			{
@@ -2758,6 +2817,10 @@
 			{
 				name: "filename"
 				type: "string"
+			}
+			{
+				name: "validity_hash"
+				type: "uint64_t"
 			}
 			{
 				name: "last_modified"
@@ -3414,6 +3477,20 @@
 			{
 				name: "sort_index"
 				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_constant_node_settings"
+		properties: [
+			{
+				name: "value_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
