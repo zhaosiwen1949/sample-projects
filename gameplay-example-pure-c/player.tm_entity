@@ -17,7 +17,9 @@ components: [
 	{
 		__type: "tm_physics_mover_component"
 		__uuid: "85a54c22-8cb7-e440-b3af-371407b84d9e"
-		collision: "0910e045-25fc-ce53-38ec-0f531f177f30"
+		height: 0.949999988079071
+		radius: 0.449999988079071
+		collision: "70a92566-d156-300e-2d1c-28da6d55023a"
 	}
 	{
 		__type: "tm_link_component"
@@ -31,6 +33,25 @@ components: [
 		scale: {
 			__uuid: "7ac45d08-0738-ab0c-9f6c-6d6a2f6a2e2a"
 		}
+	}
+	{
+		__type: "tm_physics_body_component"
+		__uuid: "22800e13-f118-68cf-4c98-423302cc3110"
+		mass: 65
+		center_of_mass: {
+			__uuid: "fc1f9fe4-c39c-d325-ad74-0e5598100ce1"
+			y: 1
+		}
+		inertia_tensor: {
+			__uuid: "347ccf7c-3f92-bb02-16fc-6630ca21ddd0"
+			x: 19.66250610351563
+			y: 7.475001335144043
+			z: 19.66249847412109
+		}
+		inertia_tensor_rotation: {
+			__uuid: "8b5fe6b3-3f6e-594d-137f-12fa856fd238"
+		}
+		kinematic: true
 	}
 ]
 children: [
@@ -110,6 +131,53 @@ children: [
 						uuid: 281535834
 					}
 				]
+			}
+		]
+	}
+	{
+		__uuid: "a0980c7a-3604-745b-69d0-364cde38be03"
+		name: "collider"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "01e485c3-f178-5794-b873-5fb3d8ea2796"
+				position: {
+					__uuid: "095e475d-28be-389a-21d2-92d1113a3a8a"
+				}
+				rotation: {
+					__uuid: "f439213a-57c5-94c3-f3d4-848ca56fc4ee"
+				}
+				scale: {
+					__uuid: "b5ce64d2-9ed3-ae0d-a439-b432c7d5bc1a"
+				}
+			}
+			{
+				__type: "tm_link_component"
+				__uuid: "d6973eef-c206-6d5c-8504-76c7814fd785"
+				position: {
+					__uuid: "7297fccb-2289-cf84-81eb-337b54d113aa"
+					y: 1
+				}
+				rotation: {
+					__uuid: "49b79d7e-6bb4-7e4a-a496-0235c3d087c8"
+					z: 0.7071067690849304
+					w: 0.7071067690849304
+				}
+				scale: {
+					__uuid: "881197c9-b474-7508-71f7-f8f4692d236d"
+				}
+			}
+			{
+				__type: "tm_physics_shape_component"
+				__uuid: "c9da7b3e-5eb4-6469-58d8-c9e113df72e7"
+				type: 2
+				shape: {
+					__type: "tm_physics_shape_capsule"
+					__uuid: "58166ba1-1c28-13d4-b4fe-68edccde31cc"
+					radius: 0.5
+					half_height: 0.5
+				}
+				collision: "70a92566-d156-300e-2d1c-28da6d55023a"
 			}
 		]
 	}
