@@ -92,6 +92,8 @@ children: [
 					__uuid: "d95d6bf4-653c-1d18-fd2d-5c074222c7a8"
 					__prototype_type: "tm_rotation"
 					__prototype_uuid: "26a8f2de-05a1-a566-1851-245b8652b110"
+					x: 0
+					y: 0
 					z: 0
 					w: 1
 				}
@@ -100,6 +102,12 @@ children: [
 					__prototype_type: "tm_scale"
 					__prototype_uuid: "daa85059-3ea3-f9bf-15dc-5883378f6aa4"
 				}
+			}
+			{
+				__type: "tm_camera_component"
+				__uuid: "269bc040-87be-aebc-63cc-77424a9d1f79"
+				__prototype_type: "tm_camera_component"
+				__prototype_uuid: "d4333f2c-4d0e-59b1-2a91-c66079aeb245"
 			}
 		]
 	}
@@ -220,7 +228,7 @@ children: [
 				position: {
 					__uuid: "bb72f4c9-6209-1db6-5a9a-1fe9d9dffcda"
 					y: 1.299999952316284
-					z: -1.5
+					z: -0.5
 				}
 				rotation: {
 					__uuid: "d0cbba38-60ce-455f-1c57-93b8f9831e03"
@@ -239,6 +247,7 @@ children: [
 			{
 				__type: "tm_physics_body_component"
 				__uuid: "6f9fe96a-595d-5ceb-3588-049ff365990e"
+				mass: 0
 				center_of_mass: {
 					__uuid: "89c83ffa-a3d8-7e46-2702-7373a1634521"
 				}
@@ -252,6 +261,8 @@ children: [
 					__uuid: "f4382588-ec6a-dd5e-57ac-a9858a7056ff"
 				}
 				kinematic: true
+				angular_damping: 0
+				disable_gravity: true
 			}
 		]
 	}
