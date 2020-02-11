@@ -879,7 +879,7 @@
 		]
 	}
 	{
-		name: "tm_sound_data"
+		name: "tm_wav"
 		properties: [
 			{
 				name: "frequency"
@@ -2217,12 +2217,17 @@
 		]
 	}
 	{
-		name: "example_gameplay_component_empty"
+		name: "gameplay_sample_empty_component"
 		properties: [
 		]
 	}
 	{
-		name: "example_gameplay_component_pure_c"
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
 		properties: [
 		]
 	}
@@ -3020,6 +3025,107 @@
 		]
 	}
 	{
+		name: "tm_shader_system_creation_graph_node_resource_aspect"
+		properties: [
+			{
+				name: "resource"
+				type: "string"
+			}
+			{
+				name: "aspect"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_define"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_action"
+		properties: [
+			{
+				name: "name_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "resource_aspects"
+				type: "subobject_set"
+				type_hash: "b4d5f396b6bd2223"
+			}
+			{
+				name: "defines"
+				type: "subobject_set"
+				type_hash: "323cb64491e21141"
+			}
+			{
+				name: "requests"
+				type: "subobject_set"
+				type_hash: "2a13c0aa3decb44e"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting_option"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "options"
+				type: "subobject_set"
+				type_hash: "3cbd088d7f00fdd1"
+			}
+			{
+				name: "bool_action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_settings"
+		properties: [
+			{
+				name: "object_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "settings"
+				type: "subobject_set"
+				type_hash: "13a20649cbd954ad"
+			}
+		]
+	}
+	{
 		name: "tm_shader_system_creation_graph_node_connector"
 		properties: [
 			{
@@ -3075,6 +3181,11 @@
 				name: "evaluation_stage"
 				type: "uint32_t"
 			}
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "68e5ce58c21a6a1b"
+			}
 		]
 	}
 	{
@@ -3095,6 +3206,11 @@
 			{
 				name: "category"
 				type: "string"
+			}
+			{
+				name: "actions"
+				type: "subobject_set"
+				type_hash: "80800d1f71eed33f"
 			}
 			{
 				name: "inputs"
@@ -3478,6 +3594,37 @@
 				name: "sort_index"
 				type: "float"
 			}
+		]
+	}
+	{
+		name: "tm_sound_data"
+		properties: [
+			{
+				name: "frequency"
+				type: "uint32_t"
+			}
+			{
+				name: "channels"
+				type: "uint32_t"
+			}
+			{
+				name: "format"
+				type: "uint32_t"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "example_gameplay_component_empty"
+		properties: [
+		]
+	}
+	{
+		name: "example_gameplay_component_pure_c"
+		properties: [
 		]
 	}
 	{
@@ -4342,6 +4489,33 @@
 				name: "variables"
 				type: "subobject_set"
 				type_hash: "0f4d31c43f7d9194"
+			}
+		]
+	}
+	{
+		name: "gameplay_sample_empty"
+		properties: [
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting_enum"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
 			}
 		]
 	}
