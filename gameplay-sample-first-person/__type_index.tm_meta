@@ -2217,12 +2217,17 @@
 		]
 	}
 	{
-		name: "gameplay_sample_empty"
+		name: "gameplay_sample_empty_component"
 		properties: [
 		]
 	}
 	{
 		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
 		properties: [
 		]
 	}
@@ -3045,6 +3050,10 @@
 		name: "tm_shader_system_creation_graph_node_action"
 		properties: [
 			{
+				name: "name_hash"
+				type: "uint64_t"
+			}
+			{
 				name: "resource_aspects"
 				type: "subobject_set"
 				type_hash: "b4d5f396b6bd2223"
@@ -3062,12 +3071,8 @@
 		]
 	}
 	{
-		name: "tm_shader_system_creation_graph_node_connector_setting_enum"
+		name: "tm_shader_system_creation_graph_node_connector_setting_option"
 		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
 			{
 				name: "display_name"
 				type: "string"
@@ -3095,9 +3100,14 @@
 				type: "string"
 			}
 			{
-				name: "enums"
+				name: "options"
 				type: "subobject_set"
-				type_hash: "0498776a953a3d6b"
+				type_hash: "3cbd088d7f00fdd1"
+			}
+			{
+				name: "bool_action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
 			}
 		]
 	}
@@ -3587,16 +3597,6 @@
 		]
 	}
 	{
-		name: "example_gameplay_component_pure_c"
-		properties: [
-		]
-	}
-	{
-		name: "example_gameplay_component_empty"
-		properties: [
-		]
-	}
-	{
 		name: "tm_sound_data"
 		properties: [
 			{
@@ -3615,6 +3615,16 @@
 				name: "data"
 				type: "buffer"
 			}
+		]
+	}
+	{
+		name: "example_gameplay_component_empty"
+		properties: [
+		]
+	}
+	{
+		name: "example_gameplay_component_pure_c"
+		properties: [
 		]
 	}
 	{
@@ -4479,6 +4489,33 @@
 				name: "variables"
 				type: "subobject_set"
 				type_hash: "0f4d31c43f7d9194"
+			}
+		]
+	}
+	{
+		name: "gameplay_sample_empty"
+		properties: [
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting_enum"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
 			}
 		]
 	}

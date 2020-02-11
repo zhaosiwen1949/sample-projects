@@ -31,6 +31,59 @@ components: [
 		__type: "gameplay_sample_first_person_component"
 		__uuid: "6fd1cf53-c49b-f34d-f2a8-06f945107fb7"
 	}
+	{
+		__type: "tm_graph_component"
+		__uuid: "eb95aa87-fcc8-daba-1737-5ce765a8698e"
+		graph: {
+			__uuid: "ce3149a4-e57e-5dc8-467e-2e40d980a53a"
+			nodes: [
+				{
+					__uuid: "2bdcc339-f787-9b4f-936b-bea55210e6c9"
+					type: "tm_simulate_tab_set_camera_entity"
+					position_x: 222.394775390625
+					position_y: -193.0752410888672
+				}
+				{
+					__uuid: "1c307b25-4e76-6d99-2755-8480f7519a03"
+					type: "tm_init_event"
+					position_x: 26.25138664245605
+					position_y: -193.0752105712891
+				}
+				{
+					__uuid: "304b4f7a-ed99-17c6-8b49-ec8e941006cc"
+					type: "tm_scene_entity"
+					position_x: 35.06698226928711
+					position_y: -115.9402008056641
+				}
+			]
+			connections: [
+				{
+					__uuid: "7453744a-b809-3869-b851-5e9cb2b3d701"
+					from_node: "1c307b25-4e76-6d99-2755-8480f7519a03"
+					to_node: "2bdcc339-f787-9b4f-936b-bea55210e6c9"
+				}
+				{
+					__uuid: "c70f8fe9-dc4e-fc02-cd41-702610c3e484"
+					from_node: "304b4f7a-ed99-17c6-8b49-ec8e941006cc"
+					to_node: "2bdcc339-f787-9b4f-936b-bea55210e6c9"
+					from_connector_hash: "9831ca893b0d087d"
+					to_connector_hash: "9831ca893b0d087d"
+				}
+			]
+			data: [
+				{
+					__uuid: "0db2442f-22a1-9572-ab4f-e1bb1bf7474a"
+					to_node: "304b4f7a-ed99-17c6-8b49-ec8e941006cc"
+					to_connector_hash: "9831ca893b0d087d"
+					data: {
+						__type: "tm_local_entity_asset_reference"
+						__uuid: "32ea6be4-cd72-e6a5-a62b-8f013413732b"
+						entity: "2fcfaf92-4c16-9b6b-cea8-d4c9ef41ee9d"
+					}
+				}
+			]
+		}
+	}
 ]
 children: [
 	{
@@ -355,6 +408,13 @@ children: [
 					__prototype_type: "tm_scale"
 					__prototype_uuid: "7ac45d08-0738-ab0c-9f6c-6d6a2f6a2e2a"
 				}
+			}
+		]
+		children__instantiated: [
+			{
+				__uuid: "2fcfaf92-4c16-9b6b-cea8-d4c9ef41ee9d"
+				__prototype_type: "tm_entity"
+				__prototype_uuid: "5a695dbb-9362-0743-5f7a-3a1869383650"
 			}
 		]
 	}
