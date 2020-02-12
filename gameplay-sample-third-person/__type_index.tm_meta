@@ -900,6 +900,36 @@
 		]
 	}
 	{
+		name: "tm_sound_source_component"
+		properties: [
+			{
+				name: "sound"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+			{
+				name: "volume"
+				type: "float"
+			}
+			{
+				name: "pitch"
+				type: "float"
+			}
+			{
+				name: "min_distance"
+				type: "float"
+			}
+			{
+				name: "max_distance"
+				type: "float"
+			}
+			{
+				name: "spread"
+				type: "float"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_variable"
 		properties: [
 			{
@@ -3173,9 +3203,9 @@
 				type: "uint32_t"
 			}
 			{
-				name: "type_largest_of"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
+				name: "type_of"
+				type: "subobject_set"
+				type_hash: "d6d53439bc93284f"
 			}
 			{
 				name: "evaluation_stage"
@@ -3185,6 +3215,20 @@
 				name: "settings"
 				type: "subobject"
 				type_hash: "68e5ce58c21a6a1b"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_type_of"
+		properties: [
+			{
+				name: "connector"
+				type: "reference"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "requested_channel"
+				type: "string"
 			}
 		]
 	}
@@ -3312,7 +3356,11 @@
 		name: "tm_shader_system_request"
 		properties: [
 			{
-				name: "request"
+				name: "type_name"
+				type: "string"
+			}
+			{
+				name: "channel_name"
 				type: "string"
 			}
 		]
