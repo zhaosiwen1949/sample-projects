@@ -1,0 +1,3774 @@
+[
+	{
+		name: "tm_bool"
+		properties: [
+			{
+				name: "bool"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_uint32_t"
+		properties: [
+			{
+				name: "uint32_t"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_uint64_t"
+		properties: [
+			{
+				name: "uint64_t"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_float"
+		properties: [
+			{
+				name: "float"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_double"
+		properties: [
+			{
+				name: "double"
+				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_string"
+		properties: [
+			{
+				name: "string"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_vec2_t"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_vec3_t"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_vec4_t"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_position"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_rotation"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_scale"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_color_rgb"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_color_rgba"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+			{
+				name: "a"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_rect_t"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+			{
+				name: "h"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_visibility_flag"
+		properties: [
+			{
+				name: "uuid"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_asset_root"
+		properties: [
+			{
+				name: "assets"
+				type: "subobject_set"
+				type_hash: "ca71127abbb72960"
+			}
+			{
+				name: "tags"
+				type: "subobject_set"
+				type_hash: "cd9214e0eee562ad"
+			}
+			{
+				name: "directories"
+				type: "subobject_set"
+				type_hash: "9723e0133dc6620a"
+			}
+		]
+	}
+	{
+		name: "tm_asset"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "tags"
+				type: "reference_set"
+				type_hash: "cd9214e0eee562ad"
+			}
+			{
+				name: "object"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_asset_directory"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "parent"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+		]
+	}
+	{
+		name: "tm_asset_tag"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_core_index_entry"
+		properties: [
+			{
+				name: "core_id"
+				type: "uint64_t"
+			}
+			{
+				name: "object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "version"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_core_index"
+		properties: [
+			{
+				name: "entries"
+				type: "subobject_set"
+				type_hash: "a0a3650512fdc76e"
+			}
+		]
+	}
+	{
+		name: "tm_scene_tab"
+		properties: [
+			{
+				name: "asset"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "selection"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "last_selected"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "pick_counter"
+				type: "uint32_t"
+			}
+			{
+				name: "frame_object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_select_controller"
+		properties: [
+			{
+				name: "multi_select_pivot"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_move_controller"
+		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
+			{
+				name: "grid_snap"
+				type: "bool"
+			}
+			{
+				name: "grid_size"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_rotate_controller"
+		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
+			{
+				name: "snap"
+				type: "bool"
+			}
+			{
+				name: "snap_angle"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_scale_controller"
+		properties: [
+			{
+				name: "absolute_handle"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_animation_simple_player_component"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b4f2c5822cde57db"
+			}
+		]
+	}
+	{
+		name: "tm_asm_regular_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_asm_random_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+			{
+				name: "strategy"
+				type: "uint32_t"
+			}
+			{
+				name: "loop_crossfade_time"
+				type: "float"
+			}
+			{
+				name: "animations"
+				type: "subobject_set"
+				type_hash: "305e388654972dca"
+			}
+		]
+	}
+	{
+		name: "tm_asm_random_state_animation"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "weight"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_asm_empty_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_asm_blend_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+			{
+				name: "dimensions"
+				type: "uint32_t"
+			}
+			{
+				name: "variable_x"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+			{
+				name: "variable_y"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+			{
+				name: "animations"
+				type: "subobject_set"
+				type_hash: "2f252b77cdb79071"
+			}
+		]
+	}
+	{
+		name: "tm_asm_blend_state_animation"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b6e5de67c7549505"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_asm_regular_transition"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "from"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "to"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "on"
+				type: "uint32_t"
+			}
+			{
+				name: "event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+			{
+				name: "condition"
+				type: "string"
+			}
+			{
+				name: "crossfade_time"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_asm_layer "
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "default_state"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "states"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "transitions"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_asm_event "
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_asm_variable "
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "default"
+				type: "float"
+			}
+			{
+				name: "min"
+				type: "float"
+			}
+			{
+				name: "max"
+				type: "float"
+			}
+			{
+				name: "computed"
+				type: "bool"
+			}
+			{
+				name: "expression"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_asm_blend_set_weight"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "weight"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_asm_blend_set"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "default_weight"
+				type: "float"
+			}
+			{
+				name: "weights"
+				type: "subobject_set"
+				type_hash: "64ca3695fbbbc1f7"
+			}
+		]
+	}
+	{
+		name: "tm_animation_state_machine"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "preview_entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "layers"
+				type: "subobject_set"
+				type_hash: "5d696c56f7fa796d"
+			}
+			{
+				name: "events"
+				type: "subobject_set"
+				type_hash: "52847af34d7153f0"
+			}
+			{
+				name: "variables"
+				type: "subobject_set"
+				type_hash: "da1955a46ea322be"
+			}
+			{
+				name: "blend_sets"
+				type: "subobject_set"
+				type_hash: "92f9e2914f038512"
+			}
+		]
+	}
+	{
+		name: "tm_animation_clip"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b4f2c5822cde57db"
+			}
+			{
+				name: "loop"
+				type: "bool"
+			}
+			{
+				name: "speed"
+				type: "float"
+			}
+			{
+				name: "custom_range"
+				type: "bool"
+			}
+			{
+				name: "begin"
+				type: "double"
+			}
+			{
+				name: "end"
+				type: "double"
+			}
+			{
+				name: "locomotion_node"
+				type: "reference"
+				type_hash: "1ed02afba4e23875"
+			}
+			{
+				name: "locomotion"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_animation_state_machine_component"
+		properties: [
+			{
+				name: "state_machine"
+				type: "reference"
+				type_hash: "49e17e57f4e4ea47"
+			}
+		]
+	}
+	{
+		name: "tm_asm_event_reference"
+		properties: [
+			{
+				name: "asm_event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+		]
+	}
+	{
+		name: "tm_asm_variable_reference"
+		properties: [
+			{
+				name: "asm_variable"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+		]
+	}
+	{
+		name: "tm_asm_state_reference"
+		properties: [
+			{
+				name: "asm_state"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_animation_clip_reference"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b6e5de67c7549505"
+			}
+		]
+	}
+	{
+		name: "tm_wav"
+		properties: [
+			{
+				name: "frequency"
+				type: "uint32_t"
+			}
+			{
+				name: "num_channels"
+				type: "uint32_t"
+			}
+			{
+				name: "format"
+				type: "uint32_t"
+			}
+			{
+				name: "channel_mask"
+				type: "uint32_t"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_sound_source_component"
+		properties: [
+			{
+				name: "sound"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+			{
+				name: "volume"
+				type: "float"
+			}
+			{
+				name: "pitch"
+				type: "float"
+			}
+			{
+				name: "min_distance"
+				type: "float"
+			}
+			{
+				name: "max_distance"
+				type: "float"
+			}
+			{
+				name: "spread"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_variable"
+		properties: [
+			{
+				name: "settings"
+				type: "reference"
+				type_hash: "3a016b5595e8545b"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_interface"
+		properties: [
+			{
+				name: "graph_version"
+				type: "uint64_t"
+			}
+			{
+				name: "inputs"
+				type: "subobject_set"
+				type_hash: "0f4d31c43f7d9194"
+			}
+			{
+				name: "outputs"
+				type: "subobject_set"
+				type_hash: "0f4d31c43f7d9194"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph"
+		properties: [
+			{
+				name: "graph"
+				type: "subobject"
+				type_hash: "01527750cf1208ef"
+			}
+			{
+				name: "interface"
+				type: "subobject"
+				type_hash: "64dec2c37303b04f"
+			}
+		]
+	}
+	{
+		name: "tm_graph"
+		properties: [
+			{
+				name: "nodes"
+				type: "subobject_set"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "connections"
+				type: "subobject_set"
+				type_hash: "7840189d530b09e5"
+			}
+			{
+				name: "data"
+				type: "subobject_set"
+				type_hash: "fef2c4b66f211fea"
+			}
+			{
+				name: "comments"
+				type: "subobject_set"
+				type_hash: "425cefdca2d9f029"
+			}
+		]
+	}
+	{
+		name: "tm_graph_node"
+		properties: [
+			{
+				name: "type"
+				type: "string"
+			}
+			{
+				name: "label"
+				type: "string"
+			}
+			{
+				name: "position_x"
+				type: "float"
+			}
+			{
+				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "width"
+				type: "float"
+			}
+			{
+				name: "is_compact"
+				type: "bool"
+			}
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_graph_connection"
+		properties: [
+			{
+				name: "from_node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "to_node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "from_connector_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "to_connector_hash"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph_data"
+		properties: [
+			{
+				name: "to_node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "to_connector_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "data"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_graph_comment"
+		properties: [
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "position_x"
+				type: "float"
+			}
+			{
+				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "font_scale"
+				type: "float"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+	}
+	{
+		name: "tm_graph_pseudo_object"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "graph"
+				type: "uint64_t"
+			}
+			{
+				name: "node_index"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_resource_reference"
+		properties: [
+			{
+				name: "creation_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "node_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "node_name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_node_cache_t"
+		properties: [
+		]
+	}
+	{
+		name: "tm_creation_graph_variable_node_settings"
+		properties: [
+			{
+				name: "access_type"
+				type: "uint32_t"
+			}
+			{
+				name: "value_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "public_display_name"
+				type: "string"
+			}
+			{
+				name: "public_display_tooltip"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_image_description"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "pixel_format"
+				type: "uint32_t"
+			}
+			{
+				name: "widht"
+				type: "uint32_t"
+			}
+			{
+				name: "height"
+				type: "uint32_t"
+			}
+			{
+				name: "depth"
+				type: "uint32_t"
+			}
+			{
+				name: "mip_levels"
+				type: "uint32_t"
+			}
+			{
+				name: "layer_count"
+				type: "uint32_t"
+			}
+			{
+				name: "sample_count"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_image_archive"
+		properties: [
+			{
+				name: "filename"
+				type: "string"
+			}
+			{
+				name: "validity_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "description"
+				type: "subobject"
+				type_hash: "6f7d4648bbb5ffbf"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_cpu_image"
+		properties: [
+			{
+				name: "validity_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+			{
+				name: "description"
+				type: "subobject"
+				type_hash: "6f7d4648bbb5ffbf"
+			}
+		]
+	}
+	{
+		name: "tm_mipmap_settings"
+		properties: [
+			{
+				name: "color_space"
+				type: "uint32_t"
+			}
+			{
+				name: "filter"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_image_paint_brush"
+		properties: [
+			{
+				name: "operation"
+				type: "uint32_t"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "pressure"
+				type: "float"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+		]
+	}
+	{
+		name: "tm_image_paint_data"
+		properties: [
+			{
+				name: "brush_strokes"
+				type: "subobject_set"
+				type_hash: "9aa53193b00323a6"
+			}
+		]
+	}
+	{
+		name: "tm_draw_call_settings"
+		properties: [
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "render_pass"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_vertex_channel_description"
+		properties: [
+			{
+				name: "offset"
+				type: "uint32_t"
+			}
+			{
+				name: "stride"
+				type: "uint32_t"
+			}
+			{
+				name: "format_type"
+				type: "uint32_t"
+			}
+			{
+				name: "format_components"
+				type: "uint32_t"
+			}
+			{
+				name: "format_bits_per_component"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_position"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_rotation"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_scale"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_color_rgb"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_color_rgba"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+			{
+				name: "a"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_accessor"
+		properties: [
+			{
+				name: "buffer"
+				type: "reference"
+				type_hash: "471e224723f36b55"
+			}
+			{
+				name: "offset"
+				type: "uint32_t"
+			}
+			{
+				name: "count"
+				type: "uint32_t"
+			}
+			{
+				name: "is_float"
+				type: "bool"
+			}
+			{
+				name: "is_signed"
+				type: "bool"
+			}
+			{
+				name: "is_normalized"
+				type: "bool"
+			}
+			{
+				name: "bits"
+				type: "uint32_t"
+			}
+			{
+				name: "component_count"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_attribute"
+		properties: [
+			{
+				name: "semantic"
+				type: "uint32_t"
+			}
+			{
+				name: "set"
+				type: "uint32_t"
+			}
+			{
+				name: "accessor"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_buffer"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+			{
+				name: "stride"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_camera"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "aspect_ratio"
+				type: "float"
+			}
+			{
+				name: "yfov"
+				type: "float"
+			}
+			{
+				name: "znear"
+				type: "float"
+			}
+			{
+				name: "zfar"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_light"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_node"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "1f36b481c7a30c45"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "8bcb03256974ab79"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "4e604b5de5720471"
+			}
+			{
+				name: "children"
+				type: "reference_set"
+				type_hash: "e58fcf207dc017ca"
+			}
+			{
+				name: "meshes"
+				type: "reference_set"
+				type_hash: "a9168368aeb45aed"
+			}
+			{
+				name: "cameras"
+				type: "reference_set"
+				type_hash: "459fa8ef89def0b2"
+			}
+			{
+				name: "lights"
+				type: "reference_set"
+				type_hash: "3f3d593c3cf88976"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_bone"
+		properties: [
+			{
+				name: "index"
+				type: "uint32_t"
+			}
+			{
+				name: "node_name"
+				type: "string"
+			}
+			{
+				name: "inverse_bind_position"
+				type: "subobject"
+				type_hash: "1f36b481c7a30c45"
+			}
+			{
+				name: "inverse_bind_rotation"
+				type: "subobject"
+				type_hash: "8bcb03256974ab79"
+			}
+			{
+				name: "inverse_bind_scale"
+				type: "subobject"
+				type_hash: "4e604b5de5720471"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_mesh"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "primitive_type"
+				type: "uint32_t"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "4b827fd564e9c48c"
+			}
+			{
+				name: "attributes"
+				type: "subobject_set"
+				type_hash: "fb4884fc7f253682"
+			}
+			{
+				name: "indices"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "bounds_min"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "bounds_max"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "bones"
+				type: "subobject_set"
+				type_hash: "525af634f69df56b"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_image"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "buffer"
+				type: "reference"
+				type_hash: "471e224723f36b55"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_texture"
+		properties: [
+			{
+				name: "image"
+				type: "reference"
+				type_hash: "28bb2a8e5de368f2"
+			}
+			{
+				name: "mapping"
+				type: "uint32_t"
+			}
+			{
+				name: "uv_set"
+				type: "uint32_t"
+			}
+			{
+				name: "address_mode"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "base_color_factor"
+				type: "subobject"
+				type_hash: "3eb324e96eed7292"
+			}
+			{
+				name: "base_color_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "normal_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "occlusion_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "emissive_factor"
+				type: "subobject"
+				type_hash: "b9ec51be3a00f3a2"
+			}
+			{
+				name: "emissive_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "pbr_metallic_roughness"
+				type: "subobject"
+				type_hash: "f674c545c4c95bdd"
+			}
+			{
+				name: "pbr_specular_glossiness"
+				type: "subobject"
+				type_hash: "27dd1a464d4ba2b8"
+			}
+			{
+				name: "alpha_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "alpha_cutoff"
+				type: "float"
+			}
+			{
+				name: "double_sided"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material_pbr_mr"
+		properties: [
+			{
+				name: "metallic_factor"
+				type: "float"
+			}
+			{
+				name: "roughness_factor"
+				type: "float"
+			}
+			{
+				name: "metallic_roughness_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material_pbr_sg"
+		properties: [
+			{
+				name: "glossiness_factor"
+				type: "float"
+			}
+			{
+				name: "specular_factor"
+				type: "subobject"
+				type_hash: "b9ec51be3a00f3a2"
+			}
+			{
+				name: "specular_glossiness_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_scene"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "root_nodes"
+				type: "reference_set"
+				type_hash: "e58fcf207dc017ca"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_node_animation"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "node"
+				type: "reference"
+				type_hash: "e58fcf207dc017ca"
+			}
+			{
+				name: "position_keys"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "rotation_keys"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "scaling_keys"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "pre_state"
+				type: "uint32_t"
+			}
+			{
+				name: "post_state"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_animation"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "duration"
+				type: "float"
+			}
+			{
+				name: "ticks_per_second"
+				type: "float"
+			}
+			{
+				name: "node_animations"
+				type: "subobject_set"
+				type_hash: "1ed02afba4e23875"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_extracted_resource"
+		properties: [
+			{
+				name: "object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "resource"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_settings"
+		properties: [
+			{
+				name: "image_cration_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "extracted_images"
+				type: "subobject_set"
+				type_hash: "6afaa9f50456cb1b"
+			}
+			{
+				name: "material_cration_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "extracted_materials"
+				type: "subobject_set"
+				type_hash: "6afaa9f50456cb1b"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset"
+		properties: [
+			{
+				name: "scene"
+				type: "reference"
+				type_hash: "0bd5c01859f484c6"
+			}
+			{
+				name: "accessors"
+				type: "subobject_set"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "buffers"
+				type: "subobject_set"
+				type_hash: "471e224723f36b55"
+			}
+			{
+				name: "cameras"
+				type: "subobject_set"
+				type_hash: "459fa8ef89def0b2"
+			}
+			{
+				name: "lights"
+				type: "subobject_set"
+				type_hash: "3f3d593c3cf88976"
+			}
+			{
+				name: "images"
+				type: "subobject_set"
+				type_hash: "28bb2a8e5de368f2"
+			}
+			{
+				name: "materials"
+				type: "subobject_set"
+				type_hash: "4b827fd564e9c48c"
+			}
+			{
+				name: "meshes"
+				type: "subobject_set"
+				type_hash: "a9168368aeb45aed"
+			}
+			{
+				name: "nodes"
+				type: "subobject_set"
+				type_hash: "e58fcf207dc017ca"
+			}
+			{
+				name: "scenes"
+				type: "subobject_set"
+				type_hash: "0bd5c01859f484c6"
+			}
+			{
+				name: "animations"
+				type: "subobject_set"
+				type_hash: "b4f2c5822cde57db"
+			}
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "bee36020d022cc51"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_component"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_mesh_node_settings"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "a9168368aeb45aed"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_image_node_settings"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "image"
+				type: "reference"
+				type_hash: "28bb2a8e5de368f2"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material_node_settings"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "4b827fd564e9c48c"
+			}
+		]
+	}
+	{
+		name: "tm_entity_rigger_component"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "mesh_creation_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_default_render_pipe_light_component"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "intensity"
+				type: "float"
+			}
+			{
+				name: "spot_inner_angle"
+				type: "float"
+			}
+			{
+				name: "spot_outer_angle"
+				type: "float"
+			}
+			{
+				name: "cast_shadows"
+				type: "bool"
+			}
+			{
+				name: "shadow_depth_bias"
+				type: "float"
+			}
+			{
+				name: "num_cascades"
+				type: "uint32_t"
+			}
+			{
+				name: "shadow_distance"
+				type: "float"
+			}
+			{
+				name: "uniform_log_weight"
+				type: "float"
+			}
+			{
+				name: "ibl_diffuse"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "ibl_specular"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_asset_browser"
+		properties: [
+			{
+				name: "selection"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "current_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+		]
+	}
+	{
+		name: "tm_transform_component"
+		properties: [
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "20ef513a9606cc30"
+			}
+		]
+	}
+	{
+		name: "tm_tag"
+		properties: [
+		]
+	}
+	{
+		name: "tm_tag_component"
+		properties: [
+			{
+				name: "tags"
+				type: "reference_set"
+				type_hash: "c0995d6c144ac64a"
+			}
+		]
+	}
+	{
+		name: "tm_scene_tree_component"
+		properties: [
+			{
+				name: "node"
+				type: "buffer"
+			}
+			{
+				name: "node_names"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_scene_tree_component_debug_draw_settings"
+		properties: [
+			{
+				name: "node_axes_length"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_entity"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "components"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "children"
+				type: "subobject_set"
+				type_hash: "ff156da2e01c4a3d"
+			}
+		]
+	}
+	{
+		name: "tm_link_component"
+		properties: [
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "20ef513a9606cc30"
+			}
+			{
+				name: "scene_tree_node"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_camera_component"
+		properties: [
+			{
+				name: "near_plane"
+				type: "float"
+			}
+			{
+				name: "far_plane"
+				type: "float"
+			}
+			{
+				name: "vertical_fov"
+				type: "float"
+			}
+			{
+				name: "translation_speed"
+				type: "float"
+			}
+			{
+				name: "rotation_speed"
+				type: "float"
+			}
+			{
+				name: "translation_damping"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "example_gameplay_component_empty"
+		properties: [
+		]
+	}
+	{
+		name: "example_gameplay_component_pure_c"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_empty_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
+		properties: [
+		]
+	}
+	{
+		name: "tm_graph_component"
+		properties: [
+			{
+				name: "graph"
+				type: "subobject"
+				type_hash: "01527750cf1208ef"
+			}
+		]
+	}
+	{
+		name: "tm_entity_asset_reference"
+		properties: [
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+		]
+	}
+	{
+		name: "tm_local_entity_asset_reference"
+		properties: [
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+		]
+	}
+	{
+		name: "tm_tag_reference"
+		properties: [
+			{
+				name: "tag"
+				type: "reference"
+				type_hash: "c0995d6c144ac64a"
+			}
+		]
+	}
+	{
+		name: "tm_keyboard_item"
+		properties: [
+			{
+				name: "key"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_mouse_button"
+		properties: [
+			{
+				name: "mouse_button"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_velocity_component"
+		properties: [
+			{
+				name: "velocity"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "angular_velocity"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_component"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "shape"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "86cdc943543bcd3f"
+			}
+			{
+				name: "collision"
+				type: "reference"
+				type_hash: "a7877788271e981c"
+			}
+			{
+				name: "is_trigger"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_sphere"
+		properties: [
+			{
+				name: "radius"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_capsule"
+		properties: [
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "half_height"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_box"
+		properties: [
+			{
+				name: "half_extent"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_convex"
+		properties: [
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "format"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_mesh"
+		properties: [
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "format"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_physics_body_component"
+		properties: [
+			{
+				name: "mass"
+				type: "float"
+			}
+			{
+				name: "center_of_mass"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "inertia_tensor"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "inertia_tensor_rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "kinematic"
+				type: "bool"
+			}
+			{
+				name: "linear_damping"
+				type: "float"
+			}
+			{
+				name: "angular_damping"
+				type: "float"
+			}
+			{
+				name: "disable_gravity"
+				type: "bool"
+			}
+			{
+				name: "enable_ccd"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_physics_material"
+		properties: [
+			{
+				name: "static_friction"
+				type: "float"
+			}
+			{
+				name: "dynamic_friction"
+				type: "float"
+			}
+			{
+				name: "restitution"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_collision"
+		properties: [
+			{
+				name: "collides_with"
+				type: "reference_set"
+				type_hash: "a7877788271e981c"
+			}
+			{
+				name: "notify_touch_found_with"
+				type: "reference_set"
+				type_hash: "a7877788271e981c"
+			}
+			{
+				name: "notify_touch_persists_with"
+				type: "reference_set"
+				type_hash: "a7877788271e981c"
+			}
+			{
+				name: "notify_touch_lost_with"
+				type: "reference_set"
+				type_hash: "a7877788271e981c"
+			}
+		]
+	}
+	{
+		name: "tm_physics_joint_component"
+		properties: [
+			{
+				name: "joint"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "body_0"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "body_1"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "limit_enabled"
+				type: "bool"
+			}
+			{
+				name: "bounce_threshold"
+				type: "float"
+			}
+			{
+				name: "restitution"
+				type: "float"
+			}
+			{
+				name: "stiffness"
+				type: "float"
+			}
+			{
+				name: "damping"
+				type: "float"
+			}
+			{
+				name: "break_force"
+				type: "float"
+			}
+			{
+				name: "break_torque"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_joint_fixed"
+		properties: [
+		]
+	}
+	{
+		name: "tm_physics_joint_spherical"
+		properties: [
+			{
+				name: "y_angle_limit"
+				type: "float"
+			}
+			{
+				name: "z_angle_limit"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_joint_revolute"
+		properties: [
+			{
+				name: "lower_limit"
+				type: "float"
+			}
+			{
+				name: "upper_limit"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_joint_prismatic"
+		properties: [
+			{
+				name: "lower_limit"
+				type: "float"
+			}
+			{
+				name: "upper_limit"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_joint_distance"
+		properties: [
+			{
+				name: "min"
+				type: "float"
+			}
+			{
+				name: "max"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_physics_mover_component"
+		properties: [
+			{
+				name: "height"
+				type: "float"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "collision"
+				type: "reference"
+				type_hash: "a7877788271e981c"
+			}
+		]
+	}
+	{
+		name: "tm_physx_force_flags"
+		properties: [
+			{
+				name: "force_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "continuous"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_physics_collision_reference"
+		properties: [
+			{
+				name: "collision"
+				type: "reference"
+				type_hash: "a7877788271e981c"
+			}
+		]
+	}
+	{
+		name: "tm_cubemap_capture_component"
+		properties: [
+			{
+				name: "capture_interface"
+				type: "uint64_t"
+			}
+			{
+				name: "output_image"
+				type: "subobject"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_render_component"
+		properties: [
+			{
+				name: "creation_graph"
+				type: "subobject"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_skinning_component"
+		properties: [
+			{
+				name: "bones"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_sculpt_component"
+		properties: [
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "num_boxes"
+				type: "uint32_t"
+			}
+			{
+				name: "boxes_pos"
+				type: "buffer"
+			}
+			{
+				name: "boxes_rot"
+				type: "buffer"
+			}
+			{
+				name: "boxes_size"
+				type: "buffer"
+			}
+			{
+				name: "boxes_color"
+				type: "buffer"
+			}
+			{
+				name: "boxes_parent"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_renderer_sampler_states"
+		properties: [
+			{
+				name: "min_filter"
+				type: "uint32_t"
+			}
+			{
+				name: "max_filter"
+				type: "uint32_t"
+			}
+			{
+				name: "mip_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "address_u"
+				type: "uint32_t"
+			}
+			{
+				name: "address_v"
+				type: "uint32_t"
+			}
+			{
+				name: "address_w"
+				type: "uint32_t"
+			}
+			{
+				name: "mip_lod_bias"
+				type: "float"
+			}
+			{
+				name: "anisotropy_enable"
+				type: "bool"
+			}
+			{
+				name: "max_anisotropy"
+				type: "float"
+			}
+			{
+				name: "compare_enable"
+				type: "bool"
+			}
+			{
+				name: "compare_op"
+				type: "uint32_t"
+			}
+			{
+				name: "min_lod"
+				type: "float"
+			}
+			{
+				name: "max_lod"
+				type: "float"
+			}
+			{
+				name: "border_color"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_constant_node_settings"
+		properties: [
+			{
+				name: "value_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_repository"
+		properties: [
+			{
+				name: "declarations"
+				type: "subobject_set"
+				type_hash: "9582c40a7a888720"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_declaration"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "compilable"
+				type: "bool"
+			}
+			{
+				name: "system"
+				type: "bool"
+			}
+			{
+				name: "creation_graph_node"
+				type: "subobject"
+				type_hash: "dbbf0ac0e20a6bb5"
+			}
+			{
+				name: "includes"
+				type: "subobject_set"
+				type_hash: "191eb05a2b489146"
+			}
+			{
+				name: "variations"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+			{
+				name: "compile_configurations"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
+			}
+			{
+				name: "compile_contexts"
+				type: "subobject_set"
+				type_hash: "e7b5f47a19a422d9"
+			}
+			{
+				name: "filename"
+				type: "string"
+			}
+			{
+				name: "validity_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "last_modified"
+				type: "uint64_t"
+			}
+			{
+				name: "requests"
+				type: "subobject_set"
+				type_hash: "2a13c0aa3decb44e"
+			}
+			{
+				name: "constants"
+				type: "subobject_set"
+				type_hash: "d712f7cfe7188646"
+			}
+			{
+				name: "resources"
+				type: "subobject_set"
+				type_hash: "54265e99bfcd2961"
+			}
+			{
+				name: "render_state_blocks"
+				type: "subobject_set"
+				type_hash: "a93c05d3ba7f22e8"
+			}
+			{
+				name: "sampler_blocks"
+				type: "subobject_set"
+				type_hash: "fcab9c7b46713fca"
+			}
+			{
+				name: "common_code"
+				type: "string"
+			}
+			{
+				name: "common_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "functioon_code"
+				type: "string"
+			}
+			{
+				name: "functioon_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "vertex_code"
+				type: "string"
+			}
+			{
+				name: "vertex_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "vertex_stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "vertex_system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "vertex_system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "vertex_stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "hull_code"
+				type: "string"
+			}
+			{
+				name: "hull_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "hull_stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "hull_system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "hull_system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "hull_stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "domain_code"
+				type: "string"
+			}
+			{
+				name: "domain_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "domain_stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "domain_system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "domain_system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "domain_stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "geometry_code"
+				type: "string"
+			}
+			{
+				name: "geometry_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "geometry_stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "geometry_system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "geometry_system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "geometry_stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "pixel_code"
+				type: "string"
+			}
+			{
+				name: "pixel_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "pixel_stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "pixel_system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "pixel_system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "pixel_stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "compute_code"
+				type: "string"
+			}
+			{
+				name: "compute_code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "compute_stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "compute_system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "compute_system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "compute_stage_attributes"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_resource_aspect"
+		properties: [
+			{
+				name: "resource"
+				type: "string"
+			}
+			{
+				name: "aspect"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_define"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_action"
+		properties: [
+			{
+				name: "name_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "resource_aspects"
+				type: "subobject_set"
+				type_hash: "b4d5f396b6bd2223"
+			}
+			{
+				name: "defines"
+				type: "subobject_set"
+				type_hash: "323cb64491e21141"
+			}
+			{
+				name: "requests"
+				type: "subobject_set"
+				type_hash: "2a13c0aa3decb44e"
+			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting_option"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "options"
+				type: "subobject_set"
+				type_hash: "3cbd088d7f00fdd1"
+			}
+			{
+				name: "bool_action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_settings"
+		properties: [
+			{
+				name: "object_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "settings"
+				type: "subobject_set"
+				type_hash: "13a20649cbd954ad"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_type"
+				type: "uint32_t"
+			}
+			{
+				name: "target_name"
+				type: "string"
+			}
+			{
+				name: "target_element"
+				type: "uint32_t"
+			}
+			{
+				name: "connector_flag"
+				type: "string"
+			}
+			{
+				name: "optional"
+				type: "bool"
+			}
+			{
+				name: "function"
+				type: "bool"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "rows"
+				type: "uint32_t"
+			}
+			{
+				name: "columns"
+				type: "uint32_t"
+			}
+			{
+				name: "type_of"
+				type: "subobject_set"
+				type_hash: "d6d53439bc93284f"
+			}
+			{
+				name: "evaluation_stage"
+				type: "uint32_t"
+			}
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "68e5ce58c21a6a1b"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_type_of"
+		properties: [
+			{
+				name: "connector"
+				type: "reference"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "requested_channel"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node"
+		properties: [
+			{
+				name: "declaration_name"
+				type: "uint64_t"
+			}
+			{
+				name: "node_name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "category"
+				type: "string"
+			}
+			{
+				name: "actions"
+				type: "subobject_set"
+				type_hash: "80800d1f71eed33f"
+			}
+			{
+				name: "inputs"
+				type: "subobject_set"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "outputs"
+				type: "subobject_set"
+				type_hash: "081e5267e15759b2"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_render_state_block"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "states"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_sampler_state_block"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "states"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_constant"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "rows"
+				type: "uint32_t"
+			}
+			{
+				name: "columns"
+				type: "uint32_t"
+			}
+			{
+				name: "struct_size"
+				type: "uint32_t"
+			}
+			{
+				name: "elements"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_resource"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "element_type"
+				type: "string"
+			}
+			{
+				name: "elements"
+				type: "uint32_t"
+			}
+			{
+				name: "static_resource"
+				type: "uint64_t"
+			}
+			{
+				name: "uav"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_request"
+		properties: [
+			{
+				name: "type_name"
+				type: "string"
+			}
+			{
+				name: "channel_name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_stage_export"
+		properties: [
+			{
+				name: "constant"
+				type: "subobject"
+				type_hash: "d712f7cfe7188646"
+			}
+			{
+				name: "interpolation_modifier"
+				type: "uint32_t"
+			}
+			{
+				name: "channel_requested"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_include"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_variation"
+		properties: [
+			{
+				name: "systems"
+				type: "subobject_set"
+				type_hash: "c96488cb408e745f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_variation_system"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_blob"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_configuration"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "variations"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_pass_condition"
+		properties: [
+			{
+				name: "is_connected"
+				type: "reference_set"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "systems_active"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_pass"
+		properties: [
+			{
+				name: "layer"
+				type: "string"
+			}
+			{
+				name: "condition"
+				type: "subobject"
+				type_hash: "fac4c5ae15c3b003"
+			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "c96488cb408e745f"
+			}
+			{
+				name: "compile_block"
+				type: "reference"
+				type_hash: "5e778dd6b3908bce"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_context"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "passes"
+				type: "subobject_set"
+				type_hash: "a265c6ee58e82c21"
+			}
+		]
+	}
+	{
+		name: "tm_spin_component"
+		properties: [
+			{
+				name: "angular_velocity"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+		]
+	}
+	{
+		name: "tm_tessellated_plane_component"
+		properties: [
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "size"
+				type: "float"
+			}
+			{
+				name: "tessellation"
+				type: "uint32_t"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+	}
+	{
+		name: "tm_clipboard"
+		properties: [
+			{
+				name: "objects"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "is_cut"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "lit_default_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_application_settings"
+		properties: [
+			{
+				name: "default_camera"
+				type: "subobject"
+				type_hash: "41418a36f804f101"
+			}
+			{
+				name: "window_layouts"
+				type: "subobject"
+				type_hash: "ad48e16db7ef5b35"
+			}
+			{
+				name: "recent_files"
+				type: "subobject_set"
+				type_hash: "ba4e5d5c28639596"
+			}
+		]
+	}
+	{
+		name: "tm_window_layouts"
+		properties: [
+			{
+				name: "layouts"
+				type: "subobject_set"
+				type_hash: "1f1ea8c1548bab03"
+			}
+		]
+	}
+	{
+		name: "tm_window_layout"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "create_on_startup"
+				type: "bool"
+			}
+			{
+				name: "window_x"
+				type: "float"
+			}
+			{
+				name: "window_y"
+				type: "float"
+			}
+			{
+				name: "window_width"
+				type: "float"
+			}
+			{
+				name: "window_height"
+				type: "float"
+			}
+			{
+				name: "tabwell"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
+		]
+	}
+	{
+		name: "tm_recent_file"
+		properties: [
+			{
+				name: "path"
+				type: "string"
+			}
+			{
+				name: "time_stamp"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_tabwell"
+		properties: [
+			{
+				name: "left"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
+			{
+				name: "right"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
+			{
+				name: "top"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
+			{
+				name: "bottom"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
+			{
+				name: "bias"
+				type: "float"
+			}
+			{
+				name: "views"
+				type: "subobject_set"
+				type_hash: "6d81314087f584e9"
+			}
+		]
+	}
+	{
+		name: "tm_tab_view"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_index"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "passes"
+				type: "subobject_set"
+				type_hash: "e85fa4ef3d03bf60"
+			}
+			{
+				name: "filename"
+				type: "string"
+			}
+			{
+				name: "last_modified"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material_pass"
+		properties: [
+			{
+				name: "shader"
+				type: "uint64_t"
+			}
+			{
+				name: "systems"
+				type: "subobject_set"
+				type_hash: "6118a9120522e587"
+			}
+			{
+				name: "layer"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material_pass_system"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "gameplay_sample_empty"
+		properties: [
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting_enum"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+]
