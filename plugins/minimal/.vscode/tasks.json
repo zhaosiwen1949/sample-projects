@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "type": "shell",
+    "problemMatcher": "$msCompile",
+    "tasks": [
+        {
+            "label": "tmbuild",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "windows": {
+                "command": ".\\tmbuild.exe"
+            },
+            "args": [],
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        }
+    ]
+}
