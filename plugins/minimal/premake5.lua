@@ -2,7 +2,7 @@
 
 -- %TM_SDK_DIR% should be set to the directory of The Machinery SDK
 
-workspace "custom_component"
+workspace "minimal"
     configurations {"Debug", "Release"}
     language "C++"
     cppdialect "C++11"
@@ -47,8 +47,9 @@ filter "configurations:Release"
     defines { "TM_CONFIGURATION_RELEASE" }
     optimize "On"
 
-project "custom_component"
-    location "build/custom_component"
+project "minimal"
+    location "build/minimal"
+    targetname "tm_minimal"
     kind "SharedLib"
     language "C++"
     files {"*.inl", "*.h", "*.c"}

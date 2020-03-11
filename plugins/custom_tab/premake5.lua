@@ -49,6 +49,7 @@ filter "configurations:Release"
 
 project "custom_tab"
     location "build/custom_tab"
+    targetname "tm_custom_tab"
     kind "SharedLib"
     language "C++"
     files {"*.inl", "*.h", "*.c"}

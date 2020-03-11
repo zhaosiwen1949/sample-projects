@@ -49,6 +49,7 @@ filter "configurations:Release"
 
 project "custom_component"
     location "build/custom_component"
+    targetname "tm_custom_component"
     kind "SharedLib"
     language "C++"
     files {"*.inl", "*.h", "*.c"}

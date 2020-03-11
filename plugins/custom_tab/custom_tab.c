@@ -89,7 +89,7 @@ static tm_the_machinery_tab_vt* custom_tab_vt = &(tm_the_machinery_tab_vt){
     .ui = tab__ui
 };
 
-void load_custom_tab(struct tm_api_registry_api* reg, bool load)
+TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     tm_global_api_registry = reg;
 
