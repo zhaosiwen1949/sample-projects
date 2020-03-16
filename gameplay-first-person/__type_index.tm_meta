@@ -886,7 +886,7 @@
 				type: "uint32_t"
 			}
 			{
-				name: "channels"
+				name: "num_channels"
 				type: "uint32_t"
 			}
 			{
@@ -894,8 +894,52 @@
 				type: "uint32_t"
 			}
 			{
+				name: "channel_mask"
+				type: "uint32_t"
+			}
+			{
 				name: "data"
 				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_sound_source_component"
+		properties: [
+			{
+				name: "sound"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+			{
+				name: "volume"
+				type: "float"
+			}
+			{
+				name: "pitch"
+				type: "float"
+			}
+			{
+				name: "min_distance"
+				type: "float"
+			}
+			{
+				name: "max_distance"
+				type: "float"
+			}
+			{
+				name: "spread"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_wav_reference"
+		properties: [
+			{
+				name: "wav"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
 			}
 		]
 	}
@@ -1232,6 +1276,10 @@
 			{
 				name: "filter"
 				type: "uint32_t"
+			}
+			{
+				name: "override_existing_mips"
+				type: "bool"
 			}
 		]
 	}
@@ -1855,9 +1903,13 @@
 		name: "tm_dcc_asset_settings"
 		properties: [
 			{
-				name: "image_cration_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				name: "import_settings"
+				type: "subobject"
+				type_hash: "a8eaa514c96b3d32"
+			}
+			{
+				name: "extract_images"
+				type: "bool"
 			}
 			{
 				name: "extracted_images"
@@ -1865,14 +1917,22 @@
 				type_hash: "6afaa9f50456cb1b"
 			}
 			{
-				name: "material_cration_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				name: "extract_materials"
+				type: "bool"
 			}
 			{
 				name: "extracted_materials"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
+			}
+			{
+				name: "rig_entity"
+				type: "bool"
+			}
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ca71127abbb72960"
 			}
 		]
 	}
@@ -1938,6 +1998,36 @@
 				name: "settings"
 				type: "subobject"
 				type_hash: "bee36020d022cc51"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_import_settings"
+		properties: [
+			{
+				name: "dcc_asset_image_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_material_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_mesh_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_image_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "dcc_asset_material_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
 			}
 		]
 	}
@@ -2214,21 +2304,6 @@
 				name: "translation_damping"
 				type: "float"
 			}
-		]
-	}
-	{
-		name: "gameplay_sample_empty_component"
-		properties: [
-		]
-	}
-	{
-		name: "gameplay_sample_first_person_component"
-		properties: [
-		]
-	}
-	{
-		name: "gameplay_sample_third_person"
-		properties: [
 		]
 	}
 	{
@@ -2633,6 +2708,33 @@
 		]
 	}
 	{
+		name: "tm_grid_settings"
+		properties: [
+			{
+				name: "cell_size"
+				type: "float"
+			}
+			{
+				name: "extent"
+				type: "float"
+			}
+			{
+				name: "infinite"
+				type: "bool"
+			}
+			{
+				name: "thin_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+			{
+				name: "thick_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+		]
+	}
+	{
 		name: "tm_cubemap_capture_component"
 		properties: [
 			{
@@ -2782,11 +2884,6 @@
 				type: "subobject_set"
 				type_hash: "9582c40a7a888720"
 			}
-			{
-				name: "materials"
-				type: "subobject_set"
-				type_hash: "0dbc307bdd286224"
-			}
 		]
 	}
 	{
@@ -2818,6 +2915,16 @@
 				name: "variations"
 				type: "subobject_set"
 				type_hash: "14a46edeaac824fc"
+			}
+			{
+				name: "compile_configurations"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
+			}
+			{
+				name: "compile_contexts"
+				type: "subobject_set"
+				type_hash: "e7b5f47a19a422d9"
 			}
 			{
 				name: "filename"
@@ -3068,6 +3175,11 @@
 				type: "subobject_set"
 				type_hash: "2a13c0aa3decb44e"
 			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
+			}
 		]
 	}
 	{
@@ -3173,9 +3285,9 @@
 				type: "uint32_t"
 			}
 			{
-				name: "type_largest_of"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
+				name: "type_of"
+				type: "subobject_set"
+				type_hash: "d6d53439bc93284f"
 			}
 			{
 				name: "evaluation_stage"
@@ -3185,6 +3297,20 @@
 				name: "settings"
 				type: "subobject"
 				type_hash: "68e5ce58c21a6a1b"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_type_of"
+		properties: [
+			{
+				name: "connector"
+				type: "reference"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "requested_channel"
+				type: "string"
 			}
 		]
 	}
@@ -3312,7 +3438,11 @@
 		name: "tm_shader_system_request"
 		properties: [
 			{
-				name: "request"
+				name: "type_name"
+				type: "string"
+			}
+			{
+				name: "channel_name"
 				type: "string"
 			}
 		]
@@ -3364,55 +3494,6 @@
 		]
 	}
 	{
-		name: "tm_shader_system_material"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-			{
-				name: "passes"
-				type: "subobject_set"
-				type_hash: "e85fa4ef3d03bf60"
-			}
-			{
-				name: "filename"
-				type: "string"
-			}
-			{
-				name: "last_modified"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_material_pass"
-		properties: [
-			{
-				name: "shader"
-				type: "uint64_t"
-			}
-			{
-				name: "systems"
-				type: "subobject_set"
-				type_hash: "6118a9120522e587"
-			}
-			{
-				name: "layer"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_material_pass_system"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
 		name: "tm_shader_system_blob"
 		properties: [
 			{
@@ -3422,6 +3503,73 @@
 			{
 				name: "buffer"
 				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_configuration"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "variations"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_pass_condition"
+		properties: [
+			{
+				name: "is_connected"
+				type: "reference_set"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "systems_active"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_pass"
+		properties: [
+			{
+				name: "layer"
+				type: "string"
+			}
+			{
+				name: "condition"
+				type: "subobject"
+				type_hash: "fac4c5ae15c3b003"
+			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "c96488cb408e745f"
+			}
+			{
+				name: "compile_block"
+				type: "reference"
+				type_hash: "5e778dd6b3908bce"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_context"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "passes"
+				type: "subobject_set"
+				type_hash: "a265c6ee58e82c21"
 			}
 		]
 	}
@@ -3469,6 +3617,114 @@
 			{
 				name: "is_cut"
 				type: "bool"
+			}
+		]
+	}
+	{
+		name: "shader_input_uv_node_settings"
+		properties: [
+			{
+				name: "set"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "shader_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "lit_default_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "lit_output_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "gameplay_sample_empty_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
+		properties: [
+		]
+	}
+	{
+		name: "tm_shader_system_material"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "passes"
+				type: "subobject_set"
+				type_hash: "e85fa4ef3d03bf60"
+			}
+			{
+				name: "filename"
+				type: "string"
+			}
+			{
+				name: "last_modified"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material_pass"
+		properties: [
+			{
+				name: "shader"
+				type: "uint64_t"
+			}
+			{
+				name: "systems"
+				type: "subobject_set"
+				type_hash: "6118a9120522e587"
+			}
+			{
+				name: "layer"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material_pass_system"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
 			}
 		]
 	}
@@ -4517,6 +4773,11 @@
 				type: "reference"
 				type_hash: "80800d1f71eed33f"
 			}
+		]
+	}
+	{
+		name: ""
+		properties: [
 		]
 	}
 ]
