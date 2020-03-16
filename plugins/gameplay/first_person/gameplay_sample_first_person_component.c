@@ -1,7 +1,6 @@
-// This is a component meant for use within the sample 'gameplay-sample-first-person'. In the sample
-// the player can pick up a colored box and throw it. If they throw it onto the correctly colored
-// area, the box flies up into the air and translates back to the starting point, where it changes
-// color.
+// This file contains all the gameplay code associated with the first person gameplay sample. The code also exposes a
+// componenet which is meant to be added to a single entity in a scene. This component will setup a system that is run
+// once per frame, in which it will first update the gameplay context and then run the gameplay code.
 
 #include <plugins/gameplay/gameplay.h>
 

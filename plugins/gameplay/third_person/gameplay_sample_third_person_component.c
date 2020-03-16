@@ -1,4 +1,6 @@
-// This is a component meant for use within the sample 'gameplay-sample-third-person'.
+// This file contains all the gameplay code associated with the third person gameplay sample. The code also exposes a
+// componenet which is meant to be added to a single entity in a scene. This component will setup a system that is run
+// once per frame, in which it will first update the gameplay context and then run the gameplay code.
 
 #include <plugins/gameplay/gameplay.h>
 
