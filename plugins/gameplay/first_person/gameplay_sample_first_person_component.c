@@ -273,7 +273,7 @@ static void update(tm_gameplay_context_t* ctx)
             const tm_vec3_t box_velocity = tm_physx_scene_api->velocity(physx_scene, state->box);
 
             if (tm_vec3_length(box_velocity) < 0.01) {
-                tm_physx_scene_api->add_force(physx_scene, state->box, (tm_vec3_t){ 0, 3000, 0 }, TM_PHYSX_FORCE_FLAGS__FORCE);
+                tm_physx_scene_api->add_force(physx_scene, state->box, (tm_vec3_t){ 0, 10, 0 }, TM_PHYSX_FORCE_FLAGS__VELOCITY_CHANGE);
                 state->box_fly_timer = 0.7f;
                 state->box_state = BOX_STATE_FLYING_UP;
             }
