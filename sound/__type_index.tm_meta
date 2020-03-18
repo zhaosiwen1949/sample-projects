@@ -998,6 +998,16 @@
 		]
 	}
 	{
+		name: "tm_wav_reference"
+		properties: [
+			{
+				name: "wav"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_variable"
 		properties: [
 			{
@@ -2131,6 +2141,36 @@
 			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
 			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
 		}
+	}
+	{
+		name: "tm_dcc_import_settings"
+		properties: [
+			{
+				name: "dcc_asset_image_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_material_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_mesh_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_image_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "dcc_asset_material_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+		]
 	}
 	{
 		name: "tm_dcc_asset_component"
@@ -3953,6 +3993,31 @@
 		]
 	}
 	{
+		name: "example_gameplay_component_empty"
+		properties: [
+		]
+	}
+	{
+		name: "example_gameplay_component_pure_c"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_empty_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
+		properties: [
+		]
+	}
+	{
 		name: "tm_application_settings"
 		properties: [
 			{
@@ -4149,6 +4214,46 @@
 				name: "action"
 				type: "reference"
 				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: ""
+		properties: [
+		]
+	}
+	{
+		name: "shader_input_uv_node_settings"
+		properties: [
+			{
+				name: "set"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "lit_output_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "shader_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
 			}
 		]
 	}
