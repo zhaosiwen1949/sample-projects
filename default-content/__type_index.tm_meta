@@ -141,6 +141,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "1676e3b7-c395-17a2-a9df-e8e33a433cd5"
+			w: 1
+		}
 	}
 	{
 		name: "tm_scale"
@@ -158,6 +162,12 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "1ac01ade-8b94-1577-3d6a-ecea3e9addc5"
+			x: 1
+			y: 1
+			z: 1
+		}
 	}
 	{
 		name: "tm_color_rgb"
@@ -175,6 +185,12 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "86bc5cff-2f29-952a-cd04-0f9db645d518"
+			r: 1
+			g: 1
+			b: 1
+		}
 	}
 	{
 		name: "tm_color_rgba"
@@ -196,6 +212,13 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "a3535889-b2fd-535e-9770-2213a5e09ed2"
+			r: 1
+			g: 1
+			b: 1
+			a: 1
+		}
 	}
 	{
 		name: "tm_rect_t"
@@ -376,6 +399,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "edf4056f-c472-e38a-7bf4-0df333791937"
+			grid_size: 1
+		}
 	}
 	{
 		name: "tm_rotate_controller"
@@ -393,6 +420,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "67e6d28a-f6b7-4f2b-7a61-f60a33fe9170"
+			snap_angle: 15
+		}
 	}
 	{
 		name: "tm_scale_controller"
@@ -447,6 +478,10 @@
 				type_hash: "8944e0b1cefd4756"
 			}
 		]
+		default: {
+			__uuid: "ad52fce5-aabb-499c-eceb-f395594f9b5c"
+			speed: "1"
+		}
 	}
 	{
 		name: "tm_asm_random_state"
@@ -490,6 +525,10 @@
 				type_hash: "305e388654972dca"
 			}
 		]
+		default: {
+			__uuid: "2a6eec4c-8ccf-adfb-6b35-948622ed7cdf"
+			speed: "1"
+		}
 	}
 	{
 		name: "tm_asm_random_state_animation"
@@ -504,6 +543,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "44c47eaa-d684-8482-c477-0659c6328f62"
+			weight: 1
+		}
 	}
 	{
 		name: "tm_asm_empty_state"
@@ -583,6 +626,10 @@
 				type_hash: "2f252b77cdb79071"
 			}
 		]
+		default: {
+			__uuid: "e4e6d763-cc6a-3271-2ca7-6d24af88dce6"
+			speed: "1"
+		}
 	}
 	{
 		name: "tm_asm_blend_state_animation"
@@ -641,6 +688,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "99a65839-fce3-459a-775a-5ebb185f6a22"
+			crossfade_time: 0.2000000029802322
+		}
 	}
 	{
 		name: "tm_asm_layer "
@@ -715,6 +766,10 @@
 				type: "string"
 			}
 		]
+		default: {
+			__uuid: "ebcdde5f-605c-9949-3657-ed4272eb977a"
+			max: 1
+		}
 	}
 	{
 		name: "tm_asm_blend_set_weight"
@@ -728,6 +783,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "7aebab5d-9a4d-cc95-e8f1-8c644cf38d89"
+			weight: 1
+		}
 	}
 	{
 		name: "tm_asm_blend_set"
@@ -827,6 +886,11 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			__uuid: "971605d9-b1ca-9670-6cb6-7ab0269b97da"
+			loop: true
+			speed: 1
+		}
 	}
 	{
 		name: "tm_animation_state_machine_component"
@@ -932,6 +996,21 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "758d276a-6758-11b1-646f-e480b85e9968"
+			max_distance: 10
+			spread: 0.5
+		}
+	}
+	{
+		name: "tm_wav_reference"
+		properties: [
+			{
+				name: "wav"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+		]
 	}
 	{
 		name: "tm_creation_graph_variable"
@@ -945,6 +1024,10 @@
 				name: "value"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "user_touched"
+				type: "bool"
 			}
 		]
 	}
@@ -981,6 +1064,15 @@
 				type_hash: "64dec2c37303b04f"
 			}
 		]
+		default: {
+			__uuid: "20085398-09a4-a288-e3e3-d478c1622d3e"
+			graph: {
+				__uuid: "28a63285-3a3f-83df-2f89-52d550fdc49d"
+			}
+			interface: {
+				__uuid: "f5c97182-7fc0-c6bc-4576-fe479efc6336"
+			}
+		}
 	}
 	{
 		name: "tm_graph"
@@ -1215,6 +1307,17 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			__uuid: "851752f0-31fd-3379-c305-68a341157b8d"
+			type: 1
+			pixel_format: 35684872
+			widht: 256
+			height: 256
+			depth: 1
+			mip_levels: 1
+			layer_count: 1
+			sample_count: 1
+		}
 	}
 	{
 		name: "tm_image_archive"
@@ -1237,6 +1340,12 @@
 				type: "buffer"
 			}
 		]
+		default: {
+			__uuid: "38eff3de-b01d-800c-f230-92d8a42bb2c7"
+			description: {
+				__uuid: "2f67781a-57d0-c6e4-3363-c9150601c647"
+			}
+		}
 	}
 	{
 		name: "tm_cpu_image"
@@ -1267,7 +1376,15 @@
 				name: "filter"
 				type: "uint32_t"
 			}
+			{
+				name: "override_existing_mips"
+				type: "bool"
+			}
 		]
+		default: {
+			__uuid: "e191b8bf-d7bb-c923-d9f4-1a1461c22322"
+			color_space: 1
+		}
 	}
 	{
 		name: "tm_image_paint_brush"
@@ -1300,6 +1417,9 @@
 				type_hash: "9aa53193b00323a6"
 			}
 		]
+		default: {
+			__uuid: "d826b998-989f-5d34-1af3-65be949b1695"
+		}
 	}
 	{
 		name: "tm_draw_call_settings"
@@ -1339,6 +1459,12 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			__uuid: "fa2adb82-b908-183a-dded-47d30d8672e1"
+			stride: 12
+			format_components: 2
+			format_bits_per_component: 2
+		}
 	}
 	{
 		name: "tm_dcc_asset_position"
@@ -1889,9 +2015,13 @@
 		name: "tm_dcc_asset_settings"
 		properties: [
 			{
-				name: "image_cration_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				name: "import_settings"
+				type: "subobject"
+				type_hash: "a8eaa514c96b3d32"
+			}
+			{
+				name: "extract_images"
+				type: "bool"
 			}
 			{
 				name: "extracted_images"
@@ -1899,14 +2029,22 @@
 				type_hash: "6afaa9f50456cb1b"
 			}
 			{
-				name: "material_cration_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				name: "extract_materials"
+				type: "bool"
 			}
 			{
 				name: "extracted_materials"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
+			}
+			{
+				name: "rig_entity"
+				type: "bool"
+			}
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ca71127abbb72960"
 			}
 		]
 	}
@@ -1974,6 +2112,51 @@
 				type_hash: "bee36020d022cc51"
 			}
 		]
+		default: {
+			__uuid: "3f8bf180-17a8-7d9f-a50c-ed5f16933288"
+			settings: {
+				__uuid: "a9afc878-8ab2-83e5-8747-fae401f518f0"
+				extract_images: true
+				extract_materials: true
+				rig_entity: true
+			}
+		}
+	}
+	{
+		name: "tm_dcc_import_settings"
+		properties: [
+			{
+				name: "dcc_asset_image_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_material_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_mesh_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_image_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "dcc_asset_material_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+		]
+		default: {
+			__uuid: "faa0e0bf-c45e-59eb-d727-de53482a80d7"
+			dcc_asset_image_cg: "e47809e9-558e-a0cb-866b-2072a2e0888c"
+			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
+			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
+		}
 	}
 	{
 		name: "tm_dcc_asset_component"
@@ -1989,6 +2172,9 @@
 				type_hash: "4f4a05b229f12ac9"
 			}
 		]
+		default: {
+			__uuid: "f0530e11-a393-bfc0-7282-4230a2a3558d"
+		}
 	}
 	{
 		name: "tm_dcc_asset_mesh_node_settings"
@@ -2049,6 +2235,9 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			__uuid: "e0184bb4-5df1-b1b6-ae33-16e2385c9234"
+		}
 	}
 	{
 		name: "tm_default_render_pipe_light_component"
@@ -2105,6 +2294,19 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			__uuid: "cf754adb-bbdc-f02c-fad6-6c9ced6a4361"
+			color: {
+				__uuid: "266f42bd-4f3c-534b-fb50-efe91217fca1"
+			}
+			intensity: 1
+			spot_inner_angle: 0.3490658700466156
+			spot_outer_angle: 1.221730589866638
+			shadow_depth_bias: 0.5
+			num_cascades: 4
+			shadow_distance: 60
+			uniform_log_weight: 0.800000011920929
+		}
 	}
 	{
 		name: "tm_asset_browser"
@@ -2140,6 +2342,18 @@
 				type_hash: "20ef513a9606cc30"
 			}
 		]
+		default: {
+			__uuid: "fd3920d5-6654-f082-94f1-c1deb5af0761"
+			position: {
+				__uuid: "3b692b44-cb59-9bfc-d777-c1dd7681a5d9"
+			}
+			rotation: {
+				__uuid: "4c6d7756-29c5-8ec3-0d71-e3758b1e96c1"
+			}
+			scale: {
+				__uuid: "3e6c4121-06a1-c3df-9346-a0370f582f14"
+			}
+		}
 	}
 	{
 		name: "tm_tag"
@@ -2220,6 +2434,18 @@
 				type: "uint64_t"
 			}
 		]
+		default: {
+			__uuid: "2f655067-1944-31dd-0bc4-026cf1486f30"
+			position: {
+				__uuid: "aa328707-74fd-d243-6e81-493240886c5f"
+			}
+			rotation: {
+				__uuid: "61c2f125-ebda-99d4-d94b-248ed2022871"
+			}
+			scale: {
+				__uuid: "32a2c165-8344-b13f-e4d6-84a57c350d6f"
+			}
+		}
 	}
 	{
 		name: "tm_camera_component"
@@ -2249,16 +2475,15 @@
 				type: "float"
 			}
 		]
-	}
-	{
-		name: "example_gameplay_component_empty"
-		properties: [
-		]
-	}
-	{
-		name: "example_gameplay_component_pure_c"
-		properties: [
-		]
+		default: {
+			__uuid: "820e3b2d-b13a-c8f2-f039-053fb778a392"
+			near_plane: 0.1000000014901161
+			far_plane: 10000
+			vertical_fov: 1.047197580337524
+			translation_speed: 0.1000000014901161
+			rotation_speed: 1
+			translation_damping: 0.1500000059604645
+		}
 	}
 	{
 		name: "gameplay_sample_empty_component"
@@ -2284,6 +2509,12 @@
 				type_hash: "01527750cf1208ef"
 			}
 		]
+		default: {
+			__uuid: "3384d4e3-9cea-695f-089a-ef12adee2fff"
+			graph: {
+				__uuid: "cecd0b31-6858-1ae9-5f94-68a154b4ad72"
+			}
+		}
 	}
 	{
 		name: "tm_entity_asset_reference"
@@ -2347,6 +2578,15 @@
 				type_hash: "8d1487af36b1e3e1"
 			}
 		]
+		default: {
+			__uuid: "e7087099-044a-66f2-d2fd-05649ad2aa9e"
+			velocity: {
+				__uuid: "8b72360c-283d-c362-2ee3-cc47c5d01e8a"
+			}
+			angular_velocity: {
+				__uuid: "b16bc92f-b4e0-e798-75a7-ca6c582a47e9"
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_component"
@@ -2375,6 +2615,14 @@
 				type: "bool"
 			}
 		]
+		default: {
+			__uuid: "9e00d48a-d7db-ee84-a49c-77ebe0eb9601"
+			type: 1
+			shape: {
+				__type: "tm_physics_shape_sphere"
+				__uuid: "b4133ed9-7d21-5487-7f4a-54ec3a801447"
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_sphere"
@@ -2384,6 +2632,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "7f0bfd88-15ab-c3b6-ccc4-f00a3350c1d8"
+			radius: 1
+		}
 	}
 	{
 		name: "tm_physics_shape_capsule"
@@ -2397,6 +2649,11 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "cd361280-19fd-f058-f8e5-e5e07982c18b"
+			radius: 1
+			half_height: 1
+		}
 	}
 	{
 		name: "tm_physics_shape_box"
@@ -2407,6 +2664,15 @@
 				type_hash: "8d1487af36b1e3e1"
 			}
 		]
+		default: {
+			__uuid: "7d1dc688-7b27-5577-9b1e-4aaaae2bb366"
+			half_extent: {
+				__uuid: "c4f6c896-f97b-bae0-0ef0-a0c7d5c41dbb"
+				x: 0.5
+				y: 0.5
+				z: 0.5
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_convex"
@@ -2487,6 +2753,23 @@
 				type: "bool"
 			}
 		]
+		default: {
+			__uuid: "9999c319-9504-85f4-9ec9-704056a2f543"
+			mass: 1
+			center_of_mass: {
+				__uuid: "2fb68a1d-055f-988d-caa3-46cc7066851c"
+			}
+			inertia_tensor: {
+				__uuid: "0efd0224-c41d-fb32-3008-effd74273732"
+				x: 1
+				y: 1
+				z: 1
+			}
+			inertia_tensor_rotation: {
+				__uuid: "669b6dd0-6c89-fddb-ea90-8d13139c3b49"
+			}
+			angular_damping: 0.05000000074505806
+		}
 	}
 	{
 		name: "tm_physics_material"
@@ -2504,6 +2787,12 @@
 				type: "float"
 			}
 		]
+		default: {
+			__uuid: "39404c00-16eb-3a56-a04e-5ba6b322e39b"
+			static_friction: 0.5
+			dynamic_friction: 0.25
+			restitution: 0.1000000014901161
+		}
 	}
 	{
 		name: "tm_physics_collision"
@@ -2652,6 +2941,11 @@
 				type_hash: "a7877788271e981c"
 			}
 		]
+		default: {
+			__uuid: "4ce693c4-b58a-6e84-5960-bdf70a402bc0"
+			height: 1
+			radius: 0.5
+		}
 	}
 	{
 		name: "tm_physx_force_flags"
@@ -2677,6 +2971,51 @@
 		]
 	}
 	{
+		name: "tm_grid_settings"
+		properties: [
+			{
+				name: "cell_size"
+				type: "float"
+			}
+			{
+				name: "extent"
+				type: "float"
+			}
+			{
+				name: "infinite"
+				type: "bool"
+			}
+			{
+				name: "thin_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+			{
+				name: "thick_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+		]
+		default: {
+			__uuid: "5009c793-3f83-352b-67da-17016d88c2da"
+			cell_size: 1
+			extent: 4000
+			infinite: true
+			thin_color: {
+				__uuid: "7f3b3ef4-d72e-4351-8ec5-1cd8f206c711"
+				r: 0.07000000029802322
+				g: 0.07000000029802322
+				b: 0.07000000029802322
+			}
+			thick_color: {
+				__uuid: "bc4e54be-eddc-cc34-b141-6b2571d9e491"
+				r: 0
+				g: 0
+				b: 0
+			}
+		}
+	}
+	{
 		name: "tm_cubemap_capture_component"
 		properties: [
 			{
@@ -2689,6 +3028,19 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			__uuid: "4b55cab2-2b56-8349-1c5f-7a6ae19ecc9b"
+			capture_interface: "d2420b8f77d91139"
+			output_image: {
+				__uuid: "d7079fa9-ca83-ab6b-0946-ac101fadf625"
+				graph: {
+					__uuid: "cea7b2c7-6b93-83ea-48e3-445661abb1db"
+				}
+				interface: {
+					__uuid: "d55ac07e-c650-5dc7-971a-3e23936f444a"
+				}
+			}
+		}
 	}
 	{
 		name: "tm_render_component"
@@ -2699,6 +3051,18 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			__uuid: "b75ddb31-b4b1-d80f-e69b-9582744ff76a"
+			creation_graph: {
+				__uuid: "3c9fb0ef-d921-61bd-95ea-b6ebb414d682"
+				graph: {
+					__uuid: "1aa32246-c734-b801-91b9-f35bc7a1ee60"
+				}
+				interface: {
+					__uuid: "0159a588-dd8a-4a22-5956-844a7f1856f2"
+				}
+			}
+		}
 	}
 	{
 		name: "tm_skinning_component"
@@ -2708,6 +3072,9 @@
 				type: "buffer"
 			}
 		]
+		default: {
+			__uuid: "50a2215a-6b2c-a769-2c8a-6c9ea9b903e3"
+		}
 	}
 	{
 		name: "tm_sculpt_component"
@@ -2803,6 +3170,16 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			__uuid: "ce206722-31e4-de42-b3c2-4a7c8e21704f"
+			min_filter: 1
+			max_filter: 1
+			mip_mode: 1
+			anisotropy_enable: true
+			max_anisotropy: 16
+			max_lod: 16
+			border_color: 5
+		}
 	}
 	{
 		name: "tm_shader_system_constant_node_settings"
@@ -3524,6 +3901,12 @@
 				type_hash: "7a29b8f6b1ca42ec"
 			}
 		]
+		default: {
+			__uuid: "f4c26eef-c796-8ee6-09ab-933685490c90"
+			angular_velocity: {
+				__uuid: "36e54c06-865c-5cf7-8ab2-1763d3acd9d6"
+			}
+		}
 	}
 	{
 		name: "tm_tessellated_plane_component"
@@ -3547,6 +3930,17 @@
 				type_hash: "d0c8704d11c0c0f1"
 			}
 		]
+		default: {
+			__uuid: "60135997-9647-d570-1787-674659e5a0e8"
+			size: 20
+			tessellation: 80
+			color: {
+				__uuid: "2ff21076-bf73-f671-a9bb-21dae847b049"
+				r: 0.800000011920929
+				g: 0.800000011920929
+				b: 0.800000011920929
+			}
+		}
 	}
 	{
 		name: "tm_clipboard"
@@ -3563,12 +3957,74 @@
 		]
 	}
 	{
+		name: "shader_input_uv_node_settings"
+		properties: [
+			{
+				name: "set"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			__uuid: "7ab12c07-ae3e-4f85-f431-55143c947b63"
+			set: "f8149a39c9895ff6"
+		}
+	}
+	{
+		name: "shader_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
+			}
+		]
+		default: {
+			__uuid: "b3d1acf5-1cbd-ab6d-124a-450326776932"
+			encoding: "8a3d1c8f15de2776"
+		}
+	}
+	{
 		name: "lit_default_node_settings"
 		properties: [
 			{
 				name: "blend_mode"
 				type: "uint64_t"
 			}
+		]
+		default: {
+			__uuid: "e668b7e0-fe64-6d10-347d-71db4b1728aa"
+			blend_mode: "c3612e3203404e0f"
+		}
+	}
+	{
+		name: "lit_output_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			__uuid: "6695c665-85d4-ff65-b193-bfcfb2c47235"
+			blend_mode: "c3612e3203404e0f"
+			face_culling: "9dcb40c80d6f306a"
+		}
+	}
+	{
+		name: "example_gameplay_component_empty"
+		properties: [
+		]
+	}
+	{
+		name: "example_gameplay_component_pure_c"
+		properties: [
 		]
 	}
 	{
