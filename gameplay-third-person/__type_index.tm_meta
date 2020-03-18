@@ -141,6 +141,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			w: 1
+		}
 	}
 	{
 		name: "tm_scale"
@@ -158,6 +161,11 @@
 				type: "float"
 			}
 		]
+		default: {
+			x: 1
+			y: 1
+			z: 1
+		}
 	}
 	{
 		name: "tm_color_rgb"
@@ -175,6 +183,11 @@
 				type: "float"
 			}
 		]
+		default: {
+			r: 1
+			g: 1
+			b: 1
+		}
 	}
 	{
 		name: "tm_color_rgba"
@@ -196,6 +209,12 @@
 				type: "float"
 			}
 		]
+		default: {
+			r: 1
+			g: 1
+			b: 1
+			a: 1
+		}
 	}
 	{
 		name: "tm_rect_t"
@@ -376,6 +395,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			grid_size: 1
+		}
 	}
 	{
 		name: "tm_rotate_controller"
@@ -393,6 +415,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			snap_angle: 15
+		}
 	}
 	{
 		name: "tm_scale_controller"
@@ -447,6 +472,9 @@
 				type_hash: "8944e0b1cefd4756"
 			}
 		]
+		default: {
+			speed: "1"
+		}
 	}
 	{
 		name: "tm_asm_random_state"
@@ -490,6 +518,9 @@
 				type_hash: "305e388654972dca"
 			}
 		]
+		default: {
+			speed: "1"
+		}
 	}
 	{
 		name: "tm_asm_random_state_animation"
@@ -504,6 +535,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			weight: 1
+		}
 	}
 	{
 		name: "tm_asm_empty_state"
@@ -583,6 +617,9 @@
 				type_hash: "2f252b77cdb79071"
 			}
 		]
+		default: {
+			speed: "1"
+		}
 	}
 	{
 		name: "tm_asm_blend_state_animation"
@@ -641,6 +678,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			crossfade_time: 0.2000000029802322
+		}
 	}
 	{
 		name: "tm_asm_layer "
@@ -715,6 +755,9 @@
 				type: "string"
 			}
 		]
+		default: {
+			max: 1
+		}
 	}
 	{
 		name: "tm_asm_blend_set_weight"
@@ -728,6 +771,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			weight: 1
+		}
 	}
 	{
 		name: "tm_asm_blend_set"
@@ -827,6 +873,10 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			loop: true
+			speed: 1
+		}
 	}
 	{
 		name: "tm_animation_state_machine_component"
@@ -886,11 +936,15 @@
 				type: "uint32_t"
 			}
 			{
-				name: "channels"
+				name: "num_channels"
 				type: "uint32_t"
 			}
 			{
 				name: "format"
+				type: "uint32_t"
+			}
+			{
+				name: "channel_mask"
 				type: "uint32_t"
 			}
 			{
@@ -928,6 +982,20 @@
 				type: "float"
 			}
 		]
+		default: {
+			max_distance: 10
+			spread: 0.5
+		}
+	}
+	{
+		name: "tm_wav_reference"
+		properties: [
+			{
+				name: "wav"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+		]
 	}
 	{
 		name: "tm_creation_graph_variable"
@@ -941,6 +1009,10 @@
 				name: "value"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "user_touched"
+				type: "bool"
 			}
 		]
 	}
@@ -977,6 +1049,13 @@
 				type_hash: "64dec2c37303b04f"
 			}
 		]
+		default: {
+			graph: {
+			}
+			interface: {
+				graph_version: 2
+			}
+		}
 	}
 	{
 		name: "tm_graph"
@@ -1211,6 +1290,16 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			type: 1
+			pixel_format: 35684872
+			widht: 256
+			height: 256
+			depth: 1
+			mip_levels: 1
+			layer_count: 1
+			sample_count: 1
+		}
 	}
 	{
 		name: "tm_image_archive"
@@ -1233,6 +1322,10 @@
 				type: "buffer"
 			}
 		]
+		default: {
+			description: {
+			}
+		}
 	}
 	{
 		name: "tm_cpu_image"
@@ -1263,7 +1356,14 @@
 				name: "filter"
 				type: "uint32_t"
 			}
+			{
+				name: "override_existing_mips"
+				type: "bool"
+			}
 		]
+		default: {
+			color_space: 1
+		}
 	}
 	{
 		name: "tm_image_paint_brush"
@@ -1296,6 +1396,8 @@
 				type_hash: "9aa53193b00323a6"
 			}
 		]
+		default: {
+		}
 	}
 	{
 		name: "tm_draw_call_settings"
@@ -1335,6 +1437,11 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			stride: 12
+			format_components: 2
+			format_bits_per_component: 2
+		}
 	}
 	{
 		name: "tm_dcc_asset_position"
@@ -1885,9 +1992,13 @@
 		name: "tm_dcc_asset_settings"
 		properties: [
 			{
-				name: "image_cration_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				name: "import_settings"
+				type: "subobject"
+				type_hash: "a8eaa514c96b3d32"
+			}
+			{
+				name: "extract_images"
+				type: "bool"
 			}
 			{
 				name: "extracted_images"
@@ -1895,14 +2006,22 @@
 				type_hash: "6afaa9f50456cb1b"
 			}
 			{
-				name: "material_cration_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				name: "extract_materials"
+				type: "bool"
 			}
 			{
 				name: "extracted_materials"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
+			}
+			{
+				name: "rig_entity"
+				type: "bool"
+			}
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ca71127abbb72960"
 			}
 		]
 	}
@@ -1970,6 +2089,48 @@
 				type_hash: "bee36020d022cc51"
 			}
 		]
+		default: {
+			settings: {
+				extract_images: true
+				extract_materials: true
+				rig_entity: true
+			}
+		}
+	}
+	{
+		name: "tm_dcc_import_settings"
+		properties: [
+			{
+				name: "dcc_asset_image_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_material_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_mesh_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "dcc_asset_image_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "dcc_asset_material_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+		]
+		default: {
+			dcc_asset_image_cg: "e47809e9-558e-a0cb-866b-2072a2e0888c"
+			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
+			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
+		}
 	}
 	{
 		name: "tm_dcc_asset_component"
@@ -1985,6 +2146,8 @@
 				type_hash: "4f4a05b229f12ac9"
 			}
 		]
+		default: {
+		}
 	}
 	{
 		name: "tm_dcc_asset_mesh_node_settings"
@@ -2045,6 +2208,8 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+		}
 	}
 	{
 		name: "tm_default_render_pipe_light_component"
@@ -2101,6 +2266,17 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			color: {
+			}
+			intensity: 1
+			spot_inner_angle: 0.3490658700466156
+			spot_outer_angle: 1.221730589866638
+			shadow_depth_bias: 0.5
+			num_cascades: 4
+			shadow_distance: 60
+			uniform_log_weight: 0.800000011920929
+		}
 	}
 	{
 		name: "tm_asset_browser"
@@ -2136,6 +2312,14 @@
 				type_hash: "20ef513a9606cc30"
 			}
 		]
+		default: {
+			position: {
+			}
+			rotation: {
+			}
+			scale: {
+			}
+		}
 	}
 	{
 		name: "tm_tag"
@@ -2216,6 +2400,14 @@
 				type: "uint64_t"
 			}
 		]
+		default: {
+			position: {
+			}
+			rotation: {
+			}
+			scale: {
+			}
+		}
 	}
 	{
 		name: "tm_camera_component"
@@ -2245,11 +2437,14 @@
 				type: "float"
 			}
 		]
-	}
-	{
-		name: "gameplay_sample_empty_component"
-		properties: [
-		]
+		default: {
+			near_plane: 0.1000000014901161
+			far_plane: 10000
+			vertical_fov: 1.047197580337524
+			translation_speed: 0.1000000014901161
+			rotation_speed: 1
+			translation_damping: 0.1500000059604645
+		}
 	}
 	{
 		name: "gameplay_sample_first_person_component"
@@ -2270,6 +2465,10 @@
 				type_hash: "01527750cf1208ef"
 			}
 		]
+		default: {
+			graph: {
+			}
+		}
 	}
 	{
 		name: "tm_entity_asset_reference"
@@ -2333,6 +2532,12 @@
 				type_hash: "8d1487af36b1e3e1"
 			}
 		]
+		default: {
+			velocity: {
+			}
+			angular_velocity: {
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_component"
@@ -2361,6 +2566,12 @@
 				type: "bool"
 			}
 		]
+		default: {
+			type: 1
+			shape: {
+				__type: "tm_physics_shape_sphere"
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_sphere"
@@ -2370,6 +2581,9 @@
 				type: "float"
 			}
 		]
+		default: {
+			radius: 1
+		}
 	}
 	{
 		name: "tm_physics_shape_capsule"
@@ -2383,6 +2597,10 @@
 				type: "float"
 			}
 		]
+		default: {
+			radius: 1
+			half_height: 1
+		}
 	}
 	{
 		name: "tm_physics_shape_box"
@@ -2393,6 +2611,13 @@
 				type_hash: "8d1487af36b1e3e1"
 			}
 		]
+		default: {
+			half_extent: {
+				x: 0.5
+				y: 0.5
+				z: 0.5
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_convex"
@@ -2473,6 +2698,19 @@
 				type: "bool"
 			}
 		]
+		default: {
+			mass: 1
+			center_of_mass: {
+			}
+			inertia_tensor: {
+				x: 1
+				y: 1
+				z: 1
+			}
+			inertia_tensor_rotation: {
+			}
+			angular_damping: 0.05000000074505806
+		}
 	}
 	{
 		name: "tm_physics_material"
@@ -2490,6 +2728,11 @@
 				type: "float"
 			}
 		]
+		default: {
+			static_friction: 0.5
+			dynamic_friction: 0.25
+			restitution: 0.1000000014901161
+		}
 	}
 	{
 		name: "tm_physics_collision"
@@ -2638,6 +2881,10 @@
 				type_hash: "a7877788271e981c"
 			}
 		]
+		default: {
+			height: 1
+			radius: 0.5
+		}
 	}
 	{
 		name: "tm_physx_force_flags"
@@ -2663,6 +2910,48 @@
 		]
 	}
 	{
+		name: "tm_grid_settings"
+		properties: [
+			{
+				name: "cell_size"
+				type: "float"
+			}
+			{
+				name: "extent"
+				type: "float"
+			}
+			{
+				name: "infinite"
+				type: "bool"
+			}
+			{
+				name: "thin_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+			{
+				name: "thick_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+		]
+		default: {
+			cell_size: 1
+			extent: 4000
+			infinite: true
+			thin_color: {
+				r: 0.07000000029802322
+				g: 0.07000000029802322
+				b: 0.07000000029802322
+			}
+			thick_color: {
+				r: 0
+				g: 0
+				b: 0
+			}
+		}
+	}
+	{
 		name: "tm_cubemap_capture_component"
 		properties: [
 			{
@@ -2675,6 +2964,16 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			capture_interface: "d2420b8f77d91139"
+			output_image: {
+				graph: {
+				}
+				interface: {
+					graph_version: 4
+				}
+			}
+		}
 	}
 	{
 		name: "tm_render_component"
@@ -2685,6 +2984,15 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			creation_graph: {
+				graph: {
+				}
+				interface: {
+					graph_version: 4
+				}
+			}
+		}
 	}
 	{
 		name: "tm_skinning_component"
@@ -2694,6 +3002,8 @@
 				type: "buffer"
 			}
 		]
+		default: {
+		}
 	}
 	{
 		name: "tm_sculpt_component"
@@ -2789,6 +3099,15 @@
 				type: "uint32_t"
 			}
 		]
+		default: {
+			min_filter: 1
+			max_filter: 1
+			mip_mode: 1
+			anisotropy_enable: true
+			max_anisotropy: 16
+			max_lod: 16
+			border_color: 5
+		}
 	}
 	{
 		name: "tm_shader_system_constant_node_settings"
@@ -2811,11 +3130,6 @@
 				name: "declarations"
 				type: "subobject_set"
 				type_hash: "9582c40a7a888720"
-			}
-			{
-				name: "materials"
-				type: "subobject_set"
-				type_hash: "0dbc307bdd286224"
 			}
 		]
 	}
@@ -2848,6 +3162,16 @@
 				name: "variations"
 				type: "subobject_set"
 				type_hash: "14a46edeaac824fc"
+			}
+			{
+				name: "compile_configurations"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
+			}
+			{
+				name: "compile_contexts"
+				type: "subobject_set"
+				type_hash: "e7b5f47a19a422d9"
 			}
 			{
 				name: "filename"
@@ -3097,6 +3421,11 @@
 				name: "requests"
 				type: "subobject_set"
 				type_hash: "2a13c0aa3decb44e"
+			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
 			}
 		]
 	}
@@ -3412,6 +3741,208 @@
 		]
 	}
 	{
+		name: "tm_shader_system_blob"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_configuration"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "variations"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_pass_condition"
+		properties: [
+			{
+				name: "is_connected"
+				type: "reference_set"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "systems_active"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_pass"
+		properties: [
+			{
+				name: "layer"
+				type: "string"
+			}
+			{
+				name: "condition"
+				type: "subobject"
+				type_hash: "fac4c5ae15c3b003"
+			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "c96488cb408e745f"
+			}
+			{
+				name: "compile_block"
+				type: "reference"
+				type_hash: "5e778dd6b3908bce"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_context"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "passes"
+				type: "subobject_set"
+				type_hash: "a265c6ee58e82c21"
+			}
+		]
+	}
+	{
+		name: "tm_spin_component"
+		properties: [
+			{
+				name: "angular_velocity"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+		]
+		default: {
+			angular_velocity: {
+			}
+		}
+	}
+	{
+		name: "tm_tessellated_plane_component"
+		properties: [
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "size"
+				type: "float"
+			}
+			{
+				name: "tessellation"
+				type: "uint32_t"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+		default: {
+			size: 20
+			tessellation: 80
+			color: {
+				r: 0.800000011920929
+				g: 0.800000011920929
+				b: 0.800000011920929
+			}
+		}
+	}
+	{
+		name: "tm_clipboard"
+		properties: [
+			{
+				name: "objects"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "is_cut"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "shader_input_uv_node_settings"
+		properties: [
+			{
+				name: "set"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			set: "f8149a39c9895ff6"
+		}
+	}
+	{
+		name: "shader_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
+			}
+		]
+		default: {
+			encoding: "8a3d1c8f15de2776"
+		}
+	}
+	{
+		name: "lit_default_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			blend_mode: "c3612e3203404e0f"
+		}
+	}
+	{
+		name: "lit_output_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			blend_mode: "c3612e3203404e0f"
+			face_culling: "9dcb40c80d6f306a"
+		}
+	}
+	{
+		name: "gameplay_sample_empty_component"
+		properties: [
+		]
+	}
+	{
 		name: "tm_shader_system_material"
 		properties: [
 			{
@@ -3457,66 +3988,6 @@
 			{
 				name: "name"
 				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_blob"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-			{
-				name: "buffer"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "tm_spin_component"
-		properties: [
-			{
-				name: "angular_velocity"
-				type: "subobject"
-				type_hash: "7a29b8f6b1ca42ec"
-			}
-		]
-	}
-	{
-		name: "tm_tessellated_plane_component"
-		properties: [
-			{
-				name: "visibility_flags"
-				type: "subobject_set"
-				type_hash: "4f4a05b229f12ac9"
-			}
-			{
-				name: "size"
-				type: "float"
-			}
-			{
-				name: "tessellation"
-				type: "uint32_t"
-			}
-			{
-				name: "color"
-				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
-			}
-		]
-	}
-	{
-		name: "tm_clipboard"
-		properties: [
-			{
-				name: "objects"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "is_cut"
-				type: "bool"
 			}
 		]
 	}
