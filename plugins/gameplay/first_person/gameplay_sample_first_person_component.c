@@ -408,10 +408,11 @@ static void component_removed(gameplay_component_manager_t* manager, tm_entity_t
 
 static void destroy(gameplay_component_manager_t* manager)
 {
-    tm_entity_api->call_remove_on_all_entities(manager->entity_ctx, tm_entity_api->lookup_component(manager->entity_ctx, TYPE_HASH__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT));
+    tm_entity_context_o *ctx = manager->entity_ctx;
+    tm_entity_api->call_remove_on_all_entities(ctx, tm_entity_api->lookup_component(ctx, TYPE_HASH__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT));
     tm_allocator_i a = manager->allocator;
     tm_free(&a, manager, sizeof(*manager));
-    tm_entity_api->destroy_child_allocator(manager->entity_ctx, &a);
+    tm_entity_api->destroy_child_allocator(ctx, &a);
 }
 
 static void create(tm_entity_context_o* entity_ctx)
