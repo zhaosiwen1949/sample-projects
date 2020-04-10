@@ -38,6 +38,7 @@ filter "platforms:Win64"
         "4221", -- Pointers to locals in initializers. Valid C99.
         "4702", -- Unreachable code. We sometimes want return after exit() because otherwise we get an error about no return value.
     }
+    linkoptions {"/ignore:4099"}
 
 filter "configurations:Debug"
     defines { "TM_CONFIGURATION_DEBUG", "DEBUG" }
