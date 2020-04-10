@@ -1,0 +1,58 @@
+__type: "tm_creation_graph"
+__uuid: "9f829e31-b0cb-b5fe-21af-ab561d841602"
+graph: {
+	__uuid: "36cc8645-6b6a-0744-1cee-700e60d86f2a"
+	nodes: [
+		{
+			__uuid: "7273b3ef-d1b3-e1b0-2f77-84a4cdac3922"
+			type: "image_input_archive"
+			position_x: -277.7674560546875
+			position_y: 11.75
+		}
+		{
+			__uuid: "aa42d233-b59e-1679-7688-f77578019794"
+			type: "image_output"
+			position_x: 196.2326049804688
+			position_y: -0.9166259765625
+		}
+		{
+			__uuid: "bd5d3074-1e27-b3e2-bd82-b2db7f2e9f43"
+			type: "image_to_gpu_image"
+			position_x: -40.43414306640625
+			position_y: 13.0833740234375
+		}
+	]
+	connections: [
+		{
+			__uuid: "08d11502-970c-fc0b-e7ee-c6f23ae8f897"
+			from_node: "7273b3ef-d1b3-e1b0-2f77-84a4cdac3922"
+			to_node: "bd5d3074-1e27-b3e2-bd82-b2db7f2e9f43"
+			from_connector_hash: "284126856b22844e"
+			to_connector_hash: "284126856b22844e"
+		}
+		{
+			__uuid: "cd3daa6a-6ace-cca9-2a1e-0a11da2ce0ed"
+			from_node: "bd5d3074-1e27-b3e2-bd82-b2db7f2e9f43"
+			to_node: "aa42d233-b59e-1679-7688-f77578019794"
+			from_connector_hash: "c05fedba357b4754"
+			to_connector_hash: "c05fedba357b4754"
+		}
+	]
+	comments: [
+		{
+			__uuid: "85376150-8b81-8bb4-51ab-d2cc021b093d"
+			text: "Default asset pipeline for imported images"
+			position_x: -271.20166015625
+			position_y: -68.1666259765625
+			font_scale: 2
+			color: {
+				__uuid: "8b92707a-313f-c362-c556-af4765a3b83d"
+			}
+		}
+	]
+}
+interface: {
+	__uuid: "bef532ef-e0f5-2306-ae1f-b74c053505a3"
+	graph_version: 11
+}
+__asset_uuid: "7cf804f0-0e97-c8f1-36f3-de6d0e831e9b"

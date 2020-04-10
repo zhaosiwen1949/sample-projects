@@ -371,62 +371,41 @@
 		]
 	}
 	{
-		name: "tm_select_controller"
+		name: "tm_scene_tab_settings"
 		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
 			{
 				name: "multi_select_pivot"
 				type: "uint32_t"
 			}
-		]
-	}
-	{
-		name: "tm_move_controller"
-		properties: [
 			{
-				name: "use_world_axes"
+				name: "move_snap"
 				type: "bool"
 			}
 			{
-				name: "grid_snap"
-				type: "bool"
-			}
-			{
-				name: "grid_size"
+				name: "move_snap_size"
 				type: "float"
+			}
+			{
+				name: "rotation_snap"
+				type: "bool"
+			}
+			{
+				name: "rotation_snap_angle"
+				type: "float"
+			}
+			{
+				name: "scaling_absolute_handle"
+				type: "bool"
 			}
 		]
 		default: {
-			grid_size: 1
+			move_snap_size: 1
+			rotation_snap_angle: 15
 		}
-	}
-	{
-		name: "tm_rotate_controller"
-		properties: [
-			{
-				name: "use_world_axes"
-				type: "bool"
-			}
-			{
-				name: "snap"
-				type: "bool"
-			}
-			{
-				name: "snap_angle"
-				type: "float"
-			}
-		]
-		default: {
-			snap_angle: 15
-		}
-	}
-	{
-		name: "tm_scale_controller"
-		properties: [
-			{
-				name: "absolute_handle"
-				type: "bool"
-			}
-		]
 	}
 	{
 		name: "tm_animation_simple_player_component"
@@ -1444,6 +1423,69 @@
 		}
 	}
 	{
+		name: "tm_gpu_simulation_channel_descriptor"
+		properties: [
+			{
+				name: "channel_type"
+				type: "uint32_t"
+			}
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "component_type"
+				type: "uint32_t"
+			}
+			{
+				name: "num_components"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_descriptor"
+		properties: [
+			{
+				name: "lifetime"
+				type: "float"
+			}
+			{
+				name: "channels"
+				type: "subobject_set"
+				type_hash: "7d15e1df3084e998"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_description_ref"
+		properties: [
+			{
+				name: "desc"
+				type: "reference"
+				type_hash: "7d15e1df3084e998"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_accessor_settings"
+		properties: [
+			{
+				name: "index_mode"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_to_draw_command_settings"
+		properties: [
+			{
+				name: "num_vertices"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
 		name: "tm_dcc_asset_position"
 		properties: [
 			{
@@ -2125,11 +2167,17 @@
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
 			}
+			{
+				name: "import_image_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
 		]
 		default: {
 			dcc_asset_image_cg: "e47809e9-558e-a0cb-866b-2072a2e0888c"
 			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
 			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			import_image_cg: "9f829e31-b0cb-b5fe-21af-ab561d841602"
 		}
 	}
 	{
@@ -2272,7 +2320,7 @@
 			intensity: 1
 			spot_inner_angle: 0.3490658700466156
 			spot_outer_angle: 1.221730589866638
-			shadow_depth_bias: 0.5
+			shadow_depth_bias: 0.25
 			num_cascades: 4
 			shadow_distance: 60
 			uniform_log_weight: 0.800000011920929
@@ -2445,16 +2493,6 @@
 			rotation_speed: 1
 			translation_damping: 0.1500000059604645
 		}
-	}
-	{
-		name: "gameplay_sample_first_person_component"
-		properties: [
-		]
-	}
-	{
-		name: "gameplay_sample_third_person"
-		properties: [
-		]
 	}
 	{
 		name: "tm_graph_component"
@@ -3500,6 +3538,10 @@
 				type: "uint32_t"
 			}
 			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
 				name: "target_name"
 				type: "string"
 			}
@@ -3835,6 +3877,68 @@
 		}
 	}
 	{
+		name: "tm_statistics_graph"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "history"
+				type: "uint32_t"
+			}
+			{
+				name: "y_range_auto"
+				type: "bool"
+			}
+			{
+				name: "y_min"
+				type: "double"
+			}
+			{
+				name: "y_max"
+				type: "double"
+			}
+			{
+				name: "sources"
+				type: "subobject_set"
+				type_hash: "7e0169888a34448e"
+			}
+		]
+		default: {
+			y_range_auto: true
+		}
+	}
+	{
+		name: "tm_statistics_graph_source"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "source"
+				type: "string"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+		default: {
+			color: {
+				r: 0.9450980424880981
+				g: 0.9450980424880981
+				b: 0.9450980424880981
+			}
+		}
+	}
+	{
 		name: "tm_tessellated_plane_component"
 		properties: [
 			{
@@ -3881,18 +3985,6 @@
 		]
 	}
 	{
-		name: "lit_default_node_settings"
-		properties: [
-			{
-				name: "blend_mode"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			blend_mode: "c3612e3203404e0f"
-		}
-	}
-	{
 		name: "shader_input_uv_node_settings"
 		properties: [
 			{
@@ -3902,6 +3994,63 @@
 		]
 		default: {
 			set: "f8149a39c9895ff6"
+		}
+	}
+	{
+		name: "shader_if_node_settings"
+		properties: [
+			{
+				name: "operator"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			operator: "83df8f4aa9bfb361"
+		}
+	}
+	{
+		name: "shader_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
+			}
+		]
+		default: {
+			encoding: "8a3d1c8f15de2776"
+		}
+	}
+	{
+		name: "billboards-output_node_settings"
+		properties: [
+			{
+				name: "mode"
+				type: "uint64_t"
+			}
+			{
+				name: "facing"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			mode: "4760ce77729b23b0"
+			facing: "e3a9b29676289efc"
+		}
+	}
+	{
+		name: "lit_default_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			blend_mode: "c3612e3203404e0f"
 		}
 	}
 	{
@@ -3922,20 +4071,72 @@
 		}
 	}
 	{
-		name: "shader_sample_2d_node_settings"
+		name: "tm_select_controller"
 		properties: [
 			{
-				name: "encoding"
-				type: "uint64_t"
+				name: "multi_select_pivot"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_move_controller"
+		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
 			}
 			{
-				name: "flip_green"
+				name: "grid_snap"
 				type: "bool"
+			}
+			{
+				name: "grid_size"
+				type: "float"
 			}
 		]
 		default: {
-			encoding: "8a3d1c8f15de2776"
+			grid_size: 1
 		}
+	}
+	{
+		name: "tm_rotate_controller"
+		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
+			{
+				name: "snap"
+				type: "bool"
+			}
+			{
+				name: "snap_angle"
+				type: "float"
+			}
+		]
+		default: {
+			snap_angle: 15
+		}
+	}
+	{
+		name: "tm_scale_controller"
+		properties: [
+			{
+				name: "absolute_handle"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
+		properties: [
+		]
 	}
 	{
 		name: "example_gameplay_component_empty"

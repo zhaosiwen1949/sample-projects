@@ -1,0 +1,82 @@
+__type: "tm_entity"
+__uuid: "cb5231fa-3d88-9a99-6224-e47bc8118aa5"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "89372785-3ff6-bf95-8737-676375fdc5f8"
+		position: {
+			__uuid: "13bb0a00-ce95-29d8-c1cb-13a6799f55f4"
+		}
+		rotation: {
+			__uuid: "0afad3f4-07b8-123f-b465-bf5059855225"
+		}
+		scale: {
+			__uuid: "7fd634b3-a032-dfa6-abaf-68783bf47347"
+		}
+	}
+	{
+		__type: "tm_link_component"
+		__uuid: "f4b7f7a7-908e-084b-8e9e-2e4082a9a42c"
+		position: {
+			__uuid: "8bb5937f-d57c-8482-c257-1c51e393b852"
+		}
+		rotation: {
+			__uuid: "2009b09a-0fe4-2861-cc00-6bc271818f60"
+		}
+		scale: {
+			__uuid: "746c5686-2c8b-7d26-6810-9540d95d690e"
+		}
+	}
+]
+children: [
+	{
+		__uuid: "c5a50466-dd96-c027-8acf-2444f7a415ab"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "a54f6f5c-b3ee-6ab8-4f2b-03f9bd53b0b8"
+		components__instantiated: [
+			{
+				__type: "tm_link_component"
+				__uuid: "ce38f1e4-d763-e7be-7972-26fbe925f320"
+				__prototype_type: "tm_link_component"
+				__prototype_uuid: "2e15ea63-88b8-e14e-2a1f-e1465b443231"
+				position: {
+					__uuid: "2a75edba-5546-1d23-e640-22d1d92f0eba"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "df04aaae-1849-1fbd-6dff-318e50ed2a76"
+					x: 10.66855239868164
+					y: 4.980159282684326
+					z: -8.197910308837891
+				}
+				rotation: {
+					__uuid: "330c163c-77a7-2ead-0034-bdc8d493c2e3"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "b8841980-50d5-d771-c3e3-2c207e2d70f6"
+					x: -0.3159854114055634
+					y: -0.3596047461032867
+					z: -0.1308853924274445
+					w: 0.8681628108024597
+				}
+				scale: {
+					__uuid: "f82c46a1-0ddf-4e44-4093-b170e788a416"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "38f582fa-5527-d6ad-5fd8-6660e85947e7"
+				}
+			}
+			{
+				__type: "tm_default_render_pipe_light_component"
+				__uuid: "733d36e7-4f5f-c7b0-7e53-85e8bd4a799b"
+				__prototype_type: "tm_default_render_pipe_light_component"
+				__prototype_uuid: "731b66a9-720c-809b-b9d9-1b0867f94bbe"
+				type: 2
+				color: {
+					__uuid: "cb5237d3-17c0-d319-bc03-f2e546ba6d2a"
+					__prototype_type: "tm_color_rgb"
+					__prototype_uuid: "dd891cfc-5175-6a7f-d536-e62802e8012c"
+				}
+				intensity: 2
+				cast_shadows: true
+			}
+		]
+	}
+]
+__asset_uuid: "afc14843-73f5-fda1-92a7-4f929154669f"
