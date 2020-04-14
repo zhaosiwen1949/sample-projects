@@ -163,6 +163,8 @@ static void update(tm_gameplay_context_t* ctx)
 
 #define TYPE__GAMEPLAY_SAMPLE_THIRD_PERSON_COMPONENT "gameplay_sample_third_person"
 #define TYPE_HASH__GAMEPLAY_SAMPLE_THIRD_PERSON_COMPONENT TM_STATIC_HASH("gameplay_sample_third_person", 0xc41214cbb6c0a92eULL)
+#define GAMEPLAY_SYSTEM_NAME TM_LOCALIZE_LATER("Gameplay Sample Third Person")
+#define GAMEPLAY_SYSTEM_NAME_HASH TM_STATIC_HASH("Gameplay Sample Third Person", 0xdcc371de5cdc9389ULL)
 
 typedef struct
 {
@@ -184,6 +186,7 @@ static void system_update(tm_entity_context_o* entity_ctx, tm_gameplay_context_t
     update(ctx);
 }
 
+
 static void component_added(gameplay_component_manager_t* manager, tm_entity_t e, tm_gameplay_context_t* ctx)
 {
     const bool editor = tm_entity_api->get_blackboard_double(manager->entity_ctx, TM_ENTITY_BB__EDITOR, 0);
@@ -194,12 +197,17 @@ static void component_added(gameplay_component_manager_t* manager, tm_entity_t e
     g->context->init(ctx, a, manager->entity_ctx);
 
     const tm_entity_system_i gameplay_system = {
-        .name = TM_LOCALIZE_LATER("Gameplay Sample Third Person"),
+        .name = GAMEPLAY_SYSTEM_NAME,
         .update = (void (*)(tm_entity_context_o*, tm_entity_system_o*))system_update,
         .inst = (tm_entity_system_o*)ctx
     };
 
     tm_entity_api->register_system(ctx->entity_ctx, &gameplay_system);
+}
+
+static void system_hot_reload(tm_entity_context_o *entity_ctx, tm_entity_system_i *system)
+{
+    system->update = (void (*)(tm_entity_context_o*, tm_entity_system_o*))system_update;
 }
 
 static void component_removed(gameplay_component_manager_t* manager, tm_entity_t e, tm_gameplay_context_t* ctx)
@@ -244,6 +252,13 @@ static void create(tm_entity_context_o* entity_ctx)
     tm_entity_api->register_component(entity_ctx, &component);
 }
 
+static void component_hot_reload(tm_entity_context_o *entity_ctx, tm_component_i *component)
+{
+    component->add = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_added;
+    component->remove = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_removed;
+    component->destroy = (void (*)(tm_component_manager_o*))destroy;
+}
+
 static tm_ci_editor_ui_i editor_aspect = { 0 };
 
 static void create_truth_types(struct tm_the_truth_o* tt)
@@ -268,4 +283,16 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);
+
+    static tm_entity_hot_reload_component_i hot_reload_component_i = {
+        .name_hash = TYPE_HASH__GAMEPLAY_SAMPLE_THIRD_PERSON_COMPONENT,
+        .reload = component_hot_reload,
+    };
+    tm_add_or_remove_implementation(reg, load, TM_ENTITY_HOT_RELOAD_COMPONENT_INTERFACE_NAME, &hot_reload_component_i);
+
+    static tm_entity_hot_reload_system_i hot_reload_system_i = {
+        .name_hash = GAMEPLAY_SYSTEM_NAME_HASH,
+        .reload = system_hot_reload,
+    };
+    tm_add_or_remove_implementation(reg, load, TM_ENTITY_HOT_RELOAD_SYSTEM_INTERFACE_NAME, &hot_reload_system_i);
 }

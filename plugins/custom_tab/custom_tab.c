@@ -19,7 +19,7 @@ static struct tm_ui_api* tm_ui_api;
 TM_DLL_EXPORT void load_custom_tab(struct tm_api_registry_api* reg, bool load);
 
 #define TM_CUSTOM_TAB_VT_NAME "tm_custom_tab"
-#define TM_CUSTOM_TAB_VT_NAME_HASH TM_STATIC_HASH("tm_custom_tab", 0xd87f5f4217cf1a47ULL)
+#define TM_CUSTOM_TAB_VT_NAME_HASH TM_STATIC_HASH("tm_custom_tab", 0xbc4e3e47fbf1cdc1ULL)
 
 struct tm_tab_o {
     tm_tab_i tm_tab_i;

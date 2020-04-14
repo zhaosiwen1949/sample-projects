@@ -37,6 +37,8 @@ static void update(tm_gameplay_context_t* ctx)
 
 #define TYPE__GAMEPLAY_SAMPLE_EMPTY_COMPONENT "gameplay_sample_empty_component"
 #define TYPE_HASH__GAMEPLAY_SAMPLE_EMPTY_COMPONENT TM_STATIC_HASH("gameplay_sample_empty_component", 0x41d4e21b430a8ae4ULL)
+#define GAMEPLAY_SYSTEM_NAME TM_LOCALIZE_LATER("Gameplay Sample Empty")
+#define GAMEPLAY_SYSTEM_NAME_HASH TM_STATIC_HASH("Gameplay Sample Empty", 0x11436e6de100d723ULL)
 
 typedef struct
 {
@@ -68,12 +70,17 @@ static void component_added(gameplay_component_manager_t* manager, tm_entity_t e
     g->context->init(ctx, a, manager->entity_ctx);
 
     const tm_entity_system_i gameplay_system = {
-        .name = TM_LOCALIZE_LATER("Gameplay Sample Empty"),
+        .name = GAMEPLAY_SYSTEM_NAME,
         .update = (void (*)(tm_entity_context_o*, tm_entity_system_o*))system_update,
         .inst = (tm_entity_system_o*)ctx
     };
 
     tm_entity_api->register_system(ctx->entity_ctx, &gameplay_system);
+}
+
+static void system_hot_reload(tm_entity_context_o *entity_ctx, tm_entity_system_i *system)
+{
+    system->update = (void (*)(tm_entity_context_o*, tm_entity_system_o*))system_update;
 }
 
 static void component_removed(gameplay_component_manager_t* manager, tm_entity_t e, tm_gameplay_context_t* ctx)
@@ -118,6 +125,13 @@ static void create(tm_entity_context_o* entity_ctx)
     tm_entity_api->register_component(entity_ctx, &component);
 }
 
+static void component_hot_reload(tm_entity_context_o *entity_ctx, tm_component_i *component)
+{
+    component->add = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_added;
+    component->remove = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_removed;
+    component->destroy = (void (*)(tm_component_manager_o*))destroy;
+}
+
 static tm_ci_editor_ui_i editor_aspect = { 0 };
 
 static void create_truth_types(struct tm_the_truth_o* tt)
@@ -137,4 +151,16 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);
+
+    static tm_entity_hot_reload_component_i hot_reload_component_i = {
+        .name_hash = TYPE_HASH__GAMEPLAY_SAMPLE_EMPTY_COMPONENT,
+        .reload = component_hot_reload,
+    };
+    tm_add_or_remove_implementation(reg, load, TM_ENTITY_HOT_RELOAD_COMPONENT_INTERFACE_NAME, &hot_reload_component_i);
+
+    static tm_entity_hot_reload_system_i hot_reload_system_i = {
+        .name_hash = GAMEPLAY_SYSTEM_NAME_HASH,
+        .reload = system_hot_reload,
+    };
+    tm_add_or_remove_implementation(reg, load, TM_ENTITY_HOT_RELOAD_SYSTEM_INTERFACE_NAME, &hot_reload_system_i);
 }
