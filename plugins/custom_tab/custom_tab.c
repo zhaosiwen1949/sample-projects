@@ -35,7 +35,7 @@ static void tab__ui(tm_tab_o* tab, uint32_t font, const tm_font_t* font_info, fl
         .font_scale = font_scale,
     };
     tm_draw2d_style_t* style = &(tm_draw2d_style_t){ 0 };
-    tm_ui_api->to_draw_style(style, uistyle);
+    tm_ui_api->to_draw_style(ui, style, uistyle);
 
     style->color = (tm_color_srgb_t){ .a = 255, .r = 255 };
     tm_draw2d_api->fill_rect(uib.vbuffer, *uib.ibuffers, style, rect);
