@@ -1,7 +1,6 @@
 static struct tm_api_registry_api* tm_global_api_registry;
 
 static struct tm_draw2d_api* tm_draw2d_api;
-static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_ui_api* tm_ui_api;
 
 #include <foundation/allocator.h>
