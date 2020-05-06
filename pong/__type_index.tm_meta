@@ -2499,16 +2499,6 @@
 		}
 	}
 	{
-		name: "gameplay_sample_first_person_component"
-		properties: [
-		]
-	}
-	{
-		name: "gameplay_sample_third_person"
-		properties: [
-		]
-	}
-	{
 		name: "tm_graph_component"
 		properties: [
 			{
@@ -3256,7 +3246,7 @@
 				type_hash: "a93c05d3ba7f22e8"
 			}
 			{
-				name: "sampler_blocks"
+				name: "sampler_state_blocks"
 				type: "subobject_set"
 				type_hash: "fcab9c7b46713fca"
 			}
@@ -3477,6 +3467,11 @@
 				type: "subobject_set"
 				type_hash: "5e778dd6b3908bce"
 			}
+			{
+				name: "render_state_blocks"
+				type: "subobject_set"
+				type_hash: "a93c05d3ba7f22e8"
+			}
 		]
 	}
 	{
@@ -3507,6 +3502,10 @@
 			{
 				name: "display_tooltip"
 				type: "string"
+			}
+			{
+				name: "display_condition"
+				type: "buffer"
 			}
 			{
 				name: "options"
@@ -3544,10 +3543,6 @@
 			{
 				name: "display_name"
 				type: "string"
-			}
-			{
-				name: "display_type"
-				type: "uint32_t"
 			}
 			{
 				name: "display_tooltip"
@@ -3825,11 +3820,6 @@
 		name: "tm_shader_system_pass_condition"
 		properties: [
 			{
-				name: "is_connected"
-				type: "reference_set"
-				type_hash: "081e5267e15759b2"
-			}
-			{
 				name: "systems_active"
 				type: "subobject_set"
 				type_hash: "14a46edeaac824fc"
@@ -3854,6 +3844,11 @@
 				type_hash: "c96488cb408e745f"
 			}
 			{
+				name: "render_state_blocks"
+				type: "subobject_set"
+				type_hash: "a93c05d3ba7f22e8"
+			}
+			{
 				name: "compile_block"
 				type: "reference"
 				type_hash: "5e778dd6b3908bce"
@@ -3870,7 +3865,26 @@
 			{
 				name: "passes"
 				type: "subobject_set"
-				type_hash: "a265c6ee58e82c21"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_branch"
+		properties: [
+			{
+				name: "condition"
+				type: "buffer"
+			}
+			{
+				name: "then"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "else"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -4069,16 +4083,30 @@
 		name: "lit_output_node_settings"
 		properties: [
 			{
+				name: "surface_type"
+				type: "uint64_t"
+			}
+			{
 				name: "blend_mode"
 				type: "uint64_t"
+			}
+			{
+				name: "preserve_specular"
+				type: "bool"
 			}
 			{
 				name: "face_culling"
 				type: "uint64_t"
 			}
+			{
+				name: "back_sides_before_front_sides"
+				type: "bool"
+			}
 		]
 		default: {
-			blend_mode: "c3612e3203404e0f"
+			surface_type: "80ccda308adcbe89"
+			blend_mode: "f134853be9963bab"
+			preserve_specular: true
 			face_culling: "9dcb40c80d6f306a"
 		}
 	}
@@ -4092,6 +4120,16 @@
 		]
 		default: {
 		}
+	}
+	{
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
+		properties: [
+		]
 	}
 	{
 		name: "tm_select_controller"
