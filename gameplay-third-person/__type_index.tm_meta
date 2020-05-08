@@ -4083,6 +4083,28 @@
 		}
 	}
 	{
+		name: "lit_output_vertex_settings"
+		properties: [
+			{
+				name: "position_space"
+				type: "uint64_t"
+			}
+			{
+				name: "normal_space"
+				type: "uint64_t"
+			}
+			{
+				name: "tangent0_space"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			position_space: "b89991a82d0f8d08"
+			normal_space: "7deb18fc5400a87c"
+			tangent0_space: "9680ba15a670e715"
+		}
+	}
+	{
 		name: "lit_output_node_settings"
 		properties: [
 			{
@@ -4110,6 +4132,59 @@
 			surface_type: "80ccda308adcbe89"
 			blend_mode: "f134853be9963bab"
 			preserve_specular: true
+			face_culling: "9dcb40c80d6f306a"
+		}
+	}
+	{
+		name: "unlit_output_vertex_settings"
+		properties: [
+			{
+				name: "position_space"
+				type: "uint64_t"
+			}
+			{
+				name: "normal_space"
+				type: "uint64_t"
+			}
+			{
+				name: "tangent0_space"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			position_space: "b89991a82d0f8d08"
+			normal_space: "7deb18fc5400a87c"
+			tangent0_space: "9680ba15a670e715"
+		}
+	}
+	{
+		name: "unlit_output_node_settings"
+		properties: [
+			{
+				name: "surface_type"
+				type: "uint64_t"
+			}
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "layer"
+				type: "uint64_t"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+			{
+				name: "back_sides_before_front_sides"
+				type: "bool"
+			}
+		]
+		default: {
+			surface_type: "80ccda308adcbe89"
+			blend_mode: "f134853be9963bab"
+			layer: "6fb31d8e1245218b"
 			face_culling: "9dcb40c80d6f306a"
 		}
 	}

@@ -4736,45 +4736,75 @@ children: [
 							{
 								__uuid: "5bd0233c-23ac-7271-20c8-06efa6388651"
 								type: "drawcall"
-								position_x: 194.7916259765625
-								position_y: -41.08331298828125
+								position_x: 187.7916259765625
+								position_y: 45.91668701171875
 							}
 							{
-								__uuid: "093cca35-c067-a6ec-3ba2-88e91819fd16"
-								type: "skycube-test"
-								position_x: -68.5416259765625
-								position_y: -68.41668701171875
-								settings: {
-									__type: "tm_shader_system_blob"
-									__uuid: "1ee66d0f-566e-f26d-6dc9-236987eb3f63"
-									name: "9c468fb9b5232471"
-									buffer: "2e13d7f2d535c864"
-								}
+								__uuid: "178fc642-fa49-3185-34cb-dbaabb1a1ab2"
+								type: "shader_input_vertex_id"
+								position_x: -529.642578125
+								position_y: 102.6666870117188
 							}
 							{
 								__uuid: "c83a4e95-ca6e-67da-51cb-741789277db1"
 								type: "image_input_archive"
-								position_x: -456.5416259765625
-								position_y: -101.0833129882813
+								position_x: -733.5416259765625
+								position_y: 174.9166870117188
 							}
 							{
 								__uuid: "341eac48-7d9f-ad82-45b5-a728281cc87d"
 								type: "image_to_gpu_image"
-								position_x: -266.5416870117188
-								position_y: -70.41668701171875
+								position_x: -535.5416870117188
+								position_y: 180.5833129882813
 								settings: {
 									__type: "tm_creation_graph_node_cache_t"
 									__uuid: "c78f0ac6-1ab3-e00c-9630-16960336caa9"
 								}
 							}
+							{
+								__uuid: "bc750aac-cd0b-c48b-55cd-f7101957f324"
+								type: "unlit_output"
+								position_x: -68.642578125
+								position_y: 26.66668701171875
+								settings: {
+									__type: "tm_shader_system_blob"
+									__uuid: "002b0298-2300-98a0-a025-4ff609b3dcda"
+									name: "e8097035f0837156"
+									buffer: "a539c7a5b8d973b6"
+								}
+							}
+							{
+								__uuid: "63eec950-531f-a504-8236-14a09eef5f12"
+								type: "shader_input_view_vector"
+								position_x: -714.642578125
+								position_y: 281.6666870117188
+							}
+							{
+								__uuid: "e237dd15-26c0-4794-eaf0-966aaff59d5c"
+								type: "shader_negative"
+								position_x: -522.642578125
+								position_y: 297.6666870117188
+							}
+							{
+								__uuid: "27f601a9-0b01-3863-5edb-3fa178a5b583"
+								type: "shader_sample_cube"
+								position_x: -321.642578125
+								position_y: 195.6666870117188
+							}
+							{
+								__uuid: "ab0c7856-4422-2103-4e66-2053c8b7a0c6"
+								type: "shader_geometry_quad"
+								position_x: -314.642578125
+								position_y: 34.66668701171875
+							}
 						]
 						connections: [
 							{
-								__uuid: "83a70d8b-c239-6100-69ae-a8572bcc2d4c"
-								from_node: "093cca35-c067-a6ec-3ba2-88e91819fd16"
-								to_node: "5bd0233c-23ac-7271-20c8-06efa6388651"
-								from_connector_hash: "2be49fca20727525"
-								to_connector_hash: "2be49fca20727525"
+								__uuid: "5424e7df-772b-6fc3-295d-33e33ff36692"
+								from_node: "ab0c7856-4422-2103-4e66-2053c8b7a0c6"
+								to_node: "bc750aac-cd0b-c48b-55cd-f7101957f324"
+								from_connector_hash: "8bbeb160190f613a"
+								to_connector_hash: "fa84b35e5e42d947"
 							}
 							{
 								__uuid: "8caa93f8-c2de-8af4-d735-c6d64305297d"
@@ -4784,11 +4814,46 @@ children: [
 								to_connector_hash: "284126856b22844e"
 							}
 							{
-								__uuid: "3131e364-e86e-8184-6f39-524ae910fe15"
+								__uuid: "bc11ff56-8245-9008-0beb-262b9b7f8cad"
+								from_node: "bc750aac-cd0b-c48b-55cd-f7101957f324"
+								to_node: "5bd0233c-23ac-7271-20c8-06efa6388651"
+								from_connector_hash: "2be49fca20727525"
+								to_connector_hash: "2be49fca20727525"
+							}
+							{
+								__uuid: "2bc6d951-7f05-aff3-b41c-8e34abf3a44c"
+								from_node: "63eec950-531f-a504-8236-14a09eef5f12"
+								to_node: "e237dd15-26c0-4794-eaf0-966aaff59d5c"
+								from_connector_hash: "f6464c8f00d889c5"
+								to_connector_hash: "071717d2d36b6b11"
+							}
+							{
+								__uuid: "45173197-5628-9fe8-0d8e-6c10a73995ba"
+								from_node: "e237dd15-26c0-4794-eaf0-966aaff59d5c"
+								to_node: "27f601a9-0b01-3863-5edb-3fa178a5b583"
+								from_connector_hash: "1609e8f8d8051ecb"
+								to_connector_hash: "153bf17b6dcaf9d2"
+							}
+							{
+								__uuid: "48504440-15f8-f369-8d07-b8b8ec7eb1f4"
 								from_node: "341eac48-7d9f-ad82-45b5-a728281cc87d"
-								to_node: "093cca35-c067-a6ec-3ba2-88e91819fd16"
+								to_node: "27f601a9-0b01-3863-5edb-3fa178a5b583"
 								from_connector_hash: "c05fedba357b4754"
-								to_connector_hash: "db653fda90c1363d"
+								to_connector_hash: "1070f86ae935924b"
+							}
+							{
+								__uuid: "b76d4c45-388b-0fd0-7c87-8e6a4b1ca0ab"
+								from_node: "27f601a9-0b01-3863-5edb-3fa178a5b583"
+								to_node: "bc750aac-cd0b-c48b-55cd-f7101957f324"
+								from_connector_hash: "1609e8f8d8051ecb"
+								to_connector_hash: "06776ddaf0290228"
+							}
+							{
+								__uuid: "da12af79-6ea1-8825-ef93-787bb7c39d78"
+								from_node: "178fc642-fa49-3185-34cb-dbaabb1a1ab2"
+								to_node: "ab0c7856-4422-2103-4e66-2053c8b7a0c6"
+								from_connector_hash: "fba886557a273c2f"
+								to_connector_hash: "fba886557a273c2f"
 							}
 						]
 						data: [
@@ -4799,7 +4864,7 @@ children: [
 								data: {
 									__type: "tm_uint32_t"
 									__uuid: "c97baefd-3e61-69a6-9f52-69466a2d3dde"
-									uint32_t: 3
+									uint32_t: 6
 								}
 							}
 							{
@@ -4833,11 +4898,21 @@ children: [
 									render_pass: "0e641ba1bc582770"
 								}
 							}
+							{
+								__uuid: "3ca9b7eb-5c02-c06d-04a8-7b10c860a8d0"
+								to_node: "bc750aac-cd0b-c48b-55cd-f7101957f324"
+								to_connector_hash: "47d4fffc5f321958"
+								data: {
+									__type: "unlit_output_vertex_settings"
+									__uuid: "484c5c2b-1fc5-88e9-6a59-175cba5dce09"
+									position_space: "c8a0390979cbbaa9"
+								}
+							}
 						]
 					}
 					interface: {
 						__uuid: "0734d27b-d25c-c506-b594-dfe6ef8de4a5"
-						graph_version: 15
+						graph_version: 107
 					}
 				}
 			}
@@ -5036,7 +5111,7 @@ children: [
 					}
 					interface: {
 						__uuid: "f1f1cadf-af89-a0a1-f8dc-2b8966053dd0"
-						graph_version: 23
+						graph_version: 22
 					}
 				}
 			}

@@ -103,24 +103,18 @@ children: [
 									{
 										__uuid: "283ad70e-7c76-00b0-93f6-6a5455015b7f"
 										type: "drawcall"
-										position_x: 253.5658569335938
-										position_y: -108.5833129882813
+										position_x: 211.5658569335938
+										position_y: -107.5833129882813
 										settings: {
 											__type: "tm_draw_call_settings"
 											__uuid: "1aa8a580-cccc-c170-3b1c-a241020c87e0"
 										}
 									}
 									{
-										__uuid: "debf89ce-3495-37c4-9776-5e40fb8670e9"
-										type: "lit_default"
-										position_x: -90.43414306640625
-										position_y: -175.2499694824219
-										settings: {
-											__type: "tm_shader_system_blob"
-											__uuid: "3a160399-97e8-f93d-b0e6-2a32697b6db3"
-											name: "57666428d468c4ea"
-											buffer: "0ce49165182e95fe"
-										}
+										__uuid: "6bca99a8-c3da-650d-7dc4-975da8f452c2"
+										type: "shader_variable_node"
+										position_x: -284.4188232421875
+										position_y: -72.5
 									}
 									{
 										__uuid: "15ea3b02-bf31-9718-38fb-8bebebec5f83"
@@ -131,23 +125,35 @@ children: [
 									{
 										__uuid: "8ba38e0f-ccf1-6d7a-a14e-89bb1f12f20e"
 										type: "bounding_volume"
-										position_x: 218.8992309570313
-										position_y: 244.75
+										position_x: 197.8992309570313
+										position_y: 142.75
 									}
 									{
 										__uuid: "be484fad-22ed-c7db-c837-6717e42584b4"
 										type: "creation_graph_input"
-										position_x: -300.8685302734375
-										position_y: -168.4999694824219
+										position_x: -474.8685302734375
+										position_y: -87.49996948242188
+									}
+									{
+										__uuid: "31eb8ba1-94af-7859-9ed7-f5bec52a96c0"
+										type: "lit_output"
+										position_x: -81.4188232421875
+										position_y: -220.5
+										settings: {
+											__type: "tm_shader_system_blob"
+											__uuid: "0f7faf0b-7898-f18b-445e-37bb3c69d882"
+											name: "e46f20ad2160fdbf"
+											buffer: "865eecdae04f97f6"
+										}
 									}
 								]
 								connections: [
 									{
-										__uuid: "4bcb5792-693f-740b-1ca9-c5ba3da21e14"
-										from_node: "debf89ce-3495-37c4-9776-5e40fb8670e9"
-										to_node: "283ad70e-7c76-00b0-93f6-6a5455015b7f"
-										from_connector_hash: "2be49fca20727525"
-										to_connector_hash: "2be49fca20727525"
+										__uuid: "37a339e3-dd61-5291-8e13-dede761cdd91"
+										from_node: "6bca99a8-c3da-650d-7dc4-975da8f452c2"
+										to_node: "31eb8ba1-94af-7859-9ed7-f5bec52a96c0"
+										from_connector_hash: "920b430f38928dc9"
+										to_connector_hash: "cb577b8f84e499e4"
 									}
 									{
 										__uuid: "9faa2da4-6d32-2b7d-527f-c8877fad7db0"
@@ -171,11 +177,18 @@ children: [
 										to_connector_hash: "5f6f4dddca7efd93"
 									}
 									{
-										__uuid: "88c13b31-6e6e-91b1-08bb-e5df47416e0c"
+										__uuid: "efeba64e-9f3f-3c2e-2f7e-39399841791b"
+										from_node: "31eb8ba1-94af-7859-9ed7-f5bec52a96c0"
+										to_node: "283ad70e-7c76-00b0-93f6-6a5455015b7f"
+										from_connector_hash: "2be49fca20727525"
+										to_connector_hash: "2be49fca20727525"
+									}
+									{
+										__uuid: "1b2afd06-5957-1e47-bf7c-e138d23d2162"
 										from_node: "be484fad-22ed-c7db-c837-6717e42584b4"
-										to_node: "debf89ce-3495-37c4-9776-5e40fb8670e9"
+										to_node: "6bca99a8-c3da-650d-7dc4-975da8f452c2"
 										from_connector_hash: "920b430f38928dc9"
-										to_connector_hash: "cb577b8f84e499e4"
+										to_connector_hash: "2bbcabe5074ade9e"
 									}
 								]
 								data: [
@@ -198,19 +211,6 @@ children: [
 											__uuid: "f1b76d27-1524-9bf3-0816-600a27200b74"
 											dcc_asset: "48eec9f5-2686-75bf-2e82-74d1c7d46280"
 											mesh: "8b2b35e2-dead-1842-3a45-d3d594e5a17d"
-										}
-									}
-									{
-										__uuid: "26ed8064-1710-af9d-e686-fcfa329ffc46"
-										to_node: "debf89ce-3495-37c4-9776-5e40fb8670e9"
-										to_connector_hash: "cb577b8f84e499e4"
-										data: {
-											__type: "tm_vec4_t"
-											__uuid: "2a832416-de2b-103a-76b0-316a8c762f88"
-											x: 240
-											y: 210
-											z: 210
-											w: 255
 										}
 									}
 									{
@@ -238,7 +238,7 @@ children: [
 							}
 							interface: {
 								__uuid: "3837d843-bda6-9c8a-51e6-b5bc1fe77b2b"
-								graph_version: 29
+								graph_version: 112
 								inputs: [
 									{
 										__uuid: "ec19297d-f8bc-8dcb-a436-54796cb91f5c"
