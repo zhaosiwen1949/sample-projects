@@ -996,12 +996,23 @@
 		]
 	}
 	{
-		name: "tm_creation_graph_interface"
+		name: "tm_creation_graph_instanced_node_settings"
 		properties: [
 			{
-				name: "graph_version"
-				type: "uint64_t"
+				name: "node_settings"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
 			}
+			{
+				name: "instanced_settings"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_interface"
+		properties: [
 			{
 				name: "inputs"
 				type: "subobject_set"
@@ -1011,6 +1022,11 @@
 				name: "outputs"
 				type: "subobject_set"
 				type_hash: "0f4d31c43f7d9194"
+			}
+			{
+				name: "settings_objects"
+				type: "subobject_set"
+				type_hash: "183ccba4c7634335"
 			}
 		]
 	}
@@ -1341,40 +1357,6 @@
 		]
 		default: {
 			color_space: 1
-		}
-	}
-	{
-		name: "tm_image_paint_brush"
-		properties: [
-			{
-				name: "operation"
-				type: "uint32_t"
-			}
-			{
-				name: "radius"
-				type: "float"
-			}
-			{
-				name: "pressure"
-				type: "float"
-			}
-			{
-				name: "position"
-				type: "subobject"
-				type_hash: "5ea1bb7b6537de46"
-			}
-		]
-	}
-	{
-		name: "tm_image_paint_data"
-		properties: [
-			{
-				name: "brush_strokes"
-				type: "subobject_set"
-				type_hash: "9aa53193b00323a6"
-			}
-		]
-		default: {
 		}
 	}
 	{
@@ -3790,7 +3772,7 @@
 		]
 	}
 	{
-		name: "tm_shader_system_blob"
+		name: "tm_shader_system_compiled_result"
 		properties: [
 			{
 				name: "name"
@@ -4068,18 +4050,6 @@
 		}
 	}
 	{
-		name: "lit_default_node_settings"
-		properties: [
-			{
-				name: "blend_mode"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			blend_mode: "c3612e3203404e0f"
-		}
-	}
-	{
 		name: "lit_output_vertex_settings"
 		properties: [
 			{
@@ -4194,6 +4164,65 @@
 			}
 		]
 		default: {
+		}
+	}
+	{
+		name: "tm_image_paint_brush"
+		properties: [
+			{
+				name: "operation"
+				type: "uint32_t"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "pressure"
+				type: "float"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+		]
+	}
+	{
+		name: "tm_image_paint_data"
+		properties: [
+			{
+				name: "brush_strokes"
+				type: "subobject_set"
+				type_hash: "9aa53193b00323a6"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "tm_shader_system_blob"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "lit_default_node_settings"
+		properties: [
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			blend_mode: "c3612e3203404e0f"
 		}
 	}
 	{
@@ -5362,6 +5391,19 @@
 				name: "action"
 				type: "reference"
 				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_custom_component"
+		properties: [
+			{
+				name: "frequency"
+				type: "float"
+			}
+			{
+				name: "amplitude"
+				type: "float"
 			}
 		]
 	}

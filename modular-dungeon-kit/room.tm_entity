@@ -4756,10 +4756,6 @@ children: [
 								type: "image_to_gpu_image"
 								position_x: -535.5416870117188
 								position_y: 180.5833129882813
-								settings: {
-									__type: "tm_creation_graph_node_cache_t"
-									__uuid: "c78f0ac6-1ab3-e00c-9630-16960336caa9"
-								}
 							}
 							{
 								__uuid: "bc750aac-cd0b-c48b-55cd-f7101957f324"
@@ -4767,10 +4763,8 @@ children: [
 								position_x: -68.642578125
 								position_y: 26.66668701171875
 								settings: {
-									__type: "tm_shader_system_blob"
-									__uuid: "002b0298-2300-98a0-a025-4ff609b3dcda"
-									name: "e8097035f0837156"
-									buffer: "a539c7a5b8d973b6"
+									__type: "tm_shader_system_compiled_result"
+									__uuid: "df2eabd0-c62e-f07c-ac2c-f52c13c0d8fb"
 								}
 							}
 							{
@@ -4912,7 +4906,19 @@ children: [
 					}
 					interface: {
 						__uuid: "0734d27b-d25c-c506-b594-dfe6ef8de4a5"
-						graph_version: 107
+						settings_objects: [
+							{
+								__uuid: "9845735d-0525-8f68-87c8-90c7010affa0"
+								node_settings: "df2eabd0-c62e-f07c-ac2c-f52c13c0d8fb"
+								node_settings__type: "tm_shader_system_compiled_result"
+								instanced_settings: {
+									__type: "tm_shader_system_compiled_result"
+									__uuid: "c428d10f-168f-f95e-ff04-515ddcd51a9c"
+									name: "05a61e09149e0d65"
+									buffer: "efd49d4f19a0e02c"
+								}
+							}
+						]
 					}
 				}
 			}
@@ -4935,40 +4941,24 @@ children: [
 								type: "mipmap"
 								position_x: 88.12506103515625
 								position_y: -91.74993896484375
-								settings: {
-									__type: "tm_mipmap_settings"
-									__uuid: "59f4e771-12ae-49ee-b8d0-21330dca3d3b"
-								}
 							}
 							{
 								__uuid: "8133f898-8ab6-01cb-6c09-46c7bc3c7755"
 								type: "image_output"
 								position_x: 525.8719482421875
 								position_y: -103.6910095214844
-								settings: {
-									__type: "tm_creation_graph_node_cache_t"
-									__uuid: "3569a706-0eda-113a-0113-72c3c9eda31d"
-								}
 							}
 							{
 								__uuid: "1c453623-11c8-b71f-8492-08e0fa0bf0ff"
 								type: "mipmap"
 								position_x: 90.12493896484375
 								position_y: 18.25
-								settings: {
-									__type: "tm_mipmap_settings"
-									__uuid: "857d4e63-a0d1-2631-2826-40c445b04393"
-								}
 							}
 							{
 								__uuid: "c9f9c9ae-b56e-2f2a-9813-dffac005b7e8"
 								type: "image_output"
 								position_x: 526.584716796875
 								position_y: 13.64082336425781
-								settings: {
-									__type: "tm_creation_graph_node_cache_t"
-									__uuid: "586f78a3-2259-b23e-a947-9e39f22a09db"
-								}
 							}
 							{
 								__uuid: "74a4b5a2-88b7-4ca8-c68c-7d2e208e8ef3"
@@ -5111,7 +5101,45 @@ children: [
 					}
 					interface: {
 						__uuid: "f1f1cadf-af89-a0a1-f8dc-2b8966053dd0"
-						graph_version: 22
+						settings_objects: [
+							{
+								__uuid: "99579415-5cad-aae2-00b3-5e29b5eaa63f"
+								node_settings: "5f99a7d2-a856-b244-5daa-75ee7ebd46bb"
+								node_settings__type: "tm_cpu_image"
+								instanced_settings: {
+									__type: "tm_cpu_image"
+									__uuid: "f541a5d4-e247-482b-c0ee-742956d77689"
+									buffer: "4fa103f1df0f9331"
+									description: {
+										__uuid: "a07955f5-f068-f20f-c9bf-40ecae09bc01"
+										type: 3
+										pixel_format: 21038096
+										widht: 16
+										height: 16
+										layer_count: 6
+									}
+								}
+							}
+							{
+								__uuid: "6fad10a9-95f7-e634-4ab2-4aa82bf12565"
+								node_settings: "daff0e02-7e66-1cfc-194c-7fb769a38755"
+								node_settings__type: "tm_cpu_image"
+								instanced_settings: {
+									__type: "tm_cpu_image"
+									__uuid: "c8ddbaf0-3ff4-b375-c43a-a451e9860d54"
+									buffer: "59aefc691b9fa78c"
+									description: {
+										__uuid: "5a705522-af79-b899-bc80-3868492558eb"
+										type: 3
+										pixel_format: 21038096
+										widht: 1024
+										height: 1024
+										mip_levels: 10
+										layer_count: 6
+									}
+								}
+							}
+						]
 					}
 				}
 			}

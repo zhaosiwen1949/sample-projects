@@ -47,10 +47,6 @@ components: [
 						type: "drawcall"
 						position_x: 118.2324829101563
 						position_y: -144.25
-						settings: {
-							__type: "tm_draw_call_settings"
-							__uuid: "d285fb4f-3f2c-f263-1eaf-02f401845fed"
-						}
 					}
 					{
 						__uuid: "f6fe50a0-5e17-10e3-8295-2a342f54c202"
@@ -58,10 +54,8 @@ components: [
 						position_x: -73.76751708984375
 						position_y: -143.25
 						settings: {
-							__type: "tm_shader_system_blob"
-							__uuid: "7b46bdcb-87c3-842c-eb7e-d15315a8d3a4"
-							name: "cb7297691eab7790"
-							buffer: "013ed7ab2666b671"
+							__type: "tm_shader_system_compiled_result"
+							__uuid: "967b385b-fe40-07f6-d872-9d7dd3c34002"
 						}
 					}
 					{
@@ -268,7 +262,19 @@ components: [
 			}
 			interface: {
 				__uuid: "4e2b1415-ba93-160b-a54d-23572ebf8b93"
-				graph_version: 32
+				settings_objects: [
+					{
+						__uuid: "e02c8aca-a912-5981-363a-80c644432692"
+						node_settings: "967b385b-fe40-07f6-d872-9d7dd3c34002"
+						node_settings__type: "tm_shader_system_compiled_result"
+						instanced_settings: {
+							__type: "tm_shader_system_compiled_result"
+							__uuid: "d72bb7fa-f3d3-a4ca-968e-7d2b0eeb6f0a"
+							name: "5e28bcce82cefc6f"
+							buffer: "321d5dc336832358"
+						}
+					}
+				]
 			}
 		}
 	}
