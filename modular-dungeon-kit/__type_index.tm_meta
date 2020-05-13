@@ -1,411 +1,208 @@
 [
 	{
-		name: "tm_bool"
+		name: "billboards-output_node_settings"
 		properties: [
 			{
-				name: "bool"
-				type: "bool"
+				name: "mode"
+				type: "uint64_t"
 			}
-		]
-	}
-	{
-		name: "tm_uint32_t"
-		properties: [
 			{
-				name: "uint32_t"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_uint64_t"
-		properties: [
-			{
-				name: "uint64_t"
+				name: "facing"
 				type: "uint64_t"
 			}
 		]
+		default: {
+			mode: "4760ce77729b23b0"
+			facing: "e3a9b29676289efc"
+		}
 	}
 	{
-		name: "tm_float"
+		name: "gameplay_sample_empty_component"
 		properties: [
-			{
-				name: "float"
-				type: "float"
-			}
 		]
 	}
 	{
-		name: "tm_double"
+		name: "gameplay_sample_first_person_component"
+		properties: [
+		]
+	}
+	{
+		name: "gameplay_sample_third_person"
+		properties: [
+		]
+	}
+	{
+		name: "lit_default_node_settings"
 		properties: [
 			{
-				name: "double"
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			blend_mode: "c3612e3203404e0f"
+		}
+	}
+	{
+		name: "lit_output_node_settings"
+		properties: [
+			{
+				name: "surface_type"
+				type: "uint64_t"
+			}
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "preserve_specular"
+				type: "bool"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+			{
+				name: "back_sides_before_front_sides"
+				type: "bool"
+			}
+		]
+		default: {
+			surface_type: "80ccda308adcbe89"
+			blend_mode: "f134853be9963bab"
+			preserve_specular: true
+			face_culling: "9dcb40c80d6f306a"
+		}
+	}
+	{
+		name: "lit_output_vertex_settings"
+		properties: [
+			{
+				name: "position_space"
+				type: "uint64_t"
+			}
+			{
+				name: "normal_space"
+				type: "uint64_t"
+			}
+			{
+				name: "tangent0_space"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			position_space: "b89991a82d0f8d08"
+			normal_space: "7deb18fc5400a87c"
+			tangent0_space: "9680ba15a670e715"
+		}
+	}
+	{
+		name: "shader_if_node_settings"
+		properties: [
+			{
+				name: "operator"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			operator: "83df8f4aa9bfb361"
+		}
+	}
+	{
+		name: "shader_input_element_idx_node_settings"
+		properties: [
+			{
+				name: "absolute_index"
+				type: "bool"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "shader_input_uv_node_settings"
+		properties: [
+			{
+				name: "set"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			set: "f8149a39c9895ff6"
+		}
+	}
+	{
+		name: "shader_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
+			}
+		]
+		default: {
+			encoding: "8a3d1c8f15de2776"
+		}
+	}
+	{
+		name: "tm_animation_clip"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b4f2c5822cde57db"
+			}
+			{
+				name: "loop"
+				type: "bool"
+			}
+			{
+				name: "speed"
+				type: "float"
+			}
+			{
+				name: "custom_range"
+				type: "bool"
+			}
+			{
+				name: "begin"
 				type: "double"
 			}
-		]
-	}
-	{
-		name: "tm_string"
-		properties: [
 			{
-				name: "string"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_vec2_t"
-		properties: [
-			{
-				name: "x"
-				type: "float"
+				name: "end"
+				type: "double"
 			}
 			{
-				name: "y"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_vec3_t"
-		properties: [
-			{
-				name: "x"
-				type: "float"
+				name: "locomotion_node"
+				type: "reference"
+				type_hash: "1ed02afba4e23875"
 			}
 			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_vec4_t"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-			{
-				name: "w"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_position"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_rotation"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-			{
-				name: "w"
-				type: "float"
-			}
-		]
-		default: {
-			w: 1
-		}
-	}
-	{
-		name: "tm_scale"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-		default: {
-			x: 1
-			y: 1
-			z: 1
-		}
-	}
-	{
-		name: "tm_color_rgb"
-		properties: [
-			{
-				name: "r"
-				type: "float"
-			}
-			{
-				name: "g"
-				type: "float"
-			}
-			{
-				name: "b"
-				type: "float"
-			}
-		]
-		default: {
-			r: 1
-			g: 1
-			b: 1
-		}
-	}
-	{
-		name: "tm_color_rgba"
-		properties: [
-			{
-				name: "r"
-				type: "float"
-			}
-			{
-				name: "g"
-				type: "float"
-			}
-			{
-				name: "b"
-				type: "float"
-			}
-			{
-				name: "a"
-				type: "float"
-			}
-		]
-		default: {
-			r: 1
-			g: 1
-			b: 1
-			a: 1
-		}
-	}
-	{
-		name: "tm_rect_t"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "w"
-				type: "float"
-			}
-			{
-				name: "h"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_visibility_flag"
-		properties: [
-			{
-				name: "uuid"
+				name: "locomotion"
 				type: "uint32_t"
 			}
 		]
-	}
-	{
-		name: "tm_asset_root"
-		properties: [
-			{
-				name: "assets"
-				type: "subobject_set"
-				type_hash: "ca71127abbb72960"
-			}
-			{
-				name: "tags"
-				type: "subobject_set"
-				type_hash: "cd9214e0eee562ad"
-			}
-			{
-				name: "directories"
-				type: "subobject_set"
-				type_hash: "9723e0133dc6620a"
-			}
-		]
-	}
-	{
-		name: "tm_asset"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "directory"
-				type: "reference"
-				type_hash: "9723e0133dc6620a"
-			}
-			{
-				name: "tags"
-				type: "reference_set"
-				type_hash: "cd9214e0eee562ad"
-			}
-			{
-				name: "object"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_asset_directory"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "parent"
-				type: "reference"
-				type_hash: "9723e0133dc6620a"
-			}
-		]
-	}
-	{
-		name: "tm_asset_tag"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_core_index_entry"
-		properties: [
-			{
-				name: "core_id"
-				type: "uint64_t"
-			}
-			{
-				name: "object"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "version"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_core_index"
-		properties: [
-			{
-				name: "entries"
-				type: "subobject_set"
-				type_hash: "a0a3650512fdc76e"
-			}
-		]
-	}
-	{
-		name: "tm_scene_tab"
-		properties: [
-			{
-				name: "asset"
-				type: "reference"
-				type_hash: "ff156da2e01c4a3d"
-			}
-			{
-				name: "selection"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "last_selected"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "pick_counter"
-				type: "uint32_t"
-			}
-			{
-				name: "frame_object"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_scene_tab_settings"
-		properties: [
-			{
-				name: "use_world_axes"
-				type: "bool"
-			}
-			{
-				name: "multi_select_pivot"
-				type: "uint32_t"
-			}
-			{
-				name: "move_snap"
-				type: "bool"
-			}
-			{
-				name: "move_snap_size"
-				type: "float"
-			}
-			{
-				name: "rotation_snap"
-				type: "bool"
-			}
-			{
-				name: "rotation_snap_angle"
-				type: "float"
-			}
-			{
-				name: "scaling_absolute_handle"
-				type: "bool"
-			}
-		]
 		default: {
-			move_snap_size: 1
-			rotation_snap_angle: 15
+			loop: true
+			speed: 1
 		}
+	}
+	{
+		name: "tm_animation_clip_reference"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "b6e5de67c7549505"
+			}
+		]
 	}
 	{
 		name: "tm_animation_simple_player_component"
@@ -418,96 +215,97 @@
 		]
 	}
 	{
-		name: "tm_asm_regular_state"
+		name: "tm_animation_state_machine"
 		properties: [
 			{
 				name: "name"
 				type: "string"
 			}
 			{
-				name: "sort_order"
-				type: "double"
-			}
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "blend_set"
+				name: "preview_entity"
 				type: "reference"
-				type_hash: "92f9e2914f038512"
+				type_hash: "ff156da2e01c4a3d"
 			}
 			{
-				name: "speed"
-				type: "string"
-			}
-			{
-				name: "animation"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-		default: {
-			speed: "1"
-		}
-	}
-	{
-		name: "tm_asm_random_state"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "sort_order"
-				type: "double"
-			}
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "blend_set"
-				type: "reference"
-				type_hash: "92f9e2914f038512"
-			}
-			{
-				name: "speed"
-				type: "string"
-			}
-			{
-				name: "strategy"
-				type: "uint32_t"
-			}
-			{
-				name: "loop_crossfade_time"
-				type: "float"
-			}
-			{
-				name: "animations"
+				name: "layers"
 				type: "subobject_set"
-				type_hash: "305e388654972dca"
+				type_hash: "5d696c56f7fa796d"
+			}
+			{
+				name: "events"
+				type: "subobject_set"
+				type_hash: "52847af34d7153f0"
+			}
+			{
+				name: "variables"
+				type: "subobject_set"
+				type_hash: "da1955a46ea322be"
+			}
+			{
+				name: "blend_sets"
+				type: "subobject_set"
+				type_hash: "92f9e2914f038512"
 			}
 		]
-		default: {
-			speed: "1"
-		}
 	}
 	{
-		name: "tm_asm_random_state_animation"
+		name: "tm_animation_state_machine_component"
 		properties: [
 			{
-				name: "animation"
+				name: "state_machine"
 				type: "reference"
-				type_hash: "8944e0b1cefd4756"
+				type_hash: "49e17e57f4e4ea47"
+			}
+		]
+	}
+	{
+		name: "tm_application_settings"
+		properties: [
+			{
+				name: "default_camera"
+				type: "subobject"
+				type_hash: "41418a36f804f101"
+			}
+			{
+				name: "window_layouts"
+				type: "subobject"
+				type_hash: "ad48e16db7ef5b35"
+			}
+			{
+				name: "recent_files"
+				type: "subobject_set"
+				type_hash: "ba4e5d5c28639596"
+			}
+		]
+	}
+	{
+		name: "tm_asm_blend_set"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "default_weight"
+				type: "float"
+			}
+			{
+				name: "weights"
+				type: "subobject_set"
+				type_hash: "64ca3695fbbbc1f7"
+			}
+		]
+	}
+	{
+		name: "tm_asm_blend_set_weight"
+		properties: [
+			{
+				name: "name"
+				type: "string"
 			}
 			{
 				name: "weight"
@@ -517,36 +315,6 @@
 		default: {
 			weight: 1
 		}
-	}
-	{
-		name: "tm_asm_empty_state"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "sort_order"
-				type: "double"
-			}
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "blend_set"
-				type: "reference"
-				type_hash: "92f9e2914f038512"
-			}
-			{
-				name: "speed"
-				type: "string"
-			}
-		]
 	}
 	{
 		name: "tm_asm_blend_state"
@@ -619,6 +387,188 @@
 		]
 	}
 	{
+		name: "tm_asm_empty_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_asm_event "
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_asm_event_reference"
+		properties: [
+			{
+				name: "asm_event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+		]
+	}
+	{
+		name: "tm_asm_layer "
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "default_state"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "states"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "transitions"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_asm_random_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+			{
+				name: "strategy"
+				type: "uint32_t"
+			}
+			{
+				name: "loop_crossfade_time"
+				type: "float"
+			}
+			{
+				name: "animations"
+				type: "subobject_set"
+				type_hash: "305e388654972dca"
+			}
+		]
+		default: {
+			speed: "1"
+		}
+	}
+	{
+		name: "tm_asm_random_state_animation"
+		properties: [
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "weight"
+				type: "float"
+			}
+		]
+		default: {
+			weight: 1
+		}
+	}
+	{
+		name: "tm_asm_regular_state"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "blend_set"
+				type: "reference"
+				type_hash: "92f9e2914f038512"
+			}
+			{
+				name: "speed"
+				type: "string"
+			}
+			{
+				name: "animation"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+		default: {
+			speed: "1"
+		}
+	}
+	{
 		name: "tm_asm_regular_transition"
 		properties: [
 			{
@@ -662,43 +612,12 @@
 		}
 	}
 	{
-		name: "tm_asm_layer "
+		name: "tm_asm_state_reference"
 		properties: [
 			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "sort_order"
-				type: "double"
-			}
-			{
-				name: "default_state"
+				name: "asm_state"
 				type: "reference"
 				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "states"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "transitions"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_asm_event "
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "sort_order"
-				type: "double"
 			}
 		]
 	}
@@ -739,145 +658,6 @@
 		}
 	}
 	{
-		name: "tm_asm_blend_set_weight"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "weight"
-				type: "float"
-			}
-		]
-		default: {
-			weight: 1
-		}
-	}
-	{
-		name: "tm_asm_blend_set"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "sort_order"
-				type: "double"
-			}
-			{
-				name: "default_weight"
-				type: "float"
-			}
-			{
-				name: "weights"
-				type: "subobject_set"
-				type_hash: "64ca3695fbbbc1f7"
-			}
-		]
-	}
-	{
-		name: "tm_animation_state_machine"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "preview_entity"
-				type: "reference"
-				type_hash: "ff156da2e01c4a3d"
-			}
-			{
-				name: "layers"
-				type: "subobject_set"
-				type_hash: "5d696c56f7fa796d"
-			}
-			{
-				name: "events"
-				type: "subobject_set"
-				type_hash: "52847af34d7153f0"
-			}
-			{
-				name: "variables"
-				type: "subobject_set"
-				type_hash: "da1955a46ea322be"
-			}
-			{
-				name: "blend_sets"
-				type: "subobject_set"
-				type_hash: "92f9e2914f038512"
-			}
-		]
-	}
-	{
-		name: "tm_animation_clip"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "animation"
-				type: "reference"
-				type_hash: "b4f2c5822cde57db"
-			}
-			{
-				name: "loop"
-				type: "bool"
-			}
-			{
-				name: "speed"
-				type: "float"
-			}
-			{
-				name: "custom_range"
-				type: "bool"
-			}
-			{
-				name: "begin"
-				type: "double"
-			}
-			{
-				name: "end"
-				type: "double"
-			}
-			{
-				name: "locomotion_node"
-				type: "reference"
-				type_hash: "1ed02afba4e23875"
-			}
-			{
-				name: "locomotion"
-				type: "uint32_t"
-			}
-		]
-		default: {
-			loop: true
-			speed: 1
-		}
-	}
-	{
-		name: "tm_animation_state_machine_component"
-		properties: [
-			{
-				name: "state_machine"
-				type: "reference"
-				type_hash: "49e17e57f4e4ea47"
-			}
-		]
-	}
-	{
-		name: "tm_asm_event_reference"
-		properties: [
-			{
-				name: "asm_event"
-				type: "reference"
-				type_hash: "52847af34d7153f0"
-			}
-		]
-	}
-	{
 		name: "tm_asm_variable_reference"
 		properties: [
 			{
@@ -888,110 +668,309 @@
 		]
 	}
 	{
-		name: "tm_asm_state_reference"
+		name: "tm_asset"
 		properties: [
 			{
-				name: "asm_state"
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "tags"
+				type: "reference_set"
+				type_hash: "cd9214e0eee562ad"
+			}
+			{
+				name: "object"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_asset_browser"
+		properties: [
+			{
+				name: "selection"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "current_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "focus"
 				type: "reference"
 				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
 	{
-		name: "tm_animation_clip_reference"
+		name: "tm_asset_directory"
 		properties: [
 			{
-				name: "animation"
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "parent"
 				type: "reference"
-				type_hash: "b6e5de67c7549505"
+				type_hash: "9723e0133dc6620a"
 			}
 		]
 	}
 	{
-		name: "tm_wav"
+		name: "tm_asset_root"
 		properties: [
 			{
-				name: "frequency"
-				type: "uint32_t"
+				name: "assets"
+				type: "subobject_set"
+				type_hash: "ca71127abbb72960"
 			}
 			{
-				name: "num_channels"
-				type: "uint32_t"
+				name: "tags"
+				type: "subobject_set"
+				type_hash: "cd9214e0eee562ad"
 			}
 			{
-				name: "format"
-				type: "uint32_t"
-			}
-			{
-				name: "channel_mask"
-				type: "uint32_t"
-			}
-			{
-				name: "data"
-				type: "buffer"
+				name: "directories"
+				type: "subobject_set"
+				type_hash: "9723e0133dc6620a"
 			}
 		]
 	}
 	{
-		name: "tm_sound_source_component"
+		name: "tm_asset_tag"
 		properties: [
 			{
-				name: "sound"
-				type: "reference"
-				type_hash: "63ce9e2592304d8f"
+				name: "name"
+				type: "string"
 			}
+		]
+	}
+	{
+		name: "tm_asset_type"
+		properties: [
 			{
-				name: "volume"
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_bool"
+		properties: [
+			{
+				name: "bool"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_camera_component"
+		properties: [
+			{
+				name: "near_plane"
 				type: "float"
 			}
 			{
-				name: "pitch"
+				name: "far_plane"
 				type: "float"
 			}
 			{
-				name: "min_distance"
+				name: "vertical_fov"
 				type: "float"
 			}
 			{
-				name: "max_distance"
+				name: "translation_speed"
 				type: "float"
 			}
 			{
-				name: "spread"
+				name: "rotation_speed"
+				type: "float"
+			}
+			{
+				name: "translation_damping"
 				type: "float"
 			}
 		]
 		default: {
-			max_distance: 10
-			spread: 0.5
+			near_plane: 0.1000000014901161
+			far_plane: 10000
+			vertical_fov: 1.047197580337524
+			translation_speed: 0.1000000014901161
+			rotation_speed: 1
+			translation_damping: 0.1500000059604645
 		}
 	}
 	{
-		name: "tm_wav_reference"
+		name: "tm_camera_settings_component"
 		properties: [
 			{
-				name: "wav"
-				type: "reference"
-				type_hash: "63ce9e2592304d8f"
+				name: "near_plane"
+				type: "float"
+			}
+			{
+				name: "far_plane"
+				type: "float"
+			}
+			{
+				name: "vertical_fov"
+				type: "float"
 			}
 		]
 	}
 	{
-		name: "tm_creation_graph_variable"
+		name: "tm_clipboard"
 		properties: [
 			{
-				name: "settings"
-				type: "reference"
-				type_hash: "3a016b5595e8545b"
-			}
-			{
-				name: "value"
-				type: "subobject"
+				name: "objects"
+				type: "reference_set"
 				type_hash: "8944e0b1cefd4756"
 			}
 			{
-				name: "user_touched"
+				name: "is_cut"
 				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_color_rgb"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+		]
+		default: {
+			r: 1
+			g: 1
+			b: 1
+		}
+	}
+	{
+		name: "tm_color_rgba"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+			{
+				name: "a"
+				type: "float"
+			}
+		]
+		default: {
+			r: 1
+			g: 1
+			b: 1
+			a: 1
+		}
+	}
+	{
+		name: "tm_core_index"
+		properties: [
+			{
+				name: "entries"
+				type: "subobject_set"
+				type_hash: "a0a3650512fdc76e"
+			}
+		]
+	}
+	{
+		name: "tm_core_index_entry"
+		properties: [
+			{
+				name: "core_id"
+				type: "uint64_t"
+			}
+			{
+				name: "object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "version"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_cpu_image"
+		properties: [
+			{
+				name: "validity_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+			{
+				name: "description"
+				type: "subobject"
+				type_hash: "6f7d4648bbb5ffbf"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph"
+		properties: [
+			{
+				name: "graph"
+				type: "subobject"
+				type_hash: "01527750cf1208ef"
+			}
+			{
+				name: "interface"
+				type: "subobject"
+				type_hash: "64dec2c37303b04f"
+			}
+		]
+		default: {
+			graph: {
+			}
+			interface: {
+			}
+		}
+	}
+	{
+		name: "tm_creation_graph_import_node_settings"
+		properties: [
+			{
+				name: "creation_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "node_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "node_name"
+				type: "string"
 			}
 		]
 	}
@@ -1031,168 +1010,8 @@
 		]
 	}
 	{
-		name: "tm_creation_graph"
+		name: "tm_creation_graph_node_cache_t"
 		properties: [
-			{
-				name: "graph"
-				type: "subobject"
-				type_hash: "01527750cf1208ef"
-			}
-			{
-				name: "interface"
-				type: "subobject"
-				type_hash: "64dec2c37303b04f"
-			}
-		]
-		default: {
-			graph: {
-			}
-			interface: {
-			}
-		}
-	}
-	{
-		name: "tm_graph"
-		properties: [
-			{
-				name: "nodes"
-				type: "subobject_set"
-				type_hash: "b17436407c9497ec"
-			}
-			{
-				name: "connections"
-				type: "subobject_set"
-				type_hash: "7840189d530b09e5"
-			}
-			{
-				name: "data"
-				type: "subobject_set"
-				type_hash: "fef2c4b66f211fea"
-			}
-			{
-				name: "comments"
-				type: "subobject_set"
-				type_hash: "425cefdca2d9f029"
-			}
-		]
-	}
-	{
-		name: "tm_graph_node"
-		properties: [
-			{
-				name: "type"
-				type: "string"
-			}
-			{
-				name: "label"
-				type: "string"
-			}
-			{
-				name: "position_x"
-				type: "float"
-			}
-			{
-				name: "position_y"
-				type: "float"
-			}
-			{
-				name: "width"
-				type: "float"
-			}
-			{
-				name: "is_compact"
-				type: "bool"
-			}
-			{
-				name: "settings"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_graph_connection"
-		properties: [
-			{
-				name: "from_node"
-				type: "reference"
-				type_hash: "b17436407c9497ec"
-			}
-			{
-				name: "to_node"
-				type: "reference"
-				type_hash: "b17436407c9497ec"
-			}
-			{
-				name: "from_connector_hash"
-				type: "uint64_t"
-			}
-			{
-				name: "to_connector_hash"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_graph_data"
-		properties: [
-			{
-				name: "to_node"
-				type: "reference"
-				type_hash: "b17436407c9497ec"
-			}
-			{
-				name: "to_connector_hash"
-				type: "uint64_t"
-			}
-			{
-				name: "data"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_graph_comment"
-		properties: [
-			{
-				name: "text"
-				type: "string"
-			}
-			{
-				name: "position_x"
-				type: "float"
-			}
-			{
-				name: "position_y"
-				type: "float"
-			}
-			{
-				name: "font_scale"
-				type: "float"
-			}
-			{
-				name: "color"
-				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
-			}
-		]
-	}
-	{
-		name: "tm_graph_pseudo_object"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "graph"
-				type: "uint64_t"
-			}
-			{
-				name: "node_index"
-				type: "uint32_t"
-			}
 		]
 	}
 	{
@@ -1214,8 +1033,22 @@
 		]
 	}
 	{
-		name: "tm_creation_graph_node_cache_t"
+		name: "tm_creation_graph_variable"
 		properties: [
+			{
+				name: "settings"
+				type: "reference"
+				type_hash: "3a016b5595e8545b"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "user_touched"
+				type: "bool"
+			}
 		]
 	}
 	{
@@ -1249,804 +1082,58 @@
 		]
 	}
 	{
-		name: "tm_image_description"
+		name: "tm_creation_graph_variables"
 		properties: [
 			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "pixel_format"
-				type: "uint32_t"
-			}
-			{
-				name: "widht"
-				type: "uint32_t"
-			}
-			{
-				name: "height"
-				type: "uint32_t"
-			}
-			{
-				name: "depth"
-				type: "uint32_t"
-			}
-			{
-				name: "mip_levels"
-				type: "uint32_t"
-			}
-			{
-				name: "layer_count"
-				type: "uint32_t"
-			}
-			{
-				name: "sample_count"
-				type: "uint32_t"
-			}
-		]
-		default: {
-			type: 1
-			pixel_format: 35684872
-			widht: 256
-			height: 256
-			depth: 1
-			mip_levels: 1
-			layer_count: 1
-			sample_count: 1
-		}
-	}
-	{
-		name: "tm_image_archive"
-		properties: [
-			{
-				name: "filename"
-				type: "string"
-			}
-			{
-				name: "validity_hash"
+				name: "graph_version"
 				type: "uint64_t"
 			}
 			{
-				name: "description"
-				type: "subobject"
-				type_hash: "6f7d4648bbb5ffbf"
-			}
-			{
-				name: "buffer"
-				type: "buffer"
+				name: "variables"
+				type: "subobject_set"
+				type_hash: "0f4d31c43f7d9194"
 			}
 		]
-		default: {
-			description: {
-			}
-		}
 	}
 	{
-		name: "tm_cpu_image"
+		name: "tm_cubemap_capture_component"
 		properties: [
 			{
-				name: "validity_hash"
+				name: "capture_interface"
 				type: "uint64_t"
 			}
 			{
-				name: "buffer"
-				type: "buffer"
-			}
-			{
-				name: "description"
+				name: "output_image"
 				type: "subobject"
-				type_hash: "6f7d4648bbb5ffbf"
-			}
-		]
-	}
-	{
-		name: "tm_mipmap_settings"
-		properties: [
-			{
-				name: "color_space"
-				type: "uint32_t"
-			}
-			{
-				name: "filter"
-				type: "uint32_t"
-			}
-			{
-				name: "override_existing_mips"
-				type: "bool"
-			}
-		]
-		default: {
-			color_space: 1
-		}
-	}
-	{
-		name: "tm_draw_call_settings"
-		properties: [
-			{
-				name: "visibility_flags"
-				type: "subobject_set"
-				type_hash: "4f4a05b229f12ac9"
-			}
-			{
-				name: "render_pass"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_vertex_channel_description"
-		properties: [
-			{
-				name: "offset"
-				type: "uint32_t"
-			}
-			{
-				name: "stride"
-				type: "uint32_t"
-			}
-			{
-				name: "format_type"
-				type: "uint32_t"
-			}
-			{
-				name: "format_components"
-				type: "uint32_t"
-			}
-			{
-				name: "format_bits_per_component"
-				type: "uint32_t"
-			}
-		]
-		default: {
-			stride: 12
-			format_components: 2
-			format_bits_per_component: 2
-		}
-	}
-	{
-		name: "tm_gpu_simulation_channel_descriptor"
-		properties: [
-			{
-				name: "channel_type"
-				type: "uint32_t"
-			}
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "component_type"
-				type: "uint32_t"
-			}
-			{
-				name: "num_components"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_gpu_simulation_descriptor"
-		properties: [
-			{
-				name: "lifetime"
-				type: "float"
-			}
-			{
-				name: "channels"
-				type: "subobject_set"
-				type_hash: "7d15e1df3084e998"
-			}
-		]
-	}
-	{
-		name: "tm_gpu_simulation_description_ref"
-		properties: [
-			{
-				name: "desc"
-				type: "reference"
-				type_hash: "7d15e1df3084e998"
-			}
-		]
-	}
-	{
-		name: "tm_gpu_simulation_accessor_settings"
-		properties: [
-			{
-				name: "index_mode"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_gpu_simulation_to_draw_command_settings"
-		properties: [
-			{
-				name: "num_vertices"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_position"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_rotation"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-			{
-				name: "w"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_scale"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_color_rgb"
-		properties: [
-			{
-				name: "r"
-				type: "float"
-			}
-			{
-				name: "g"
-				type: "float"
-			}
-			{
-				name: "b"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_color_rgba"
-		properties: [
-			{
-				name: "r"
-				type: "float"
-			}
-			{
-				name: "g"
-				type: "float"
-			}
-			{
-				name: "b"
-				type: "float"
-			}
-			{
-				name: "a"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_accessor"
-		properties: [
-			{
-				name: "buffer"
-				type: "reference"
-				type_hash: "471e224723f36b55"
-			}
-			{
-				name: "offset"
-				type: "uint32_t"
-			}
-			{
-				name: "count"
-				type: "uint32_t"
-			}
-			{
-				name: "is_float"
-				type: "bool"
-			}
-			{
-				name: "is_signed"
-				type: "bool"
-			}
-			{
-				name: "is_normalized"
-				type: "bool"
-			}
-			{
-				name: "bits"
-				type: "uint32_t"
-			}
-			{
-				name: "component_count"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_attribute"
-		properties: [
-			{
-				name: "semantic"
-				type: "uint32_t"
-			}
-			{
-				name: "set"
-				type: "uint32_t"
-			}
-			{
-				name: "accessor"
-				type: "reference"
-				type_hash: "6c1baaa8d09cb56d"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_buffer"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "data"
-				type: "buffer"
-			}
-			{
-				name: "stride"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_camera"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "aspect_ratio"
-				type: "float"
-			}
-			{
-				name: "yfov"
-				type: "float"
-			}
-			{
-				name: "znear"
-				type: "float"
-			}
-			{
-				name: "zfar"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_light"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_node"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "position"
-				type: "subobject"
-				type_hash: "1f36b481c7a30c45"
-			}
-			{
-				name: "rotation"
-				type: "subobject"
-				type_hash: "8bcb03256974ab79"
-			}
-			{
-				name: "scale"
-				type: "subobject"
-				type_hash: "4e604b5de5720471"
-			}
-			{
-				name: "children"
-				type: "reference_set"
-				type_hash: "e58fcf207dc017ca"
-			}
-			{
-				name: "meshes"
-				type: "reference_set"
-				type_hash: "a9168368aeb45aed"
-			}
-			{
-				name: "cameras"
-				type: "reference_set"
-				type_hash: "459fa8ef89def0b2"
-			}
-			{
-				name: "lights"
-				type: "reference_set"
-				type_hash: "3f3d593c3cf88976"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_bone"
-		properties: [
-			{
-				name: "index"
-				type: "uint32_t"
-			}
-			{
-				name: "node_name"
-				type: "string"
-			}
-			{
-				name: "inverse_bind_position"
-				type: "subobject"
-				type_hash: "1f36b481c7a30c45"
-			}
-			{
-				name: "inverse_bind_rotation"
-				type: "subobject"
-				type_hash: "8bcb03256974ab79"
-			}
-			{
-				name: "inverse_bind_scale"
-				type: "subobject"
-				type_hash: "4e604b5de5720471"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_mesh"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "primitive_type"
-				type: "uint32_t"
-			}
-			{
-				name: "material"
-				type: "reference"
-				type_hash: "4b827fd564e9c48c"
-			}
-			{
-				name: "attributes"
-				type: "subobject_set"
-				type_hash: "fb4884fc7f253682"
-			}
-			{
-				name: "indices"
-				type: "reference"
-				type_hash: "6c1baaa8d09cb56d"
-			}
-			{
-				name: "bounds_min"
-				type: "subobject"
-				type_hash: "8d1487af36b1e3e1"
-			}
-			{
-				name: "bounds_max"
-				type: "subobject"
-				type_hash: "8d1487af36b1e3e1"
-			}
-			{
-				name: "bones"
-				type: "subobject_set"
-				type_hash: "525af634f69df56b"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_image"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "buffer"
-				type: "reference"
-				type_hash: "471e224723f36b55"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_texture"
-		properties: [
-			{
-				name: "image"
-				type: "reference"
-				type_hash: "28bb2a8e5de368f2"
-			}
-			{
-				name: "mapping"
-				type: "uint32_t"
-			}
-			{
-				name: "uv_set"
-				type: "uint32_t"
-			}
-			{
-				name: "address_mode"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_material"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "base_color_factor"
-				type: "subobject"
-				type_hash: "3eb324e96eed7292"
-			}
-			{
-				name: "base_color_texture"
-				type: "subobject"
-				type_hash: "ff6a66c9766db679"
-			}
-			{
-				name: "normal_texture"
-				type: "subobject"
-				type_hash: "ff6a66c9766db679"
-			}
-			{
-				name: "occlusion_texture"
-				type: "subobject"
-				type_hash: "ff6a66c9766db679"
-			}
-			{
-				name: "emissive_factor"
-				type: "subobject"
-				type_hash: "b9ec51be3a00f3a2"
-			}
-			{
-				name: "emissive_texture"
-				type: "subobject"
-				type_hash: "ff6a66c9766db679"
-			}
-			{
-				name: "pbr_metallic_roughness"
-				type: "subobject"
-				type_hash: "f674c545c4c95bdd"
-			}
-			{
-				name: "pbr_specular_glossiness"
-				type: "subobject"
-				type_hash: "27dd1a464d4ba2b8"
-			}
-			{
-				name: "alpha_mode"
-				type: "uint32_t"
-			}
-			{
-				name: "alpha_cutoff"
-				type: "float"
-			}
-			{
-				name: "double_sided"
-				type: "bool"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_material_pbr_mr"
-		properties: [
-			{
-				name: "metallic_factor"
-				type: "float"
-			}
-			{
-				name: "roughness_factor"
-				type: "float"
-			}
-			{
-				name: "metallic_roughness_texture"
-				type: "subobject"
-				type_hash: "ff6a66c9766db679"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_material_pbr_sg"
-		properties: [
-			{
-				name: "glossiness_factor"
-				type: "float"
-			}
-			{
-				name: "specular_factor"
-				type: "subobject"
-				type_hash: "b9ec51be3a00f3a2"
-			}
-			{
-				name: "specular_glossiness_texture"
-				type: "subobject"
-				type_hash: "ff6a66c9766db679"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_scene"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "root_nodes"
-				type: "reference_set"
-				type_hash: "e58fcf207dc017ca"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_node_animation"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "node"
-				type: "reference"
-				type_hash: "e58fcf207dc017ca"
-			}
-			{
-				name: "position_keys"
-				type: "reference"
-				type_hash: "6c1baaa8d09cb56d"
-			}
-			{
-				name: "rotation_keys"
-				type: "reference"
-				type_hash: "6c1baaa8d09cb56d"
-			}
-			{
-				name: "scaling_keys"
-				type: "reference"
-				type_hash: "6c1baaa8d09cb56d"
-			}
-			{
-				name: "pre_state"
-				type: "uint32_t"
-			}
-			{
-				name: "post_state"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_animation"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "duration"
-				type: "float"
-			}
-			{
-				name: "ticks_per_second"
-				type: "float"
-			}
-			{
-				name: "node_animations"
-				type: "subobject_set"
-				type_hash: "1ed02afba4e23875"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_extracted_resource"
-		properties: [
-			{
-				name: "object"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "resource"
-				type: "reference"
 				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			capture_interface: "d2420b8f77d91139"
+			output_image: {
+				graph: {
+				}
+				interface: {
+				}
+			}
+		}
 	}
 	{
-		name: "tm_dcc_asset_settings"
+		name: "tm_custom_component"
 		properties: [
 			{
-				name: "import_settings"
-				type: "subobject"
-				type_hash: "a8eaa514c96b3d32"
+				name: "frequency"
+				type: "float"
 			}
 			{
-				name: "extract_images"
-				type: "bool"
-			}
-			{
-				name: "extracted_images"
-				type: "subobject_set"
-				type_hash: "6afaa9f50456cb1b"
-			}
-			{
-				name: "extract_materials"
-				type: "bool"
-			}
-			{
-				name: "extracted_materials"
-				type: "subobject_set"
-				type_hash: "6afaa9f50456cb1b"
-			}
-			{
-				name: "rig_entity"
-				type: "bool"
-			}
-			{
-				name: "entity"
-				type: "reference"
-				type_hash: "ca71127abbb72960"
+				name: "amplitude"
+				type: "float"
 			}
 		]
+		default: {
+			frequency: 1
+			amplitude: 1
+		}
 	}
 	{
 		name: "tm_dcc_asset"
@@ -2121,6 +1208,650 @@
 		}
 	}
 	{
+		name: "tm_dcc_asset_accessor"
+		properties: [
+			{
+				name: "buffer"
+				type: "reference"
+				type_hash: "471e224723f36b55"
+			}
+			{
+				name: "offset"
+				type: "uint32_t"
+			}
+			{
+				name: "count"
+				type: "uint32_t"
+			}
+			{
+				name: "is_float"
+				type: "bool"
+			}
+			{
+				name: "is_signed"
+				type: "bool"
+			}
+			{
+				name: "is_normalized"
+				type: "bool"
+			}
+			{
+				name: "bits"
+				type: "uint32_t"
+			}
+			{
+				name: "component_count"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_animation"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "duration"
+				type: "float"
+			}
+			{
+				name: "ticks_per_second"
+				type: "float"
+			}
+			{
+				name: "node_animations"
+				type: "subobject_set"
+				type_hash: "1ed02afba4e23875"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_attribute"
+		properties: [
+			{
+				name: "semantic"
+				type: "uint32_t"
+			}
+			{
+				name: "set"
+				type: "uint32_t"
+			}
+			{
+				name: "accessor"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_bone"
+		properties: [
+			{
+				name: "index"
+				type: "uint32_t"
+			}
+			{
+				name: "node_name"
+				type: "string"
+			}
+			{
+				name: "inverse_bind_position"
+				type: "subobject"
+				type_hash: "1f36b481c7a30c45"
+			}
+			{
+				name: "inverse_bind_rotation"
+				type: "subobject"
+				type_hash: "8bcb03256974ab79"
+			}
+			{
+				name: "inverse_bind_scale"
+				type: "subobject"
+				type_hash: "4e604b5de5720471"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_buffer"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+			{
+				name: "stride"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_camera"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "aspect_ratio"
+				type: "float"
+			}
+			{
+				name: "yfov"
+				type: "float"
+			}
+			{
+				name: "znear"
+				type: "float"
+			}
+			{
+				name: "zfar"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_color_rgb"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_color_rgba"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+			{
+				name: "a"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_component"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "tm_dcc_asset_extracted_resource"
+		properties: [
+			{
+				name: "object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "resource"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_image"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "buffer"
+				type: "reference"
+				type_hash: "471e224723f36b55"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_image_node_settings"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "image"
+				type: "reference"
+				type_hash: "28bb2a8e5de368f2"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_light"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "base_color_factor"
+				type: "subobject"
+				type_hash: "3eb324e96eed7292"
+			}
+			{
+				name: "base_color_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "normal_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "occlusion_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "emissive_factor"
+				type: "subobject"
+				type_hash: "b9ec51be3a00f3a2"
+			}
+			{
+				name: "emissive_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+			{
+				name: "pbr_metallic_roughness"
+				type: "subobject"
+				type_hash: "f674c545c4c95bdd"
+			}
+			{
+				name: "pbr_specular_glossiness"
+				type: "subobject"
+				type_hash: "27dd1a464d4ba2b8"
+			}
+			{
+				name: "alpha_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "alpha_cutoff"
+				type: "float"
+			}
+			{
+				name: "double_sided"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material_node_settings"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "4b827fd564e9c48c"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material_pbr_mr"
+		properties: [
+			{
+				name: "metallic_factor"
+				type: "float"
+			}
+			{
+				name: "roughness_factor"
+				type: "float"
+			}
+			{
+				name: "metallic_roughness_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_material_pbr_sg"
+		properties: [
+			{
+				name: "glossiness_factor"
+				type: "float"
+			}
+			{
+				name: "specular_factor"
+				type: "subobject"
+				type_hash: "b9ec51be3a00f3a2"
+			}
+			{
+				name: "specular_glossiness_texture"
+				type: "subobject"
+				type_hash: "ff6a66c9766db679"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_mesh"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "primitive_type"
+				type: "uint32_t"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "4b827fd564e9c48c"
+			}
+			{
+				name: "attributes"
+				type: "subobject_set"
+				type_hash: "fb4884fc7f253682"
+			}
+			{
+				name: "indices"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "bounds_min"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "bounds_max"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "bones"
+				type: "subobject_set"
+				type_hash: "525af634f69df56b"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_mesh_node_settings"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "a9168368aeb45aed"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_node"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "1f36b481c7a30c45"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "8bcb03256974ab79"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "4e604b5de5720471"
+			}
+			{
+				name: "children"
+				type: "reference_set"
+				type_hash: "e58fcf207dc017ca"
+			}
+			{
+				name: "meshes"
+				type: "reference_set"
+				type_hash: "a9168368aeb45aed"
+			}
+			{
+				name: "cameras"
+				type: "reference_set"
+				type_hash: "459fa8ef89def0b2"
+			}
+			{
+				name: "lights"
+				type: "reference_set"
+				type_hash: "3f3d593c3cf88976"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_node_animation"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "node"
+				type: "reference"
+				type_hash: "e58fcf207dc017ca"
+			}
+			{
+				name: "position_keys"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "rotation_keys"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "scaling_keys"
+				type: "reference"
+				type_hash: "6c1baaa8d09cb56d"
+			}
+			{
+				name: "pre_state"
+				type: "uint32_t"
+			}
+			{
+				name: "post_state"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_position"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_rotation"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_scale"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_scene"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "root_nodes"
+				type: "reference_set"
+				type_hash: "e58fcf207dc017ca"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_settings"
+		properties: [
+			{
+				name: "import_settings"
+				type: "subobject"
+				type_hash: "a8eaa514c96b3d32"
+			}
+			{
+				name: "extract_images"
+				type: "bool"
+			}
+			{
+				name: "extracted_images"
+				type: "subobject_set"
+				type_hash: "6afaa9f50456cb1b"
+			}
+			{
+				name: "extract_materials"
+				type: "bool"
+			}
+			{
+				name: "extracted_materials"
+				type: "subobject_set"
+				type_hash: "6afaa9f50456cb1b"
+			}
+			{
+				name: "rig_entity"
+				type: "bool"
+			}
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ca71127abbb72960"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_texture"
+		properties: [
+			{
+				name: "image"
+				type: "reference"
+				type_hash: "28bb2a8e5de368f2"
+			}
+			{
+				name: "mapping"
+				type: "uint32_t"
+			}
+			{
+				name: "uv_set"
+				type: "uint32_t"
+			}
+			{
+				name: "address_mode"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
 		name: "tm_dcc_import_settings"
 		properties: [
 			{
@@ -2159,85 +1890,6 @@
 			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
 			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
 			import_image_cg: "9f829e31-b0cb-b5fe-21af-ab561d841602"
-		}
-	}
-	{
-		name: "tm_dcc_asset_component"
-		properties: [
-			{
-				name: "dcc_asset"
-				type: "reference"
-				type_hash: "871719108d287cb9"
-			}
-			{
-				name: "visibility_flags"
-				type: "subobject_set"
-				type_hash: "4f4a05b229f12ac9"
-			}
-		]
-		default: {
-		}
-	}
-	{
-		name: "tm_dcc_asset_mesh_node_settings"
-		properties: [
-			{
-				name: "dcc_asset"
-				type: "reference"
-				type_hash: "871719108d287cb9"
-			}
-			{
-				name: "mesh"
-				type: "reference"
-				type_hash: "a9168368aeb45aed"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_image_node_settings"
-		properties: [
-			{
-				name: "dcc_asset"
-				type: "reference"
-				type_hash: "871719108d287cb9"
-			}
-			{
-				name: "image"
-				type: "reference"
-				type_hash: "28bb2a8e5de368f2"
-			}
-		]
-	}
-	{
-		name: "tm_dcc_asset_material_node_settings"
-		properties: [
-			{
-				name: "dcc_asset"
-				type: "reference"
-				type_hash: "871719108d287cb9"
-			}
-			{
-				name: "material"
-				type: "reference"
-				type_hash: "4b827fd564e9c48c"
-			}
-		]
-	}
-	{
-		name: "tm_entity_rigger_component"
-		properties: [
-			{
-				name: "dcc_asset"
-				type: "reference"
-				type_hash: "871719108d287cb9"
-			}
-			{
-				name: "mesh_creation_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
-			}
-		]
-		default: {
 		}
 	}
 	{
@@ -2308,87 +1960,25 @@
 		}
 	}
 	{
-		name: "tm_asset_browser"
+		name: "tm_double"
 		properties: [
 			{
-				name: "selection"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "current_directory"
-				type: "reference"
-				type_hash: "9723e0133dc6620a"
-			}
-			{
-				name: "focus"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
+				name: "double"
+				type: "double"
 			}
 		]
 	}
 	{
-		name: "tm_transform_component"
+		name: "tm_draw_call_settings"
 		properties: [
 			{
-				name: "position"
-				type: "subobject"
-				type_hash: "7a29b8f6b1ca42ec"
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
 			}
 			{
-				name: "rotation"
-				type: "subobject"
-				type_hash: "a4d2f46b41c9d717"
-			}
-			{
-				name: "scale"
-				type: "subobject"
-				type_hash: "20ef513a9606cc30"
-			}
-		]
-		default: {
-			position: {
-			}
-			rotation: {
-			}
-			scale: {
-			}
-		}
-	}
-	{
-		name: "tm_tag"
-		properties: [
-		]
-	}
-	{
-		name: "tm_tag_component"
-		properties: [
-			{
-				name: "tags"
-				type: "reference_set"
-				type_hash: "c0995d6c144ac64a"
-			}
-		]
-	}
-	{
-		name: "tm_scene_tree_component"
-		properties: [
-			{
-				name: "node"
-				type: "buffer"
-			}
-			{
-				name: "node_names"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "tm_scene_tree_component_debug_draw_settings"
-		properties: [
-			{
-				name: "node_axes_length"
-				type: "float"
+				name: "render_pass"
+				type: "uint64_t"
 			}
 		]
 	}
@@ -2408,6 +1998,1090 @@
 				name: "children"
 				type: "subobject_set"
 				type_hash: "ff156da2e01c4a3d"
+			}
+		]
+	}
+	{
+		name: "tm_entity_asset_reference"
+		properties: [
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+		]
+	}
+	{
+		name: "tm_entity_rigger_component"
+		properties: [
+			{
+				name: "dcc_asset"
+				type: "reference"
+				type_hash: "871719108d287cb9"
+			}
+			{
+				name: "mesh_creation_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "tm_float"
+		properties: [
+			{
+				name: "float"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_accessor"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "buffer"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "offset"
+				type: "uint32_t"
+			}
+			{
+				name: "count"
+				type: "uint32_t"
+			}
+			{
+				name: "is_float"
+				type: "bool"
+			}
+			{
+				name: "is_signed"
+				type: "bool"
+			}
+			{
+				name: "is_normalized"
+				type: "bool"
+			}
+			{
+				name: "bits"
+				type: "uint32_t"
+			}
+			{
+				name: "component_count"
+				type: "uint32_t"
+			}
+			{
+				name: "min"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "max"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_accessor_bounds"
+		properties: [
+			{
+				name: "0"
+				type: "float"
+			}
+			{
+				name: "1"
+				type: "float"
+			}
+			{
+				name: "2"
+				type: "float"
+			}
+			{
+				name: "3"
+				type: "float"
+			}
+			{
+				name: "4"
+				type: "float"
+			}
+			{
+				name: "5"
+				type: "float"
+			}
+			{
+				name: "6"
+				type: "float"
+			}
+			{
+				name: "7"
+				type: "float"
+			}
+			{
+				name: "8"
+				type: "float"
+			}
+			{
+				name: "9"
+				type: "float"
+			}
+			{
+				name: "10"
+				type: "float"
+			}
+			{
+				name: "11"
+				type: "float"
+			}
+			{
+				name: "12"
+				type: "float"
+			}
+			{
+				name: "13"
+				type: "float"
+			}
+			{
+				name: "14"
+				type: "float"
+			}
+			{
+				name: "15"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_asset"
+		properties: [
+			{
+				name: "scene"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "accessors"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "buffers"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "cameras"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "images"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "materials"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "meshes"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "nodes"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "samplers"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "scenes"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "textures"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_attribute"
+		properties: [
+			{
+				name: "semantic"
+				type: "uint32_t"
+			}
+			{
+				name: "set"
+				type: "uint32_t"
+			}
+			{
+				name: "accessor"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_buffer"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+			{
+				name: "stride"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_camera"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "aspect_ratio"
+				type: "float"
+			}
+			{
+				name: "yfov"
+				type: "float"
+			}
+			{
+				name: "znear"
+				type: "float"
+			}
+			{
+				name: "zfar"
+				type: "float"
+			}
+			{
+				name: "xmag"
+				type: "float"
+			}
+			{
+				name: "ymag"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_color"
+		properties: [
+			{
+				name: "r"
+				type: "float"
+			}
+			{
+				name: "g"
+				type: "float"
+			}
+			{
+				name: "b"
+				type: "float"
+			}
+			{
+				name: "a"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_component"
+		properties: [
+			{
+				name: "gltf"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_ext_khr_pbr_sg"
+		properties: [
+			{
+				name: "base_color_factor"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "base_color_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "glossiness_factor"
+				type: "float"
+			}
+			{
+				name: "specular_factor"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "specular_glossiness_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_image"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "buffer"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_material"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "pbr_metallic_roughness"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "ext_khr_pbr_glossiness_specular_prop"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "normal_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "occlusion_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "emissive_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "emissive_factor"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "alpha_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "alpha_cutoff"
+				type: "float"
+			}
+			{
+				name: "double_sided"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_mesh"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "primitives"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_node"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "children"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "cameras"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_normal_texture_info"
+		properties: [
+			{
+				name: "texture"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "texcoord"
+				type: "uint32_t"
+			}
+			{
+				name: "scale"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_occlusion_texture_info"
+		properties: [
+			{
+				name: "texture"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "texcoord"
+				type: "uint32_t"
+			}
+			{
+				name: "strength"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_pbr"
+		properties: [
+			{
+				name: "base_color_factor"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "base_color_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "metallic_factor"
+				type: "float"
+			}
+			{
+				name: "roughness_factor"
+				type: "float"
+			}
+			{
+				name: "metallic_roughness_texture"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_position"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_primitive"
+		properties: [
+			{
+				name: "attributes"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "indices"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "mode"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_rotation"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_sampler"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "magnification_filter"
+				type: "uint32_t"
+			}
+			{
+				name: "minification_filter"
+				type: "uint32_t"
+			}
+			{
+				name: "s_wrapping_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "t_wrapping_mode"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_scale"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_scene"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "nodes"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_texture"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "source"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "sampler"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_gltf_texture_info"
+		properties: [
+			{
+				name: "texture"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "texcoord"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_accessor_settings"
+		properties: [
+			{
+				name: "index_mode"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_channel_descriptor"
+		properties: [
+			{
+				name: "channel_type"
+				type: "uint32_t"
+			}
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "component_type"
+				type: "uint32_t"
+			}
+			{
+				name: "num_components"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_description_ref"
+		properties: [
+			{
+				name: "desc"
+				type: "reference"
+				type_hash: "7d15e1df3084e998"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_descriptor"
+		properties: [
+			{
+				name: "lifetime"
+				type: "float"
+			}
+			{
+				name: "channels"
+				type: "subobject_set"
+				type_hash: "7d15e1df3084e998"
+			}
+		]
+	}
+	{
+		name: "tm_gpu_simulation_to_draw_command_settings"
+		properties: [
+			{
+				name: "num_vertices"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph"
+		properties: [
+			{
+				name: "nodes"
+				type: "subobject_set"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "connections"
+				type: "subobject_set"
+				type_hash: "7840189d530b09e5"
+			}
+			{
+				name: "data"
+				type: "subobject_set"
+				type_hash: "fef2c4b66f211fea"
+			}
+			{
+				name: "comments"
+				type: "subobject_set"
+				type_hash: "425cefdca2d9f029"
+			}
+		]
+	}
+	{
+		name: "tm_graph_comment"
+		properties: [
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "position_x"
+				type: "float"
+			}
+			{
+				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "font_scale"
+				type: "float"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+	}
+	{
+		name: "tm_graph_component"
+		properties: [
+			{
+				name: "graph"
+				type: "subobject"
+				type_hash: "01527750cf1208ef"
+			}
+		]
+		default: {
+			graph: {
+			}
+		}
+	}
+	{
+		name: "tm_graph_connection"
+		properties: [
+			{
+				name: "from_node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "to_node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "from_connector_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "to_connector_hash"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph_data"
+		properties: [
+			{
+				name: "to_node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "to_connector_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "data"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_graph_node"
+		properties: [
+			{
+				name: "type"
+				type: "string"
+			}
+			{
+				name: "label"
+				type: "string"
+			}
+			{
+				name: "position_x"
+				type: "float"
+			}
+			{
+				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "width"
+				type: "float"
+			}
+			{
+				name: "is_compact"
+				type: "bool"
+			}
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_graph_pseudo_object"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "graph"
+				type: "uint64_t"
+			}
+			{
+				name: "node_index"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_grid_settings"
+		properties: [
+			{
+				name: "cell_size"
+				type: "float"
+			}
+			{
+				name: "extent"
+				type: "float"
+			}
+			{
+				name: "infinite"
+				type: "bool"
+			}
+			{
+				name: "thin_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+			{
+				name: "thick_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+		]
+		default: {
+			cell_size: 1
+			extent: 4000
+			infinite: true
+			thin_color: {
+				r: 0.07000000029802322
+				g: 0.07000000029802322
+				b: 0.07000000029802322
+			}
+			thick_color: {
+				r: 0
+				g: 0
+				b: 0
+			}
+		}
+	}
+	{
+		name: "tm_image"
+		properties: [
+			{
+				name: "creation_graph"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "buffer_id"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_image_archive"
+		properties: [
+			{
+				name: "filename"
+				type: "string"
+			}
+			{
+				name: "validity_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "description"
+				type: "subobject"
+				type_hash: "6f7d4648bbb5ffbf"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+		default: {
+			description: {
+			}
+		}
+	}
+	{
+		name: "tm_image_description"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "pixel_format"
+				type: "uint32_t"
+			}
+			{
+				name: "widht"
+				type: "uint32_t"
+			}
+			{
+				name: "height"
+				type: "uint32_t"
+			}
+			{
+				name: "depth"
+				type: "uint32_t"
+			}
+			{
+				name: "mip_levels"
+				type: "uint32_t"
+			}
+			{
+				name: "layer_count"
+				type: "uint32_t"
+			}
+			{
+				name: "sample_count"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			type: 1
+			pixel_format: 35684872
+			widht: 256
+			height: 256
+			depth: 1
+			mip_levels: 1
+			layer_count: 1
+			sample_count: 1
+		}
+	}
+	{
+		name: "tm_image_paint_brush"
+		properties: [
+			{
+				name: "operation"
+				type: "uint32_t"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "pressure"
+				type: "float"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+		]
+	}
+	{
+		name: "tm_image_paint_data"
+		properties: [
+			{
+				name: "brush_strokes"
+				type: "subobject_set"
+				type_hash: "9aa53193b00323a6"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "tm_keyboard_item"
+		properties: [
+			{
+				name: "key"
+				type: "uint32_t"
 			}
 		]
 	}
@@ -2444,67 +3118,6 @@
 		}
 	}
 	{
-		name: "tm_camera_component"
-		properties: [
-			{
-				name: "near_plane"
-				type: "float"
-			}
-			{
-				name: "far_plane"
-				type: "float"
-			}
-			{
-				name: "vertical_fov"
-				type: "float"
-			}
-			{
-				name: "translation_speed"
-				type: "float"
-			}
-			{
-				name: "rotation_speed"
-				type: "float"
-			}
-			{
-				name: "translation_damping"
-				type: "float"
-			}
-		]
-		default: {
-			near_plane: 0.1000000014901161
-			far_plane: 10000
-			vertical_fov: 1.047197580337524
-			translation_speed: 0.1000000014901161
-			rotation_speed: 1
-			translation_damping: 0.1500000059604645
-		}
-	}
-	{
-		name: "tm_graph_component"
-		properties: [
-			{
-				name: "graph"
-				type: "subobject"
-				type_hash: "01527750cf1208ef"
-			}
-		]
-		default: {
-			graph: {
-			}
-		}
-	}
-	{
-		name: "tm_entity_asset_reference"
-		properties: [
-			{
-				name: "entity"
-				type: "reference"
-				type_hash: "ff156da2e01c4a3d"
-			}
-		]
-	}
-	{
 		name: "tm_local_entity_asset_reference"
 		properties: [
 			{
@@ -2515,23 +3128,44 @@
 		]
 	}
 	{
-		name: "tm_tag_reference"
+		name: "tm_location_component"
 		properties: [
 			{
-				name: "tag"
-				type: "reference"
-				type_hash: "c0995d6c144ac64a"
+				name: "position"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
 	{
-		name: "tm_keyboard_item"
+		name: "tm_mipmap_settings"
 		properties: [
 			{
-				name: "key"
+				name: "color_space"
 				type: "uint32_t"
 			}
+			{
+				name: "filter"
+				type: "uint32_t"
+			}
+			{
+				name: "override_existing_mips"
+				type: "bool"
+			}
 		]
+		default: {
+			color_space: 1
+		}
 	}
 	{
 		name: "tm_mouse_button"
@@ -2543,141 +3177,24 @@
 		]
 	}
 	{
-		name: "tm_velocity_component"
+		name: "tm_move_controller"
 		properties: [
 			{
-				name: "velocity"
-				type: "subobject"
-				type_hash: "8d1487af36b1e3e1"
-			}
-			{
-				name: "angular_velocity"
-				type: "subobject"
-				type_hash: "8d1487af36b1e3e1"
-			}
-		]
-		default: {
-			velocity: {
-			}
-			angular_velocity: {
-			}
-		}
-	}
-	{
-		name: "tm_physics_shape_component"
-		properties: [
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "shape"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "material"
-				type: "reference"
-				type_hash: "86cdc943543bcd3f"
-			}
-			{
-				name: "collision"
-				type: "reference"
-				type_hash: "a7877788271e981c"
-			}
-			{
-				name: "is_trigger"
+				name: "use_world_axes"
 				type: "bool"
 			}
-		]
-		default: {
-			type: 1
-			shape: {
-				__type: "tm_physics_shape_sphere"
-			}
-		}
-	}
-	{
-		name: "tm_physics_shape_sphere"
-		properties: [
 			{
-				name: "radius"
+				name: "grid_snap"
+				type: "bool"
+			}
+			{
+				name: "grid_size"
 				type: "float"
 			}
 		]
 		default: {
-			radius: 1
+			grid_size: 1
 		}
-	}
-	{
-		name: "tm_physics_shape_capsule"
-		properties: [
-			{
-				name: "radius"
-				type: "float"
-			}
-			{
-				name: "half_height"
-				type: "float"
-			}
-		]
-		default: {
-			radius: 1
-			half_height: 1
-		}
-	}
-	{
-		name: "tm_physics_shape_box"
-		properties: [
-			{
-				name: "half_extent"
-				type: "subobject"
-				type_hash: "8d1487af36b1e3e1"
-			}
-		]
-		default: {
-			half_extent: {
-				x: 0.5
-				y: 0.5
-				z: 0.5
-			}
-		}
-	}
-	{
-		name: "tm_physics_shape_convex"
-		properties: [
-			{
-				name: "mesh"
-				type: "reference"
-				type_hash: "ff156da2e01c4a3d"
-			}
-			{
-				name: "format"
-				type: "string"
-			}
-			{
-				name: "data"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "tm_physics_shape_mesh"
-		properties: [
-			{
-				name: "mesh"
-				type: "reference"
-				type_hash: "ff156da2e01c4a3d"
-			}
-			{
-				name: "format"
-				type: "string"
-			}
-			{
-				name: "data"
-				type: "buffer"
-			}
-		]
 	}
 	{
 		name: "tm_physics_body_component"
@@ -2737,28 +3254,6 @@
 		}
 	}
 	{
-		name: "tm_physics_material"
-		properties: [
-			{
-				name: "static_friction"
-				type: "float"
-			}
-			{
-				name: "dynamic_friction"
-				type: "float"
-			}
-			{
-				name: "restitution"
-				type: "float"
-			}
-		]
-		default: {
-			static_friction: 0.5
-			dynamic_friction: 0.25
-			restitution: 0.1000000014901161
-		}
-	}
-	{
 		name: "tm_physics_collision"
 		properties: [
 			{
@@ -2779,6 +3274,16 @@
 			{
 				name: "notify_touch_lost_with"
 				type: "reference_set"
+				type_hash: "a7877788271e981c"
+			}
+		]
+	}
+	{
+		name: "tm_physics_collision_reference"
+		properties: [
+			{
+				name: "collision"
+				type: "reference"
 				type_hash: "a7877788271e981c"
 			}
 		]
@@ -2832,19 +3337,32 @@
 		]
 	}
 	{
+		name: "tm_physics_joint_distance"
+		properties: [
+			{
+				name: "min"
+				type: "float"
+			}
+			{
+				name: "max"
+				type: "float"
+			}
+		]
+	}
+	{
 		name: "tm_physics_joint_fixed"
 		properties: [
 		]
 	}
 	{
-		name: "tm_physics_joint_spherical"
+		name: "tm_physics_joint_prismatic"
 		properties: [
 			{
-				name: "y_angle_limit"
+				name: "lower_limit"
 				type: "float"
 			}
 			{
-				name: "z_angle_limit"
+				name: "upper_limit"
 				type: "float"
 			}
 		]
@@ -2863,30 +3381,39 @@
 		]
 	}
 	{
-		name: "tm_physics_joint_prismatic"
+		name: "tm_physics_joint_spherical"
 		properties: [
 			{
-				name: "lower_limit"
+				name: "y_angle_limit"
 				type: "float"
 			}
 			{
-				name: "upper_limit"
+				name: "z_angle_limit"
 				type: "float"
 			}
 		]
 	}
 	{
-		name: "tm_physics_joint_distance"
+		name: "tm_physics_material"
 		properties: [
 			{
-				name: "min"
+				name: "static_friction"
 				type: "float"
 			}
 			{
-				name: "max"
+				name: "dynamic_friction"
+				type: "float"
+			}
+			{
+				name: "restitution"
 				type: "float"
 			}
 		]
+		default: {
+			static_friction: 0.5
+			dynamic_friction: 0.25
+			restitution: 0.1000000014901161
+		}
 	}
 	{
 		name: "tm_physics_mover_component"
@@ -2911,6 +3438,122 @@
 		}
 	}
 	{
+		name: "tm_physics_shape_box"
+		properties: [
+			{
+				name: "half_extent"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+		default: {
+			half_extent: {
+				x: 0.5
+				y: 0.5
+				z: 0.5
+			}
+		}
+	}
+	{
+		name: "tm_physics_shape_capsule"
+		properties: [
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "half_height"
+				type: "float"
+			}
+		]
+		default: {
+			radius: 1
+			half_height: 1
+		}
+	}
+	{
+		name: "tm_physics_shape_component"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "shape"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "material"
+				type: "reference"
+				type_hash: "86cdc943543bcd3f"
+			}
+			{
+				name: "collision"
+				type: "reference"
+				type_hash: "a7877788271e981c"
+			}
+			{
+				name: "is_trigger"
+				type: "bool"
+			}
+		]
+		default: {
+			type: 1
+			shape: {
+				__type: "tm_physics_shape_sphere"
+			}
+		}
+	}
+	{
+		name: "tm_physics_shape_convex"
+		properties: [
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "format"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_mesh"
+		properties: [
+			{
+				name: "mesh"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "format"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_physics_shape_sphere"
+		properties: [
+			{
+				name: "radius"
+				type: "float"
+			}
+		]
+		default: {
+			radius: 1
+		}
+	}
+	{
 		name: "tm_physx_force_flags"
 		properties: [
 			{
@@ -2924,79 +3567,65 @@
 		]
 	}
 	{
-		name: "tm_physics_collision_reference"
+		name: "tm_position"
 		properties: [
 			{
-				name: "collision"
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_properties_tab"
+		properties: [
+			{
+				name: "properties_focus"
 				type: "reference"
-				type_hash: "a7877788271e981c"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
 	{
-		name: "tm_grid_settings"
+		name: "tm_recent_file"
 		properties: [
 			{
-				name: "cell_size"
-				type: "float"
+				name: "path"
+				type: "string"
 			}
 			{
-				name: "extent"
-				type: "float"
-			}
-			{
-				name: "infinite"
-				type: "bool"
-			}
-			{
-				name: "thin_color"
-				type: "subobject"
-				type_hash: "11e53fa0440a07e4"
-			}
-			{
-				name: "thick_color"
-				type: "subobject"
-				type_hash: "11e53fa0440a07e4"
-			}
-		]
-		default: {
-			cell_size: 1
-			extent: 4000
-			infinite: true
-			thin_color: {
-				r: 0.07000000029802322
-				g: 0.07000000029802322
-				b: 0.07000000029802322
-			}
-			thick_color: {
-				r: 0
-				g: 0
-				b: 0
-			}
-		}
-	}
-	{
-		name: "tm_cubemap_capture_component"
-		properties: [
-			{
-				name: "capture_interface"
+				name: "time_stamp"
 				type: "uint64_t"
 			}
+		]
+	}
+	{
+		name: "tm_rect_t"
+		properties: [
 			{
-				name: "output_image"
-				type: "subobject"
-				type_hash: "c5f12f23d4534d76"
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+			{
+				name: "h"
+				type: "float"
 			}
 		]
-		default: {
-			capture_interface: "d2420b8f77d91139"
-			output_image: {
-				graph: {
-				}
-				interface: {
-				}
-			}
-		}
 	}
 	{
 		name: "tm_render_component"
@@ -3015,51 +3644,6 @@
 				}
 			}
 		}
-	}
-	{
-		name: "tm_skinning_component"
-		properties: [
-			{
-				name: "bones"
-				type: "buffer"
-			}
-		]
-		default: {
-		}
-	}
-	{
-		name: "tm_sculpt_component"
-		properties: [
-			{
-				name: "visibility_flags"
-				type: "subobject_set"
-				type_hash: "4f4a05b229f12ac9"
-			}
-			{
-				name: "num_boxes"
-				type: "uint32_t"
-			}
-			{
-				name: "boxes_pos"
-				type: "buffer"
-			}
-			{
-				name: "boxes_rot"
-				type: "buffer"
-			}
-			{
-				name: "boxes_size"
-				type: "buffer"
-			}
-			{
-				name: "boxes_color"
-				type: "buffer"
-			}
-			{
-				name: "boxes_parent"
-				type: "buffer"
-			}
-		]
 	}
 	{
 		name: "tm_renderer_sampler_states"
@@ -3132,6 +3716,314 @@
 		}
 	}
 	{
+		name: "tm_rotate_controller"
+		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
+			{
+				name: "snap"
+				type: "bool"
+			}
+			{
+				name: "snap_angle"
+				type: "float"
+			}
+		]
+		default: {
+			snap_angle: 15
+		}
+	}
+	{
+		name: "tm_rotation"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+		default: {
+			w: 1
+		}
+	}
+	{
+		name: "tm_scale"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+		]
+		default: {
+			x: 1
+			y: 1
+			z: 1
+		}
+	}
+	{
+		name: "tm_scale_controller"
+		properties: [
+			{
+				name: "absolute_handle"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_scene_tab"
+		properties: [
+			{
+				name: "asset"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "selection"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "last_selected"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "pick_counter"
+				type: "uint32_t"
+			}
+			{
+				name: "frame_object"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_scene_tab_settings"
+		properties: [
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
+			{
+				name: "multi_select_pivot"
+				type: "uint32_t"
+			}
+			{
+				name: "move_snap"
+				type: "bool"
+			}
+			{
+				name: "move_snap_size"
+				type: "float"
+			}
+			{
+				name: "rotation_snap"
+				type: "bool"
+			}
+			{
+				name: "rotation_snap_angle"
+				type: "float"
+			}
+			{
+				name: "scaling_absolute_handle"
+				type: "bool"
+			}
+		]
+		default: {
+			move_snap_size: 1
+			rotation_snap_angle: 15
+		}
+	}
+	{
+		name: "tm_scene_tree_component"
+		properties: [
+			{
+				name: "node"
+				type: "buffer"
+			}
+			{
+				name: "node_names"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_scene_tree_component_debug_draw_settings"
+		properties: [
+			{
+				name: "node_axes_length"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_sculpt_component"
+		properties: [
+			{
+				name: "visibility_flags"
+				type: "subobject_set"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "num_boxes"
+				type: "uint32_t"
+			}
+			{
+				name: "boxes_pos"
+				type: "buffer"
+			}
+			{
+				name: "boxes_rot"
+				type: "buffer"
+			}
+			{
+				name: "boxes_size"
+				type: "buffer"
+			}
+			{
+				name: "boxes_color"
+				type: "buffer"
+			}
+			{
+				name: "boxes_parent"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_select_controller"
+		properties: [
+			{
+				name: "multi_select_pivot"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_blob"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_branch"
+		properties: [
+			{
+				name: "condition"
+				type: "buffer"
+			}
+			{
+				name: "then"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "else"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_configuration"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "variations"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compile_context"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "passes"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_compiled_result"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_constant"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "rows"
+				type: "uint32_t"
+			}
+			{
+				name: "columns"
+				type: "uint32_t"
+			}
+			{
+				name: "struct_size"
+				type: "uint32_t"
+			}
+			{
+				name: "elements"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
 		name: "tm_shader_system_constant_node_settings"
 		properties: [
 			{
@@ -3146,12 +4038,230 @@
 		]
 	}
 	{
-		name: "tm_shader_system_repository"
+		name: "tm_shader_system_creation_graph_node"
 		properties: [
 			{
-				name: "declarations"
+				name: "declaration_name"
+				type: "uint64_t"
+			}
+			{
+				name: "node_name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "category"
+				type: "string"
+			}
+			{
+				name: "actions"
 				type: "subobject_set"
-				type_hash: "9582c40a7a888720"
+				type_hash: "80800d1f71eed33f"
+			}
+			{
+				name: "inputs"
+				type: "subobject_set"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "outputs"
+				type: "subobject_set"
+				type_hash: "081e5267e15759b2"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_action"
+		properties: [
+			{
+				name: "name_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "resource_aspects"
+				type: "subobject_set"
+				type_hash: "b4d5f396b6bd2223"
+			}
+			{
+				name: "defines"
+				type: "subobject_set"
+				type_hash: "323cb64491e21141"
+			}
+			{
+				name: "requests"
+				type: "subobject_set"
+				type_hash: "2a13c0aa3decb44e"
+			}
+			{
+				name: "enable_systems"
+				type: "subobject_set"
+				type_hash: "5e778dd6b3908bce"
+			}
+			{
+				name: "render_state_blocks"
+				type: "subobject_set"
+				type_hash: "a93c05d3ba7f22e8"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "target_name"
+				type: "string"
+			}
+			{
+				name: "target_element"
+				type: "uint32_t"
+			}
+			{
+				name: "connector_flag"
+				type: "string"
+			}
+			{
+				name: "optional"
+				type: "bool"
+			}
+			{
+				name: "function"
+				type: "bool"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "rows"
+				type: "uint32_t"
+			}
+			{
+				name: "columns"
+				type: "uint32_t"
+			}
+			{
+				name: "type_of"
+				type: "subobject_set"
+				type_hash: "d6d53439bc93284f"
+			}
+			{
+				name: "evaluation_stage"
+				type: "uint32_t"
+			}
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "68e5ce58c21a6a1b"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "display_condition"
+				type: "buffer"
+			}
+			{
+				name: "options"
+				type: "subobject_set"
+				type_hash: "3cbd088d7f00fdd1"
+			}
+			{
+				name: "bool_action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_setting_option"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "display_tooltip"
+				type: "string"
+			}
+			{
+				name: "action"
+				type: "reference"
+				type_hash: "80800d1f71eed33f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_settings"
+		properties: [
+			{
+				name: "object_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "settings"
+				type: "subobject_set"
+				type_hash: "13a20649cbd954ad"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_connector_type_of"
+		properties: [
+			{
+				name: "connector"
+				type: "reference"
+				type_hash: "081e5267e15759b2"
+			}
+			{
+				name: "requested_channel"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_define"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_resource_aspect"
+		properties: [
+			{
+				name: "resource"
+				type: "string"
+			}
+			{
+				name: "aspect"
+				type: "uint32_t"
 			}
 		]
 	}
@@ -3401,345 +4511,11 @@
 		]
 	}
 	{
-		name: "tm_shader_system_creation_graph_node_resource_aspect"
-		properties: [
-			{
-				name: "resource"
-				type: "string"
-			}
-			{
-				name: "aspect"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_define"
+		name: "tm_shader_system_import"
 		properties: [
 			{
 				name: "name"
 				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_action"
-		properties: [
-			{
-				name: "name_hash"
-				type: "uint64_t"
-			}
-			{
-				name: "resource_aspects"
-				type: "subobject_set"
-				type_hash: "b4d5f396b6bd2223"
-			}
-			{
-				name: "defines"
-				type: "subobject_set"
-				type_hash: "323cb64491e21141"
-			}
-			{
-				name: "requests"
-				type: "subobject_set"
-				type_hash: "2a13c0aa3decb44e"
-			}
-			{
-				name: "enable_systems"
-				type: "subobject_set"
-				type_hash: "5e778dd6b3908bce"
-			}
-			{
-				name: "render_state_blocks"
-				type: "subobject_set"
-				type_hash: "a93c05d3ba7f22e8"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_connector_setting_option"
-		properties: [
-			{
-				name: "display_name"
-				type: "string"
-			}
-			{
-				name: "display_tooltip"
-				type: "string"
-			}
-			{
-				name: "action"
-				type: "reference"
-				type_hash: "80800d1f71eed33f"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_connector_setting"
-		properties: [
-			{
-				name: "display_name"
-				type: "string"
-			}
-			{
-				name: "display_tooltip"
-				type: "string"
-			}
-			{
-				name: "display_condition"
-				type: "buffer"
-			}
-			{
-				name: "options"
-				type: "subobject_set"
-				type_hash: "3cbd088d7f00fdd1"
-			}
-			{
-				name: "bool_action"
-				type: "reference"
-				type_hash: "80800d1f71eed33f"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_connector_settings"
-		properties: [
-			{
-				name: "object_type_hash"
-				type: "uint64_t"
-			}
-			{
-				name: "settings"
-				type: "subobject_set"
-				type_hash: "13a20649cbd954ad"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_connector"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "display_name"
-				type: "string"
-			}
-			{
-				name: "display_tooltip"
-				type: "string"
-			}
-			{
-				name: "target_name"
-				type: "string"
-			}
-			{
-				name: "target_element"
-				type: "uint32_t"
-			}
-			{
-				name: "connector_flag"
-				type: "string"
-			}
-			{
-				name: "optional"
-				type: "bool"
-			}
-			{
-				name: "function"
-				type: "bool"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "rows"
-				type: "uint32_t"
-			}
-			{
-				name: "columns"
-				type: "uint32_t"
-			}
-			{
-				name: "type_of"
-				type: "subobject_set"
-				type_hash: "d6d53439bc93284f"
-			}
-			{
-				name: "evaluation_stage"
-				type: "uint32_t"
-			}
-			{
-				name: "settings"
-				type: "subobject"
-				type_hash: "68e5ce58c21a6a1b"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node_connector_type_of"
-		properties: [
-			{
-				name: "connector"
-				type: "reference"
-				type_hash: "081e5267e15759b2"
-			}
-			{
-				name: "requested_channel"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_creation_graph_node"
-		properties: [
-			{
-				name: "declaration_name"
-				type: "uint64_t"
-			}
-			{
-				name: "node_name"
-				type: "string"
-			}
-			{
-				name: "display_name"
-				type: "string"
-			}
-			{
-				name: "category"
-				type: "string"
-			}
-			{
-				name: "actions"
-				type: "subobject_set"
-				type_hash: "80800d1f71eed33f"
-			}
-			{
-				name: "inputs"
-				type: "subobject_set"
-				type_hash: "081e5267e15759b2"
-			}
-			{
-				name: "outputs"
-				type: "subobject_set"
-				type_hash: "081e5267e15759b2"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_render_state_block"
-		properties: [
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "states"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_sampler_state_block"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "states"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_constant"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "rows"
-				type: "uint32_t"
-			}
-			{
-				name: "columns"
-				type: "uint32_t"
-			}
-			{
-				name: "struct_size"
-				type: "uint32_t"
-			}
-			{
-				name: "elements"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_resource"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "element_type"
-				type: "string"
-			}
-			{
-				name: "elements"
-				type: "uint32_t"
-			}
-			{
-				name: "static_resource"
-				type: "uint64_t"
-			}
-			{
-				name: "uav"
-				type: "bool"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_request"
-		properties: [
-			{
-				name: "type_name"
-				type: "string"
-			}
-			{
-				name: "channel_name"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_stage_export"
-		properties: [
-			{
-				name: "constant"
-				type: "subobject"
-				type_hash: "d712f7cfe7188646"
-			}
-			{
-				name: "interpolation_modifier"
-				type: "uint32_t"
-			}
-			{
-				name: "channel_requested"
-				type: "bool"
 			}
 		]
 	}
@@ -3753,58 +4529,69 @@
 		]
 	}
 	{
-		name: "tm_shader_system_variation"
+		name: "tm_shader_system_material"
 		properties: [
 			{
-				name: "systems"
+				name: "name"
+				type: "uint64_t"
+			}
+			{
+				name: "passes"
 				type: "subobject_set"
-				type_hash: "c96488cb408e745f"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_variation_system"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_compiled_result"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
+				type_hash: "e85fa4ef3d03bf60"
 			}
 			{
-				name: "buffer"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_compile_configuration"
-		properties: [
-			{
-				name: "name"
+				name: "filename"
 				type: "string"
 			}
 			{
-				name: "variations"
-				type: "subobject_set"
-				type_hash: "14a46edeaac824fc"
+				name: "last_modified"
+				type: "uint64_t"
 			}
 		]
 	}
 	{
-		name: "tm_shader_system_pass_condition"
+		name: "tm_shader_system_material_pass"
 		properties: [
 			{
-				name: "systems_active"
+				name: "shader"
+				type: "uint64_t"
+			}
+			{
+				name: "systems"
 				type: "subobject_set"
-				type_hash: "14a46edeaac824fc"
+				type_hash: "6118a9120522e587"
+			}
+			{
+				name: "layer"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material_pass_properties"
+		properties: [
+			{
+				name: "shader"
+				type: "uint64_t"
+			}
+			{
+				name: "systems"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "layer"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_material_pass_system"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
 			}
 		]
 	}
@@ -3838,37 +4625,174 @@
 		]
 	}
 	{
-		name: "tm_shader_system_compile_context"
+		name: "tm_shader_system_pass_condition"
+		properties: [
+			{
+				name: "systems_active"
+				type: "subobject_set"
+				type_hash: "14a46edeaac824fc"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_render_state_block"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "states"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_repository"
+		properties: [
+			{
+				name: "declarations"
+				type: "subobject_set"
+				type_hash: "9582c40a7a888720"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_request"
+		properties: [
+			{
+				name: "type_name"
+				type: "string"
+			}
+			{
+				name: "channel_name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_resource"
 		properties: [
 			{
 				name: "name"
 				type: "string"
 			}
 			{
-				name: "passes"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "element_type"
+				type: "string"
+			}
+			{
+				name: "elements"
+				type: "uint32_t"
+			}
+			{
+				name: "static_resource"
+				type: "uint64_t"
+			}
+			{
+				name: "uav"
+				type: "bool"
 			}
 		]
 	}
 	{
-		name: "tm_shader_system_compile_branch"
+		name: "tm_shader_system_sampler_state_block"
 		properties: [
 			{
-				name: "condition"
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "states"
 				type: "buffer"
 			}
+		]
+	}
+	{
+		name: "tm_shader_system_stage_export"
+		properties: [
 			{
-				name: "then"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
+				name: "constant"
+				type: "subobject"
+				type_hash: "d712f7cfe7188646"
 			}
 			{
-				name: "else"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
+				name: "interpolation_modifier"
+				type: "uint32_t"
+			}
+			{
+				name: "channel_requested"
+				type: "bool"
 			}
 		]
+	}
+	{
+		name: "tm_shader_system_variation"
+		properties: [
+			{
+				name: "systems"
+				type: "subobject_set"
+				type_hash: "c96488cb408e745f"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_variation_system"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_skinning_component"
+		properties: [
+			{
+				name: "bones"
+				type: "buffer"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "tm_sound_source_component"
+		properties: [
+			{
+				name: "sound"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+			{
+				name: "volume"
+				type: "float"
+			}
+			{
+				name: "pitch"
+				type: "float"
+			}
+			{
+				name: "min_distance"
+				type: "float"
+			}
+			{
+				name: "max_distance"
+				type: "float"
+			}
+			{
+				name: "spread"
+				type: "float"
+			}
+		]
+		default: {
+			max_distance: 10
+			spread: 0.5
+		}
 	}
 	{
 		name: "tm_spin_component"
@@ -3947,484 +4871,24 @@
 		}
 	}
 	{
-		name: "tm_tessellated_plane_component"
+		name: "tm_string"
 		properties: [
 			{
-				name: "visibility_flags"
-				type: "subobject_set"
-				type_hash: "4f4a05b229f12ac9"
-			}
-			{
-				name: "size"
-				type: "float"
-			}
-			{
-				name: "tessellation"
-				type: "uint32_t"
-			}
-			{
-				name: "color"
-				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
-			}
-		]
-		default: {
-			size: 20
-			tessellation: 80
-			color: {
-				r: 0.800000011920929
-				g: 0.800000011920929
-				b: 0.800000011920929
-			}
-		}
-	}
-	{
-		name: "tm_clipboard"
-		properties: [
-			{
-				name: "objects"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "is_cut"
-				type: "bool"
-			}
-		]
-	}
-	{
-		name: "shader_input_uv_node_settings"
-		properties: [
-			{
-				name: "set"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			set: "f8149a39c9895ff6"
-		}
-	}
-	{
-		name: "shader_if_node_settings"
-		properties: [
-			{
-				name: "operator"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			operator: "83df8f4aa9bfb361"
-		}
-	}
-	{
-		name: "shader_sample_2d_node_settings"
-		properties: [
-			{
-				name: "encoding"
-				type: "uint64_t"
-			}
-			{
-				name: "flip_green"
-				type: "bool"
-			}
-		]
-		default: {
-			encoding: "8a3d1c8f15de2776"
-		}
-	}
-	{
-		name: "billboards-output_node_settings"
-		properties: [
-			{
-				name: "mode"
-				type: "uint64_t"
-			}
-			{
-				name: "facing"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			mode: "4760ce77729b23b0"
-			facing: "e3a9b29676289efc"
-		}
-	}
-	{
-		name: "lit_output_vertex_settings"
-		properties: [
-			{
-				name: "position_space"
-				type: "uint64_t"
-			}
-			{
-				name: "normal_space"
-				type: "uint64_t"
-			}
-			{
-				name: "tangent0_space"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			position_space: "b89991a82d0f8d08"
-			normal_space: "7deb18fc5400a87c"
-			tangent0_space: "9680ba15a670e715"
-		}
-	}
-	{
-		name: "lit_output_node_settings"
-		properties: [
-			{
-				name: "surface_type"
-				type: "uint64_t"
-			}
-			{
-				name: "blend_mode"
-				type: "uint64_t"
-			}
-			{
-				name: "preserve_specular"
-				type: "bool"
-			}
-			{
-				name: "face_culling"
-				type: "uint64_t"
-			}
-			{
-				name: "back_sides_before_front_sides"
-				type: "bool"
-			}
-		]
-		default: {
-			surface_type: "80ccda308adcbe89"
-			blend_mode: "f134853be9963bab"
-			preserve_specular: true
-			face_culling: "9dcb40c80d6f306a"
-		}
-	}
-	{
-		name: "unlit_output_vertex_settings"
-		properties: [
-			{
-				name: "position_space"
-				type: "uint64_t"
-			}
-			{
-				name: "normal_space"
-				type: "uint64_t"
-			}
-			{
-				name: "tangent0_space"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			position_space: "b89991a82d0f8d08"
-			normal_space: "7deb18fc5400a87c"
-			tangent0_space: "9680ba15a670e715"
-		}
-	}
-	{
-		name: "unlit_output_node_settings"
-		properties: [
-			{
-				name: "surface_type"
-				type: "uint64_t"
-			}
-			{
-				name: "blend_mode"
-				type: "uint64_t"
-			}
-			{
-				name: "layer"
-				type: "uint64_t"
-			}
-			{
-				name: "face_culling"
-				type: "uint64_t"
-			}
-			{
-				name: "back_sides_before_front_sides"
-				type: "bool"
-			}
-		]
-		default: {
-			surface_type: "80ccda308adcbe89"
-			blend_mode: "f134853be9963bab"
-			layer: "6fb31d8e1245218b"
-			face_culling: "9dcb40c80d6f306a"
-		}
-	}
-	{
-		name: "shader_input_element_idx_node_settings"
-		properties: [
-			{
-				name: "absolute_index"
-				type: "bool"
-			}
-		]
-		default: {
-		}
-	}
-	{
-		name: "tm_image_paint_brush"
-		properties: [
-			{
-				name: "operation"
-				type: "uint32_t"
-			}
-			{
-				name: "radius"
-				type: "float"
-			}
-			{
-				name: "pressure"
-				type: "float"
-			}
-			{
-				name: "position"
-				type: "subobject"
-				type_hash: "5ea1bb7b6537de46"
-			}
-		]
-	}
-	{
-		name: "tm_image_paint_data"
-		properties: [
-			{
-				name: "brush_strokes"
-				type: "subobject_set"
-				type_hash: "9aa53193b00323a6"
-			}
-		]
-		default: {
-		}
-	}
-	{
-		name: "tm_shader_system_blob"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-			{
-				name: "buffer"
-				type: "buffer"
-			}
-		]
-	}
-	{
-		name: "lit_default_node_settings"
-		properties: [
-			{
-				name: "blend_mode"
-				type: "uint64_t"
-			}
-		]
-		default: {
-			blend_mode: "c3612e3203404e0f"
-		}
-	}
-	{
-		name: "gameplay_sample_first_person_component"
-		properties: [
-		]
-	}
-	{
-		name: "gameplay_sample_third_person"
-		properties: [
-		]
-	}
-	{
-		name: "tm_select_controller"
-		properties: [
-			{
-				name: "multi_select_pivot"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_move_controller"
-		properties: [
-			{
-				name: "use_world_axes"
-				type: "bool"
-			}
-			{
-				name: "grid_snap"
-				type: "bool"
-			}
-			{
-				name: "grid_size"
-				type: "float"
-			}
-		]
-		default: {
-			grid_size: 1
-		}
-	}
-	{
-		name: "tm_rotate_controller"
-		properties: [
-			{
-				name: "use_world_axes"
-				type: "bool"
-			}
-			{
-				name: "snap"
-				type: "bool"
-			}
-			{
-				name: "snap_angle"
-				type: "float"
-			}
-		]
-		default: {
-			snap_angle: 15
-		}
-	}
-	{
-		name: "tm_scale_controller"
-		properties: [
-			{
-				name: "absolute_handle"
-				type: "bool"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_import"
-		properties: [
-			{
-				name: "name"
+				name: "string"
 				type: "string"
 			}
 		]
 	}
 	{
-		name: "tm_shader_system_material"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-			{
-				name: "passes"
-				type: "subobject_set"
-				type_hash: "e85fa4ef3d03bf60"
-			}
-			{
-				name: "filename"
-				type: "string"
-			}
-			{
-				name: "last_modified"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_material_pass"
-		properties: [
-			{
-				name: "shader"
-				type: "uint64_t"
-			}
-			{
-				name: "systems"
-				type: "subobject_set"
-				type_hash: "6118a9120522e587"
-			}
-			{
-				name: "layer"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_shader_system_material_pass_system"
-		properties: [
-			{
-				name: "name"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_application_settings"
-		properties: [
-			{
-				name: "default_camera"
-				type: "subobject"
-				type_hash: "41418a36f804f101"
-			}
-			{
-				name: "window_layouts"
-				type: "subobject"
-				type_hash: "ad48e16db7ef5b35"
-			}
-			{
-				name: "recent_files"
-				type: "subobject_set"
-				type_hash: "ba4e5d5c28639596"
-			}
-		]
-	}
-	{
-		name: "tm_window_layouts"
-		properties: [
-			{
-				name: "layouts"
-				type: "subobject_set"
-				type_hash: "1f1ea8c1548bab03"
-			}
-		]
-	}
-	{
-		name: "tm_window_layout"
+		name: "tm_tab_view"
 		properties: [
 			{
 				name: "name"
 				type: "string"
 			}
 			{
-				name: "create_on_startup"
-				type: "bool"
-			}
-			{
-				name: "window_x"
+				name: "sort_index"
 				type: "float"
-			}
-			{
-				name: "window_y"
-				type: "float"
-			}
-			{
-				name: "window_width"
-				type: "float"
-			}
-			{
-				name: "window_height"
-				type: "float"
-			}
-			{
-				name: "tabwell"
-				type: "subobject"
-				type_hash: "a1953ee0036f73e1"
-			}
-		]
-	}
-	{
-		name: "tm_recent_file"
-		properties: [
-			{
-				name: "path"
-				type: "string"
-			}
-			{
-				name: "time_stamp"
-				type: "uint64_t"
 			}
 		]
 	}
@@ -4463,754 +4927,61 @@
 		]
 	}
 	{
-		name: "tm_tab_view"
+		name: "tm_tag"
 		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "sort_index"
-				type: "float"
-			}
 		]
 	}
 	{
-		name: "tm_camera_settings_component"
+		name: "tm_tag_component"
 		properties: [
 			{
-				name: "near_plane"
-				type: "float"
-			}
-			{
-				name: "far_plane"
-				type: "float"
-			}
-			{
-				name: "vertical_fov"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_creation_graph_import_node_settings"
-		properties: [
-			{
-				name: "creation_graph"
-				type: "reference"
-				type_hash: "c5f12f23d4534d76"
-			}
-			{
-				name: "node_type_hash"
-				type: "uint64_t"
-			}
-			{
-				name: "node_name"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_asset_type"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_position"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_rotation"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-			{
-				name: "w"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_scale"
-		properties: [
-			{
-				name: "x"
-				type: "float"
-			}
-			{
-				name: "y"
-				type: "float"
-			}
-			{
-				name: "z"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_color"
-		properties: [
-			{
-				name: "r"
-				type: "float"
-			}
-			{
-				name: "g"
-				type: "float"
-			}
-			{
-				name: "b"
-				type: "float"
-			}
-			{
-				name: "a"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_accessor_bounds"
-		properties: [
-			{
-				name: "0"
-				type: "float"
-			}
-			{
-				name: "1"
-				type: "float"
-			}
-			{
-				name: "2"
-				type: "float"
-			}
-			{
-				name: "3"
-				type: "float"
-			}
-			{
-				name: "4"
-				type: "float"
-			}
-			{
-				name: "5"
-				type: "float"
-			}
-			{
-				name: "6"
-				type: "float"
-			}
-			{
-				name: "7"
-				type: "float"
-			}
-			{
-				name: "8"
-				type: "float"
-			}
-			{
-				name: "9"
-				type: "float"
-			}
-			{
-				name: "10"
-				type: "float"
-			}
-			{
-				name: "11"
-				type: "float"
-			}
-			{
-				name: "12"
-				type: "float"
-			}
-			{
-				name: "13"
-				type: "float"
-			}
-			{
-				name: "14"
-				type: "float"
-			}
-			{
-				name: "15"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_attribute"
-		properties: [
-			{
-				name: "semantic"
-				type: "uint32_t"
-			}
-			{
-				name: "set"
-				type: "uint32_t"
-			}
-			{
-				name: "accessor"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_primitive"
-		properties: [
-			{
-				name: "attributes"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "indices"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "material"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "mode"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_pbr"
-		properties: [
-			{
-				name: "base_color_factor"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "base_color_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "metallic_factor"
-				type: "float"
-			}
-			{
-				name: "roughness_factor"
-				type: "float"
-			}
-			{
-				name: "metallic_roughness_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_ext_khr_pbr_sg"
-		properties: [
-			{
-				name: "base_color_factor"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "base_color_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "glossiness_factor"
-				type: "float"
-			}
-			{
-				name: "specular_factor"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "specular_glossiness_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_texture_info"
-		properties: [
-			{
-				name: "texture"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "texcoord"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_normal_texture_info"
-		properties: [
-			{
-				name: "texture"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "texcoord"
-				type: "uint32_t"
-			}
-			{
-				name: "scale"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_occlusion_texture_info"
-		properties: [
-			{
-				name: "texture"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "texcoord"
-				type: "uint32_t"
-			}
-			{
-				name: "strength"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_accessor"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "buffer"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "offset"
-				type: "uint32_t"
-			}
-			{
-				name: "count"
-				type: "uint32_t"
-			}
-			{
-				name: "is_float"
-				type: "bool"
-			}
-			{
-				name: "is_signed"
-				type: "bool"
-			}
-			{
-				name: "is_normalized"
-				type: "bool"
-			}
-			{
-				name: "bits"
-				type: "uint32_t"
-			}
-			{
-				name: "component_count"
-				type: "uint32_t"
-			}
-			{
-				name: "min"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "max"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_buffer"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "data"
-				type: "buffer"
-			}
-			{
-				name: "stride"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_camera"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-			{
-				name: "aspect_ratio"
-				type: "float"
-			}
-			{
-				name: "yfov"
-				type: "float"
-			}
-			{
-				name: "znear"
-				type: "float"
-			}
-			{
-				name: "zfar"
-				type: "float"
-			}
-			{
-				name: "xmag"
-				type: "float"
-			}
-			{
-				name: "ymag"
-				type: "float"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_image"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "buffer"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "type"
-				type: "uint32_t"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_material"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "pbr_metallic_roughness"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "ext_khr_pbr_glossiness_specular_prop"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "normal_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "occlusion_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "emissive_texture"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "emissive_factor"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "alpha_mode"
-				type: "uint32_t"
-			}
-			{
-				name: "alpha_cutoff"
-				type: "float"
-			}
-			{
-				name: "double_sided"
-				type: "bool"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_mesh"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "primitives"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_node"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "position"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "rotation"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "scale"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "children"
+				name: "tags"
 				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "mesh"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "cameras"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
+				type_hash: "c0995d6c144ac64a"
 			}
 		]
 	}
 	{
-		name: "tm_gltf_sampler"
+		name: "tm_tag_reference"
 		properties: [
 			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "magnification_filter"
-				type: "uint32_t"
-			}
-			{
-				name: "minification_filter"
-				type: "uint32_t"
-			}
-			{
-				name: "s_wrapping_mode"
-				type: "uint32_t"
-			}
-			{
-				name: "t_wrapping_mode"
-				type: "uint32_t"
+				name: "tag"
+				type: "reference"
+				type_hash: "c0995d6c144ac64a"
 			}
 		]
 	}
 	{
-		name: "tm_gltf_scene"
+		name: "tm_tessellated_plane_component"
 		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "nodes"
-				type: "reference_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_texture"
-		properties: [
-			{
-				name: "name"
-				type: "string"
-			}
-			{
-				name: "source"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "sampler"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_asset"
-		properties: [
-			{
-				name: "scene"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "accessors"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "buffers"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "cameras"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "images"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "materials"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "meshes"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "nodes"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "samplers"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "scenes"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "textures"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_gltf_component"
-		properties: [
-			{
-				name: "gltf"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
 			{
 				name: "visibility_flags"
 				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
+				type_hash: "4f4a05b229f12ac9"
+			}
+			{
+				name: "size"
+				type: "float"
+			}
+			{
+				name: "tessellation"
+				type: "uint32_t"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
 			}
 		]
-	}
-	{
-		name: "tm_properties_tab"
-		properties: [
-			{
-				name: "properties_focus"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
+		default: {
+			size: 20
+			tessellation: 80
+			color: {
+				r: 0.800000011920929
+				g: 0.800000011920929
+				b: 0.800000011920929
 			}
-		]
-	}
-	{
-		name: "tm_shader_system_material_pass_properties"
-		properties: [
-			{
-				name: "shader"
-				type: "uint64_t"
-			}
-			{
-				name: "systems"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "layer"
-				type: "uint64_t"
-			}
-		]
-	}
-	{
-		name: "tm_widow_layouts"
-		properties: [
-			{
-				name: "layouts"
-				type: "subobject_set"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
+		}
 	}
 	{
 		name: "tm_test_node"
@@ -5222,6 +4993,49 @@
 			{
 				name: "b"
 				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_transform_component"
+		properties: [
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "20ef513a9606cc30"
+			}
+		]
+		default: {
+			position: {
+			}
+			rotation: {
+			}
+			scale: {
+			}
+		}
+	}
+	{
+		name: "tm_transform_component_link"
+		properties: [
+			{
+				name: "node"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -5255,84 +5069,274 @@
 		]
 	}
 	{
-		name: "tm_transform_component_link"
+		name: "tm_uint32_t"
 		properties: [
 			{
-				name: "node"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "entity"
-				type: "reference"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_location_component"
-		properties: [
-			{
-				name: "position"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "rotation"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "scale"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-		]
-	}
-	{
-		name: "tm_image"
-		properties: [
-			{
-				name: "creation_graph"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
-			}
-			{
-				name: "buffer_id"
+				name: "uint32_t"
 				type: "uint32_t"
 			}
 		]
 	}
 	{
-		name: "tm_creation_graph_variables"
+		name: "tm_uint64_t"
 		properties: [
 			{
-				name: "graph_version"
+				name: "uint64_t"
 				type: "uint64_t"
 			}
+		]
+	}
+	{
+		name: "tm_vec2_t"
+		properties: [
 			{
-				name: "variables"
-				type: "subobject_set"
-				type_hash: "0f4d31c43f7d9194"
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
 			}
 		]
 	}
 	{
-		name: "gameplay_sample_empty_component"
+		name: "tm_vec3_t"
 		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
 		]
 	}
 	{
-		name: "tm_custom_component"
+		name: "tm_vec4_t"
+		properties: [
+			{
+				name: "x"
+				type: "float"
+			}
+			{
+				name: "y"
+				type: "float"
+			}
+			{
+				name: "z"
+				type: "float"
+			}
+			{
+				name: "w"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_velocity_component"
+		properties: [
+			{
+				name: "velocity"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "angular_velocity"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+		default: {
+			velocity: {
+			}
+			angular_velocity: {
+			}
+		}
+	}
+	{
+		name: "tm_vertex_channel_description"
+		properties: [
+			{
+				name: "offset"
+				type: "uint32_t"
+			}
+			{
+				name: "stride"
+				type: "uint32_t"
+			}
+			{
+				name: "format_type"
+				type: "uint32_t"
+			}
+			{
+				name: "format_components"
+				type: "uint32_t"
+			}
+			{
+				name: "format_bits_per_component"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			stride: 12
+			format_components: 2
+			format_bits_per_component: 2
+		}
+	}
+	{
+		name: "tm_visibility_flag"
+		properties: [
+			{
+				name: "uuid"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_wav"
 		properties: [
 			{
 				name: "frequency"
+				type: "uint32_t"
+			}
+			{
+				name: "num_channels"
+				type: "uint32_t"
+			}
+			{
+				name: "format"
+				type: "uint32_t"
+			}
+			{
+				name: "channel_mask"
+				type: "uint32_t"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_wav_reference"
+		properties: [
+			{
+				name: "wav"
+				type: "reference"
+				type_hash: "63ce9e2592304d8f"
+			}
+		]
+	}
+	{
+		name: "tm_widow_layouts"
+		properties: [
+			{
+				name: "layouts"
+				type: "subobject_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_window_layout"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "create_on_startup"
+				type: "bool"
+			}
+			{
+				name: "window_x"
 				type: "float"
 			}
 			{
-				name: "amplitude"
+				name: "window_y"
 				type: "float"
 			}
+			{
+				name: "window_width"
+				type: "float"
+			}
+			{
+				name: "window_height"
+				type: "float"
+			}
+			{
+				name: "tabwell"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
 		]
+	}
+	{
+		name: "tm_window_layouts"
+		properties: [
+			{
+				name: "layouts"
+				type: "subobject_set"
+				type_hash: "1f1ea8c1548bab03"
+			}
+		]
+	}
+	{
+		name: "unlit_output_node_settings"
+		properties: [
+			{
+				name: "surface_type"
+				type: "uint64_t"
+			}
+			{
+				name: "blend_mode"
+				type: "uint64_t"
+			}
+			{
+				name: "layer"
+				type: "uint64_t"
+			}
+			{
+				name: "face_culling"
+				type: "uint64_t"
+			}
+			{
+				name: "back_sides_before_front_sides"
+				type: "bool"
+			}
+		]
+		default: {
+			surface_type: "80ccda308adcbe89"
+			blend_mode: "f134853be9963bab"
+			layer: "6fb31d8e1245218b"
+			face_culling: "9dcb40c80d6f306a"
+		}
+	}
+	{
+		name: "unlit_output_vertex_settings"
+		properties: [
+			{
+				name: "position_space"
+				type: "uint64_t"
+			}
+			{
+				name: "normal_space"
+				type: "uint64_t"
+			}
+			{
+				name: "tangent0_space"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			position_space: "b89991a82d0f8d08"
+			normal_space: "7deb18fc5400a87c"
+			tangent0_space: "9680ba15a670e715"
+		}
 	}
 ]
