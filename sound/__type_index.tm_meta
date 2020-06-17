@@ -266,7 +266,16 @@
 				type: "subobject_set"
 				type_hash: "92f9e2914f038512"
 			}
+			{
+				name: "motion_mixer"
+				type: "subobject"
+				type_hash: "2d1bc22a3c7cfceb"
+			}
 		]
+		default: {
+			motion_mixer: {
+			}
+		}
 	}
 	{
 		name: "tm_animation_state_machine_component"
@@ -484,6 +493,99 @@
 				name: "transitions"
 				type: "subobject_set"
 				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_asm_motion_mixer"
+		properties: [
+			{
+				name: "sliders"
+				type: "subobject_set"
+				type_hash: "c8158058953e8257"
+			}
+			{
+				name: "buttons"
+				type: "subobject_set"
+				type_hash: "1d174065e7d0db8a"
+			}
+			{
+				name: "variable_keys"
+				type: "subobject_set"
+				type_hash: "88c1e2333ac733c3"
+			}
+			{
+				name: "event_keys"
+				type: "subobject_set"
+				type_hash: "8d34c9aa682dbc87"
+			}
+		]
+	}
+	{
+		name: "tm_asm_motion_mixer_button"
+		properties: [
+			{
+				name: "event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_asm_motion_mixer_event_key"
+		properties: [
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "key"
+				type: "uint32_t"
+			}
+			{
+				name: "event"
+				type: "reference"
+				type_hash: "52847af34d7153f0"
+			}
+		]
+	}
+	{
+		name: "tm_asm_motion_mixer_slider"
+		properties: [
+			{
+				name: "variable"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_asm_motion_mixer_variable_key"
+		properties: [
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "key"
+				type: "uint32_t"
+			}
+			{
+				name: "variable"
+				type: "reference"
+				type_hash: "da1955a46ea322be"
+			}
+			{
+				name: "lerp_time"
+				type: "float"
 			}
 		]
 	}
@@ -945,6 +1047,8 @@
 		]
 		default: {
 			graph: {
+				interface: {
+				}
 			}
 			interface: {
 			}
@@ -1074,6 +1178,8 @@
 			capture_interface: "d2420b8f77d91139"
 			output_image: {
 				graph: {
+					interface: {
+					}
 				}
 				interface: {
 				}
@@ -1974,6 +2080,22 @@
 		]
 	}
 	{
+		name: "tm_entity_graph"
+		properties: [
+			{
+				name: "graph"
+				type: "subobject"
+				type_hash: "01527750cf1208ef"
+			}
+		]
+		default: {
+			graph: {
+				interface: {
+				}
+			}
+		}
+	}
+	{
 		name: "tm_entity_rigger_component"
 		properties: [
 			{
@@ -2085,7 +2207,16 @@
 				type: "subobject_set"
 				type_hash: "425cefdca2d9f029"
 			}
+			{
+				name: "interface"
+				type: "subobject"
+				type_hash: "d8d2adf4ea2129be"
+			}
 		]
+		default: {
+			interface: {
+			}
+		}
 	}
 	{
 		name: "tm_graph_comment"
@@ -2124,6 +2255,8 @@
 		]
 		default: {
 			graph: {
+				interface: {
+				}
 			}
 		}
 	}
@@ -2170,6 +2303,42 @@
 		]
 	}
 	{
+		name: "tm_graph_input"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "id"
+				type: "string"
+			}
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph_interface"
+		properties: [
+			{
+				name: "inputs"
+				type: "subobject_set"
+				type_hash: "9c14d10a15849ad2"
+			}
+			{
+				name: "outputs"
+				type: "subobject_set"
+				type_hash: "4546f855f6eb575b"
+			}
+			{
+				name: "last_id"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_graph_node"
 		properties: [
 			{
@@ -2193,13 +2362,26 @@
 				type: "float"
 			}
 			{
-				name: "is_compact"
-				type: "bool"
-			}
-			{
 				name: "settings"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_graph_output"
+		properties: [
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "id"
+				type: "string"
+			}
+			{
+				name: "type_hash"
+				type: "uint64_t"
 			}
 		]
 	}
@@ -2219,6 +2401,35 @@
 				type: "uint32_t"
 			}
 		]
+	}
+	{
+		name: "tm_graph_settings"
+		properties: [
+			{
+				name: "graph_uuid_a"
+				type: "uint64_t"
+			}
+			{
+				name: "view_position"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+			{
+				name: "view_scale"
+				type: "float"
+			}
+			{
+				name: "grid_snapping"
+				type: "bool"
+			}
+			{
+				name: "grid_size"
+				type: "float"
+			}
+		]
+		default: {
+			grid_size: 30
+		}
 	}
 	{
 		name: "tm_grid_settings"
@@ -2902,6 +3113,8 @@
 		default: {
 			creation_graph: {
 				graph: {
+					interface: {
+					}
 				}
 				interface: {
 				}
@@ -3052,6 +3265,47 @@
 				type: "bool"
 			}
 		]
+	}
+	{
+		name: "tm_scene_settings"
+		properties: [
+			{
+				name: "asset_uuid_a"
+				type: "uint64_t"
+			}
+			{
+				name: "use_world_axes"
+				type: "bool"
+			}
+			{
+				name: "multi_select_pivot"
+				type: "uint32_t"
+			}
+			{
+				name: "move_snap"
+				type: "bool"
+			}
+			{
+				name: "move_snap_size"
+				type: "float"
+			}
+			{
+				name: "rotation_snap"
+				type: "bool"
+			}
+			{
+				name: "rotation_snap_angle"
+				type: "float"
+			}
+			{
+				name: "scaling_absolute_handle"
+				type: "bool"
+			}
+		]
+		default: {
+			move_snap_size: 1
+			rotation_snap_angle: 15
+		}
 	}
 	{
 		name: "tm_scene_tab"
@@ -4138,6 +4392,18 @@
 		]
 	}
 	{
+		name: "tm_subgraph_node_settings"
+		properties: [
+			{
+				name: "subgraph"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+		default: {
+		}
+	}
+	{
 		name: "tm_tab_view"
 		properties: [
 			{
@@ -4268,6 +4534,38 @@
 			scale: {
 			}
 		}
+	}
+	{
+		name: "tm_ui_theme"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "based_on"
+				type: "uint32_t"
+			}
+			{
+				name: "colors"
+				type: "subobject_set"
+				type_hash: "f6bf12b10fe9b075"
+			}
+		]
+	}
+	{
+		name: "tm_ui_theme_color"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
 	}
 	{
 		name: "tm_uint32_t"
