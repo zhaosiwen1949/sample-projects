@@ -36,80 +36,80 @@ components: [
 				{
 					__uuid: "505f2838-d161-cc32-ebbd-50f8fb49e4a9"
 					type: "tm_custom_event"
-					position_x: -535
-					position_y: -358
+					position_x: -975
+					position_y: -390
 				}
 				{
 					__uuid: "a80a5619-ec2f-c74b-805f-72dbf01f0a8c"
 					type: "tm_spawn_entity"
-					position_x: -316.5
-					position_y: -333
+					position_x: -765
+					position_y: -390
 				}
 				{
 					__uuid: "ae6dc20c-76e3-fa00-07e3-bfaeffe1a128"
 					type: "tm_init_event"
-					position_x: -657.5
-					position_y: 279
+					position_x: -975
+					position_y: 60
 				}
 				{
 					__uuid: "1e9d9435-5451-4838-3989-b002d3b186da"
 					type: "tm_trigger_event"
-					position_x: -413.5
-					position_y: 279
+					position_x: -765
+					position_y: 60
 				}
 				{
 					__uuid: "d2a2d3fc-aa03-7311-018c-fc8fb71278be"
 					type: "tm_physx_push"
-					position_x: -91.5
-					position_y: -344
+					position_x: -555
+					position_y: -390
 				}
 				{
 					__uuid: "f2d48d61-a0a5-8922-cdff-e492f866c4e7"
 					type: "tm_custom_event"
-					position_x: -434
-					position_y: -172
+					position_x: -975
+					position_y: -180
 				}
 				{
 					__uuid: "c7bea78d-9a81-c20c-c060-4f797158ca5d"
 					type: "tm_trigger_event"
-					position_x: 47.5
-					position_y: -161.5
+					position_x: -555
+					position_y: -180
 				}
 				{
 					__uuid: "e4fbefaf-c500-39f4-7ec5-02fccab17a60"
 					type: "tm_delay"
-					position_x: -206.25
-					position_y: -158
+					position_x: -765
+					position_y: -180
 				}
 				{
 					__uuid: "ef5a278b-0546-67fa-9e4c-c2d652c23c9d"
 					type: "tm_custom_event"
-					position_x: -490.25
-					position_y: 49
+					position_x: -975
+					position_y: -59.99999237060547
 				}
 				{
 					__uuid: "a661c9d0-e5be-9b96-2de1-569308be27b9"
 					type: "tm_trigger_event"
-					position_x: -247.25
-					position_y: 51
+					position_x: -765
+					position_y: -59.99999237060547
 				}
 				{
 					__uuid: "d644ee5e-a450-6aa3-582d-255e00635cd4"
 					type: "tm_destroy_entity"
-					position_x: -249.625
-					position_y: 490.9285278320313
+					position_x: -555
+					position_y: 180
 				}
 				{
 					__uuid: "aa32c4fa-6504-2758-5dd1-d14a53f8fc18"
 					type: "tm_get_entities_with_tag"
-					position_x: -484.625
-					position_y: 489.8570556640625
+					position_x: -765
+					position_y: 180
 				}
 				{
 					__uuid: "5ee64dae-f8af-8d80-46b3-3d9685dc94a1"
 					type: "tm_reload_event"
-					position_x: -740.8120727539063
-					position_y: 491.714111328125
+					position_x: -975
+					position_y: 180
 				}
 			]
 			connections: [
@@ -275,8 +275,8 @@ components: [
 				{
 					__uuid: "6127dbeb-c9cb-e05a-8f8d-b699ff036622"
 					text: "Spawn Ball"
-					position_x: -590.25
-					position_y: -445.5
+					position_x: -1200
+					position_y: -360
 					font_scale: 2
 					color: {
 						__uuid: "2d2df502-8bf5-69c5-be35-06c17fca6811"
@@ -285,8 +285,8 @@ components: [
 				{
 					__uuid: "a979db42-acde-609d-93ed-826a0af56b47"
 					text: "Restart"
-					position_x: -628.25
-					position_y: -171.5
+					position_x: -1200
+					position_y: -150
 					font_scale: 2
 					color: {
 						__uuid: "48a53233-a00a-cb4e-8b57-92987800e1e8"
@@ -295,8 +295,8 @@ components: [
 				{
 					__uuid: "722581b3-452b-0b36-aa28-6e2f92795dc1"
 					text: "Init"
-					position_x: -874.25
-					position_y: 300
+					position_x: -1200
+					position_y: 90
 					font_scale: 2
 					color: {
 						__uuid: "747e8ace-a27e-f5b5-e766-9f74f1181ee9"
@@ -305,8 +305,8 @@ components: [
 				{
 					__uuid: "668cab22-02b7-3d58-2233-8eccddc5b205"
 					text: "Lost ball"
-					position_x: -713.25
-					position_y: 55
+					position_x: -1200
+					position_y: -30.00000190734863
 					font_scale: 2
 					color: {
 						__uuid: "c5dccd17-3062-c1fb-5f8e-f585b5dbe9d0"
@@ -315,14 +315,17 @@ components: [
 				{
 					__uuid: "a46dd366-a110-9fb7-b757-628f6e4040ea"
 					text: "Reload"
-					position_x: -931.5810546875
-					position_y: 500.4671020507813
+					position_x: -1200
+					position_y: 210
 					font_scale: 2
 					color: {
 						__uuid: "7bc8804f-5d36-1ec7-5318-91bbe0523e45"
 					}
 				}
 			]
+			interface: {
+				__uuid: "36c23fc1-9ba9-b1ae-8798-e5a63bf798d9"
+			}
 		}
 	}
 ]
@@ -704,6 +707,9 @@ children: [
 							}
 						}
 					]
+					interface: {
+						__uuid: "e78df39b-7f64-4900-8248-638b0eff4b2b"
+					}
 				}
 			}
 		]
