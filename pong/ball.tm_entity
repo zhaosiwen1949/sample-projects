@@ -12,7 +12,7 @@ components: [
 					__uuid: "eb6afa95-df46-06a3-b12e-5d9ef5fbed55"
 					type: "tm_custom_event"
 					position_x: -375
-					position_y: -120
+					position_y: -600
 				}
 				{
 					__uuid: "1d193561-c5fa-fb81-cd1e-ea201bb50f09"
@@ -24,7 +24,7 @@ components: [
 					__uuid: "54515568-cdb7-2af0-aa3f-eff3b8993f36"
 					type: "tm_custom_event"
 					position_x: -375
-					position_y: -240
+					position_y: -720
 				}
 				{
 					__uuid: "269faffe-abf5-f544-5c90-5509ab5456c8"
@@ -268,7 +268,7 @@ components: [
 					__uuid: "7cfc467b-36fb-ab53-4be8-e22a47b4c9e3"
 					type: "tm_custom_event"
 					position_x: -375
-					position_y: 3.814697265625e-06
+					position_y: -480
 				}
 				{
 					__uuid: "8881cca0-7047-0137-0150-1238eeefd8cd"
@@ -294,20 +294,20 @@ components: [
 									{
 										__uuid: "8adfde3f-5eb2-0432-ab5b-f5829967fb02"
 										type: "tm_set_remote_float_variable"
-										position_x: 1845
-										position_y: -720
+										position_x: 1815
+										position_y: -750
 									}
 									{
 										__uuid: "3c9e8752-e950-7e98-54b8-576056b404c3"
 										type: "tm_entity_from_path"
-										position_x: 1665
-										position_y: -630
+										position_x: 1605
+										position_y: -660
 									}
 									{
 										__uuid: "adcecd8f-c33b-e3c1-abc7-ead727a78177"
 										type: "tm_input_node"
-										position_x: 1595
-										position_y: -720
+										position_x: 1605
+										position_y: -750
 									}
 								]
 								connections: [
@@ -376,7 +376,7 @@ components: [
 					type: "tm_subgraph_node"
 					label: "Change Ball Direction"
 					position_x: -165
-					position_y: 3.814697265625e-06
+					position_y: -480
 					settings: {
 						__type: "tm_subgraph_node_settings"
 						__uuid: "024ea465-13f6-28a3-3aa5-cdb1d506047d"
@@ -387,109 +387,242 @@ components: [
 								__uuid: "f99f8fe3-9d7f-d5fa-99da-0475e58a64f6"
 								nodes: [
 									{
-										__uuid: "64e1c079-3f80-6a89-d0f1-aba5fd117a6f"
-										type: "tm_vec3_components"
-										position_x: 1935
-										position_y: 600
-									}
-									{
-										__uuid: "b8b1c6c5-b223-0573-061a-2726d583b0b9"
-										type: "tm_get_local_transform"
-										position_x: 1725
-										position_y: 600
-									}
-									{
-										__uuid: "0e42736b-9353-e6d2-6ae0-c1a842145e4b"
-										type: "tm_scene_entity"
-										position_x: 1515
-										position_y: 600
-									}
-									{
-										__uuid: "504dfdef-a1a7-dda3-0e2b-afb8e1c1d9cf"
-										type: "tm_float_sub"
-										position_x: 2145
-										position_y: 750
-									}
-									{
-										__uuid: "2999e30e-6539-852d-62e6-170e0419bb36"
-										type: "tm_entity_from_path"
-										position_x: 1515
-										position_y: 750
-									}
-									{
-										__uuid: "17bc4061-42e0-34f1-e8e6-afd37d50f28b"
-										type: "tm_get_local_transform"
-										position_x: 1725
-										position_y: 750
-									}
-									{
-										__uuid: "19a9615d-07e2-dd8b-78c9-3e029a20e9e5"
-										type: "tm_get_vec3_variable"
-										position_x: 2115
-										position_y: 600
-									}
-									{
-										__uuid: "e48924d9-27ff-9c78-f8d2-7c967ad63f3d"
-										type: "tm_set_vec3_variable"
-										position_x: 3195
-										position_y: 720
-									}
-									{
-										__uuid: "75cea37c-a410-6c9f-6b21-7fd96fe26d08"
-										type: "tm_vec3_components"
-										position_x: 1935
-										position_y: 750
-									}
-									{
-										__uuid: "0d591956-5bde-4b5c-a7b1-f8fc4b570f4e"
-										type: "tm_vec3_components"
-										position_x: 2325
-										position_y: 600
-									}
-									{
-										__uuid: "8883347f-138c-3ece-1688-e7fa5e972780"
-										type: "tm_float_sub"
-										position_x: 2505
-										position_y: 570
-									}
-									{
-										__uuid: "4ce6187f-321d-861b-3cea-a7e4c43a16a8"
-										type: "tm_vec3_from_components"
-										position_x: 2865
-										position_y: 660
-									}
-									{
 										__uuid: "899cfacd-08e0-f640-0dd4-6fdd9a81eac4"
 										type: "tm_float_mul"
 										position_x: 2325
-										position_y: 750
+										position_y: 690
 									}
 									{
 										__uuid: "3a54b051-1d41-f788-e0a5-bdf17e6262bc"
 										type: "tm_float_add"
 										position_x: 2535
-										position_y: 750
+										position_y: 690
+									}
+									{
+										__uuid: "bcd8d4e5-9e3a-971c-3b1d-05cbd9b15e2b"
+										type: "tm_subgraph_node"
+										label: "ball.pos.z"
+										position_x: 1905
+										position_y: 660
+										settings: {
+											__type: "tm_subgraph_node_settings"
+											__uuid: "3a6cdd72-5ba4-6d65-1a0c-ad63049bda10"
+											subgraph: {
+												__type: "tm_entity_graph"
+												__uuid: "088f5c07-e4a9-024d-899e-9ec0595761a2"
+												graph: {
+													__uuid: "2c28f65c-816d-fa9c-cee8-85a2a948cb85"
+													nodes: [
+														{
+															__uuid: "e6116bd4-1c90-0f38-dfdb-b43cb61a8f07"
+															type: "tm_vec3_components"
+															position_x: 1935
+															position_y: 540
+														}
+														{
+															__uuid: "862df8f3-89c2-f502-14ce-720620d8b253"
+															type: "tm_get_local_transform"
+															position_x: 1725
+															position_y: 540
+														}
+														{
+															__uuid: "f64273fc-80c6-5d5b-ae4f-8f4f7c1bfb80"
+															type: "tm_scene_entity"
+															position_x: 1515
+															position_y: 540
+														}
+														{
+															__uuid: "3ca79219-c78f-63f4-17e2-80788a2e57d7"
+															type: "tm_output_node"
+															position_x: 2185
+															position_y: 540
+														}
+													]
+													connections: [
+														{
+															__uuid: "49c5a421-83db-becb-a75d-97a7219d482f"
+															from_node: "862df8f3-89c2-f502-14ce-720620d8b253"
+															to_node: "e6116bd4-1c90-0f38-dfdb-b43cb61a8f07"
+															from_connector_hash: "8bbeb160190f613a"
+															to_connector_hash: "80edf8ab6760fa67"
+														}
+														{
+															__uuid: "d12a8cb9-a221-36c2-3bd3-703ab673d6ef"
+															from_node: "f64273fc-80c6-5d5b-ae4f-8f4f7c1bfb80"
+															to_node: "862df8f3-89c2-f502-14ce-720620d8b253"
+															from_connector_hash: "9831ca893b0d087d"
+															to_connector_hash: "9831ca893b0d087d"
+														}
+														{
+															__uuid: "4f983edf-4742-cf64-6fec-16c9cbf63edb"
+															from_node: "e6116bd4-1c90-0f38-dfdb-b43cb61a8f07"
+															to_node: "3ca79219-c78f-63f4-17e2-80788a2e57d7"
+															from_connector_hash: "88a824e868c7c5ef"
+															to_connector_hash: "0a5d08d6299c4888"
+														}
+													]
+													interface: {
+														__uuid: "0240c4c2-8856-52ac-412c-8a651e87922b"
+														outputs: [
+															{
+																__uuid: "83580ca2-11c2-1f6d-5292-627bc4e99618"
+																display_name: "z"
+																id: "1"
+																type_hash: "6d0a4e744c45523b"
+															}
+														]
+														last_id: 1
+													}
+												}
+											}
+										}
+									}
+									{
+										__uuid: "504dfdef-a1a7-dda3-0e2b-afb8e1c1d9cf"
+										type: "tm_float_sub"
+										position_x: 2115
+										position_y: 690
 									}
 									{
 										__uuid: "19418681-aae3-7b05-2c05-20507c1a266a"
 										type: "tm_float_add"
-										position_x: 2685
-										position_y: 570
+										position_x: 2745
+										position_y: 510
 									}
 									{
 										__uuid: "be5db067-b0ff-799e-0bc1-665eee614048"
 										type: "tm_input_node"
-										position_x: 2945
-										position_y: 720
+										position_x: 2955
+										position_y: 450
+									}
+									{
+										__uuid: "19a9615d-07e2-dd8b-78c9-3e029a20e9e5"
+										type: "tm_get_vec3_variable"
+										position_x: 2115
+										position_y: 570
+									}
+									{
+										__uuid: "e48924d9-27ff-9c78-f8d2-7c967ad63f3d"
+										type: "tm_set_vec3_variable"
+										position_x: 3165
+										position_y: 450
+									}
+									{
+										__uuid: "949a5f7c-8151-0632-33fa-6779490deda9"
+										type: "tm_subgraph_node"
+										label: "bat.pos.z"
+										position_x: 1905
+										position_y: 780
+										settings: {
+											__type: "tm_subgraph_node_settings"
+											__uuid: "4aa8ad92-f22b-4128-26b5-5b31ac405c43"
+											subgraph: {
+												__type: "tm_entity_graph"
+												__uuid: "196ce43f-b8bc-994d-9871-99eb4c91687c"
+												graph: {
+													__uuid: "c529c319-5187-d15a-e691-d30b1c596c10"
+													nodes: [
+														{
+															__uuid: "4635a41f-5358-7249-945d-2f894fb53ff1"
+															type: "tm_entity_from_path"
+															position_x: 1515
+															position_y: 690
+														}
+														{
+															__uuid: "74a90c3d-c3b2-18b0-cb1b-98ea0db75964"
+															type: "tm_get_local_transform"
+															position_x: 1725
+															position_y: 690
+														}
+														{
+															__uuid: "0779661d-1fe8-8ed8-5b6a-9f70b4b385a8"
+															type: "tm_vec3_components"
+															position_x: 1935
+															position_y: 690
+														}
+														{
+															__uuid: "cdb8fdf9-3b1b-be65-d954-528ae9b50887"
+															type: "tm_output_node"
+															position_x: 2185
+															position_y: 690
+														}
+													]
+													connections: [
+														{
+															__uuid: "4087d219-f28b-ca90-1dd8-55153c7c5993"
+															from_node: "4635a41f-5358-7249-945d-2f894fb53ff1"
+															to_node: "74a90c3d-c3b2-18b0-cb1b-98ea0db75964"
+															from_connector_hash: "9831ca893b0d087d"
+															to_connector_hash: "9831ca893b0d087d"
+														}
+														{
+															__uuid: "03f3aed2-1d48-e79b-12d9-9ea2f743dbed"
+															from_node: "74a90c3d-c3b2-18b0-cb1b-98ea0db75964"
+															to_node: "0779661d-1fe8-8ed8-5b6a-9f70b4b385a8"
+															from_connector_hash: "8bbeb160190f613a"
+															to_connector_hash: "80edf8ab6760fa67"
+														}
+														{
+															__uuid: "ad894596-43d1-a73c-ba86-3ee883e84774"
+															from_node: "0779661d-1fe8-8ed8-5b6a-9f70b4b385a8"
+															to_node: "cdb8fdf9-3b1b-be65-d954-528ae9b50887"
+															from_connector_hash: "88a824e868c7c5ef"
+															to_connector_hash: "0a5d08d6299c4888"
+														}
+													]
+													data: [
+														{
+															__uuid: "54ff07d1-fb47-3ab5-629c-c683c2d51261"
+															to_node: "4635a41f-5358-7249-945d-2f894fb53ff1"
+															to_connector_hash: "ae70259f6415b584"
+															data: {
+																__type: "tm_string"
+																__uuid: "921fc033-205c-8999-f36e-106dfcd2e9bc"
+																string: "../bat"
+															}
+														}
+													]
+													interface: {
+														__uuid: "e2dfacb3-a3fd-4539-a17e-c2c5ad36f6ea"
+														outputs: [
+															{
+																__uuid: "4a8615ed-45f8-049e-2152-526ebdcc5954"
+																display_name: "z"
+																id: "1"
+																type_hash: "6d0a4e744c45523b"
+															}
+														]
+														last_id: 1
+													}
+												}
+											}
+										}
+									}
+									{
+										__uuid: "0d591956-5bde-4b5c-a7b1-f8fc4b570f4e"
+										type: "tm_vec3_components"
+										position_x: 2325
+										position_y: 540
+									}
+									{
+										__uuid: "8883347f-138c-3ece-1688-e7fa5e972780"
+										type: "tm_float_sub"
+										position_x: 2535
+										position_y: 510
+									}
+									{
+										__uuid: "4ce6187f-321d-861b-3cea-a7e4c43a16a8"
+										type: "tm_vec3_from_components"
+										position_x: 2955
+										position_y: 600
 									}
 								]
 								connections: [
 									{
-										__uuid: "0381334f-2d1a-6251-bfc9-22a3e677fd20"
-										from_node: "2999e30e-6539-852d-62e6-170e0419bb36"
-										to_node: "17bc4061-42e0-34f1-e8e6-afd37d50f28b"
-										from_connector_hash: "9831ca893b0d087d"
-										to_connector_hash: "9831ca893b0d087d"
+										__uuid: "e6235916-9915-9899-5b94-4995e21d2c83"
+										from_node: "be5db067-b0ff-799e-0bc1-665eee614048"
+										to_node: "e48924d9-27ff-9c78-f8d2-7c967ad63f3d"
+										from_connector_hash: "0a5d08d6299c4888"
 									}
 									{
 										__uuid: "ca7a0e63-9725-1b69-8a12-25de2d4beae9"
@@ -513,24 +646,24 @@ components: [
 										to_connector_hash: "ea8bfc7d922a2a37"
 									}
 									{
-										__uuid: "bc9bc5ad-dde0-fc1a-a5bb-28aeec49dce8"
-										from_node: "b8b1c6c5-b223-0573-061a-2726d583b0b9"
-										to_node: "64e1c079-3f80-6a89-d0f1-aba5fd117a6f"
-										from_connector_hash: "8bbeb160190f613a"
-										to_connector_hash: "80edf8ab6760fa67"
+										__uuid: "e2450f90-e629-3b70-8c50-3fd16366775c"
+										from_node: "0d591956-5bde-4b5c-a7b1-f8fc4b570f4e"
+										to_node: "3a54b051-1d41-f788-e0a5-bdf17e6262bc"
+										from_connector_hash: "88a824e868c7c5ef"
+										to_connector_hash: "ea8bfc7d922a2a37"
 									}
 									{
-										__uuid: "3da64ffa-dd72-82fd-ab87-c97106ad695b"
-										from_node: "17bc4061-42e0-34f1-e8e6-afd37d50f28b"
-										to_node: "75cea37c-a410-6c9f-6b21-7fd96fe26d08"
-										from_connector_hash: "8bbeb160190f613a"
-										to_connector_hash: "80edf8ab6760fa67"
+										__uuid: "8e8a4dc1-49ee-b450-04a4-b2b0be40ae52"
+										from_node: "3a54b051-1d41-f788-e0a5-bdf17e6262bc"
+										to_node: "4ce6187f-321d-861b-3cea-a7e4c43a16a8"
+										from_connector_hash: "1609e8f8d8051ecb"
+										to_connector_hash: "88a824e868c7c5ef"
 									}
 									{
 										__uuid: "6c67e29b-d031-64d0-d004-0ecb2738007c"
-										from_node: "75cea37c-a410-6c9f-6b21-7fd96fe26d08"
+										from_node: "949a5f7c-8151-0632-33fa-6779490deda9"
 										to_node: "504dfdef-a1a7-dda3-0e2b-afb8e1c1d9cf"
-										from_connector_hash: "88a824e868c7c5ef"
+										from_connector_hash: "0a5d08d6299c4888"
 										to_connector_hash: "ea8bfc7d922a2a37"
 									}
 									{
@@ -548,11 +681,11 @@ components: [
 										to_connector_hash: "80edf8ab6760fa67"
 									}
 									{
-										__uuid: "3ebb5632-feee-24a2-8a13-c259fd86dd25"
-										from_node: "0e42736b-9353-e6d2-6ae0-c1a842145e4b"
-										to_node: "b8b1c6c5-b223-0573-061a-2726d583b0b9"
-										from_connector_hash: "9831ca893b0d087d"
-										to_connector_hash: "9831ca893b0d087d"
+										__uuid: "4fe48018-d092-113c-19aa-e9c33ac391a3"
+										from_node: "bcd8d4e5-9e3a-971c-3b1d-05cbd9b15e2b"
+										to_node: "504dfdef-a1a7-dda3-0e2b-afb8e1c1d9cf"
+										from_connector_hash: "0a5d08d6299c4888"
+										to_connector_hash: "071717d2d36b6b11"
 									}
 									{
 										__uuid: "38140fc4-63f1-d6b4-dcc7-a7220f2c3817"
@@ -574,33 +707,6 @@ components: [
 										to_node: "e48924d9-27ff-9c78-f8d2-7c967ad63f3d"
 										from_connector_hash: "80edf8ab6760fa67"
 										to_connector_hash: "920b430f38928dc9"
-									}
-									{
-										__uuid: "4fe48018-d092-113c-19aa-e9c33ac391a3"
-										from_node: "64e1c079-3f80-6a89-d0f1-aba5fd117a6f"
-										to_node: "504dfdef-a1a7-dda3-0e2b-afb8e1c1d9cf"
-										from_connector_hash: "88a824e868c7c5ef"
-										to_connector_hash: "071717d2d36b6b11"
-									}
-									{
-										__uuid: "e2450f90-e629-3b70-8c50-3fd16366775c"
-										from_node: "0d591956-5bde-4b5c-a7b1-f8fc4b570f4e"
-										to_node: "3a54b051-1d41-f788-e0a5-bdf17e6262bc"
-										from_connector_hash: "88a824e868c7c5ef"
-										to_connector_hash: "ea8bfc7d922a2a37"
-									}
-									{
-										__uuid: "8e8a4dc1-49ee-b450-04a4-b2b0be40ae52"
-										from_node: "3a54b051-1d41-f788-e0a5-bdf17e6262bc"
-										to_node: "4ce6187f-321d-861b-3cea-a7e4c43a16a8"
-										from_connector_hash: "1609e8f8d8051ecb"
-										to_connector_hash: "88a824e868c7c5ef"
-									}
-									{
-										__uuid: "e6235916-9915-9899-5b94-4995e21d2c83"
-										from_node: "be5db067-b0ff-799e-0bc1-665eee614048"
-										to_node: "e48924d9-27ff-9c78-f8d2-7c967ad63f3d"
-										from_connector_hash: "0a5d08d6299c4888"
 									}
 								]
 								data: [
@@ -634,13 +740,13 @@ components: [
 										}
 									}
 									{
-										__uuid: "57627f8a-afc5-b455-8627-48a3b69ed694"
-										to_node: "2999e30e-6539-852d-62e6-170e0419bb36"
-										to_connector_hash: "ae70259f6415b584"
+										__uuid: "2ee70a6b-5658-bb19-2be7-aaa9cd75736f"
+										to_node: "19418681-aae3-7b05-2c05-20507c1a266a"
+										to_connector_hash: "ea8bfc7d922a2a37"
 										data: {
-											__type: "tm_string"
-											__uuid: "79063940-0632-a6f9-4dcb-f69c8cfd8d9b"
-											string: "../bat"
+											__type: "tm_float"
+											__uuid: "93ffacd7-9480-8f3c-c2c1-b9a38b2ea03c"
+											float: 0.1000000014901161
 										}
 									}
 									{
@@ -663,28 +769,6 @@ components: [
 											float: 0.5
 										}
 									}
-									{
-										__uuid: "2ee70a6b-5658-bb19-2be7-aaa9cd75736f"
-										to_node: "19418681-aae3-7b05-2c05-20507c1a266a"
-										to_connector_hash: "ea8bfc7d922a2a37"
-										data: {
-											__type: "tm_float"
-											__uuid: "93ffacd7-9480-8f3c-c2c1-b9a38b2ea03c"
-											float: 0.1000000014901161
-										}
-									}
-								]
-								comments: [
-									{
-										__uuid: "efc2001a-2309-4cdd-3354-e177b79f1cc4"
-										text: "change-ball-direction"
-										position_x: 1470
-										position_y: 510
-										font_scale: 2
-										color: {
-											__uuid: "fb048ca4-e3cc-2c5c-41f9-2e9b89e4c546"
-										}
-									}
 								]
 								interface: {
 									__uuid: "b2765b55-1d45-26e8-b56e-5076306da7bd"
@@ -705,7 +789,7 @@ components: [
 					__uuid: "fe298325-ab55-2b43-6cf5-522c108268cc"
 					type: "tm_subgraph_node"
 					label: "Check Collision with Walls"
-					position_x: 44.99999237060547
+					position_x: 45
 					position_y: -1080
 					settings: {
 						__type: "tm_subgraph_node_settings"
@@ -2482,7 +2566,7 @@ components: [
 					type: "tm_subgraph_node"
 					label: "Increase Score"
 					position_x: -165
-					position_y: -120
+					position_y: -600
 					settings: {
 						__type: "tm_subgraph_node_settings"
 						__uuid: "f8d1d96f-5bdd-d4a8-312d-4de3d94e040a"
@@ -2494,61 +2578,29 @@ components: [
 								nodes: [
 									{
 										__uuid: "5eeb1449-242a-9856-7116-64824e655732"
-										type: "tm_set_remote_float_variable"
-										position_x: 4635
+										type: "tm_add_to_remote_float_variable"
+										position_x: 4650
 										position_y: -300
-									}
-									{
-										__uuid: "6d9cb170-4e47-6efc-41b2-b5e59d9762de"
-										type: "tm_get_remote_float_variable"
-										position_x: 4275
-										position_y: -210
-									}
-									{
-										__uuid: "508cfc9e-1665-eb96-a9ba-58676782dbe3"
-										type: "tm_float_add"
-										position_x: 4455
-										position_y: -210
-									}
-									{
-										__uuid: "c3a738f6-b4b1-dfa3-b3d5-e6d20022f2b8"
-										type: "tm_entity_from_path"
-										position_x: 4095
-										position_y: -240
+										width: 180
 									}
 									{
 										__uuid: "e3ffe300-d1d4-dfa4-6958-f9022db1ecbd"
 										type: "tm_input_node"
-										position_x: 4385
+										position_x: 4395
 										position_y: -300
+									}
+									{
+										__uuid: "c3a738f6-b4b1-dfa3-b3d5-e6d20022f2b8"
+										type: "tm_entity_from_path"
+										position_x: 4395
+										position_y: -210
 									}
 								]
 								connections: [
 									{
-										__uuid: "d17b458f-8e1f-9511-5630-74fbdc50b50a"
-										from_node: "6d9cb170-4e47-6efc-41b2-b5e59d9762de"
-										to_node: "508cfc9e-1665-eb96-a9ba-58676782dbe3"
-										from_connector_hash: "920b430f38928dc9"
-										to_connector_hash: "071717d2d36b6b11"
-									}
-									{
-										__uuid: "5e9152e2-6304-3c57-3514-3bb90a1355a6"
-										from_node: "508cfc9e-1665-eb96-a9ba-58676782dbe3"
-										to_node: "5eeb1449-242a-9856-7116-64824e655732"
-										from_connector_hash: "1609e8f8d8051ecb"
-										to_connector_hash: "920b430f38928dc9"
-									}
-									{
 										__uuid: "bc9dda38-5255-4bc6-9cc4-a861db9311c5"
 										from_node: "c3a738f6-b4b1-dfa3-b3d5-e6d20022f2b8"
 										to_node: "5eeb1449-242a-9856-7116-64824e655732"
-										from_connector_hash: "9831ca893b0d087d"
-										to_connector_hash: "9831ca893b0d087d"
-									}
-									{
-										__uuid: "76b3cc72-aff4-fbde-03a8-485416fc05ce"
-										from_node: "c3a738f6-b4b1-dfa3-b3d5-e6d20022f2b8"
-										to_node: "6d9cb170-4e47-6efc-41b2-b5e59d9762de"
 										from_connector_hash: "9831ca893b0d087d"
 										to_connector_hash: "9831ca893b0d087d"
 									}
@@ -2571,12 +2623,12 @@ components: [
 										}
 									}
 									{
-										__uuid: "42c43f6c-3d77-1249-a6e4-9a6bc38d72c6"
-										to_node: "508cfc9e-1665-eb96-a9ba-58676782dbe3"
-										to_connector_hash: "ea8bfc7d922a2a37"
+										__uuid: "2a5a5256-0778-599d-57e5-a501f4176ba9"
+										to_node: "5eeb1449-242a-9856-7116-64824e655732"
+										to_connector_hash: "920b430f38928dc9"
 										data: {
 											__type: "tm_float"
-											__uuid: "fd2a98a4-ee5c-ce9a-b2b9-26be066937c4"
+											__uuid: "0e11c687-6e8a-1d42-6b89-a4c74ec6e6e1"
 											float: 1
 										}
 									}
@@ -2588,28 +2640,6 @@ components: [
 											__type: "tm_string"
 											__uuid: "16673130-0fcd-78c9-d6d3-d98dade82962"
 											string: "score"
-										}
-									}
-									{
-										__uuid: "d79ef4aa-2931-d35d-8a1e-ce82c7eda92f"
-										to_node: "6d9cb170-4e47-6efc-41b2-b5e59d9762de"
-										to_connector_hash: "d4c943cba60c270b"
-										data: {
-											__type: "tm_string"
-											__uuid: "67a1fb2a-1488-1c31-c241-3a7e1472ce04"
-											string: "score"
-										}
-									}
-								]
-								comments: [
-									{
-										__uuid: "487a864e-5bc1-f039-7052-8846ea5133a0"
-										text: "increase-score"
-										position_x: 3990
-										position_y: -330
-										font_scale: 2
-										color: {
-											__uuid: "de84c205-350a-7e3f-ed17-a697eeea4dbe"
 										}
 									}
 								]
@@ -2866,25 +2896,25 @@ components: [
 									{
 										__uuid: "8f3271a0-4800-841b-a6f3-1a67f0f3b944"
 										type: "tm_vec3_components"
-										position_x: 1935
-										position_y: -120
+										position_x: 1725
+										position_y: -150
 									}
 									{
 										__uuid: "50e33204-4683-67fb-0d01-53aaf44ba9ec"
 										type: "tm_float_lt"
 										position_x: 2145
-										position_y: -120
+										position_y: -150
 									}
 									{
 										__uuid: "e45b5e9e-102a-fdd2-8523-d04ecd07e0ca"
 										type: "tm_get_local_transform"
-										position_x: 1725
+										position_x: 1515
 										position_y: -150
 									}
 									{
 										__uuid: "71061a13-a03e-a3d6-2341-8983bb7c4bdf"
 										type: "tm_scene_entity"
-										position_x: 1545
+										position_x: 1305
 										position_y: -150
 									}
 									{
@@ -2897,8 +2927,8 @@ components: [
 										__uuid: "e9a991e6-476e-bdf0-b632-811a269208ec"
 										type: "tm_subgraph_node"
 										label: "bat.position.z"
-										position_x: 1785
-										position_y: 150
+										position_x: 1725
+										position_y: 3.814697265625e-06
 										settings: {
 											__type: "tm_subgraph_node_settings"
 											__uuid: "2cd25d6e-a5b9-4599-409e-1dd663d2d578"
@@ -2988,8 +3018,8 @@ components: [
 										__uuid: "a9ee3698-54e8-4fb5-8ab8-dc001dc5c278"
 										type: "tm_subgraph_node"
 										label: "dir.x < 0"
-										position_x: 1945
-										position_y: 1.9073486328125e-06
+										position_x: 2385
+										position_y: 60
 										settings: {
 											__type: "tm_subgraph_node_settings"
 											__uuid: "065f5e55-0b6e-e3a8-f87c-a14c172dbfd1"
@@ -3093,14 +3123,14 @@ components: [
 									{
 										__uuid: "dabedf2e-d979-afda-90c2-36133d548752"
 										type: "tm_float_sub"
-										position_x: 2145
-										position_y: 120
+										position_x: 1935
+										position_y: 3.814697265625e-06
 									}
 									{
 										__uuid: "608fa3fb-01a6-8ccd-b9e8-04f302ad89c2"
 										type: "tm_float_in_range"
-										position_x: 2355
-										position_y: 120
+										position_x: 2145
+										position_y: -1.9073486328125e-06
 									}
 									{
 										__uuid: "ac69b45f-d21b-090c-7fbb-da6b3a1db8f5"
@@ -3199,11 +3229,11 @@ components: [
 										to_connector_hash: "071717d2d36b6b11"
 									}
 									{
-										__uuid: "888857a2-e4a9-9b2c-a6ab-5b2f65a2a6b0"
-										from_node: "a9ee3698-54e8-4fb5-8ab8-dc001dc5c278"
-										to_node: "b6dc7a35-4e65-6a29-1fd2-0368bc23e85d"
-										from_connector_hash: "0a5d08d6299c4888"
-										to_connector_hash: "ea8bfc7d922a2a37"
+										__uuid: "73f5bbb0-9e10-11f6-6a18-623c61880bdc"
+										from_node: "b6dc7a35-4e65-6a29-1fd2-0368bc23e85d"
+										to_node: "ac69b45f-d21b-090c-7fbb-da6b3a1db8f5"
+										from_connector_hash: "1609e8f8d8051ecb"
+										to_connector_hash: "071717d2d36b6b11"
 									}
 									{
 										__uuid: "6afd6797-26b9-6618-7212-b878d5854fb6"
@@ -3212,9 +3242,9 @@ components: [
 										from_connector_hash: "47bf0dd9d7937e37"
 									}
 									{
-										__uuid: "db93783e-aa88-cb40-153c-59ef7553aad2"
+										__uuid: "4915e879-e607-84e4-a68c-84aa2e3b9d06"
 										from_node: "608fa3fb-01a6-8ccd-b9e8-04f302ad89c2"
-										to_node: "ac69b45f-d21b-090c-7fbb-da6b3a1db8f5"
+										to_node: "b6dc7a35-4e65-6a29-1fd2-0368bc23e85d"
 										from_connector_hash: "1609e8f8d8051ecb"
 										to_connector_hash: "ea8bfc7d922a2a37"
 									}
@@ -3239,11 +3269,11 @@ components: [
 										from_connector_hash: "0a5d08d6299c4888"
 									}
 									{
-										__uuid: "73f5bbb0-9e10-11f6-6a18-623c61880bdc"
-										from_node: "b6dc7a35-4e65-6a29-1fd2-0368bc23e85d"
+										__uuid: "892c8edb-a9c6-152f-2ff0-d6d46d25839e"
+										from_node: "a9ee3698-54e8-4fb5-8ab8-dc001dc5c278"
 										to_node: "ac69b45f-d21b-090c-7fbb-da6b3a1db8f5"
-										from_connector_hash: "1609e8f8d8051ecb"
-										to_connector_hash: "071717d2d36b6b11"
+										from_connector_hash: "0a5d08d6299c4888"
+										to_connector_hash: "ea8bfc7d922a2a37"
 									}
 								]
 								data: [
@@ -3328,18 +3358,6 @@ components: [
 										}
 									}
 								]
-								comments: [
-									{
-										__uuid: "4e472ac2-50f5-7f17-5ede-d9f1c3fcfcba"
-										text: "check-ball-against-bat"
-										position_x: 1590
-										position_y: -270
-										font_scale: 2
-										color: {
-											__uuid: "81e2d65c-3098-3ebb-17e0-c365f366843c"
-										}
-									}
-								]
 								interface: {
 									__uuid: "43de6d44-003a-442a-1fbb-5fab448a21ce"
 									inputs: [
@@ -3367,7 +3385,7 @@ components: [
 					type: "tm_subgraph_node"
 					label: "Move Ball out of Bat"
 					position_x: -165
-					position_y: -240
+					position_y: -720
 					settings: {
 						__type: "tm_subgraph_node_settings"
 						__uuid: "3d7f5bb6-856e-ebaf-aad3-c199415ef929"
@@ -3380,38 +3398,38 @@ components: [
 									{
 										__uuid: "738f85b6-ee56-a0ea-89a2-aca2b7d13094"
 										type: "tm_set_local_transform"
-										position_x: 3585
-										position_y: -660
+										position_x: 3225
+										position_y: -750
 									}
 									{
 										__uuid: "5723b5fc-c040-faf5-965a-542a9d0abdf3"
 										type: "tm_scene_entity"
-										position_x: 2835
-										position_y: -570
+										position_x: 2415
+										position_y: -630
 									}
 									{
 										__uuid: "34072047-7a29-b2a9-2e2c-754dcc3f93a1"
 										type: "tm_get_local_transform"
-										position_x: 3015
-										position_y: -510
+										position_x: 2595
+										position_y: -630
 									}
 									{
 										__uuid: "59797bcf-b07b-701d-b375-b5b3e37f7566"
 										type: "tm_vec3_components"
-										position_x: 3225
-										position_y: -510
+										position_x: 2805
+										position_y: -630
 									}
 									{
 										__uuid: "5bdcd754-7624-ac52-3fca-f53c79ec7672"
 										type: "tm_vec3_from_components"
-										position_x: 3405
-										position_y: -510
+										position_x: 3015
+										position_y: -630
 									}
 									{
 										__uuid: "26f1805f-4d5a-4571-983d-e724210b3dce"
 										type: "tm_input_node"
-										position_x: 3335
-										position_y: -660
+										position_x: 3015
+										position_y: -750
 									}
 								]
 								connections: [
@@ -3473,18 +3491,6 @@ components: [
 											__type: "tm_float"
 											__uuid: "1378475a-f49c-b2e3-08fc-277b8fc0a20d"
 											float: -4.5
-										}
-									}
-								]
-								comments: [
-									{
-										__uuid: "b09a3252-5df2-a9ef-cab1-dd6061910913"
-										text: "move-ball-out-of-bat"
-										position_x: 2850
-										position_y: -720
-										font_scale: 2
-										color: {
-											__uuid: "f1ddb1a6-1adf-15e7-ec71-7415b272ff95"
 										}
 									}
 								]
@@ -3949,7 +3955,7 @@ components: [
 					__uuid: "e65c7d35-7e1f-f394-f748-ea62baf55464"
 					text: "Increase Score"
 					position_x: -630
-					position_y: -90
+					position_y: -570
 					font_scale: 2
 					color: {
 						__uuid: "718e1ae6-9a89-6812-7e49-a7840742560d"
@@ -3959,7 +3965,7 @@ components: [
 					__uuid: "5661967f-af01-c55c-f7b5-a256f5e3e466"
 					text: "Ball out of Bat"
 					position_x: -630
-					position_y: -210
+					position_y: -690
 					font_scale: 2
 					color: {
 						__uuid: "08b21af2-a8d8-2f57-4019-05f0cd357033"
@@ -3979,7 +3985,7 @@ components: [
 					__uuid: "15b2d6f7-b75d-23ec-8f34-25a626e4bc4a"
 					text: "Ball Direction"
 					position_x: -630
-					position_y: 29.99999809265137
+					position_y: -450
 					font_scale: 2
 					color: {
 						__uuid: "70c402d4-852d-4ec4-8058-a090672ca78e"
