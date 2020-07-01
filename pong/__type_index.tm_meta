@@ -1079,6 +1079,15 @@
 		]
 	}
 	{
+		name: "tm_creation_graph_input_id"
+		properties: [
+			{
+				name: "id"
+				type: "string"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_instanced_node_settings"
 		properties: [
 			{
@@ -3026,6 +3035,23 @@
 			{
 				name: "type_hash"
 				type: "uint64_t"
+			}
+			{
+				name: "default_value_set_by_user"
+				type: "bool"
+			}
+			{
+				name: "default_value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "public"
+				type: "bool"
 			}
 		]
 	}
