@@ -67,6 +67,84 @@ children: [
 					y: 0.2000000029802322
 				}
 			}
+			{
+				__type: "tm_graph_component"
+				__uuid: "55740e05-33d5-d58d-6462-e30dd67d0f6e"
+				graph: {
+					__uuid: "76b445b2-864b-de93-67b6-4fc907a6d084"
+					nodes: [
+						{
+							__uuid: "6370ce16-6143-b0da-da12-88e81dbfaef3"
+							type: "tm_poll_mouse_button"
+							position_x: 825
+							position_y: 360
+						}
+						{
+							__uuid: "a15492a9-e8a8-7d6d-eafe-e96c3ed0dbdc"
+							type: "tm_mixer_play_wav"
+							position_x: 1275
+							position_y: 300
+						}
+						{
+							__uuid: "4d1378ac-22a7-ecd8-c503-1be58c522b4f"
+							type: "tm_if"
+							position_x: 1065
+							position_y: 300
+						}
+						{
+							__uuid: "fa161148-2c07-9ef8-55e6-c2456782cbfe"
+							type: "tm_tick_event"
+							position_x: 825
+							position_y: 270
+						}
+					]
+					connections: [
+						{
+							__uuid: "e6a7a5f7-9138-6d6d-5629-7ccde58bcdfd"
+							from_node: "6370ce16-6143-b0da-da12-88e81dbfaef3"
+							to_node: "4d1378ac-22a7-ecd8-c503-1be58c522b4f"
+							from_connector_hash: "8e497d19f0dc7ab3"
+							to_connector_hash: "6701fa343eb29740"
+						}
+						{
+							__uuid: "254d458b-18bb-53bb-7f1a-8fcc561d8252"
+							from_node: "4d1378ac-22a7-ecd8-c503-1be58c522b4f"
+							to_node: "a15492a9-e8a8-7d6d-eafe-e96c3ed0dbdc"
+							from_connector_hash: "47bf0dd9d7937e37"
+						}
+						{
+							__uuid: "c5b356d5-41c2-9635-7718-9b768f2cacdb"
+							from_node: "fa161148-2c07-9ef8-55e6-c2456782cbfe"
+							to_node: "4d1378ac-22a7-ecd8-c503-1be58c522b4f"
+						}
+					]
+					data: [
+						{
+							__uuid: "c9307f63-e3ba-406b-7e76-cb628cf791a8"
+							to_node: "6370ce16-6143-b0da-da12-88e81dbfaef3"
+							to_connector_hash: "1e232360426fac96"
+							data: {
+								__type: "tm_mouse_button"
+								__uuid: "e5604f36-f743-b60f-9a03-455fe1455879"
+								mouse_button: 1
+							}
+						}
+						{
+							__uuid: "51ffb9e5-272a-a6bf-0058-41fb369536b0"
+							to_node: "a15492a9-e8a8-7d6d-eafe-e96c3ed0dbdc"
+							to_connector_hash: "786f65c00a816b19"
+							data: {
+								__type: "tm_wav_reference"
+								__uuid: "480e46de-90c1-5acf-870a-cdd92eed5ede"
+								wav: "538c1149-2ce7-2843-cabf-a2fbea653109"
+							}
+						}
+					]
+					interface: {
+						__uuid: "ff8ff464-e738-dcc7-dcd6-03b28eb1d342"
+					}
+				}
+			}
 		]
 		children: [
 			{
