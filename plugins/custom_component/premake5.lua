@@ -6,7 +6,7 @@
 newoption {
     trigger     = "clang",
     description = "Force use of CLANG for Windows builds"
- }
+}
 
 workspace "custom_component"
     configurations {"Debug", "Release"}
@@ -46,7 +46,7 @@ filter "platforms:Win64"
     prebuildcommands {
         "if not defined TM_SDK_DIR (echo ERROR: Environment variable TM_SDK_DIR must be set)"
     }
-    libdirs { "%TM_SDK_DIR%/lib/%{cfg.buildcfg}"}
+    libdirs { "%TM_SDK_DIR%/lib/" .. _ACTION .. "/%{cfg.buildcfg}"}
     disablewarnings {
         "4057", -- Slightly different base types. Converting from type with volatile to without.
         "4100", -- Unused formal parameter. I think unusued parameters are good for documentation.
