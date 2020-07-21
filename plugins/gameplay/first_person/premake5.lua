@@ -1,6 +1,12 @@
--- version: premake-5.0.0-alpha13
+-- premake5.lua
+-- version: premake-5.0.0-alpha14
 
 -- %TM_SDK_DIR% should be set to the directory of The Machinery SDK
+
+newoption {
+    trigger     = "clang",
+    description = "Force use of CLANG for Windows builds"
+ }
 
 workspace "gameplay_sample_first_person_component"
     configurations {"Debug", "Release"}
@@ -16,6 +22,22 @@ filter "system:windows"
     platforms { "Win64" }
     systemversion("latest")
 
+filter { "system:windows", "options:clang" }
+    toolset("msc-clangcl")
+    buildoptions {
+        "-Wno-missing-field-initializers",   -- = {0} is OK.
+        "-Wno-unused-parameter",             -- Useful for documentation purposes.
+        "-Wno-unused-local-typedef",         -- We don't always use all typedefs.
+        "-Wno-missing-braces",               -- = {0} is OK.
+        "-Wno-microsoft-anon-tag",           -- Allow anonymous structs.
+    }
+    buildoptions {
+        "-fms-extensions",                   -- Allow anonymous struct as C inheritance.
+        "-mavx",                             -- AVX.
+        "-mfma",                             -- FMA.
+    }
+    removeflags {"FatalWarnings"}
+
 filter "platforms:Win64"
     defines { "TM_OS_WINDOWS", "_CRT_SECURE_NO_WARNINGS" }
     includedirs { "%TM_SDK_DIR%/headers" }
@@ -27,7 +49,6 @@ filter "platforms:Win64"
     libdirs { "%TM_SDK_DIR%/lib/%{cfg.buildcfg}"}
     disablewarnings {
         "4057", -- Slightly different base types. Converting from type with volatile to without.
-        "4068", -- Unknown pragma. We use these for docgen.
         "4100", -- Unused formal parameter. I think unusued parameters are good for documentation.
         "4152", -- Conversion from function pointer to void *. Should be ok.
         "4200", -- Zero-sized array. Valid C99.
