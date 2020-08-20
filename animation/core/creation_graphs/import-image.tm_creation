@@ -21,6 +21,12 @@ graph: {
 			position_x: -40.43414306640625
 			position_y: 13.0833740234375
 		}
+		{
+			__uuid: "bb1ee123-946b-cdbc-11f9-6578c516fc89"
+			type: "tm_input_node"
+			position_x: -488.8344421386719
+			position_y: 4.0833740234375
+		}
 	]
 	connections: [
 		{
@@ -37,6 +43,13 @@ graph: {
 			from_connector_hash: "c05fedba357b4754"
 			to_connector_hash: "c05fedba357b4754"
 		}
+		{
+			__uuid: "d9924303-0e77-da66-9f7b-da999ee9e86c"
+			from_node: "bb1ee123-946b-cdbc-11f9-6578c516fc89"
+			to_node: "7273b3ef-d1b3-e1b0-2f77-84a4cdac3922"
+			from_connector_hash: "0a5d08d6299c4888"
+			to_connector_hash: "b10d67d723e27f0a"
+		}
 	]
 	comments: [
 		{
@@ -50,9 +63,29 @@ graph: {
 			}
 		}
 	]
+	interface: {
+		__uuid: "2f55d40b-e256-67df-d350-1e937c342921"
+		inputs: [
+			{
+				__uuid: "928659a7-4021-a622-d1e0-c757232b9220"
+				display_name: "Image Filename"
+				id: "1"
+				type_hash: "c0e73f6b9d047b45"
+				value: {
+					__type: "tm_image_archive"
+					__uuid: "b55f21ac-a3e5-9f01-82b3-e3a4b70aaff3"
+					filename: ""
+					description: {
+						__uuid: "c61a8365-247b-a48d-4570-cf05d6ed3328"
+					}
+				}
+				public: true
+			}
+		]
+		last_id: 1
+	}
 }
 interface: {
 	__uuid: "bef532ef-e0f5-2306-ae1f-b74c053505a3"
-	graph_version: 9
 }
 __asset_uuid: "4b2c7201-8440-7318-6a7d-20e92b7e2e5b"

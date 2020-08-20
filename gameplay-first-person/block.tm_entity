@@ -125,12 +125,6 @@ children: [
 										position_y: 142.75
 									}
 									{
-										__uuid: "be484fad-22ed-c7db-c837-6717e42584b4"
-										type: "creation_graph_input"
-										position_x: -474.8685302734375
-										position_y: -87.49996948242188
-									}
-									{
 										__uuid: "31eb8ba1-94af-7859-9ed7-f5bec52a96c0"
 										type: "lit_output"
 										position_x: -81.4188232421875
@@ -139,6 +133,12 @@ children: [
 											__type: "tm_shader_system_compiled_result"
 											__uuid: "00140378-aa69-03a8-6a42-422081b9fabf"
 										}
+									}
+									{
+										__uuid: "d13cc6f1-af21-b0be-5d35-3be710c72a2e"
+										type: "tm_input_node"
+										position_x: -478.4188232421875
+										position_y: -64.125
 									}
 								]
 								connections: [
@@ -179,9 +179,15 @@ children: [
 									}
 									{
 										__uuid: "1b2afd06-5957-1e47-bf7c-e138d23d2162"
-										from_node: "be484fad-22ed-c7db-c837-6717e42584b4"
 										to_node: "6bca99a8-c3da-650d-7dc4-975da8f452c2"
 										from_connector_hash: "920b430f38928dc9"
+										to_connector_hash: "2bbcabe5074ade9e"
+									}
+									{
+										__uuid: "4147fc3c-4f2e-cee0-0aff-2a9ec66e063f"
+										from_node: "d13cc6f1-af21-b0be-5d35-3be710c72a2e"
+										to_node: "6bca99a8-c3da-650d-7dc4-975da8f452c2"
+										from_connector_hash: "0a5d08d6299c4888"
 										to_connector_hash: "2bbcabe5074ade9e"
 									}
 								]
@@ -209,7 +215,6 @@ children: [
 									}
 									{
 										__uuid: "b008e861-17ac-5a8b-790a-102986affd86"
-										to_node: "be484fad-22ed-c7db-c837-6717e42584b4"
 										to_connector_hash: "6bb47b51ae4a21ff"
 										data: {
 											__type: "tm_creation_graph_variable_node_settings"
@@ -231,30 +236,24 @@ children: [
 								]
 								interface: {
 									__uuid: "5815e9e2-f253-7dc3-9a58-c5bccd693f10"
+									inputs: [
+										{
+											__uuid: "133de3d9-a572-b34b-e671-c4d847a6ffa4"
+											display_name: "Color"
+											id: "1"
+											type_hash: "d0c8704d11c0c0f1"
+											value: {
+												__type: "tm_color_rgb"
+												__uuid: "782d8972-d69e-bf41-50e6-5c987c3f1e18"
+											}
+											public: true
+										}
+									]
+									last_id: 1
 								}
 							}
 							interface: {
 								__uuid: "3837d843-bda6-9c8a-51e6-b5bc1fe77b2b"
-								inputs: [
-									{
-										__uuid: "ec19297d-f8bc-8dcb-a436-54796cb91f5c"
-										settings: "5c9483c1-86d3-e97f-4d8b-d077770d19e4"
-									}
-									{
-										__uuid: "be428f20-cfbc-a327-533d-11d14414d140"
-										settings: "277a4d92-633b-e870-2561-f5dd4854261b"
-										value: {
-											__type: "tm_vec4_t"
-											__uuid: "c8056bf8-267c-0d71-27fa-0f93e6866178"
-											__prototype_type: "tm_vec4_t"
-											__prototype_uuid: "698a8f0c-145b-03f3-5a73-d2b21976dea5"
-											x: 1
-											y: 1
-											z: 1
-											w: 1
-										}
-									}
-								]
 								settings_objects: [
 									{
 										__uuid: "54fc8bb4-1f7c-b0ae-802f-c48e42d91748"

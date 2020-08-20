@@ -39,9 +39,6 @@
 				type: "uint64_t"
 			}
 		]
-		default: {
-			blend_mode: "c3612e3203404e0f"
-		}
 	}
 	{
 		name: "lit_output_node_settings"
@@ -1079,6 +1076,15 @@
 		]
 	}
 	{
+		name: "tm_creation_graph_input_id"
+		properties: [
+			{
+				name: "id"
+				type: "string"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_instanced_node_settings"
 		properties: [
 			{
@@ -1096,16 +1102,6 @@
 	{
 		name: "tm_creation_graph_interface"
 		properties: [
-			{
-				name: "inputs"
-				type: "subobject_set"
-				type_hash: "0f4d31c43f7d9194"
-			}
-			{
-				name: "outputs"
-				type: "subobject_set"
-				type_hash: "0f4d31c43f7d9194"
-			}
 			{
 				name: "settings_objects"
 				type: "subobject_set"
@@ -3010,6 +3006,23 @@
 				name: "type_hash"
 				type: "uint64_t"
 			}
+			{
+				name: "value_set_by_user"
+				type: "bool"
+			}
+			{
+				name: "value"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "public"
+				type: "bool"
+			}
 		]
 	}
 	{
@@ -3284,8 +3297,6 @@
 				type_hash: "9aa53193b00323a6"
 			}
 		]
-		default: {
-		}
 	}
 	{
 		name: "tm_keyboard_item"
@@ -3403,9 +3414,6 @@
 				type: "float"
 			}
 		]
-		default: {
-			grid_size: 1
-		}
 	}
 	{
 		name: "tm_physics_body_component"
@@ -3944,9 +3952,6 @@
 				type: "float"
 			}
 		]
-		default: {
-			snap_angle: 15
-		}
 	}
 	{
 		name: "tm_rotation"
@@ -4105,10 +4110,6 @@
 				type: "bool"
 			}
 		]
-		default: {
-			move_snap_size: 1
-			rotation_snap_angle: 15
-		}
 	}
 	{
 		name: "tm_scene_tree_component"
