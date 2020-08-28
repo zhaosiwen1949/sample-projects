@@ -2925,6 +2925,21 @@
 		}
 	}
 	{
+		name: "tm_graph_cached_node_result"
+		properties: [
+			{
+				name: "node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "object"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
 		name: "tm_graph_comment"
 		properties: [
 			{
@@ -3058,6 +3073,11 @@
 			{
 				name: "last_id"
 				type: "uint64_t"
+			}
+			{
+				name: "cached_node_result"
+				type: "subobject_set"
+				type_hash: "f481097232786b73"
 			}
 		]
 	}
