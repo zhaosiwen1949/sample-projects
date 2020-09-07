@@ -29,6 +29,7 @@ static struct tm_the_truth_api* tm_the_truth_api;
 
 typedef struct input_state_t {
     bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
+    TM_PAD(3);
     tm_vec2_t mouse_delta;
 } input_state_t;
 
@@ -40,8 +41,8 @@ typedef struct tm_gameplay_state_o {
     tm_entity_t player_camera_pivot;
     tm_entity_t checkpoint_sphere;
     tm_vec3_t checkpoints_positions[8];
-    uint32_t current_checkpoint;
     uint64_t processed_events;
+    uint32_t current_checkpoint;
 
     float camera_tilt;
 
@@ -51,6 +52,7 @@ typedef struct tm_gameplay_state_o {
     // Component indices
     uint32_t asm_component;
     uint32_t mover_component;
+    TM_PAD(4);
 } tm_gameplay_state_o;
 
 static void start(tm_gameplay_context_t* ctx)

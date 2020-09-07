@@ -39,6 +39,7 @@ typedef struct input_state_t {
     bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
     bool left_mouse_held;
     bool left_mouse_pressed;
+    TM_PAD(1);
     tm_vec2_t mouse_delta;
 } input_state_t;
 
@@ -70,6 +71,8 @@ typedef struct tm_gameplay_state_o {
     // Current camera state
     float look_yaw;
     float look_pitch;
+
+    TM_PAD(4);
 
     // Misc
     uint64_t processed_events;
