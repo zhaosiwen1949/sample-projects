@@ -12,10 +12,21 @@
 #include <foundation/localizer.h>
 #include <foundation/math.inl>
 #include <foundation/the_truth.h>
+#include <foundation/the_truth_assets.h>
 #include <plugins/animation/animation_state_machine.h>
 #include <plugins/animation/animation_state_machine_component.h>
 #include <plugins/entity/entity.h>
 #include <plugins/physx/physx_scene.h>
+
+#include <plugins/render_utilities/render_component.h>
+#include <plugins/renderer/render_backend.h>
+#include <plugins/renderer/commands.h>
+#include <plugins/renderer/resources.h>
+#include <plugins/renderer/render_command_buffer.h>
+#include <plugins/shader_system/shader_system.h>
+#include <plugins/creation_graph/creation_graph.h>
+#include <plugins/creation_graph/creation_graph_output.inl>
+
 #include <stdio.h>
 #include <the_machinery/component_interfaces/editor_ui_interface.h>
 
@@ -26,6 +37,10 @@ static struct tm_gameplay_api* g;
 static struct tm_input_api* tm_input_api;
 static struct tm_physx_scene_api* tm_physx_scene_api;
 static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
+static struct tm_render_component_api *tm_render_component_api;
+static struct tm_shader_api *tm_shader_api;
+static struct tm_api_registry_api *tm_global_api_registry;
 
 typedef struct input_state_t {
     bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
@@ -42,8 +57,11 @@ typedef struct tm_gameplay_state_o {
     tm_entity_t checkpoint_sphere;
     tm_vec3_t checkpoints_positions[8];
     uint64_t processed_events;
-    uint32_t current_checkpoint;
+    
+    uint64_t particle_entity;
+    tm_renderer_backend_i *rb;
 
+    uint32_t current_checkpoint;
     float camera_tilt;
 
     // For giving some extra time to press jump.
@@ -52,7 +70,7 @@ typedef struct tm_gameplay_state_o {
     // Component indices
     uint32_t asm_component;
     uint32_t mover_component;
-    TM_PAD(4);
+    uint32_t render_component;
 } tm_gameplay_state_o;
 
 static void start(tm_gameplay_context_t* ctx)
@@ -62,6 +80,8 @@ static void start(tm_gameplay_context_t* ctx)
     state->player_camera_pivot = tm_entity_api->resolve_path(ctx->entity_ctx, state->player, "CameraPivot");
     state->checkpoint_sphere = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
     state->camera_tilt = 3.18f;
+    const uint64_t particle_asset = tm_the_truth_assets_api->asset_from_path(ctx->tt, ctx->asset_root, "Particle System.entity");
+    state->particle_entity = particle_asset ? tm_the_truth_api->get_subobject(ctx->tt, tm_tt_read(ctx->tt, particle_asset), TM_TT_PROP__ASSET__OBJECT) : 0;
 
     const tm_entity_t root_entity = g->entity->root_entity(ctx, state->player);
     char checkpoint_path[30];
@@ -77,6 +97,38 @@ static void start(tm_gameplay_context_t* ctx)
 
     state->mover_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
     state->asm_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
+    state->render_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
+
+    uint32_t num_backends;
+    state->rb = (tm_renderer_backend_i*)(*tm_global_api_registry->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends));
+
+}
+
+static void private__set_shader_constant(tm_shader_io_o* io, tm_renderer_resource_command_buffer_o* res_buf, const tm_shader_constant_buffer_instance_t* instance, uint64_t name, const void* data, uint32_t data_size)
+{
+    tm_shader_constant_t constant;
+    uint32_t constant_offset;
+
+    if (tm_shader_api->lookup_constant(io, name, &constant, &constant_offset))
+        tm_shader_api->update_constants(io, res_buf, &(tm_shader_constant_update_t){.instance_id = instance->instance_id, .constant_offset = constant_offset, .num_bytes = data_size, .data = data }, 1);
+}
+
+static void private__adjust_effect_start_color(tm_gameplay_context_t* ctx, tm_entity_t p, tm_vec3_t color)
+{
+    // Show how to poke at a custom shader variable (`start_color`) exposed in a creation graph bound to a specific draw call (`vfx`)
+    tm_gameplay_state_o* state = ctx->state;    
+    tm_render_component_public_t* rc = tm_entity_api->get_component(ctx->entity_ctx, p, state->render_component);
+    const tm_creation_graph_draw_call_data_t* draw = tm_render_component_api->draw_call(rc, TM_STATIC_HASH("vfx", 0xfc741b5732202063ULL));
+
+    if (draw && draw->shader) {
+        tm_renderer_resource_command_buffer_o* res_buf;
+        state->rb->create_resource_command_buffers(state->rb->inst, &res_buf, 1);
+
+        private__set_shader_constant(tm_shader_api->shader_io(draw->shader), res_buf, &draw->cbuffer, TM_STATIC_HASH("start_color", 0x78037e459ae53b07ULL), &color, sizeof(color));
+
+        state->rb->submit_resource_command_buffers(state->rb->inst, &res_buf, 1);
+        state->rb->destroy_resource_command_buffers(state->rb->inst, &res_buf, 1);
+    }
 }
 
 static void update(tm_gameplay_context_t* ctx)
@@ -156,6 +208,18 @@ static void update(tm_gameplay_context_t* ctx)
 
         if (state->current_checkpoint == 8)
             state->current_checkpoint = 0;
+
+        if (state->particle_entity) {
+            // Spawn particle effect at position of next checkpoint.
+            tm_entity_t p = tm_entity_api->create_entity_from_asset(ctx->entity_ctx, state->particle_entity);
+            // Set particle spawn location to next check point.
+            g->entity->set_position(ctx, p, state->checkpoints_positions[state->current_checkpoint]);
+
+            // Make up an arbitrary color based on the direction the player entered the last check point.
+            tm_vec3_t color = tm_vec3_normalize(tm_vec3_sub(sphere_pos, player_pos));
+            color = (tm_vec3_t){ fabsf(color.x), fabsf(color.y), fabsf(color.z) };
+            private__adjust_effect_start_color(ctx, p, color);
+        }
 
         g->entity->set_position(ctx, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
     }
@@ -276,12 +340,16 @@ static void create_truth_types(struct tm_the_truth_o* tt)
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     g = reg->get(TM_GAMEPLAY_API_NAME);
+    tm_global_api_registry = reg;
     tm_animation_state_machine_api = reg->get(TM_ANIMATION_STATE_MACHINE_API_NAME);
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
     tm_error_api = reg->get(TM_ERROR_API_NAME);
     tm_input_api = reg->get(TM_INPUT_API_NAME);
     tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
     tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
+    tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
+    tm_render_component_api = reg->get(TM_RENDER_COMPONENT_API_NAME);
+    tm_shader_api = reg->get(TM_SHADER_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);
