@@ -1042,18 +1042,11 @@
 				type: "subobject"
 				type_hash: "01527750cf1208ef"
 			}
-			{
-				name: "interface"
-				type: "subobject"
-				type_hash: "64dec2c37303b04f"
-			}
 		]
 		default: {
 			graph: {
 				interface: {
 				}
-			}
-			interface: {
 			}
 		}
 	}
@@ -1200,8 +1193,6 @@
 				graph: {
 					interface: {
 					}
-				}
-				interface: {
 				}
 			}
 		}
@@ -2933,6 +2924,10 @@
 				type_hash: "b17436407c9497ec"
 			}
 			{
+				name: "validity_hash"
+				type: "uint64_t"
+			}
+			{
 				name: "object"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
@@ -3254,6 +3249,22 @@
 		default: {
 			description: {
 			}
+		}
+	}
+	{
+		name: "tm_image_compress_settings"
+		properties: [
+			{
+				name: "input_color_space"
+				type: "uint32_t"
+			}
+			{
+				name: "output_format"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			input_color_space: 1
 		}
 	}
 	{
@@ -3897,8 +3908,6 @@
 				graph: {
 					interface: {
 					}
-				}
-				interface: {
 				}
 			}
 		}
@@ -4701,6 +4710,18 @@
 				type: "buffer"
 			}
 			{
+				name: "hull_stage_patch"
+				type: "string"
+			}
+			{
+				name: "hull_stage_patch_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "hull_stage_condition"
+				type: "buffer"
+			}
+			{
 				name: "domain_code"
 				type: "string"
 			}
@@ -4726,6 +4747,10 @@
 				type: "buffer"
 			}
 			{
+				name: "domain_stage_condition"
+				type: "buffer"
+			}
+			{
 				name: "geometry_code"
 				type: "string"
 			}
@@ -4748,6 +4773,10 @@
 			}
 			{
 				name: "geometry_stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "geometry_stage_condition"
 				type: "buffer"
 			}
 			{
