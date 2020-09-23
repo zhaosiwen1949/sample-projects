@@ -21,6 +21,7 @@
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <the_machinery/component_interfaces/editor_ui_interface.h>
+#include <plugins/ui/ui.h>
 
 static struct tm_api_registry_api* tm_api_registry_api;
 static struct tm_entity_api* tm_entity_api;
@@ -30,6 +31,7 @@ static struct tm_physx_scene_api* tm_physx_scene_api;
 static struct tm_random_api* tm_random_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_ui_api* tm_ui_api;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
@@ -191,10 +193,6 @@ static void update(tm_gameplay_context_t* ctx)
 
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
     tm_physx_scene_o* physx_scene = ctx->physx_scene;
-
-    // May not exist in first frame because physx hasn't created it yet.
-    if (!player_mover || !physx_scene)
-        return;
 
     // Process input
     tm_vec3_t local_movement = { 0 };
@@ -372,6 +370,9 @@ static void system_update(tm_entity_context_o* entity_ctx, tm_gameplay_context_t
 {
     g->context->update(ctx);
 
+    if (!ctx->initialized)
+        return;
+
     if (!ctx->started) {
         ctx->state = tm_alloc(ctx->allocator, sizeof(*ctx->state));
         *ctx->state = (tm_gameplay_state_o){ 0 };
@@ -471,6 +472,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     g = reg->get(TM_GAMEPLAY_API_NAME);
     tm_api_registry_api = reg;
+    tm_ui_api = reg->get(TM_UI_API_NAME);
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
     tm_input_api = reg->get(TM_INPUT_API_NAME);
     tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);

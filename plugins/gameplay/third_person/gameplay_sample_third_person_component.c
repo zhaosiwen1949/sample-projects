@@ -161,10 +161,6 @@ static void update(tm_gameplay_context_t* ctx)
 
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
 
-    // May not exist in first frame because physx hasn't created it yet.
-    if (!player_mover)
-        return;
-
     // For fudging jump timing->
     if (player_mover->is_standing)
         state->last_standing_time = ctx->time;
@@ -241,6 +237,9 @@ typedef struct
 static void system_update(tm_entity_context_o* entity_ctx, tm_gameplay_context_t* ctx)
 {
     g->context->update(ctx);
+
+    if (!ctx->initialized)
+        return;
 
     if (!ctx->started) {
         ctx->state = tm_alloc(ctx->allocator, sizeof(*ctx->state));

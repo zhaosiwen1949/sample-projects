@@ -50,6 +50,9 @@ static void system_update(tm_entity_context_o* entity_ctx, tm_gameplay_context_t
 {
     g->context->update(ctx);
 
+    if (!ctx->initialized)
+        return;
+
     if (!ctx->started) {
         ctx->state = tm_alloc(ctx->allocator, sizeof(*ctx->state));
         *ctx->state = (tm_gameplay_state_o){ 0 };
