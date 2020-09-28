@@ -1,7 +1,7 @@
-static struct tm_entity_api* tm_entity_api;
-static struct tm_link_component_api* tm_link_component_api;
-static struct tm_temp_allocator_api* tm_temp_allocator_api;
-static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_entity_api *tm_entity_api;
+static struct tm_link_component_api *tm_link_component_api;
+static struct tm_temp_allocator_api *tm_temp_allocator_api;
+static struct tm_the_truth_api *tm_the_truth_api;
 
 #include <the_machinery/component_interfaces/editor_ui_interface.h>
 
@@ -22,15 +22,16 @@ enum {
     TM_TT_PROP__CUSTOM_COMPONENT__AMPLITUDE, // float
 };
 
-struct tm_custom_component_t {
+struct tm_custom_component_t
+{
     float y0;
     float frequency;
     float amplitude;
 };
 
-static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 0 };
+static tm_ci_editor_ui_i *editor_aspect = &(tm_ci_editor_ui_i){ 0 };
 
-static void truth__create_types(struct tm_the_truth_o* tt)
+static void truth__create_types(struct tm_the_truth_o *tt)
 {
     tm_the_truth_property_definition_t custom_component_properties[] = {
         [TM_TT_PROP__CUSTOM_COMPONENT__FREQUENCY] = { "frequency", TM_THE_TRUTH_PROPERTY_TYPE_FLOAT },
@@ -44,16 +45,16 @@ static void truth__create_types(struct tm_the_truth_o* tt)
     tm_the_truth_api->set_aspect(tt, custom_component_type, TM_CI_EDITOR_UI, editor_aspect);
 }
 
-static void component__load_asset(tm_component_manager_o* man, tm_entity_t e, void* c_vp, const tm_the_truth_o* tt, uint64_t asset)
+static void component__load_asset(tm_component_manager_o *man, tm_entity_t e, void *c_vp, const tm_the_truth_o *tt, uint64_t asset)
 {
-    struct tm_custom_component_t* c = c_vp;
-    const tm_the_truth_object_o* asset_r = tm_tt_read(tt, asset);
+    struct tm_custom_component_t *c = c_vp;
+    const tm_the_truth_object_o *asset_r = tm_tt_read(tt, asset);
     c->y0 = 0;
     c->frequency = tm_the_truth_api->get_float(tt, asset_r, TM_TT_PROP__CUSTOM_COMPONENT__FREQUENCY);
     c->amplitude = tm_the_truth_api->get_float(tt, asset_r, TM_TT_PROP__CUSTOM_COMPONENT__AMPLITUDE);
 }
 
-static void component__create(struct tm_entity_context_o* ctx)
+static void component__create(struct tm_entity_context_o *ctx)
 {
     tm_component_i component = {
         .name = TM_TT_TYPE__CUSTOM_COMPONENT,
@@ -65,27 +66,27 @@ static void component__create(struct tm_entity_context_o* ctx)
 }
 
 // Runs on (custom_component, transform_component, link_component)
-static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* data)
+static void engine_update__custom(tm_engine_o *inst, tm_engine_update_set_t *data)
 {
     TM_INIT_TEMP_ALLOCATOR(ta);
 
-    tm_entity_t* mod_link = 0;
-    tm_entity_t* mod_transform = 0;
+    tm_entity_t *mod_link = 0;
+    tm_entity_t *mod_transform = 0;
 
-    struct tm_entity_context_o* ctx = (struct tm_entity_context_o*)inst;
+    struct tm_entity_context_o *ctx = (struct tm_entity_context_o *)inst;
     const uint32_t link_component = tm_entity_api->lookup_component(ctx, TM_TT_TYPE_HASH__LINK_COMPONENT);
-    void* link_manager = tm_entity_api->component(ctx, link_component)->manager;
+    void *link_manager = tm_entity_api->component(ctx, link_component)->manager;
 
     double t = 0;
-    for (const tm_entity_blackboard_value_t* bb = data->blackboard_start; bb != data->blackboard_end; ++bb) {
+    for (const tm_entity_blackboard_value_t *bb = data->blackboard_start; bb != data->blackboard_end; ++bb) {
         if (bb->id == TM_ENTITY_BB__TIME)
             t = bb->double_value;
     }
 
-    for (tm_engine_update_array_t* a = data->arrays; a < data->arrays + data->num_arrays; ++a) {
-        struct tm_custom_component_t* custom = a->components[0];
-        tm_transform_component_t* transform = a->components[1];
-        tm_link_component_t* link = a->components[2];
+    for (tm_engine_update_array_t *a = data->arrays; a < data->arrays + data->num_arrays; ++a) {
+        struct tm_custom_component_t *custom = a->components[0];
+        tm_transform_component_t *transform = a->components[1];
+        tm_link_component_t *link = a->components[2];
 
         for (uint32_t i = 0; i < a->n; ++i) {
             if (!custom[i].y0)
@@ -103,7 +104,7 @@ static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* dat
         }
     }
 
-    for (tm_entity_t* e = mod_link; e != tm_carray_end(mod_link); ++e)
+    for (tm_entity_t *e = mod_link; e != tm_carray_end(mod_link); ++e)
         tm_link_component_api->transform(link_manager, *e);
 
     tm_entity_api->notify(ctx, data->engine->components[1], mod_transform, (uint32_t)tm_carray_size(mod_transform));
@@ -111,12 +112,12 @@ static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* dat
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
-static bool engine_filter__custom(tm_engine_o* inst, const uint32_t* components, uint32_t num_components, const tm_component_mask_t* mask)
+static bool engine_filter__custom(tm_engine_o *inst, const uint32_t *components, uint32_t num_components, const tm_component_mask_t *mask)
 {
     return tm_entity_mask_has_component(mask, components[0]) && (tm_entity_mask_has_component(mask, components[1]) || tm_entity_mask_has_component(mask, components[2]));
 }
 
-static void component__register_engine(struct tm_entity_context_o* ctx)
+static void component__register_engine(struct tm_entity_context_o *ctx)
 {
     const uint32_t custom_component = tm_entity_api->lookup_component(ctx, TM_TT_TYPE_HASH__CUSTOM_COMPONENT);
     const uint32_t transform_component = tm_entity_api->lookup_component(ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
@@ -129,12 +130,12 @@ static void component__register_engine(struct tm_entity_context_o* ctx)
         .writes = { false, true, true },
         .update = engine_update__custom,
         .filter = engine_filter__custom,
-        .inst = (tm_engine_o*)ctx,
+        .inst = (tm_engine_o *)ctx,
     };
     tm_entity_api->register_engine(ctx, &custom_engine);
 }
 
-TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
+TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
 {
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
     tm_link_component_api = reg->get(TM_LINK_COMPONENT_API_NAME);
