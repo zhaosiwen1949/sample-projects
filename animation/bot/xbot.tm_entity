@@ -451,8 +451,8 @@ components: [
 									{
 										__uuid: "f2713588-dde4-2e3a-4276-5a855706c62d"
 										type: "tm_float_add"
-										position_x: 1180.474609375
-										position_y: 724.2213134765625
+										position_x: 1115.2626953125
+										position_y: 728.8792724609375
 									}
 									{
 										__uuid: "d2b0c56d-174a-41d4-134c-9cf1531d93d0"
@@ -505,14 +505,26 @@ components: [
 									{
 										__uuid: "67382e55-cc89-9bd4-0f78-cc37aa8a1d07"
 										type: "tm_float_mul"
-										position_x: 954.8521118164063
-										position_y: 661.7865600585938
+										position_x: 876.970458984375
+										position_y: 616.6971435546875
 									}
 									{
 										__uuid: "d0a52279-0942-cc67-b417-1c78e41c4f07"
 										type: "tm_input_node"
 										position_x: 449.4053344726563
 										position_y: 665.20166015625
+									}
+									{
+										__uuid: "4d7e97c4-00bc-028e-67ea-ad5625f0e095"
+										type: "tm_float_mul"
+										position_x: 1081.52392578125
+										position_y: 611.0631713867188
+									}
+									{
+										__uuid: "e83685bf-770e-30c6-50ed-43a9d2b6ae6b"
+										type: "tm_delta_time"
+										position_x: 920.9232177734375
+										position_y: 492.2669372558594
 									}
 								]
 								connections: [
@@ -555,7 +567,7 @@ components: [
 										to_connector_hash: "8295151af8224269"
 									}
 									{
-										__uuid: "6b4f95f6-3a33-5472-2422-457e75f0592d"
+										__uuid: "ec0bcd4d-1cf3-47dc-9a29-7ccdb5d906fa"
 										from_node: "f2713588-dde4-2e3a-4276-5a855706c62d"
 										to_node: "d2b0c56d-174a-41d4-134c-9cf1531d93d0"
 										from_connector_hash: "1609e8f8d8051ecb"
@@ -581,10 +593,10 @@ components: [
 										to_node: "04538eaf-c198-504d-55f3-48b115b1a3f1"
 									}
 									{
-										__uuid: "1e4e03f7-6f70-99b3-2fc1-dc8053836e6b"
-										from_node: "67382e55-cc89-9bd4-0f78-cc37aa8a1d07"
-										to_node: "f2713588-dde4-2e3a-4276-5a855706c62d"
-										from_connector_hash: "1609e8f8d8051ecb"
+										__uuid: "6fb08988-d48a-5d7e-ee94-415804e6b8a6"
+										from_node: "e83685bf-770e-30c6-50ed-43a9d2b6ae6b"
+										to_node: "4d7e97c4-00bc-028e-67ea-ad5625f0e095"
+										from_connector_hash: "685a9889b8402b60"
 										to_connector_hash: "071717d2d36b6b11"
 									}
 									{
@@ -621,6 +633,20 @@ components: [
 										to_node: "1489523f-906b-91c1-b0ba-1823c862055f"
 										from_connector_hash: "085e449ca4d7dec1"
 										to_connector_hash: "cca15fe326a27a01"
+									}
+									{
+										__uuid: "0651fe1d-cda8-3185-a5b3-8786e199ae05"
+										from_node: "67382e55-cc89-9bd4-0f78-cc37aa8a1d07"
+										to_node: "4d7e97c4-00bc-028e-67ea-ad5625f0e095"
+										from_connector_hash: "1609e8f8d8051ecb"
+										to_connector_hash: "ea8bfc7d922a2a37"
+									}
+									{
+										__uuid: "a78ee385-8e4c-0e4c-b56e-2c3f168f94cd"
+										from_node: "4d7e97c4-00bc-028e-67ea-ad5625f0e095"
+										to_node: "f2713588-dde4-2e3a-4276-5a855706c62d"
+										from_connector_hash: "1609e8f8d8051ecb"
+										to_connector_hash: "071717d2d36b6b11"
 									}
 								]
 								data: [
@@ -700,7 +726,7 @@ components: [
 										data: {
 											__type: "tm_float"
 											__uuid: "99f6d7eb-f69e-3050-5cd1-26bc80a8454c"
-											float: -0.009999999776482582
+											float: -0.2000000029802322
 										}
 									}
 									{
@@ -1170,8 +1196,8 @@ components: [
 									{
 										__uuid: "a2c726a2-4bda-97e9-a7b6-0ef75478653e"
 										type: "tm_float_mul"
-										position_x: 1184.909545898438
-										position_y: 137.6302947998047
+										position_x: 1126.909545898438
+										position_y: 118.6302947998047
 									}
 									{
 										__uuid: "5e561fbc-4812-450f-70a3-c62dee8fd12b"
@@ -1203,6 +1229,18 @@ components: [
 										position_x: 679.462890625
 										position_y: 141.0453796386719
 									}
+									{
+										__uuid: "c3485369-286d-8251-0abe-706b3cdd1189"
+										type: "tm_delta_time"
+										position_x: 1158.734497070313
+										position_y: 11.62995910644531
+									}
+									{
+										__uuid: "81625bf4-1f0a-75d2-07b8-b12a3aa405cb"
+										type: "tm_float_mul"
+										position_x: 1350.734497070313
+										position_y: 45.62995910644531
+									}
 								]
 								connections: [
 									{
@@ -1213,11 +1251,11 @@ components: [
 										to_connector_hash: "071717d2d36b6b11"
 									}
 									{
-										__uuid: "2a46a4a5-fb2f-a3c3-2d8b-41f69937c1b4"
-										from_node: "a2c726a2-4bda-97e9-a7b6-0ef75478653e"
-										to_node: "070ddc2c-88ee-ab54-2e48-5c8948507588"
-										from_connector_hash: "1609e8f8d8051ecb"
-										to_connector_hash: "9824320e7d078822"
+										__uuid: "796edc64-3689-bda1-edb7-346063a07ebd"
+										from_node: "6964a558-29b7-06fd-ef77-7e559f0f668b"
+										to_node: "8079c315-abec-6965-6726-aff13b140872"
+										from_connector_hash: "085e449ca4d7dec1"
+										to_connector_hash: "9831ca893b0d087d"
 									}
 									{
 										__uuid: "d7e3d18f-e8ce-df0b-9de3-30748c8f94bd"
@@ -1274,11 +1312,25 @@ components: [
 										to_connector_hash: "9831ca893b0d087d"
 									}
 									{
-										__uuid: "796edc64-3689-bda1-edb7-346063a07ebd"
-										from_node: "6964a558-29b7-06fd-ef77-7e559f0f668b"
-										to_node: "8079c315-abec-6965-6726-aff13b140872"
-										from_connector_hash: "085e449ca4d7dec1"
-										to_connector_hash: "9831ca893b0d087d"
+										__uuid: "d91ebbe6-3f03-6c48-7055-2cd6b365fe06"
+										from_node: "a2c726a2-4bda-97e9-a7b6-0ef75478653e"
+										to_node: "81625bf4-1f0a-75d2-07b8-b12a3aa405cb"
+										from_connector_hash: "1609e8f8d8051ecb"
+										to_connector_hash: "ea8bfc7d922a2a37"
+									}
+									{
+										__uuid: "072cc7d8-fa1e-c08c-09d4-c4ea8b2d9f12"
+										from_node: "81625bf4-1f0a-75d2-07b8-b12a3aa405cb"
+										to_node: "070ddc2c-88ee-ab54-2e48-5c8948507588"
+										from_connector_hash: "1609e8f8d8051ecb"
+										to_connector_hash: "9824320e7d078822"
+									}
+									{
+										__uuid: "bc5e88d0-947b-904a-8dc1-977a09e4a219"
+										from_node: "c3485369-286d-8251-0abe-706b3cdd1189"
+										to_node: "81625bf4-1f0a-75d2-07b8-b12a3aa405cb"
+										from_connector_hash: "685a9889b8402b60"
+										to_connector_hash: "071717d2d36b6b11"
 									}
 								]
 								data: [
@@ -1289,7 +1341,7 @@ components: [
 										data: {
 											__type: "tm_float"
 											__uuid: "414a6aa0-08c9-64a0-bc0f-14b1c8145a70"
-											float: -0.009999999776482582
+											float: -0.2000000029802322
 										}
 									}
 									{
