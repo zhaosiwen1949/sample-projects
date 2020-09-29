@@ -22,6 +22,7 @@
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/ui/ui.h>
+#include <plugins/ui/draw2d.h>
 #include <the_machinery/component_interfaces/editor_ui_interface.h>
 
 #include <stdio.h>
@@ -35,6 +36,7 @@ static struct tm_random_api *tm_random_api;
 static struct tm_temp_allocator_api *tm_temp_allocator_api;
 static struct tm_the_truth_api *tm_the_truth_api;
 static struct tm_ui_api *tm_ui_api;
+static struct tm_draw2d_api *tm_draw2d_api;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
@@ -261,6 +263,8 @@ static void update(tm_gameplay_context_t *ctx)
     carry_transf.rot = camera_rot;
     g->entity->set_transform(ctx, state->player_carry_anchor, &carry_transf);
 
+    tm_color_srgb_t crosshair_color = { 120, 120, 120, 255};
+
     // Box state machine
     switch (state->box_state) {
     case BOX_STATE_FREE: {
@@ -295,27 +299,30 @@ static void update(tm_gameplay_context_t *ctx)
                 state->box_fly_timer = 0.7f;
                 state->box_state = BOX_STATE_FLYING_UP;
             }
-        } else if (state->input.left_mouse_pressed) {
+        } else{
             // If box is not in correct drop zone and player clicks left mouse button, try picking it up using raycast.
 
-            const tm_physx_raycast_t r = tm_physx_scene_api->raycast(physx_scene, camera_pos, camera_forward, 4, state->player_collision_type, (tm_physx_raycast_flags_t){ 0 }, 0, 0);
-
+            const tm_physx_raycast_t r = tm_physx_scene_api->raycast(physx_scene, camera_pos, camera_forward, 2.5f, state->player_collision_type, (tm_physx_raycast_flags_t){ 0 }, 0, 0);
+ 
             if (r.has_block) {
                 const tm_entity_t hit = r.block.body;
 
                 if (state->box.u64 == hit.u64) {
-                    tm_physics_shape_component_t *shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
-                    shape->collision_id = state->player_collision_type;
+                    crosshair_color = (tm_color_srgb_t) {255, 255, 255, 255};
+                    if (state->input.left_mouse_pressed) {
+                        tm_physics_shape_component_t *shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
+                        shape->collision_id = state->player_collision_type;
 
-                    // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
-                    tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_rigid_body_component);
+                        // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
+                        tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_rigid_body_component);
 
-                    g->entity->set_position(ctx, state->box, anchor_pos);
-                    tm_physics_joint_component_t *j = tm_entity_api->add_component(ctx->entity_ctx, state->box, state->physics_joint_component);
-                    j->joint_type = TM_PHYSICS_JOINT__FIXED;
-                    j->body_0 = state->box;
-                    j->body_1 = state->player_carry_anchor;
-                    state->box_state = BOX_STATE_CARRIED;
+                        g->entity->set_position(ctx, state->box, anchor_pos);
+                        tm_physics_joint_component_t *j = tm_entity_api->add_component(ctx->entity_ctx, state->box, state->physics_joint_component);
+                        j->joint_type = TM_PHYSICS_JOINT__FIXED;
+                        j->body_0 = state->box;
+                        j->body_1 = state->player_carry_anchor;
+                        state->box_state = BOX_STATE_CARRIED;
+                    }
                 }
             }
         }
@@ -371,13 +378,21 @@ static void update(tm_gameplay_context_t *ctx)
     } break;
     }
 
-    // Rendering
+    // UI: Score
     score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
     char label_text[128];
     snprintf(label_text, 128, "The box has been correctly placed %.0f times", score->score);
-
     tm_rect_t rect = { 5, 5, 20, 20 };
     tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+
+    // UI: Crosshair
+    tm_ui_buffers_t uib = tm_ui_api->buffers(ctx->ui);
+    tm_vec2_t crosshair_pos = { ctx->rect.w / 2, ctx->rect.h / 2};
+    tm_draw2d_style_t style[1] = { 0 };
+    tm_ui_api->to_draw_style(ctx->ui, style, ctx->uistyle);
+    style->color = crosshair_color;
+    tm_draw2d_api->fill_rect(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, (tm_rect_t){5,5, ctx->rect.w - 10, ctx->rect.h - 10});
+    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
 // Actual gameplay ends here, rest is for setting up component.
@@ -513,6 +528,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
     tm_random_api = reg->get(TM_RANDOM_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
     tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
+    tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);
