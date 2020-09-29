@@ -391,7 +391,6 @@ static void update(tm_gameplay_context_t *ctx)
     tm_draw2d_style_t style[1] = { 0 };
     tm_ui_api->to_draw_style(ctx->ui, style, ctx->uistyle);
     style->color = crosshair_color;
-    tm_draw2d_api->fill_rect(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, (tm_rect_t){5,5, ctx->rect.w - 10, ctx->rect.h - 10});
     tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
