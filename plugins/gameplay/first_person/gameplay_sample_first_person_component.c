@@ -249,11 +249,8 @@ static void update(tm_gameplay_context_t *ctx)
     g->entity->set_local_rotation(ctx, state->player_camera, tm_quaternion_mul(pitchq, yawq));
 
     // Jump
-    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE] && player_mover->is_standing) {
+    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE] && player_mover->is_standing)
         player_mover->velocity.y = 5;
-        score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
-        score->score += 1.0f;
-    }
 
     // Box carry anchor is kinematic physics body (so we can put joints on it), move it manually
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
@@ -365,6 +362,8 @@ static void update(tm_gameplay_context_t *ctx)
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
             change_box_to_random_color(state->box, ctx);
             state->box_state = BOX_STATE_FREE;
+            score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
+            score->score += 1.0f;
         } else {
             const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, ctx->dt * 10));
             g->entity->set_position(ctx, state->box, interpolate_to_start_pos);
@@ -374,10 +373,10 @@ static void update(tm_gameplay_context_t *ctx)
 
     // Rendering
     score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
-    char label_text[30];
-    snprintf(label_text, 30, "You jumped %.0f times", score->score);
+    char label_text[128];
+    snprintf(label_text, 128, "The box has been correctly placed %.0f times", score->score);
 
-    tm_rect_t rect = { 0, 0, 20, 20 };
+    tm_rect_t rect = { 5, 5, 20, 20 };
     tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 }
 
