@@ -285,6 +285,23 @@
 		]
 	}
 	{
+		name: "tm_application_settings__download"
+		properties: [
+			{
+				name: "url"
+				type: "string"
+			}
+			{
+				name: "file"
+				type: "string"
+			}
+			{
+				name: "unzip_directory"
+				type: "string"
+			}
+		]
+	}
+	{
 		name: "tm_application_settings__updates"
 		properties: [
 			{
@@ -854,6 +871,10 @@
 				name: "directories"
 				type: "subobject_set"
 				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "path"
+				type: "string"
 			}
 		]
 	}

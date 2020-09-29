@@ -305,6 +305,36 @@
 		]
 	}
 	{
+		name: "tm_application_settings__download"
+		properties: [
+			{
+				name: "url"
+				type: "string"
+			}
+			{
+				name: "file"
+				type: "string"
+			}
+			{
+				name: "unzip_directory"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_application_settings__updates"
+		properties: [
+			{
+				name: "latest_version"
+				type: "string"
+			}
+			{
+				name: "skip_this_version"
+				type: "bool"
+			}
+		]
+	}
+	{
 		name: "tm_asm_blend_set"
 		properties: [
 			{
@@ -861,6 +891,10 @@
 				name: "directories"
 				type: "subobject_set"
 				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "path"
+				type: "string"
 			}
 		]
 	}
@@ -1948,6 +1982,23 @@
 		}
 	}
 	{
+		name: "tm_default_render_pipe_bloom_component"
+		properties: [
+			{
+				name: "intensity"
+				type: "float"
+			}
+			{
+				name: "threshold"
+				type: "float"
+			}
+		]
+		default: {
+			intensity: 1
+			threshold: 0.5
+		}
+	}
+	{
 		name: "tm_default_render_pipe_light_component"
 		properties: [
 			{
@@ -2528,7 +2579,7 @@
 		}
 	}
 	{
-		name: "tm_image_compress_settings"
+		name: "tm_image_compress_crunch_settings"
 		properties: [
 			{
 				name: "input_color_space"
@@ -2542,6 +2593,19 @@
 		default: {
 			input_color_space: 1
 		}
+	}
+	{
+		name: "tm_image_compress_settings"
+		properties: [
+			{
+				name: "input_color_space"
+				type: "uint32_t"
+			}
+			{
+				name: "output_format"
+				type: "uint32_t"
+			}
+		]
 	}
 	{
 		name: "tm_image_description"
