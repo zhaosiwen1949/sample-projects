@@ -19,16 +19,15 @@
 #include <plugins/entity/entity.h>
 #include <plugins/physx/physx_scene.h>
 
-// clang-format off
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
 #include <plugins/renderer/render_backend.h>
 #include <plugins/renderer/render_command_buffer.h>
 #include <plugins/renderer/resources.h>
 #include <plugins/shader_system/shader_system.h>
+
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/creation_graph/creation_graph_output.inl>
-// clang-format on
 
 #include <plugins/ui/ui.h>
 
