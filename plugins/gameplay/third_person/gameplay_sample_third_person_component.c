@@ -5,6 +5,7 @@
 //A simple score component is also added to show you how to register, add, update and render components all within the C code.
 #include <plugins/gameplay/gameplay.h>
 
+#include <foundation/application.h>
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/carray.inl>
@@ -28,6 +29,7 @@
 
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/creation_graph/creation_graph_output.inl>
+#include <plugins/os_window/os_window.h>
 
 #include <plugins/ui/ui.h>
 
@@ -45,13 +47,17 @@ static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 static struct tm_render_component_api *tm_render_component_api;
 static struct tm_shader_api *tm_shader_api;
 static struct tm_ui_api *tm_ui_api;
+static struct tm_os_window_api *tm_os_window_api;
 static struct tm_api_registry_api *tm_global_api_registry;
+static struct tm_application_api *tm_application_api;
 
 typedef struct input_state_t
 {
-    bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
-    TM_PAD(3);
     tm_vec2_t mouse_delta;
+    bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
+    bool left_mouse_held;
+    bool left_mouse_pressed;
+    TM_PAD(1);
 } input_state_t;
 
 typedef struct tm_gameplay_state_o
@@ -79,15 +85,17 @@ typedef struct tm_gameplay_state_o
     uint32_t mover_component;
     uint32_t render_component;
     uint32_t score_component;
-    TM_PAD(4);
+
+    bool mouse_captured;
+    TM_PAD(3);
 } tm_gameplay_state_o;
 
-#define TYPE__SCORE_COMPONENT "score_component"
-#define TYPE_HASH__SCORE_COMPONENT TM_STATIC_HASH("score_component", 0xc3db64cfa75b2b85ULL)
-typedef struct score_component
+#define TYPE__SCORE_COMPONENT "tm_third_person_score_component"
+#define TYPE_HASH__SCORE_COMPONENT TM_STATIC_HASH("tm_third_person_score_component", 0xf6322aa24c242c78ULL)
+typedef struct
 {
     float score;
-} score_component;
+} score_component_t;
 
 static void start(tm_gameplay_context_t *ctx)
 {
@@ -153,8 +161,11 @@ static void private__adjust_effect_start_color(tm_gameplay_context_t *ctx, tm_en
 static void update(tm_gameplay_context_t *ctx)
 {
     tm_gameplay_state_o *state = ctx->state;
-    state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
 
+    // Reset per-frame input
+    state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
+    state->input.left_mouse_pressed = false;
+    
     // Read input
     tm_input_event_t events[32];
     while (true) {
@@ -162,7 +173,11 @@ static void update(tm_gameplay_context_t *ctx)
         for (uint64_t i = 0; i < n; ++i) {
             const tm_input_event_t *e = events + i;
             if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_MOUSE) {
-                if (e->item_id == TM_INPUT_MOUSE_ITEM_MOVE) {
+                if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
+                    const bool down = e->data.f.x > 0.5f;
+                    state->input.left_mouse_pressed = down && !state->input.left_mouse_held;
+                    state->input.left_mouse_held = down;
+                } else if (e->item_id == TM_INPUT_MOUSE_ITEM_MOVE) {
                     state->input.mouse_delta.x += e->data.f.x;
                     state->input.mouse_delta.y += e->data.f.y;
                 }
@@ -177,49 +192,73 @@ static void update(tm_gameplay_context_t *ctx)
         if (n < 32)
             break;
     }
+    
+    // Capture mouse
+    {
+        if (!ctx->in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0) && state->input.left_mouse_pressed)) {
+            state->mouse_captured = true;
+        }
+
+        if ((ctx->in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_os_window_api->status(ctx->window).has_focus) {
+            state->mouse_captured = false;
+            struct tm_application_o *app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, false);
+        }
+
+        if (state->mouse_captured) {
+            struct tm_application_o *app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, true);
+        }    
+    }
 
     struct tm_physx_mover_component_t *player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
 
     // For fudging jump timing->
     if (player_mover->is_standing)
         state->last_standing_time = ctx->time;
-
-    // Camera pan control
-    const float mouse_sens = 0.5f * ctx->dt;
-    const float camera_pan_delta = -state->input.mouse_delta.x * mouse_sens;
-    const tm_vec4_t pan_rot = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, camera_pan_delta);
-    const tm_vec4_t player_rot = g->entity->get_rotation(ctx, state->player);
-    g->entity->set_rotation(ctx, state->player, tm_quaternion_mul(pan_rot, player_rot));
-
-    // Camera tilt control
-    const float camera_tilt_delta = -state->input.mouse_delta.y * mouse_sens;
-    state->camera_tilt += camera_tilt_delta;
-    state->camera_tilt = tm_clamp(state->camera_tilt, 1.5f, 3.8f);
-    const tm_vec4_t camera_pivot_rot = tm_euler_to_quaternion((tm_vec3_t){ state->camera_tilt, 0, -TM_PI });
-    g->entity->set_local_rotation(ctx, state->player_camera_pivot, camera_pivot_rot);
-
-    // Control animation state machine using input
-    tm_animation_state_machine_component_t *smc = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->asm_component);
-    tm_animation_state_machine_o *sm = smc->state_machine;
-    tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("w", 0x22727cb14c3bb41dULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_W]);
-    tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("a", 0x71717d2d36b6b11ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A]);
-    tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("s", 0xe5db19474a903141ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_S]);
-    tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("d", 0x17dffbc5a8f17839ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_D]);
-    tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("run", 0xb8961af5ed6912f5ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_LEFTSHIFT]);
-
-    const bool can_jump = ctx->time < state->last_standing_time + 0.2f;
-    if (can_jump && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE]) {
-        tm_animation_state_machine_api->event(sm, TM_STATIC_HASH("jump", 0x7b98bf53d1dceae8ULL));
-        player_mover->velocity.y += 6;
-        state->last_standing_time = 0;
+    
+    // Only allow input when mouse is captured.
+    if (state->mouse_captured) {
+        // Camera pan control
+        const float mouse_sens = 0.5f * ctx->dt;
+        const float camera_pan_delta = -state->input.mouse_delta.x * mouse_sens;
+        const tm_vec4_t pan_rot = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, camera_pan_delta);
+        const tm_vec4_t player_rot = g->entity->get_rotation(ctx, state->player);
+        g->entity->set_rotation(ctx, state->player, tm_quaternion_mul(pan_rot, player_rot));
+        
+        // Camera tilt control
+        const float camera_tilt_delta = -state->input.mouse_delta.y * mouse_sens;
+        state->camera_tilt += camera_tilt_delta;
+        state->camera_tilt = tm_clamp(state->camera_tilt, 1.5f, 3.8f);
+        const tm_vec4_t camera_pivot_rot = tm_euler_to_quaternion((tm_vec3_t){ state->camera_tilt, 0, -TM_PI });
+        g->entity->set_local_rotation(ctx, state->player_camera_pivot, camera_pivot_rot);
+        
+        // Control animation state machine using input
+        tm_animation_state_machine_component_t *smc = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->asm_component);
+        tm_animation_state_machine_o *sm = smc->state_machine;
+        tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("w", 0x22727cb14c3bb41dULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_W]);
+        tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("a", 0x71717d2d36b6b11ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A]);
+        tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("s", 0xe5db19474a903141ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_S]);
+        tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("d", 0x17dffbc5a8f17839ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_D]);
+        tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("run", 0xb8961af5ed6912f5ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_LEFTSHIFT]);
+        
+        const bool can_jump = ctx->time < state->last_standing_time + 0.2f;
+        if (can_jump && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE]) {
+            tm_animation_state_machine_api->event(sm, TM_STATIC_HASH("jump", 0x7b98bf53d1dceae8ULL));
+            player_mover->velocity.y += 6;
+            state->last_standing_time = 0;
+        }
     }
 
     // Check player against checkpoint
     const tm_vec3_t sphere_pos = g->entity->get_position(ctx, state->checkpoint_sphere);
     const tm_vec3_t player_pos = g->entity->get_position(ctx, state->player);
+    
+    score_component_t *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
 
-    score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
-
+    if (!score)
+        score = tm_entity_api->add_component(ctx->entity_ctx, state->player, state->score_component);
+    
     if (tm_vec3_length(tm_vec3_sub(sphere_pos, player_pos)) < 1.5f) {
         ++state->current_checkpoint;
         if (score)
@@ -244,13 +283,11 @@ static void update(tm_gameplay_context_t *ctx)
     }
 
     // Rendering
-    if (score) {
-        char label_text[30];
-        snprintf(label_text, 30, "You reached: %.0f checkpoints", score->score);
-
-        tm_rect_t rect = { 0, 0, 20, 20 };
-        tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
-    }
+    char label_text[30];
+    snprintf(label_text, 30, "You reached: %.0f checkpoints", score->score);
+    
+    tm_rect_t rect = { 5, 5, 20, 20 };
+    tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 }
 
 // Remainder of file is component set-up.
@@ -349,7 +386,7 @@ static void create(tm_entity_context_o *entity_ctx)
 
     const tm_component_i score_component = {
         .name = TYPE__SCORE_COMPONENT,
-        .bytes = sizeof(score_component),
+        .bytes = sizeof(score_component_t),
     };
 
     tm_entity_api->register_component(entity_ctx, &score_component);
@@ -388,7 +425,9 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
     tm_render_component_api = reg->get(TM_RENDER_COMPONENT_API_NAME);
     tm_shader_api = reg->get(TM_SHADER_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
-
+    tm_os_window_api = reg->get(TM_OS_WINDOW_API_NAME);
+    tm_application_api = reg->get(TM_APPLICATION_API_NAME);
+    
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);
 
