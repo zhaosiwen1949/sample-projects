@@ -218,11 +218,11 @@ static void update(tm_gameplay_context_t *ctx)
 
     // Capture mouse
     {
-        if (!ctx->in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0) && state->input.left_mouse_pressed)) {
+        if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0) && state->input.left_mouse_pressed)) {
             state->mouse_captured = true;
         }
 
-        if ((ctx->in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_os_window_api->status(ctx->window).has_focus) {
+        if ((ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_os_window_api->status(ctx->window).has_focus) {
             state->mouse_captured = false;
             struct tm_application_o *app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, false);
