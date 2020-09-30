@@ -2046,6 +2046,36 @@
 		}
 	}
 	{
+		name: "tm_default_render_pipe_volume_component"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "infinite"
+				type: "bool"
+			}
+			{
+				name: "sphere_radius"
+				type: "float"
+			}
+			{
+				name: "box_extent"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+		default: {
+			type: 1
+			box_extent: {
+				x: 1
+				y: 1
+				z: 1
+			}
+		}
+	}
+	{
 		name: "tm_double"
 		properties: [
 			{
