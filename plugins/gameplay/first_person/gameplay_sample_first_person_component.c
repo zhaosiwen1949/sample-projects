@@ -15,6 +15,7 @@
 #include <foundation/math.inl>
 #include <foundation/random.h>
 #include <foundation/the_truth.h>
+#include <foundation/application.h>
 #include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
 #include <plugins/physics/physics_body_component.h>
@@ -23,6 +24,7 @@
 #include <plugins/physx/physx_scene.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
+#include <plugins/os_window/os_window.h>
 #include <the_machinery/component_interfaces/editor_ui_interface.h>
 
 #include <stdio.h>
@@ -37,6 +39,8 @@ static struct tm_temp_allocator_api *tm_temp_allocator_api;
 static struct tm_the_truth_api *tm_the_truth_api;
 static struct tm_ui_api *tm_ui_api;
 static struct tm_draw2d_api *tm_draw2d_api;
+static struct tm_os_window_api *tm_os_window_api;
+static struct tm_application_api *tm_application_api;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
@@ -96,15 +100,17 @@ typedef struct tm_gameplay_state_o
     uint32_t physx_rigid_body_component;
     uint32_t physx_joint_component;
     uint32_t score_component;
-    TM_PAD(4);
+
+    bool mouse_captured;
+    TM_PAD(3);
 } tm_gameplay_state_o;
 
-#define TYPE__SCORE_COMPONENT "jump_counter"
-#define TYPE_HASH__SCORE_COMPONENT TM_STATIC_HASH("jump_counter", 0x79f6f6133a88d61bULL)
-typedef struct score_component
+#define TYPE__SCORE_COMPONENT "tm_first_person_score_component"
+#define TYPE_HASH__SCORE_COMPONENT TM_STATIC_HASH("tm_first_person_score_component", 0x890f21919e002f6cULL)
+typedef struct
 {
     float score;
-} score_component;
+} score_component_t;
 
 static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t *ctx)
 {
@@ -162,7 +168,7 @@ static void start(tm_gameplay_context_t *ctx)
     state->player_camera = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
     state->player_carry_anchor = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
     tm_entity_api->add_component(ctx->entity_ctx, state->player, state->score_component);
-
+    
     state->box = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
     change_box_to_random_color(state->box, ctx);
     state->box_starting_point = g->entity->get_position(ctx, state->box);
@@ -210,49 +216,68 @@ static void update(tm_gameplay_context_t *ctx)
             break;
     }
 
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
-    tm_physx_scene_o *physx_scene = ctx->physx_scene;
+    // Capture mouse
+    {
+        if (!ctx->in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0) && state->input.left_mouse_pressed)) {
+            state->mouse_captured = true;
+        }
 
-    // Process input
-    tm_vec3_t local_movement = { 0 };
-    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A])
-        local_movement.x -= 1.0f;
-    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_D])
-        local_movement.x += 1.0f;
-    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_W])
-        local_movement.z -= 1.0f;
-    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_S])
-        local_movement.z += 1.0f;
+        if ((ctx->in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_os_window_api->status(ctx->window).has_focus) {
+            state->mouse_captured = false;
+            struct tm_application_o *app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, false);
+        }
 
-    // Move
-    const tm_vec3_t camera_pos = g->entity->get_position(ctx, state->player_camera);
-    const tm_vec4_t camera_rot = g->entity->get_rotation(ctx, state->player_camera);
-
-    if (tm_vec3_length(local_movement) != 0) {
-        tm_vec3_t rotated_movement = tm_quaternion_rotate_vec3(camera_rot, local_movement);
-        rotated_movement.y = 0;
-        const tm_vec3_t normalized_rotated_movement = tm_vec3_normalize(rotated_movement);
-        const tm_vec3_t final_movement = tm_vec3_mul(normalized_rotated_movement, 5);
-        player_mover->velocity.x = final_movement.x;
-        player_mover->velocity.z = final_movement.z;
-    } else {
-        player_mover->velocity.x = 0;
-        player_mover->velocity.z = 0;
+        if (state->mouse_captured) {
+            struct tm_application_o *app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, true);
+        }    
     }
 
-    // Look
-    const float mouse_sens = 0.1f * ctx->dt;
-    state->look_yaw -= state->input.mouse_delta.x * mouse_sens;
-    state->look_pitch -= state->input.mouse_delta.y * mouse_sens;
-    state->look_pitch = tm_clamp(state->look_pitch, -TM_PI / 3, TM_PI / 3);
-    const tm_vec4_t yawq = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, state->look_yaw);
-    const tm_vec3_t local_sideways = tm_quaternion_rotate_vec3(yawq, (tm_vec3_t){ 1, 0, 0 });
-    const tm_vec4_t pitchq = tm_quaternion_from_rotation(local_sideways, state->look_pitch);
-    g->entity->set_local_rotation(ctx, state->player_camera, tm_quaternion_mul(pitchq, yawq));
+    tm_physx_scene_o *physx_scene = ctx->physx_scene;
+    const tm_vec3_t camera_pos = g->entity->get_position(ctx, state->player_camera);
+    const tm_vec4_t camera_rot = g->entity->get_rotation(ctx, state->player_camera);
+    struct tm_physx_mover_component_t *player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
 
-    // Jump
-    if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE] && player_mover->is_standing)
-        player_mover->velocity.y = 5;
+    // Process input if mouse is captured.
+    if (state->mouse_captured) {
+        tm_vec3_t local_movement = { 0 };
+        if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A])
+            local_movement.x -= 1.0f;
+        if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_D])
+            local_movement.x += 1.0f;
+        if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_W])
+            local_movement.z -= 1.0f;
+        if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_S])
+            local_movement.z += 1.0f;
+
+        // Move
+        if (tm_vec3_length(local_movement) != 0) {
+            tm_vec3_t rotated_movement = tm_quaternion_rotate_vec3(camera_rot, local_movement);
+            rotated_movement.y = 0;
+            const tm_vec3_t normalized_rotated_movement = tm_vec3_normalize(rotated_movement);
+            const tm_vec3_t final_movement = tm_vec3_mul(normalized_rotated_movement, 5);
+            player_mover->velocity.x = final_movement.x;
+            player_mover->velocity.z = final_movement.z;
+        } else {
+            player_mover->velocity.x = 0;
+            player_mover->velocity.z = 0;
+        }
+
+        // Look
+        const float mouse_sens = 0.1f * ctx->dt;
+        state->look_yaw -= state->input.mouse_delta.x * mouse_sens;
+        state->look_pitch -= state->input.mouse_delta.y * mouse_sens;
+        state->look_pitch = tm_clamp(state->look_pitch, -TM_PI / 3, TM_PI / 3);
+        const tm_vec4_t yawq = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, state->look_yaw);
+        const tm_vec3_t local_sideways = tm_quaternion_rotate_vec3(yawq, (tm_vec3_t){ 1, 0, 0 });
+        const tm_vec4_t pitchq = tm_quaternion_from_rotation(local_sideways, state->look_pitch);
+        g->entity->set_local_rotation(ctx, state->player_camera, tm_quaternion_mul(pitchq, yawq));
+
+        // Jump
+        if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE] && player_mover->is_standing)
+            player_mover->velocity.y = 5;
+    }
 
     // Box carry anchor is kinematic physics body (so we can put joints on it), move it manually
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
@@ -263,7 +288,8 @@ static void update(tm_gameplay_context_t *ctx)
     carry_transf.rot = camera_rot;
     g->entity->set_transform(ctx, state->player_carry_anchor, &carry_transf);
 
-    tm_color_srgb_t crosshair_color = { 120, 120, 120, 255 };
+    // Modified if the raycast below hits the box.
+    tm_color_srgb_t crosshair_color = { 120, 120, 120, 255};
 
     // Box state machine
     switch (state->box_state) {
@@ -369,9 +395,8 @@ static void update(tm_gameplay_context_t *ctx)
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
             change_box_to_random_color(state->box, ctx);
             state->box_state = BOX_STATE_FREE;
-            score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
-            if (score)
-                score->score += 1.0f;
+            score_component_t *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
+            score->score += 1.0f;
         } else {
             const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, ctx->dt * 10));
             g->entity->set_position(ctx, state->box, interpolate_to_start_pos);
@@ -380,13 +405,15 @@ static void update(tm_gameplay_context_t *ctx)
     }
 
     // UI: Score
-    score_component *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
-    if (score) {
-        char label_text[128];
-        snprintf(label_text, 128, "The box has been correctly placed %.0f times", score->score);
-        tm_rect_t rect = { 5, 5, 20, 20 };
-        tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
-    }
+    score_component_t *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
+
+    if (!score)
+        score = tm_entity_api->add_component(ctx->entity_ctx, state->player, state->score_component);
+
+    char label_text[128];
+    snprintf(label_text, 128, "The box has been correctly placed %.0f times", score->score);
+    tm_rect_t rect = { 5, 5, 20, 20 };
+    tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 
     // UI: Crosshair
     tm_ui_buffers_t uib = tm_ui_api->buffers(ctx->ui);
@@ -494,7 +521,7 @@ static void create(tm_entity_context_o *entity_ctx)
 
     const tm_component_i score_component = {
         .name = TYPE__SCORE_COMPONENT,
-        .bytes = sizeof(score_component),
+        .bytes = sizeof(score_component_t),
     };
 
     tm_entity_api->register_component(entity_ctx, &score_component);
@@ -531,6 +558,8 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
     tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
     tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
+    tm_os_window_api = reg->get(TM_OS_WINDOW_API_NAME);
+    tm_application_api = reg->get(TM_APPLICATION_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);
