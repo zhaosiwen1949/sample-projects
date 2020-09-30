@@ -219,6 +219,12 @@ static void update(tm_gameplay_context_t *ctx)
     
     // Only allow input when mouse is captured.
     if (state->mouse_captured) {
+        // Exit on ESC
+        if (!ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) {
+            struct tm_application_o *app = tm_application_api->application();
+            tm_application_api->exit(app);
+        }
+
         // Camera pan control
         const float mouse_sens = 0.5f * ctx->dt;
         const float camera_pan_delta = -state->input.mouse_delta.x * mouse_sens;

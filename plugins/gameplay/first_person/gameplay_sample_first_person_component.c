@@ -241,6 +241,12 @@ static void update(tm_gameplay_context_t *ctx)
 
     // Process input if mouse is captured.
     if (state->mouse_captured) {
+        // Exit on ESC
+        if (!ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) {
+            struct tm_application_o *app = tm_application_api->application();
+            tm_application_api->exit(app);
+        }
+        
         tm_vec3_t local_movement = { 0 };
         if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A])
             local_movement.x -= 1.0f;
