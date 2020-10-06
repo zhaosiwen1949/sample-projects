@@ -7,6 +7,7 @@
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
+#include <foundation/application.h>
 #include <foundation/carray.inl>
 #include <foundation/chash.inl>
 #include <foundation/input.h>
@@ -15,39 +16,37 @@
 #include <foundation/math.inl>
 #include <foundation/random.h>
 #include <foundation/the_truth.h>
-#include <foundation/application.h>
 #include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
+#include <plugins/os_window/os_window.h>
 #include <plugins/physics/physics_body_component.h>
 #include <plugins/physics/physics_joint_component.h>
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-#include <plugins/os_window/os_window.h>
 #include <the_machinery/component_interfaces/editor_ui_interface.h>
 
 #include <stdio.h>
 
-static struct tm_api_registry_api *tm_api_registry_api;
-static struct tm_entity_api *tm_entity_api;
-static struct tm_gameplay_api *g;
-static struct tm_input_api *tm_input_api;
-static struct tm_physx_scene_api *tm_physx_scene_api;
-static struct tm_random_api *tm_random_api;
-static struct tm_temp_allocator_api *tm_temp_allocator_api;
-static struct tm_the_truth_api *tm_the_truth_api;
-static struct tm_ui_api *tm_ui_api;
-static struct tm_draw2d_api *tm_draw2d_api;
-static struct tm_os_window_api *tm_os_window_api;
-static struct tm_application_api *tm_application_api;
+static struct tm_api_registry_api* tm_api_registry_api;
+static struct tm_entity_api* tm_entity_api;
+static struct tm_gameplay_api* g;
+static struct tm_input_api* tm_input_api;
+static struct tm_physx_scene_api* tm_physx_scene_api;
+static struct tm_random_api* tm_random_api;
+static struct tm_temp_allocator_api* tm_temp_allocator_api;
+static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_ui_api* tm_ui_api;
+static struct tm_draw2d_api* tm_draw2d_api;
+static struct tm_os_window_api* tm_os_window_api;
+static struct tm_application_api* tm_application_api;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
 static const uint64_t blue_tag = TM_STATIC_HASH("color_blue", 0xbe7fd3918560dcddULL);
 
-typedef struct input_state_t
-{
+typedef struct input_state_t {
     bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
     bool left_mouse_held;
     bool left_mouse_pressed;
@@ -62,8 +61,7 @@ enum box_state {
     BOX_STATE_FLYING_BACK
 };
 
-typedef struct tm_gameplay_state_o
-{
+typedef struct tm_gameplay_state_o {
     // Contains keyboard and mouse input state.
     input_state_t input;
 
@@ -89,8 +87,8 @@ typedef struct tm_gameplay_state_o
 
     // Misc
     uint64_t processed_events;
-    uint64_t player_collision_type;
-    uint64_t box_collision_type;
+    tm_tt_id_t player_collision_type;
+    tm_tt_id_t box_collision_type;
 
     // Component indicies
     uint32_t dcc_asset_component;
@@ -112,7 +110,7 @@ typedef struct
     float score;
 } score_component_t;
 
-static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t *ctx)
+static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t* ctx)
 {
     // Chose a random color, but never re-use the current one;
     uint32_t color = UINT32_MAX;
@@ -124,7 +122,7 @@ static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t *c
             color = c;
     }
 
-    uint64_t dcc_asset = 0;
+    tm_tt_id_t dcc_asset = TO_ID(0);
     uint64_t tag = 0;
 
     switch (color) {
@@ -147,14 +145,14 @@ static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t *c
     g->entity->remove_tag(ctx, box, blue_tag);
     g->entity->add_tag(ctx, box, tag);
 
-    void *dcc_comp = tm_entity_api->get_component(ctx->entity_ctx, box, ctx->state->dcc_asset_component);
-    struct tm_dcc_asset_component_api *tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
+    void* dcc_comp = tm_entity_api->get_component(ctx->entity_ctx, box, ctx->state->dcc_asset_component);
+    struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
     tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
 }
 
-static void start(tm_gameplay_context_t *ctx)
+static void start(tm_gameplay_context_t* ctx)
 {
-    tm_gameplay_state_o *state = ctx->state;
+    tm_gameplay_state_o* state = ctx->state;
 
     state->dcc_asset_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
     state->mover_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
@@ -168,7 +166,7 @@ static void start(tm_gameplay_context_t *ctx)
     state->player_camera = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
     state->player_carry_anchor = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
     tm_entity_api->add_component(ctx->entity_ctx, state->player, state->score_component);
-    
+
     state->box = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
     change_box_to_random_color(state->box, ctx);
     state->box_starting_point = g->entity->get_position(ctx, state->box);
@@ -176,14 +174,14 @@ static void start(tm_gameplay_context_t *ctx)
     TM_INIT_TEMP_ALLOCATOR_WITH_ADAPTER(ta, a);
     tm_chash64_t collision_types = { .allocator = a };
     g->physics->get_collision_types(ctx, &collision_types);
-    state->player_collision_type = tm_chash64_get(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
-    state->box_collision_type = tm_chash64_get(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
+    state->player_collision_type = TO_ID(tm_chash64_get(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)));
+    state->box_collision_type = TO_ID(tm_chash64_get(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)));
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
-static void update(tm_gameplay_context_t *ctx)
+static void update(tm_gameplay_context_t* ctx)
 {
-    tm_gameplay_state_o *state = ctx->state;
+    tm_gameplay_state_o* state = ctx->state;
 
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -194,7 +192,7 @@ static void update(tm_gameplay_context_t *ctx)
     while (true) {
         uint64_t n = tm_input_api->events(state->processed_events, events, 32);
         for (uint64_t i = 0; i < n; ++i) {
-            const tm_input_event_t *e = events + i;
+            const tm_input_event_t* e = events + i;
             if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_MOUSE) {
                 if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
                     const bool down = e->data.f.x > 0.5f;
@@ -224,29 +222,29 @@ static void update(tm_gameplay_context_t *ctx)
 
         if ((ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_os_window_api->status(ctx->window).has_focus) {
             state->mouse_captured = false;
-            struct tm_application_o *app = tm_application_api->application();
+            struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, false);
         }
 
         if (state->mouse_captured) {
-            struct tm_application_o *app = tm_application_api->application();
+            struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, true);
-        }    
+        }
     }
 
-    tm_physx_scene_o *physx_scene = ctx->physx_scene;
+    tm_physx_scene_o* physx_scene = ctx->physx_scene;
     const tm_vec3_t camera_pos = g->entity->get_position(ctx, state->player_camera);
     const tm_vec4_t camera_rot = g->entity->get_rotation(ctx, state->player_camera);
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
+    struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
 
     // Process input if mouse is captured.
     if (state->mouse_captured) {
         // Exit on ESC
         if (!ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) {
-            struct tm_application_o *app = tm_application_api->application();
+            struct tm_application_o* app = tm_application_api->application();
             tm_application_api->exit(app);
         }
-        
+
         tm_vec3_t local_movement = { 0 };
         if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A])
             local_movement.x -= 1.0f;
@@ -295,7 +293,7 @@ static void update(tm_gameplay_context_t *ctx)
     g->entity->set_transform(ctx, state->player_carry_anchor, &carry_transf);
 
     // Modified if the raycast below hits the box.
-    tm_color_srgb_t crosshair_color = { 120, 120, 120, 255};
+    tm_color_srgb_t crosshair_color = { 120, 120, 120, 255 };
 
     // Box state machine
     switch (state->box_state) {
@@ -303,8 +301,8 @@ static void update(tm_gameplay_context_t *ctx)
         // Check if box is in a drop zone that has the same color as itself
 
         bool touching_correct_drop_zone = false;
-        tm_physx_on_contact_t *contact_events = tm_physx_scene_api->on_contact(physx_scene);
-        for (tm_physx_on_contact_t *t = contact_events; t != tm_carray_end(contact_events); ++t) {
+        tm_physx_on_contact_t* contact_events = tm_physx_scene_api->on_contact(physx_scene);
+        for (tm_physx_on_contact_t* t = contact_events; t != tm_carray_end(contact_events); ++t) {
             const tm_entity_t e0 = t->actor_0;
             const tm_entity_t e1 = t->actor_1;
 
@@ -342,14 +340,14 @@ static void update(tm_gameplay_context_t *ctx)
                 if (state->box.u64 == hit.u64) {
                     crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
                     if (state->input.left_mouse_pressed) {
-                        tm_physics_shape_component_t *shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
+                        tm_physics_shape_component_t* shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
                         shape->collision_id = state->player_collision_type;
 
                         // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
                         tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_rigid_body_component);
 
                         g->entity->set_position(ctx, state->box, anchor_pos);
-                        tm_physics_joint_component_t *j = tm_entity_api->add_component(ctx->entity_ctx, state->box, state->physics_joint_component);
+                        tm_physics_joint_component_t* j = tm_entity_api->add_component(ctx->entity_ctx, state->box, state->physics_joint_component);
                         j->joint_type = TM_PHYSICS_JOINT__FIXED;
                         j->body_0 = state->box;
                         j->body_1 = state->player_carry_anchor;
@@ -366,7 +364,7 @@ static void update(tm_gameplay_context_t *ctx)
 
             tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physics_joint_component);
             tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_joint_component);
-            tm_physics_shape_component_t *shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
+            tm_physics_shape_component_t* shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
             shape->collision_id = state->box_collision_type;
 
             // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
@@ -401,7 +399,7 @@ static void update(tm_gameplay_context_t *ctx)
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
             change_box_to_random_color(state->box, ctx);
             state->box_state = BOX_STATE_FREE;
-            score_component_t *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
+            score_component_t* score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
             score->score += 1.0f;
         } else {
             const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, ctx->dt * 10));
@@ -411,7 +409,7 @@ static void update(tm_gameplay_context_t *ctx)
     }
 
     // UI: Score
-    score_component_t *score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
+    score_component_t* score = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->score_component);
 
     if (!score)
         score = tm_entity_api->add_component(ctx->entity_ctx, state->player, state->score_component);
@@ -439,11 +437,11 @@ static void update(tm_gameplay_context_t *ctx)
 
 typedef struct
 {
-    tm_entity_context_o *entity_ctx;
+    tm_entity_context_o* entity_ctx;
     tm_allocator_i allocator;
 } gameplay_component_manager_t;
 
-static void system_update(tm_entity_context_o *entity_ctx, tm_gameplay_context_t *ctx)
+static void system_update(tm_entity_context_o* entity_ctx, tm_gameplay_context_t* ctx)
 {
     g->context->update(ctx);
 
@@ -461,30 +459,30 @@ static void system_update(tm_entity_context_o *entity_ctx, tm_gameplay_context_t
     update(ctx);
 }
 
-static void component_added(gameplay_component_manager_t *manager, tm_entity_t e, tm_gameplay_context_t *ctx)
+static void component_added(gameplay_component_manager_t* manager, tm_entity_t e, tm_gameplay_context_t* ctx)
 {
     const bool editor = tm_entity_api->get_blackboard_double(manager->entity_ctx, TM_ENTITY_BB__EDITOR, 0);
     if (editor)
         return;
 
-    tm_allocator_i *a = &manager->allocator;
+    tm_allocator_i* a = &manager->allocator;
     g->context->init(ctx, a, manager->entity_ctx);
 
     const tm_entity_system_i gameplay_system = {
         .name = GAMEPLAY_SYSTEM_NAME,
-        .update = (void (*)(tm_entity_context_o *, tm_entity_system_o *))system_update,
-        .inst = (tm_entity_system_o *)ctx
+        .update = (void (*)(tm_entity_context_o*, tm_entity_system_o*))system_update,
+        .inst = (tm_entity_system_o*)ctx
     };
 
     tm_entity_api->register_system(ctx->entity_ctx, &gameplay_system);
 }
 
-static void system_hot_reload(tm_entity_context_o *entity_ctx, tm_entity_system_i *system)
+static void system_hot_reload(tm_entity_context_o* entity_ctx, tm_entity_system_i* system)
 {
-    system->update = (void (*)(tm_entity_context_o *, tm_entity_system_o *))system_update;
+    system->update = (void (*)(tm_entity_context_o*, tm_entity_system_o*))system_update;
 }
 
-static void component_removed(gameplay_component_manager_t *manager, tm_entity_t e, tm_gameplay_context_t *ctx)
+static void component_removed(gameplay_component_manager_t* manager, tm_entity_t e, tm_gameplay_context_t* ctx)
 {
     const bool editor = tm_entity_api->get_blackboard_double(manager->entity_ctx, TM_ENTITY_BB__EDITOR, 0);
     if (editor)
@@ -494,20 +492,20 @@ static void component_removed(gameplay_component_manager_t *manager, tm_entity_t
     g->context->shutdown(ctx);
 }
 
-static void destroy(gameplay_component_manager_t *manager)
+static void destroy(gameplay_component_manager_t* manager)
 {
-    tm_entity_context_o *ctx = manager->entity_ctx;
+    tm_entity_context_o* ctx = manager->entity_ctx;
     tm_entity_api->call_remove_on_all_entities(ctx, tm_entity_api->lookup_component(ctx, TYPE_HASH__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT));
     tm_allocator_i a = manager->allocator;
     tm_free(&a, manager, sizeof(*manager));
     tm_entity_api->destroy_child_allocator(ctx, &a);
 }
 
-static void create(tm_entity_context_o *entity_ctx)
+static void create(tm_entity_context_o* entity_ctx)
 {
     tm_allocator_i a;
     tm_entity_api->create_child_allocator(entity_ctx, TYPE__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT, &a);
-    gameplay_component_manager_t *manager = tm_alloc(&a, sizeof(*manager));
+    gameplay_component_manager_t* manager = tm_alloc(&a, sizeof(*manager));
 
     *manager = (gameplay_component_manager_t){
         .allocator = a,
@@ -517,10 +515,10 @@ static void create(tm_entity_context_o *entity_ctx)
     const tm_component_i component = {
         .name = TYPE__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT,
         .bytes = sizeof(tm_gameplay_context_t),
-        .manager = (tm_component_manager_o *)manager,
-        .add = (void (*)(tm_component_manager_o *, tm_entity_t, void *))component_added,
-        .remove = (void (*)(tm_component_manager_o *, tm_entity_t, void *))component_removed,
-        .destroy = (void (*)(tm_component_manager_o *))destroy,
+        .manager = (tm_component_manager_o*)manager,
+        .add = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_added,
+        .remove = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_removed,
+        .destroy = (void (*)(tm_component_manager_o*))destroy,
     };
 
     tm_entity_api->register_component(entity_ctx, &component);
@@ -533,26 +531,26 @@ static void create(tm_entity_context_o *entity_ctx)
     tm_entity_api->register_component(entity_ctx, &score_component);
 }
 
-static void component_hot_reload(tm_entity_context_o *entity_ctx, tm_component_i *component)
+static void component_hot_reload(tm_entity_context_o* entity_ctx, tm_component_i* component)
 {
-    component->add = (void (*)(tm_component_manager_o *, tm_entity_t, void *))component_added;
-    component->remove = (void (*)(tm_component_manager_o *, tm_entity_t, void *))component_removed;
-    component->destroy = (void (*)(tm_component_manager_o *))destroy;
+    component->add = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_added;
+    component->remove = (void (*)(tm_component_manager_o*, tm_entity_t, void*))component_removed;
+    component->destroy = (void (*)(tm_component_manager_o*))destroy;
 }
 
 static tm_ci_editor_ui_i editor_aspect = { 0 };
 
-static void create_truth_types(struct tm_the_truth_o *tt)
+static void create_truth_types(struct tm_the_truth_o* tt)
 {
     const uint64_t object_type = tm_the_truth_api->create_object_type(tt, TYPE__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT, 0, 0);
-    const uint64_t component = tm_the_truth_api->create_object_of_type(tt, tm_the_truth_api->object_type_from_name_hash(tt, TYPE_HASH__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT), TM_TT_NO_UNDO_SCOPE);
+    const tm_tt_id_t component = tm_the_truth_api->create_object_of_type(tt, tm_the_truth_api->object_type_from_name_hash(tt, TYPE_HASH__GAMEPLAY_SAMPLE_FIRST_PERSON_COMPONENT), TM_TT_NO_UNDO_SCOPE);
     (void)component;
 
     // This is needed in order for the component to show up in the editor.
     tm_the_truth_api->set_aspect(tt, object_type, TM_CI_EDITOR_UI, &editor_aspect);
 }
 
-TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
+TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     g = reg->get(TM_GAMEPLAY_API_NAME);
     tm_api_registry_api = reg;
