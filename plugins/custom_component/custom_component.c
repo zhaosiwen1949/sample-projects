@@ -3,8 +3,7 @@ static struct tm_link_component_api* tm_link_component_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_api* tm_the_truth_api;
 
-#include <the_machinery/component_interfaces/editor_ui_interface.h>
-
+#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/entity/entity.h>
 #include <plugins/entity/link_component.h>
 #include <plugins/entity/transform_component.h>

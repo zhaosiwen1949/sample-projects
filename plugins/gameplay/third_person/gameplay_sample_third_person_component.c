@@ -19,22 +19,20 @@
 #include <plugins/animation/animation_state_machine_component.h>
 #include <plugins/entity/entity.h>
 #include <plugins/physx/physx_scene.h>
-
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
 #include <plugins/renderer/render_backend.h>
 #include <plugins/renderer/render_command_buffer.h>
 #include <plugins/renderer/resources.h>
 #include <plugins/shader_system/shader_system.h>
-
+#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/creation_graph/creation_graph_output.inl>
 #include <plugins/os_window/os_window.h>
-
 #include <plugins/ui/ui.h>
 
 #include <stdio.h>
-#include <the_machinery/component_interfaces/editor_ui_interface.h>
+
 
 static struct tm_animation_state_machine_api* tm_animation_state_machine_api;
 static struct tm_entity_api* tm_entity_api;

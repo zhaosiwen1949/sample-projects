@@ -10,7 +10,7 @@
 #include <foundation/localizer.h>
 #include <foundation/the_truth.h>
 #include <plugins/entity/entity.h>
-#include <the_machinery/component_interfaces/editor_ui_interface.h>
+#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 
 // short-hand for tm_gameplay_api
 static struct tm_gameplay_api* g;

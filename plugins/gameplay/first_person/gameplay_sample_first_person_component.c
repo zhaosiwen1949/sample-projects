@@ -25,7 +25,7 @@
 #include <plugins/physx/physx_scene.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-#include <the_machinery/component_interfaces/editor_ui_interface.h>
+#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 
 #include <stdio.h>
 
