@@ -23,9 +23,9 @@
 #include <plugins/physics/physics_joint_component.h>
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
+#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 
 #include <stdio.h>
 
@@ -122,7 +122,7 @@ static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t* c
             color = c;
     }
 
-    tm_tt_id_t dcc_asset = TO_ID(0);
+    tm_tt_id_t dcc_asset = (tm_tt_id_t){ 0 };
     uint64_t tag = 0;
 
     switch (color) {
@@ -174,8 +174,8 @@ static void start(tm_gameplay_context_t* ctx)
     TM_INIT_TEMP_ALLOCATOR_WITH_ADAPTER(ta, a);
     tm_chash64_t collision_types = { .allocator = a };
     g->physics->get_collision_types(ctx, &collision_types);
-    state->player_collision_type = TO_ID(tm_chash64_get(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)));
-    state->box_collision_type = TO_ID(tm_chash64_get(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)));
+    state->player_collision_type = (tm_tt_id_t){ tm_chash64_get(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)) };
+    state->box_collision_type = (tm_tt_id_t){ tm_chash64_get(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)) };
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
