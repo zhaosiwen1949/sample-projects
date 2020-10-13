@@ -109,7 +109,7 @@ static void start(tm_gameplay_context_t* ctx)
     state->checkpoint_sphere = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
     state->camera_tilt = 3.18f;
     const tm_tt_id_t particle_asset = tm_the_truth_assets_api->asset_from_path(ctx->tt, ctx->asset_root, "vfx/particles.entity");
-    state->particle_entity = TO_U64(particle_asset) ? tm_the_truth_api->get_subobject(ctx->tt, tm_tt_read(ctx->tt, particle_asset), TM_TT_PROP__ASSET__OBJECT) : TO_ID(0);
+    state->particle_entity = particle_asset.u64 ? tm_the_truth_api->get_subobject(ctx->tt, tm_tt_read(ctx->tt, particle_asset), TM_TT_PROP__ASSET__OBJECT) : TO_ID(0);
 
     const tm_entity_t root_entity = g->entity->root_entity(ctx, state->player);
     char checkpoint_path[30];
@@ -269,7 +269,7 @@ static void update(tm_gameplay_context_t* ctx)
         if (state->current_checkpoint == 8)
             state->current_checkpoint = 0;
 
-        if (TO_U64(state->particle_entity)) {
+        if (state->particle_entity.u64) {
             // Spawn particle effect at position of next checkpoint.
             tm_entity_t p = tm_entity_api->create_entity_from_asset(ctx->entity_ctx, state->particle_entity);
             // Set particle spawn location to next check point.
