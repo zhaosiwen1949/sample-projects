@@ -17,7 +17,9 @@
 #include <foundation/the_truth_assets.h>
 #include <plugins/animation/animation_state_machine.h>
 #include <plugins/animation/animation_state_machine_component.h>
+#include <plugins/creation_graph/creation_graph.h>
 #include <plugins/entity/entity.h>
+#include <plugins/os_window/os_window.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
@@ -26,13 +28,11 @@
 #include <plugins/renderer/resources.h>
 #include <plugins/shader_system/shader_system.h>
 #include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
-#include <plugins/creation_graph/creation_graph.h>
-#include <plugins/creation_graph/creation_graph_output.inl>
-#include <plugins/os_window/os_window.h>
 #include <plugins/ui/ui.h>
 
-#include <stdio.h>
+#include <plugins/creation_graph/creation_graph_output.inl>
 
+#include <stdio.h>
 
 static struct tm_animation_state_machine_api* tm_animation_state_machine_api;
 static struct tm_entity_api* tm_entity_api;
