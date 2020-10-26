@@ -176,7 +176,7 @@ static void start(tm_gameplay_context_t* ctx)
     g->physics->get_collision_types(ctx, &collision_types);
     state->player_collision_type = (tm_tt_id_t){ tm_chash64_get(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)) };
     state->box_collision_type = (tm_tt_id_t){ tm_chash64_get(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)) };
-    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
+TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
 static void update(tm_gameplay_context_t* ctx)
@@ -189,26 +189,53 @@ static void update(tm_gameplay_context_t* ctx)
 
     // Read input
     tm_input_event_t events[32];
+    bool mouse_captured_this_frame = state->mouse_captured;
     while (true) {
         uint64_t n = tm_input_api->events(state->processed_events, events, 32);
+        
         for (uint64_t i = 0; i < n; ++i) {
             const tm_input_event_t* e = events + i;
-            if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_MOUSE) {
-                if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
-                    const bool down = e->data.f.x > 0.5f;
-                    state->input.left_mouse_pressed = down && !state->input.left_mouse_held;
-                    state->input.left_mouse_held = down;
-                } else if (e->item_id == TM_INPUT_MOUSE_ITEM_MOVE) {
-                    state->input.mouse_delta.x += e->data.f.x;
-                    state->input.mouse_delta.y += e->data.f.y;
+            if(mouse_captured_this_frame)
+            {
+                if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_MOUSE) {
+                    if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
+                        const bool down = e->data.f.x > 0.5f;
+                        state->input.left_mouse_pressed = down && !state->input.left_mouse_held;
+                        state->input.left_mouse_held = down;
+                    } else if (e->item_id == TM_INPUT_MOUSE_ITEM_MOVE) {
+                        state->input.mouse_delta.x += e->data.f.x;
+                        state->input.mouse_delta.y += e->data.f.y;
+                    }
+                }
+                if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_KEYBOARD) {
+                    if (e->type == TM_INPUT_EVENT_TYPE_DATA_CHANGE) {
+                        state->input.held_keys[e->item_id] = e->data.f.x == 1.0f;
+                    }
                 }
             }
-            if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_KEYBOARD) {
-                if (e->type == TM_INPUT_EVENT_TYPE_DATA_CHANGE) {
-                    state->input.held_keys[e->item_id] = e->data.f.x == 1.0f;
+            else
+            {
+                if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_MOUSE) {
+                    if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
+                        const bool down = e->data.f.x > 0.5f;
+                        if(down && !state->input.left_mouse_held)
+{
+                            if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0))) {
+                                state->mouse_captured = true;
+                            }
+}
+                        state->input.left_mouse_held = down;
                 }
-            }
+                }
+                
+                if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_KEYBOARD) {
+                    if (e->item_id == TM_INPUT_KEYBOARD_ITEM_ESCAPE && e->type == TM_INPUT_EVENT_TYPE_DATA_CHANGE) {
+                        state->input.held_keys[e->item_id] = e->data.f.x == 1.0f;
+                    }
+                }
         }
+        }
+        
         state->processed_events += n;
         if (n < 32)
             break;
@@ -216,10 +243,6 @@ static void update(tm_gameplay_context_t* ctx)
 
     // Capture mouse
     {
-        if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0) && state->input.left_mouse_pressed)) {
-            state->mouse_captured = true;
-        }
-
         if ((ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_os_window_api->status(ctx->window).has_focus) {
             state->mouse_captured = false;
             struct tm_application_o* app = tm_application_api->application();
