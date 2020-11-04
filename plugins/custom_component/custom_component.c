@@ -3,10 +3,10 @@ static struct tm_link_component_api* tm_link_component_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_api* tm_the_truth_api;
 
-#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/entity/entity.h>
 #include <plugins/entity/link_component.h>
 #include <plugins/entity/transform_component.h>
+#include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 
 #include <foundation/api_registry.h>
 #include <foundation/carray.inl>
@@ -43,13 +43,14 @@ static void truth__create_types(struct tm_the_truth_o* tt)
     tm_the_truth_api->set_aspect(tt, custom_component_type, TM_CI_EDITOR_UI, editor_aspect);
 }
 
-static void component__load_asset(tm_component_manager_o* man, tm_entity_t e, void* c_vp, const tm_the_truth_o* tt, tm_tt_id_t asset)
+static bool component__load_asset(tm_component_manager_o* man, tm_entity_t e, void* c_vp, const tm_the_truth_o* tt, tm_tt_id_t asset)
 {
     struct tm_custom_component_t* c = c_vp;
     const tm_the_truth_object_o* asset_r = tm_tt_read(tt, asset);
     c->y0 = 0;
     c->frequency = tm_the_truth_api->get_float(tt, asset_r, TM_TT_PROP__CUSTOM_COMPONENT__FREQUENCY);
     c->amplitude = tm_the_truth_api->get_float(tt, asset_r, TM_TT_PROP__CUSTOM_COMPONENT__AMPLITUDE);
+    return true;
 }
 
 static void component__create(struct tm_entity_context_o* ctx)
