@@ -41,6 +41,7 @@ static struct tm_ui_api* tm_ui_api;
 static struct tm_draw2d_api* tm_draw2d_api;
 static struct tm_os_window_api* tm_os_window_api;
 static struct tm_application_api* tm_application_api;
+static struct tm_localizer_api* tm_localizer_api;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
@@ -557,7 +558,15 @@ static void component_hot_reload(tm_entity_context_o* entity_ctx, tm_component_i
     component->destroy = (void (*)(tm_component_manager_o*))destroy;
 }
 
-static tm_ci_editor_ui_i editor_aspect = { 0 };
+
+static const char *component__category()
+{
+    return TM_LOCALIZE("Samples/Gameplay");
+}
+
+static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 
+    .category = component__category 
+};
 
 static void create_truth_types(struct tm_the_truth_o* tt)
 {
@@ -566,7 +575,7 @@ static void create_truth_types(struct tm_the_truth_o* tt)
     (void)component;
 
     // This is needed in order for the component to show up in the editor.
-    tm_the_truth_api->set_aspect(tt, object_type, TM_CI_EDITOR_UI, &editor_aspect);
+    tm_the_truth_api->set_aspect(tt, object_type, TM_CI_EDITOR_UI, editor_aspect);
 }
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
@@ -583,6 +592,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
     tm_os_window_api = reg->get(TM_OS_WINDOW_API_NAME);
     tm_application_api = reg->get(TM_APPLICATION_API_NAME);
+    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, create);

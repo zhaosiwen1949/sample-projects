@@ -2,6 +2,7 @@ static struct tm_entity_api* tm_entity_api;
 static struct tm_link_component_api* tm_link_component_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_localizer_api* tm_localizer_api;
 
 #include <plugins/entity/entity.h>
 #include <plugins/entity/link_component.h>
@@ -10,6 +11,7 @@ static struct tm_the_truth_api* tm_the_truth_api;
 
 #include <foundation/api_registry.h>
 #include <foundation/carray.inl>
+#include <foundation/localizer.h>
 #include <foundation/math.inl>
 #include <foundation/the_truth.h>
 
@@ -27,7 +29,14 @@ struct tm_custom_component_t {
     float amplitude;
 };
 
-static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 0 };
+static const char *component__category()
+{
+    return TM_LOCALIZE("Samples");
+}
+
+static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 
+    .category = component__category 
+};
 
 static void truth__create_types(struct tm_the_truth_o* tt)
 {
@@ -140,6 +149,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_link_component_api = reg->get(TM_LINK_COMPONENT_API_NAME);
     tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
+    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, truth__create_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
