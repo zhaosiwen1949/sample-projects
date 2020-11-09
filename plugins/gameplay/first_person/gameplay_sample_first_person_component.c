@@ -1,15 +1,34 @@
-// This file contains all the gameplay code associated with the first person gameplay sample. The code also exposes a
-// componenet which is meant to be added to a single entity in a scene. This component will setup a system that is run
-// once per frame, in which it will first update the gameplay context and then run the gameplay code.
+// This file contains all the gameplay code associated with the first person gameplay sample. The
+// code also exposes a componenet which is meant to be added to a single entity in a scene. This
+// component will setup a system that is run once per frame, in which it will first update the
+// gameplay context and then run the gameplay code.
 
-//A simple score component is also added to show you how to register, add, update and render components all within the C code.
+// A simple score component is also added to show you how to register, add, update and render
+// components all within the C code.
+
+static struct tm_api_registry_api* tm_api_registry_api;
+static struct tm_error_api* tm_error_api;
+static struct tm_entity_api* tm_entity_api;
+static struct tm_gameplay_api* g;
+static struct tm_input_api* tm_input_api;
+static struct tm_physx_scene_api* tm_physx_scene_api;
+static struct tm_random_api* tm_random_api;
+static struct tm_temp_allocator_api* tm_temp_allocator_api;
+static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_ui_api* tm_ui_api;
+static struct tm_draw2d_api* tm_draw2d_api;
+static struct tm_os_window_api* tm_os_window_api;
+static struct tm_application_api* tm_application_api;
+static struct tm_localizer_api* tm_localizer_api;
+
 #include <plugins/gameplay/gameplay.h>
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/application.h>
 #include <foundation/carray.inl>
-#include <foundation/chash.inl>
+#include <foundation/error.h>
+#include <foundation/hash.inl>
 #include <foundation/input.h>
 #include <foundation/localizer.h>
 #include <foundation/macros.h>
@@ -29,19 +48,7 @@
 
 #include <stdio.h>
 
-static struct tm_api_registry_api* tm_api_registry_api;
-static struct tm_entity_api* tm_entity_api;
-static struct tm_gameplay_api* g;
-static struct tm_input_api* tm_input_api;
-static struct tm_physx_scene_api* tm_physx_scene_api;
-static struct tm_random_api* tm_random_api;
-static struct tm_temp_allocator_api* tm_temp_allocator_api;
-static struct tm_the_truth_api* tm_the_truth_api;
-static struct tm_ui_api* tm_ui_api;
-static struct tm_draw2d_api* tm_draw2d_api;
-static struct tm_os_window_api* tm_os_window_api;
-static struct tm_application_api* tm_application_api;
-static struct tm_localizer_api* tm_localizer_api;
+typedef struct tm_hash_u64_to_id_t TM_HASH_T(uint64_t, tm_tt_id_t) tm_hash_u64_to_id_t;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
@@ -173,10 +180,10 @@ static void start(tm_gameplay_context_t* ctx)
     state->box_starting_point = g->entity->get_position(ctx, state->box);
     state->box_starting_rot = g->entity->get_rotation(ctx, state->box);
     TM_INIT_TEMP_ALLOCATOR_WITH_ADAPTER(ta, a);
-    tm_chash64_t collision_types = { .allocator = a };
+    tm_hash_u64_to_id_t collision_types = { .allocator = a };
     g->physics->get_collision_types(ctx, &collision_types);
-    state->player_collision_type = (tm_tt_id_t){ tm_chash64_get(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)) };
-    state->box_collision_type = (tm_tt_id_t){ tm_chash64_get(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)) };
+    state->player_collision_type = tm_hash_get_rv(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
+    state->box_collision_type = tm_hash_get_rv(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
@@ -558,14 +565,13 @@ static void component_hot_reload(tm_entity_context_o* entity_ctx, tm_component_i
     component->destroy = (void (*)(tm_component_manager_o*))destroy;
 }
 
-
-static const char *component__category()
+static const char* component__category()
 {
     return TM_LOCALIZE("Samples/Gameplay");
 }
 
-static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 
-    .category = component__category 
+static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){
+    .category = component__category
 };
 
 static void create_truth_types(struct tm_the_truth_o* tt)
@@ -582,6 +588,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     g = reg->get(TM_GAMEPLAY_API_NAME);
     tm_api_registry_api = reg;
+    tm_error_api = reg->get(TM_ERROR_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
     tm_input_api = reg->get(TM_INPUT_API_NAME);
