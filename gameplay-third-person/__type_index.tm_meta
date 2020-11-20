@@ -824,9 +824,9 @@
 				type_hash: "9723e0133dc6620a"
 			}
 			{
-				name: "tags"
-				type: "reference_set"
-				type_hash: "cd9214e0eee562ad"
+				name: "uuid_tags"
+				type: "subobject_set"
+				type_hash: "b11aa2e510ce635e"
 			}
 			{
 				name: "object"
@@ -878,11 +878,6 @@
 				type_hash: "ca71127abbb72960"
 			}
 			{
-				name: "tags"
-				type: "subobject_set"
-				type_hash: "cd9214e0eee562ad"
-			}
-			{
 				name: "directories"
 				type: "subobject_set"
 				type_hash: "9723e0133dc6620a"
@@ -892,6 +887,10 @@
 	{
 		name: "tm_asset_tag"
 		properties: [
+			{
+				name: "uuid"
+				type: "uint64_t"
+			}
 			{
 				name: "name"
 				type: "string"
@@ -2176,6 +2175,15 @@
 				type: "reference"
 				type_hash: "c5f12f23d4534d76"
 			}
+			{
+				name: "area_extent"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+			{
+				name: "area_radius"
+				type: "float"
+			}
 		]
 		default: {
 			color: {
@@ -2183,10 +2191,15 @@
 			intensity: 1
 			spot_inner_angle: 0.3490658700466156
 			spot_outer_angle: 1.221730589866638
-			shadow_depth_bias: 0.25
+			shadow_depth_bias: 0.2000000029802322
 			num_cascades: 4
 			shadow_distance: 60
 			uniform_log_weight: 0.800000011920929
+			area_extent: {
+				x: 1
+				y: 1
+			}
+			area_radius: 1
 		}
 	}
 	{
@@ -2230,6 +2243,16 @@
 		}
 	}
 	{
+		name: "tm_docking_settings"
+		properties: [
+			{
+				name: "toolbars_settings"
+				type: "subobject_set"
+				type_hash: "e4839373f4cd97c1"
+			}
+		]
+	}
+	{
 		name: "tm_double"
 		properties: [
 			{
@@ -2268,6 +2291,10 @@
 				name: "children"
 				type: "subobject_set"
 				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "sort_order"
+				type: "double"
 			}
 		]
 	}
@@ -4295,6 +4322,11 @@
 				type: "reference"
 				type_hash: "8944e0b1cefd4756"
 			}
+			{
+				name: "hidden entities"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
 		]
 	}
 	{
@@ -4384,7 +4416,56 @@
 				name: "boxes_parent"
 				type: "buffer"
 			}
+			{
+				name: "selection"
+				type: "subobject"
+				type_hash: "fb9e0c41ee8d4185"
+			}
+			{
+				name: "draw_color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
 		]
+	}
+	{
+		name: "tm_sculpt_component_selection"
+		properties: [
+			{
+				name: "indices"
+				type: "buffer"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "extent"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+		default: {
+			position: {
+			}
+			rotation: {
+			}
+			extent: {
+			}
+			color: {
+			}
+		}
 	}
 	{
 		name: "tm_select_controller"
@@ -5207,7 +5288,7 @@
 			}
 			{
 				name: "static_resource"
-				type: "uint64_t"
+				type: "string"
 			}
 			{
 				name: "uav"
@@ -5541,6 +5622,31 @@
 			}
 			{
 				name: "b"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_toolbar_settings"
+		properties: [
+			{
+				name: "id"
+				type: "uint64_t"
+			}
+			{
+				name: "container"
+				type: "uint32_t"
+			}
+			{
+				name: "anchor"
+				type: "uint32_t"
+			}
+			{
+				name: "anchor_order"
+				type: "uint32_t"
+			}
+			{
+				name: "position"
 				type: "float"
 			}
 		]
