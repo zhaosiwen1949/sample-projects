@@ -13,6 +13,7 @@
 #include <foundation/input.h>
 #include <foundation/localizer.h>
 #include <foundation/math.inl>
+#include <foundation/rect.inl>
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_assets.h>
 #include <plugins/animation/animation_state_machine.h>
@@ -192,7 +193,8 @@ static void update(tm_gameplay_context_t* ctx)
 
     // Capture mouse
     {
-        if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0) && state->input.left_mouse_pressed)) {
+        // TODO: Remove tm_rect_inset when we have proper toolbar in simulate tab.
+        if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, tm_rect_inset(ctx->rect, 0, 30), 0) && state->input.left_mouse_pressed)) {
             state->mouse_captured = true;
         }
 
