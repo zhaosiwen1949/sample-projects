@@ -225,8 +225,7 @@ static void update(tm_gameplay_context_t* ctx)
                     if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
                         const bool down = e->data.f.x > 0.5f;
                         if (down && !state->input.left_mouse_held) {
-                            // TODO: Remove tm_rect_inset when we have proper toolbar in simulate tab.
-                            if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, tm_rect_inset(ctx->rect, 0, 30), 0))) {
+                            if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0))) {
                                 state->mouse_captured = true;
                             }
                         }
