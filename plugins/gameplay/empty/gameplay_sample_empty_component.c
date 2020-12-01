@@ -136,13 +136,13 @@ static void component_hot_reload(tm_entity_context_o* entity_ctx, tm_component_i
     component->destroy = (void (*)(tm_component_manager_o*))destroy;
 }
 
-static const char *component__category()
+static const char* component__category(void)
 {
     return TM_LOCALIZE("Samples/Gameplay");
 }
 
-static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 
-    .category = component__category 
+static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){
+    .category = component__category
 };
 
 static void create_truth_types(struct tm_the_truth_o* tt)

@@ -29,13 +29,13 @@ struct tm_custom_component_t {
     float amplitude;
 };
 
-static const char *component__category()
+static const char* component__category(void)
 {
     return TM_LOCALIZE("Samples");
 }
 
-static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){ 
-    .category = component__category 
+static tm_ci_editor_ui_i* editor_aspect = &(tm_ci_editor_ui_i){
+    .category = component__category
 };
 
 static void truth__create_types(struct tm_the_truth_o* tt)

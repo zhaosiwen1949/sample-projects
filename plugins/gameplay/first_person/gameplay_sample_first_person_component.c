@@ -34,8 +34,8 @@ static struct tm_localizer_api* tm_localizer_api;
 #include <foundation/macros.h>
 #include <foundation/math.inl>
 #include <foundation/random.h>
-#include <foundation/the_truth.h>
 #include <foundation/rect.inl>
+#include <foundation/the_truth.h>
 #include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
 #include <plugins/os_window/os_window.h>
@@ -566,7 +566,7 @@ static void component_hot_reload(tm_entity_context_o* entity_ctx, tm_component_i
     component->destroy = (void (*)(tm_component_manager_o*))destroy;
 }
 
-static const char* component__category()
+static const char* component__category(void)
 {
     return TM_LOCALIZE("Samples/Gameplay");
 }
