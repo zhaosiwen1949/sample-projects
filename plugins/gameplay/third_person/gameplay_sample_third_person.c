@@ -11,7 +11,6 @@ static struct tm_entity_api* tm_entity_api;
 static struct tm_error_api* tm_error_api;
 static struct tm_input_api* tm_input_api;
 static struct tm_localizer_api* tm_localizer_api;
-static struct tm_os_window_api* tm_os_window_api;
 static struct tm_render_component_api* tm_render_component_api;
 static struct tm_shader_api* tm_shader_api;
 static struct tm_simulate_context_api* tm_simulate_context_api;
@@ -29,7 +28,6 @@ static struct tm_ui_api* tm_ui_api;
 #include <plugins/animation/animation_state_machine_component.h>
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/entity/entity.h>
-#include <plugins/os_window/os_window.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
@@ -228,7 +226,7 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             state->mouse_captured = true;
         }
 
-        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE])/* || !tm_os_window_api->status(ctx->window).has_focus*/) {
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
             state->mouse_captured = false;
             struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, false);
@@ -339,7 +337,6 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_error_api = reg->get(TM_ERROR_API_NAME);
     tm_input_api = reg->get(TM_INPUT_API_NAME);
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
-    tm_os_window_api = reg->get(TM_OS_WINDOW_API_NAME);
     tm_render_component_api = reg->get(TM_RENDER_COMPONENT_API_NAME);
     tm_shader_api = reg->get(TM_SHADER_API_NAME);
     tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);

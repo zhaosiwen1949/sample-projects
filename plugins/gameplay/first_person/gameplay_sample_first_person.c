@@ -10,16 +10,11 @@ static struct tm_draw2d_api *tm_draw2d_api;
 static struct tm_entity_api *tm_entity_api;
 static struct tm_error_api *tm_error_api;
 static struct tm_input_api *tm_input_api;
-static struct tm_link_component_api *tm_link_component_api;
 static struct tm_localizer_api *tm_localizer_api;
-static struct tm_os_window_api *tm_os_window_api;
 static struct tm_physx_scene_api *tm_physx_scene_api;
 static struct tm_random_api *tm_random_api;
 static struct tm_simulate_context_api *tm_simulate_context_api;
-static struct tm_tag_component_api *tm_tag_component_api;
 static struct tm_temp_allocator_api *tm_temp_allocator_api;
-static struct tm_the_truth_api *tm_the_truth_api;
-static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 static struct tm_ui_api *tm_ui_api;
 
 #include <foundation/allocator.h>
@@ -34,10 +29,6 @@ static struct tm_ui_api *tm_ui_api;
 
 #include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
-#include <plugins/entity/link_component.h>
-#include <plugins/entity/tag_component.h>
-#include <plugins/entity/transform_component.h>
-#include <plugins/os_window/os_window.h>
 #include <plugins/physics/physics_body_component.h>
 #include <plugins/physics/physics_joint_component.h>
 #include <plugins/physics/physics_shape_component.h>
@@ -267,7 +258,7 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 
     // Capture mouse
     {
-        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE])/* || !tm_os_window_api->status(ctx->window).has_focus*/) {
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
             state->mouse_captured = false;
             struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, false);
@@ -486,16 +477,11 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
     tm_error_api = reg->get(TM_ERROR_API_NAME);
     tm_input_api = reg->get(TM_INPUT_API_NAME);
-    tm_link_component_api = reg->get(TM_LINK_COMPONENT_API_NAME);
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
-    tm_os_window_api = reg->get(TM_OS_WINDOW_API_NAME);
     tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
     tm_random_api = reg->get(TM_RANDOM_API_NAME);
     tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);
-    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
-    tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
-    tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
