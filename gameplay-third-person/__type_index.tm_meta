@@ -3237,6 +3237,10 @@
 				name: "public"
 				type: "bool"
 			}
+			{
+				name: "order"
+				type: "double"
+			}
 		]
 	}
 	{
@@ -3307,6 +3311,10 @@
 			{
 				name: "type_hash"
 				type: "uint64_t"
+			}
+			{
+				name: "order"
+				type: "double"
 			}
 		]
 	}
@@ -4936,54 +4944,59 @@
 				type: "uint32_t"
 			}
 			{
-				name: "vertex_code"
-				type: "string"
+				name: "vertex_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_code_line_number"
-				type: "uint32_t"
+				name: "hull_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
+				name: "domain_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_system_semantics_imports"
-				type: "buffer"
+				name: "geometry_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_system_semantics_exports"
-				type: "buffer"
+				name: "pixel_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_stage_attributes"
-				type: "buffer"
+				name: "compute_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_code"
-				type: "string"
+				name: "raygen_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_code_line_number"
-				type: "uint32_t"
+				name: "any_hit_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
+				name: "closest_hit_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_system_semantics_imports"
-				type: "buffer"
+				name: "miss_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "hull_stage_attributes"
-				type: "buffer"
+				name: "intersection_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
 				name: "hull_stage_patch"
@@ -4992,118 +5005,6 @@
 			{
 				name: "hull_stage_patch_line_number"
 				type: "uint32_t"
-			}
-			{
-				name: "hull_stage_condition"
-				type: "buffer"
-			}
-			{
-				name: "domain_code"
-				type: "string"
-			}
-			{
-				name: "domain_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "domain_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "domain_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "domain_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "domain_stage_attributes"
-				type: "buffer"
-			}
-			{
-				name: "domain_stage_condition"
-				type: "buffer"
-			}
-			{
-				name: "geometry_code"
-				type: "string"
-			}
-			{
-				name: "geometry_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "geometry_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "geometry_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "geometry_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "geometry_stage_attributes"
-				type: "buffer"
-			}
-			{
-				name: "geometry_stage_condition"
-				type: "buffer"
-			}
-			{
-				name: "pixel_code"
-				type: "string"
-			}
-			{
-				name: "pixel_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "pixel_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "pixel_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "pixel_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "pixel_stage_attributes"
-				type: "buffer"
-			}
-			{
-				name: "compute_code"
-				type: "string"
-			}
-			{
-				name: "compute_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "compute_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "compute_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "compute_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "compute_stage_attributes"
-				type: "buffer"
 			}
 		]
 	}
@@ -5310,6 +5211,40 @@
 		]
 	}
 	{
+		name: "tm_shader_system_stage_declaration"
+		properties: [
+			{
+				name: "code"
+				type: "string"
+			}
+			{
+				name: "code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "condition"
+				type: "buffer"
+			}
+		]
+	}
+	{
 		name: "tm_shader_system_stage_export"
 		properties: [
 			{
@@ -5342,6 +5277,15 @@
 		properties: [
 			{
 				name: "name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_simulate_entry"
+		properties: [
+			{
+				name: "id"
 				type: "uint64_t"
 			}
 		]
@@ -5881,6 +5825,67 @@
 			{
 				name: "uuid"
 				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_vox_asset"
+		properties: [
+			{
+				name: "models"
+				type: "subobject_set"
+				type_hash: "d66d982141bc8aaa"
+			}
+			{
+				name: "palette"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_vox_component"
+		properties: [
+			{
+				name: "asset"
+				type: "reference"
+				type_hash: "7e6c3b08f358034e"
+			}
+			{
+				name: "model"
+				type: "reference"
+				type_hash: "d66d982141bc8aaa"
+			}
+			{
+				name: "voxel_size"
+				type: "float"
+			}
+		]
+		default: {
+			voxel_size: 0.1000000014901161
+		}
+	}
+	{
+		name: "tm_vox_model"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "size_x"
+				type: "uint32_t"
+			}
+			{
+				name: "size_y"
+				type: "uint32_t"
+			}
+			{
+				name: "size_z"
+				type: "uint32_t"
+			}
+			{
+				name: "voxels"
+				type: "buffer"
 			}
 		]
 	}

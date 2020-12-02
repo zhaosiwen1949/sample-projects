@@ -27,7 +27,6 @@ static struct tm_ui_api *tm_ui_api;
 #include <foundation/application.h>
 #include <foundation/input.h>
 #include <foundation/localizer.h>
-#include <foundation/error.h>
 #include <foundation/macros.h>
 #include <foundation/random.h>
 #include <foundation/the_truth.h>
@@ -48,11 +47,8 @@ static struct tm_ui_api *tm_ui_api;
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
 
-#include <foundation/hash.inl>
 #include <foundation/carray.inl>
-#include <foundation/rect.inl>
 #include <foundation/math.inl>
-
 #include <plugins/simulate/simulate_helpers.inl>
 
 #include <stdio.h>
@@ -180,7 +176,7 @@ static tm_simulate_state_o *start(struct tm_allocator_i *allocator, struct tm_en
     };
 
     tm_simulate_helpers_context_t *h = &state->h;
-    tm_simulate_helpers_init_context(h, entity_ctx);
+    tm_simulate_helpers_init_context(tm_api_registry_api, h, entity_ctx);
 
     state->dcc_asset_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
     state->mover_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);

@@ -27,66 +27,6 @@ components: [
 			__uuid: "00cbb2c0-1cd4-7e39-5ede-39a7d34fac64"
 		}
 	}
-	{
-		__type: "tm_graph_component"
-		__uuid: "d7847723-4b60-2c92-6b6a-812f5d99395f"
-		graph: {
-			__uuid: "a0b7cbfa-a28f-8e12-ed4a-3b91c1e579fc"
-			nodes: [
-				{
-					__uuid: "b028598e-c957-4fd6-497f-e56d716b85d0"
-					type: "tm_init_event"
-					position_x: -513.5057983398438
-					position_y: 710.955078125
-				}
-				{
-					__uuid: "1c248fd7-a6d8-6739-6ad5-c1b1ba3f34d6"
-					type: "tm_scene_entity"
-					position_x: -506.2137451171875
-					position_y: 803.6779174804688
-				}
-				{
-					__uuid: "1b7e5ed0-fbdb-604d-ae83-380533717ac8"
-					type: "tm_simulate_tab_set_camera_entity"
-					position_x: -251.4318389892578
-					position_y: 729.988525390625
-				}
-			]
-			connections: [
-				{
-					__uuid: "95ba3796-e9ed-1b7a-ad5a-dc372fc87e5e"
-					from_node: "1c248fd7-a6d8-6739-6ad5-c1b1ba3f34d6"
-					to_node: "1b7e5ed0-fbdb-604d-ae83-380533717ac8"
-					from_connector_hash: "9831ca893b0d087d"
-					to_connector_hash: "9831ca893b0d087d"
-				}
-				{
-					__uuid: "5c08eded-0ca5-0be3-9b04-9731453685eb"
-					from_node: "b028598e-c957-4fd6-497f-e56d716b85d0"
-					to_node: "1b7e5ed0-fbdb-604d-ae83-380533717ac8"
-				}
-			]
-			data: [
-				{
-					__uuid: "eec5b072-70fe-c597-4aff-3979ee72a25f"
-					to_node: "1c248fd7-a6d8-6739-6ad5-c1b1ba3f34d6"
-					to_connector_hash: "9831ca893b0d087d"
-					data: {
-						__type: "tm_local_entity_asset_reference"
-						__uuid: "975e9a69-f41d-f5c2-8628-10e6bbc01b3a"
-						entity: "3eaa510f-b197-4bff-3b14-51a6610de7b7"
-					}
-				}
-			]
-			interface: {
-				__uuid: "6fa0981b-6782-364f-1a83-0dcad42112ab"
-			}
-		}
-	}
-	{
-		__type: "gameplay_sample_third_person"
-		__uuid: "ff4ded13-719e-c21e-dbaa-7869960eb732"
-	}
 ]
 children: [
 	{
@@ -1184,6 +1124,7 @@ children: [
 						name: "3p camera"
 					}
 				]
+				sort_order: 101
 			}
 		]
 		sort_order: 101
