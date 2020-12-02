@@ -1,8 +1,8 @@
 // This file contains all the gameplay code associated with the first person gameplay sample. It adds an implementation
-// of the interface `tm_simulate_entry_i`, which referenced by the asset `main.simulate_entry` in the root of of the
+// of the interface `tm_simulate_entry_i`, which is referenced by the asset `main.simulate_entry` in the root of of the
 // first person sample project. When simulating `world.entity`, it will look in its folder, or any parent folder, until
-// it finds a `.simulate_entry` file, and use the `tm_simulate_entry_i` interface referenced in there, which will make
-// the code execution enter this file.
+// it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
+// enter this file.
 
 static struct tm_api_registry_api* tm_api_registry_api;
 static struct tm_application_api* tm_application_api;
@@ -76,7 +76,11 @@ enum box_state {
 
 struct tm_simulate_state_o {
     tm_allocator_i *allocator;
+
+    // For interfacing with `tm_entity_api`.
     tm_entity_context_o *entity_ctx;
+
+    // For interfacing with function in `simulate_helpers.inl`
     tm_simulate_helpers_context_t h;
 
     // Contains keyboard and mouse input state.
@@ -100,7 +104,8 @@ struct tm_simulate_state_o {
     float look_yaw;
     float look_pitch;
 
-    TM_PAD(4);
+    // Current score
+    float score;
 
     // Misc
     uint64_t processed_events;
@@ -114,10 +119,9 @@ struct tm_simulate_state_o {
     uint32_t physics_joint_component;
     uint32_t physx_rigid_body_component;
     uint32_t physx_joint_component;
-    float score;
 
     bool mouse_captured;
-    TM_PAD(3);
+    TM_PAD(7);
 };
 
 static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* state)
