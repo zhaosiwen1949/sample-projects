@@ -48,13 +48,13 @@ static struct tm_tag_component_api *tm_tag_component_api;
 #include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-#include <plugins/script/script_entry.h>
+#include <plugins/simulate/simulate_entry.h>
 #include <plugins/entity/tag_component.h>
 
 #include <foundation/carray.inl>
 #include <foundation/rect.inl>
 #include <foundation/math.inl>
-#include <plugins/script/script_helpers.inl>
+#include <plugins/simulate/simulate_helpers.inl>
 
 #include <stdio.h>
 
@@ -79,10 +79,10 @@ enum box_state {
     BOX_STATE_FLYING_BACK
 };
 
-struct tm_script_state_o {
+struct tm_simulate_state_o {
     tm_allocator_i *allocator;
     tm_entity_context_o *entity_ctx;
-    tm_script_helpers_context_t shctx;
+    tm_simulate_helpers_context_t shctx;
     tm_gameplay_context_t ctx;
 
     // Contains keyboard and mouse input state.
@@ -126,7 +126,7 @@ struct tm_script_state_o {
     TM_PAD(3);
 };
 
-static void change_box_to_random_color(tm_entity_t box, tm_script_state_o* state)
+static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* state)
 {
     // Chose a random color, but never re-use the current one;
     uint32_t color = UINT32_MAX;
@@ -166,15 +166,15 @@ static void change_box_to_random_color(tm_entity_t box, tm_script_state_o* state
     tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
 }
 
-static tm_script_state_o *start(struct tm_allocator_i *allocator, struct tm_entity_context_o *entity_ctx)
+static tm_simulate_state_o *start(struct tm_allocator_i *allocator, struct tm_entity_context_o *entity_ctx)
 {
-    tm_script_state_o *state = tm_alloc(allocator, sizeof(*state));
-    *state = (tm_script_state_o) {
+    tm_simulate_state_o *state = tm_alloc(allocator, sizeof(*state));
+    *state = (tm_simulate_state_o) {
         .allocator = allocator,
         .entity_ctx = entity_ctx,
     };
 
-    tm_script_helpers_init_context(&state->shctx, entity_ctx);
+    tm_simulate_helpers_init_context(&state->shctx, entity_ctx);
 
     g->context->init(&state->ctx, state->allocator, state->entity_ctx);
     tm_gameplay_context_t *ctx = &state->ctx;
@@ -204,14 +204,14 @@ static tm_script_state_o *start(struct tm_allocator_i *allocator, struct tm_enti
     return state;
 }
 
-static void stop(tm_script_state_o *state)
+static void stop(tm_simulate_state_o *state)
 {
     g->context->shutdown(&state->ctx);
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void update(tm_script_state_o *state)
+static void update(tm_simulate_state_o *state)
 {
     g->context->update(&state->ctx);
     tm_gameplay_context_t *ctx = &state->ctx;
@@ -474,8 +474,8 @@ static void update(tm_script_state_o *state)
     tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
-static tm_script_entry_i script_entry_i = {
-    .id = TM_STATIC_HASH("tm_gameplay_sample_first_person_script_entry", 0xa3b6b43cf0d64c60ULL),
+static tm_simulate_entry_i simulate_entry_i = {
+    .id = TM_STATIC_HASH("tm_gameplay_sample_first_person_simulate_entry_i", 0x5661a6a1bf704391ULL),
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample First Person"),
     .start = start,
     .stop = stop,
@@ -501,5 +501,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
 
-    tm_add_or_remove_implementation(reg, load, TM_SCRIPT_ENTRY_INTERFACE_NAME, &script_entry_i);
+    tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }
