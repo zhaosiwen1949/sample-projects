@@ -80,7 +80,7 @@ struct tm_simulate_state_o {
     // For interfacing with `tm_entity_api`.
     tm_entity_context_o *entity_ctx;
 
-    // For interfacing with function in `simulate_helpers.inl`
+    // For interfacing with functions in `simulate_helpers.inl`
     tm_simulate_helpers_context_t h;
 
     // Contains keyboard and mouse input state.
