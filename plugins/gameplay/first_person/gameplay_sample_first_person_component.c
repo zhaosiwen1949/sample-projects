@@ -16,27 +16,28 @@ static struct tm_physx_scene_api* tm_physx_scene_api;
 static struct tm_random_api* tm_random_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_api* tm_the_truth_api;
+static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
 static struct tm_ui_api* tm_ui_api;
 static struct tm_draw2d_api* tm_draw2d_api;
 static struct tm_os_window_api* tm_os_window_api;
 static struct tm_application_api* tm_application_api;
 static struct tm_localizer_api* tm_localizer_api;
+static struct tm_tag_component_api *tm_tag_component_api;
 
 #include <plugins/gameplay/gameplay.h>
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/application.h>
-#include <foundation/carray.inl>
 #include <foundation/error.h>
 #include <foundation/hash.inl>
 #include <foundation/input.h>
 #include <foundation/localizer.h>
 #include <foundation/macros.h>
-#include <foundation/math.inl>
 #include <foundation/random.h>
-#include <foundation/rect.inl>
 #include <foundation/the_truth.h>
+#include <foundation/the_truth_assets.h>
+
 #include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
 #include <plugins/os_window/os_window.h>
@@ -47,9 +48,13 @@ static struct tm_localizer_api* tm_localizer_api;
 #include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-
 #include <plugins/script/script_entry.h>
-#include <foundation/log.h>
+#include <plugins/entity/tag_component.h>
+
+#include <foundation/carray.inl>
+#include <foundation/rect.inl>
+#include <foundation/math.inl>
+#include <plugins/script/script_helpers.inl>
 
 #include <stdio.h>
 
@@ -77,6 +82,7 @@ enum box_state {
 struct tm_script_state_o {
     tm_allocator_i *allocator;
     tm_entity_context_o *entity_ctx;
+    tm_script_helpers_context_t shctx;
     tm_gameplay_context_t ctx;
 
     // Contains keyboard and mouse input state.
@@ -122,15 +128,13 @@ struct tm_script_state_o {
 
 static void change_box_to_random_color(tm_entity_t box, tm_script_state_o* state)
 {
-    tm_gameplay_context_t *ctx = &state->ctx;
-
     // Chose a random color, but never re-use the current one;
     uint32_t color = UINT32_MAX;
     while (color == UINT32_MAX) {
         const uint32_t c = tm_random_api->next() % 3;
         const uint64_t c_tag = c == 0 ? red_tag : (c == 1 ? green_tag : blue_tag);
 
-        if (!g->entity->has_tag(ctx, box, c_tag))
+        if (!tm_entity_has_tag(box, c_tag, &state->shctx))
             color = c;
     }
 
@@ -139,23 +143,23 @@ static void change_box_to_random_color(tm_entity_t box, tm_script_state_o* state
 
     switch (color) {
     case 0:
-        dcc_asset = g->get_asset(ctx, "red_box.dcc_asset");
+        dcc_asset = tm_get_asset("red_box.dcc_asset", &state->shctx);
         tag = red_tag;
         break;
     case 1:
-        dcc_asset = g->get_asset(ctx, "green_box.dcc_asset");
+        dcc_asset = tm_get_asset("green_box.dcc_asset", &state->shctx);
         tag = green_tag;
         break;
     case 2:
-        dcc_asset = g->get_asset(ctx, "blue_box.dcc_asset");
+        dcc_asset = tm_get_asset("blue_box.dcc_asset", &state->shctx);
         tag = blue_tag;
         break;
     }
 
-    g->entity->remove_tag(ctx, box, red_tag);
-    g->entity->remove_tag(ctx, box, green_tag);
-    g->entity->remove_tag(ctx, box, blue_tag);
-    g->entity->add_tag(ctx, box, tag);
+    tm_entity_remove_tag(box, red_tag, &state->shctx);
+    tm_entity_remove_tag(box, green_tag, &state->shctx);
+    tm_entity_remove_tag(box, blue_tag, &state->shctx);
+    tm_entity_add_tag(box, tag, &state->shctx);
 
     void* dcc_comp = tm_entity_api->get_component(state->entity_ctx, box, state->dcc_asset_component);
     struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
@@ -169,6 +173,8 @@ static tm_script_state_o *start(struct tm_allocator_i *allocator, struct tm_enti
         .allocator = allocator,
         .entity_ctx = entity_ctx,
     };
+
+    tm_script_helpers_init_context(&state->shctx, entity_ctx);
 
     g->context->init(&state->ctx, state->allocator, state->entity_ctx);
     tm_gameplay_context_t *ctx = &state->ctx;
@@ -480,7 +486,6 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     g = reg->get(TM_GAMEPLAY_API_NAME);
     tm_api_registry_api = reg;
-    tm_logger_api = reg->get(TM_LOGGER_API_NAME);
     tm_error_api = reg->get(TM_ERROR_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
@@ -489,10 +494,12 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_random_api = reg->get(TM_RANDOM_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
     tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
+    tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
     tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
     tm_os_window_api = reg->get(TM_OS_WINDOW_API_NAME);
     tm_application_api = reg->get(TM_APPLICATION_API_NAME);
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
+    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SCRIPT_ENTRY_INTERFACE_NAME, &script_entry_i);
 }
