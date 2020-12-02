@@ -10,7 +10,6 @@ static struct tm_api_registry_api* tm_api_registry_api;
 static struct tm_error_api* tm_error_api;
 static struct tm_logger_api* tm_logger_api;
 static struct tm_entity_api* tm_entity_api;
-static struct tm_gameplay_api* g;
 static struct tm_input_api* tm_input_api;
 static struct tm_physx_scene_api* tm_physx_scene_api;
 static struct tm_random_api* tm_random_api;
@@ -23,14 +22,12 @@ static struct tm_os_window_api* tm_os_window_api;
 static struct tm_application_api* tm_application_api;
 static struct tm_localizer_api* tm_localizer_api;
 static struct tm_tag_component_api *tm_tag_component_api;
-
-#include <plugins/gameplay/gameplay.h>
+static struct tm_link_component_api *tm_link_component_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/application.h>
 #include <foundation/error.h>
-#include <foundation/hash.inl>
 #include <foundation/input.h>
 #include <foundation/localizer.h>
 #include <foundation/macros.h>
@@ -50,15 +47,17 @@ static struct tm_tag_component_api *tm_tag_component_api;
 #include <plugins/ui/ui.h>
 #include <plugins/simulate/simulate_entry.h>
 #include <plugins/entity/tag_component.h>
+#include <plugins/entity/transform_component.h>
+#include <plugins/entity/link_component.h>
 
+#include <foundation/hash.inl>
 #include <foundation/carray.inl>
 #include <foundation/rect.inl>
 #include <foundation/math.inl>
+
 #include <plugins/simulate/simulate_helpers.inl>
 
 #include <stdio.h>
-
-typedef struct tm_hash_u64_to_id_t TM_HASH_T(uint64_t, tm_tt_id_t) tm_hash_u64_to_id_t;
 
 static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
 static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
@@ -83,7 +82,6 @@ struct tm_simulate_state_o {
     tm_allocator_i *allocator;
     tm_entity_context_o *entity_ctx;
     tm_simulate_helpers_context_t shctx;
-    tm_gameplay_context_t ctx;
 
     // Contains keyboard and mouse input state.
     input_state_t input;
@@ -176,27 +174,23 @@ static tm_simulate_state_o *start(struct tm_allocator_i *allocator, struct tm_en
 
     tm_simulate_helpers_init_context(&state->shctx, entity_ctx);
 
-    g->context->init(&state->ctx, state->allocator, state->entity_ctx);
-    tm_gameplay_context_t *ctx = &state->ctx;
+    state->dcc_asset_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
+    state->mover_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
+    state->physics_joint_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
+    state->physics_shape_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
+    state->physx_joint_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_JOINT_COMPONENT);
+    state->physx_rigid_body_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_RIGID_BODY_COMPONENT);
 
-    state->dcc_asset_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
-    state->mover_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
-    state->physics_joint_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
-    state->physics_shape_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
-    state->physx_joint_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSX_JOINT_COMPONENT);
-    state->physx_rigid_body_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSX_RIGID_BODY_COMPONENT);
+    state->player = tm_entity_find_with_tag(TM_STATIC_HASH("player", 0xafff68de8a0598dfULL), &state->shctx);
+    state->player_camera = tm_entity_find_with_tag(TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL), &state->shctx);
+    state->player_carry_anchor = tm_entity_find_with_tag(TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL), &state->shctx);
 
-    state->player = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
-    state->player_camera = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    state->player_carry_anchor = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
-
-    state->box = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
+    state->box = tm_entity_find_with_tag(TM_STATIC_HASH("box", 0x9eef98b479cef090ULL), &state->shctx);
     change_box_to_random_color(state->box, state);
-    state->box_starting_point = g->entity->get_position(ctx, state->box);
-    state->box_starting_rot = g->entity->get_rotation(ctx, state->box);
+    state->box_starting_point = tm_entity_get_position(state->box, &state->shctx);
+    state->box_starting_rot = tm_entity_get_rotation(state->box, &state->shctx);
     TM_INIT_TEMP_ALLOCATOR_WITH_ADAPTER(ta, a);
-    tm_hash_u64_to_id_t collision_types = { .allocator = a };
-    g->physics->get_collision_types(ctx, &collision_types);
+    const tm_hash_u64_to_id_t collision_types = tm_physics_get_collison_type_lookup(a, &state->shctx);
     state->player_collision_type = tm_hash_get_rv(&collision_types, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->box_collision_type = tm_hash_get_rv(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
@@ -206,16 +200,12 @@ static tm_simulate_state_o *start(struct tm_allocator_i *allocator, struct tm_en
 
 static void stop(tm_simulate_state_o *state)
 {
-    g->context->shutdown(&state->ctx);
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void update(tm_simulate_state_o *state)
+static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 {
-    g->context->update(&state->ctx);
-    tm_gameplay_context_t *ctx = &state->ctx;
-
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
     state->input.left_mouse_pressed = false;
@@ -249,7 +239,7 @@ static void update(tm_simulate_state_o *state)
                     if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
                         const bool down = e->data.f.x > 0.5f;
                         if (down && !state->input.left_mouse_held) {
-                            if (!ctx->running_in_editor || (tm_ui_api->is_hovering(ctx->ui, ctx->rect, 0))) {
+                            if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
                                 state->mouse_captured = true;
                             }
                         }
@@ -272,7 +262,7 @@ static void update(tm_simulate_state_o *state)
 
     // Capture mouse
     {
-        if ((ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE])/* || !tm_os_window_api->status(ctx->window).has_focus*/) {
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE])/* || !tm_os_window_api->status(ctx->window).has_focus*/) {
             state->mouse_captured = false;
             struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, false);
@@ -284,15 +274,15 @@ static void update(tm_simulate_state_o *state)
         }
     }
 
-    tm_physx_scene_o* physx_scene = ctx->physx_scene;
-    const tm_vec3_t camera_pos = g->entity->get_position(ctx, state->player_camera);
-    const tm_vec4_t camera_rot = g->entity->get_rotation(ctx, state->player_camera);
-    struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(ctx->entity_ctx, state->player, state->mover_component);
+    tm_physx_scene_o* physx_scene = args->physx_scene;
+    const tm_vec3_t camera_pos = tm_entity_get_position(state->player_camera, &state->shctx);
+    const tm_vec4_t camera_rot = tm_entity_get_rotation(state->player_camera, &state->shctx);
+    struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
 
     // Process input if mouse is captured.
     if (state->mouse_captured) {
         // Exit on ESC
-        if (!ctx->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) {
+        if (!args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) {
             struct tm_application_o* app = tm_application_api->application();
             tm_application_api->exit(app);
         }
@@ -321,14 +311,14 @@ static void update(tm_simulate_state_o *state)
         }
 
         // Look
-        const float mouse_sens = 0.1f * ctx->dt;
+        const float mouse_sens = 0.1f * args->dt;
         state->look_yaw -= state->input.mouse_delta.x * mouse_sens;
         state->look_pitch -= state->input.mouse_delta.y * mouse_sens;
         state->look_pitch = tm_clamp(state->look_pitch, -TM_PI / 3, TM_PI / 3);
         const tm_vec4_t yawq = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, state->look_yaw);
         const tm_vec3_t local_sideways = tm_quaternion_rotate_vec3(yawq, (tm_vec3_t){ 1, 0, 0 });
         const tm_vec4_t pitchq = tm_quaternion_from_rotation(local_sideways, state->look_pitch);
-        g->entity->set_local_rotation(ctx, state->player_camera, tm_quaternion_mul(pitchq, yawq));
+        tm_entity_set_local_rotation(state->player_camera, tm_quaternion_mul(pitchq, yawq), &state->shctx);
 
         // Jump
         if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE] && player_mover->is_standing)
@@ -337,12 +327,12 @@ static void update(tm_simulate_state_o *state)
 
     // Box carry anchor is kinematic physics body (so we can put joints on it), move it manually
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
-    const tm_vec3_t anchor_pos = tm_vec3_add(tm_vec3_add(camera_pos, tm_vec3_mul(camera_forward, 1.5f)), tm_vec3_mul(player_mover->velocity, ctx->dt));
+    const tm_vec3_t anchor_pos = tm_vec3_add(tm_vec3_add(camera_pos, tm_vec3_mul(camera_forward, 1.5f)), tm_vec3_mul(player_mover->velocity, args->dt));
 
-    tm_transform_t carry_transf = g->entity->get_transform(ctx, state->player_carry_anchor);
+    tm_transform_t carry_transf = tm_entity_get_transform(state->player_carry_anchor, &state->shctx);
     carry_transf.pos = anchor_pos;
     carry_transf.rot = camera_rot;
-    g->entity->set_transform(ctx, state->player_carry_anchor, &carry_transf);
+    tm_entity_set_transform(state->player_carry_anchor, &carry_transf, &state->shctx);
 
     // Modified if the raycast below hits the box.
     tm_color_srgb_t crosshair_color = { 120, 120, 120, 255 };
@@ -361,9 +351,9 @@ static void update(tm_simulate_state_o *state)
             if (e0.u64 != state->box.u64 && e1.u64 != state->box.u64)
                 continue;
 
-            const bool correct_floor = (g->entity->has_tag(ctx, e0, red_tag) && g->entity->has_tag(ctx, e1, red_tag))
-                || (g->entity->has_tag(ctx, e0, green_tag) && g->entity->has_tag(ctx, e1, green_tag))
-                || (g->entity->has_tag(ctx, e0, blue_tag) && g->entity->has_tag(ctx, e1, blue_tag));
+            const bool correct_floor = (tm_entity_has_tag(e0, red_tag, &state->shctx) && tm_entity_has_tag(e1, red_tag, &state->shctx))
+                || (tm_entity_has_tag(e0, green_tag, &state->shctx) && tm_entity_has_tag(e1, green_tag, &state->shctx))
+                || (tm_entity_has_tag(e0, blue_tag, &state->shctx) && tm_entity_has_tag(e1, blue_tag, &state->shctx));
 
             if (!correct_floor)
                 continue;
@@ -392,14 +382,14 @@ static void update(tm_simulate_state_o *state)
                 if (state->box.u64 == hit.u64) {
                     crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
                     if (state->input.left_mouse_pressed) {
-                        tm_physics_shape_component_t* shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
+                        tm_physics_shape_component_t* shape = tm_entity_api->get_component(state->entity_ctx, state->box, state->physics_shape_component);
                         shape->collision_id = state->player_collision_type;
 
                         // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
-                        tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_rigid_body_component);
+                        tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_rigid_body_component);
 
-                        g->entity->set_position(ctx, state->box, anchor_pos);
-                        tm_physics_joint_component_t* j = tm_entity_api->add_component(ctx->entity_ctx, state->box, state->physics_joint_component);
+                        tm_entity_set_position(state->box, anchor_pos, &state->shctx);
+                        tm_physics_joint_component_t* j = tm_entity_api->add_component(state->entity_ctx, state->box, state->physics_joint_component);
                         j->joint_type = TM_PHYSICS_JOINT__FIXED;
                         j->body_0 = state->box;
                         j->body_1 = state->player_carry_anchor;
@@ -414,22 +404,22 @@ static void update(tm_simulate_state_o *state)
         if (state->input.left_mouse_pressed) {
             // Drop box
 
-            tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physics_joint_component);
-            tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_joint_component);
-            tm_physics_shape_component_t* shape = tm_entity_api->get_component(ctx->entity_ctx, state->box, state->physics_shape_component);
+            tm_entity_api->remove_component(state->entity_ctx, state->box, state->physics_joint_component);
+            tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_joint_component);
+            tm_physics_shape_component_t* shape = tm_entity_api->get_component(state->entity_ctx, state->box, state->physics_shape_component);
             shape->collision_id = state->box_collision_type;
 
             // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
-            tm_entity_api->remove_component(ctx->entity_ctx, state->box, state->physx_rigid_body_component);
+            tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_rigid_body_component);
 
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, false);
-            tm_physx_scene_api->add_force(physx_scene, state->box, tm_vec3_mul(camera_forward, 1500 * ctx->dt), TM_PHYSX_FORCE_FLAGS__IMPULSE);
+            tm_physx_scene_api->add_force(physx_scene, state->box, tm_vec3_mul(camera_forward, 1500 * args->dt), TM_PHYSX_FORCE_FLAGS__IMPULSE);
             state->box_state = BOX_STATE_FREE;
         }
     } break;
 
     case BOX_STATE_FLYING_UP: {
-        state->box_fly_timer -= ctx->dt;
+        state->box_fly_timer -= args->dt;
 
         if (state->box_fly_timer <= 0.0001f) {
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, true);
@@ -441,20 +431,20 @@ static void update(tm_simulate_state_o *state)
         // This state interpolates the box back to its initial position and changes the
         // color once it reaches it.
 
-        const tm_vec3_t box_pos = g->entity->get_position(ctx, state->box);
+        const tm_vec3_t box_pos = tm_entity_get_position(state->box, &state->shctx);
         const tm_vec3_t box_to_spawn = tm_vec3_sub(state->box_starting_point, box_pos);
         const tm_vec3_t spawn_point_dir = tm_vec3_normalize(box_to_spawn);
 
         if (tm_vec3_length(box_to_spawn) < 0.1f) {
-            g->entity->set_position(ctx, state->box, state->box_starting_point);
+            tm_entity_set_position(state->box, state->box_starting_point, &state->shctx);
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, false);
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
             change_box_to_random_color(state->box, state);
             state->box_state = BOX_STATE_FREE;
             state->score += 1.0f;
         } else {
-            const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, ctx->dt * 10));
-            g->entity->set_position(ctx, state->box, interpolate_to_start_pos);
+            const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, args->dt * 10));
+            tm_entity_set_position(state->box, interpolate_to_start_pos, &state->shctx);
         }
     } break;
     }
@@ -463,13 +453,13 @@ static void update(tm_simulate_state_o *state)
     char label_text[128];
     snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
     tm_rect_t rect = { 5, 5, 20, 20 };
-    tm_ui_api->label(ctx->ui, ctx->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 
     // UI: Crosshair
-    tm_ui_buffers_t uib = tm_ui_api->buffers(ctx->ui);
-    tm_vec2_t crosshair_pos = { ctx->rect.w / 2, ctx->rect.h / 2 };
+    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
+    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
     tm_draw2d_style_t style[1] = { 0 };
-    tm_ui_api->to_draw_style(ctx->ui, style, ctx->uistyle);
+    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
     style->color = crosshair_color;
     tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
@@ -484,7 +474,6 @@ static tm_simulate_entry_i simulate_entry_i = {
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
-    g = reg->get(TM_GAMEPLAY_API_NAME);
     tm_api_registry_api = reg;
     tm_error_api = reg->get(TM_ERROR_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
@@ -500,6 +489,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_application_api = reg->get(TM_APPLICATION_API_NAME);
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
+    tm_link_component_api = reg->get(TM_LINK_COMPONENT_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }
