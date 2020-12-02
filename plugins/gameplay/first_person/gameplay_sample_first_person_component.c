@@ -74,7 +74,11 @@ enum box_state {
     BOX_STATE_FLYING_BACK
 };
 
-typedef struct tm_gameplay_state_o {
+struct tm_script_state_o {
+    tm_allocator_i *allocator;
+    tm_entity_context_o *entity_ctx;
+    tm_gameplay_context_t ctx;
+
     // Contains keyboard and mouse input state.
     input_state_t input;
 
@@ -114,16 +118,12 @@ typedef struct tm_gameplay_state_o {
 
     bool mouse_captured;
     TM_PAD(3);
-} tm_gameplay_state_o;
-
-struct tm_script_state_o {
-    tm_allocator_i *allocator;
-    tm_entity_context_o *entity_ctx;
-    tm_gameplay_context_t ctx;
 };
 
-static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t* ctx)
+static void change_box_to_random_color(tm_entity_t box, tm_script_state_o* state)
 {
+    tm_gameplay_context_t *ctx = &state->ctx;
+
     // Chose a random color, but never re-use the current one;
     uint32_t color = UINT32_MAX;
     while (color == UINT32_MAX) {
@@ -157,27 +157,21 @@ static void change_box_to_random_color(tm_entity_t box, tm_gameplay_context_t* c
     g->entity->remove_tag(ctx, box, blue_tag);
     g->entity->add_tag(ctx, box, tag);
 
-    void* dcc_comp = tm_entity_api->get_component(ctx->entity_ctx, box, ctx->state->dcc_asset_component);
+    void* dcc_comp = tm_entity_api->get_component(state->entity_ctx, box, state->dcc_asset_component);
     struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
     tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
 }
 
 static tm_script_state_o *start(struct tm_allocator_i *allocator, struct tm_entity_context_o *entity_ctx)
 {
-    tm_script_state_o *ss = tm_alloc(allocator, sizeof(*ss));
-    *ss = (tm_script_state_o) {
+    tm_script_state_o *state = tm_alloc(allocator, sizeof(*state));
+    *state = (tm_script_state_o) {
         .allocator = allocator,
         .entity_ctx = entity_ctx,
     };
 
-    g->context->init(&ss->ctx, ss->allocator, ss->entity_ctx);
-    tm_gameplay_context_t *ctx = &ss->ctx;
-
-    ctx->state = tm_alloc(ctx->allocator, sizeof(*ctx->state));
-    *ctx->state = (tm_gameplay_state_o){ 0 };
-    ctx->started = true;
-
-    tm_gameplay_state_o* state = ctx->state;
+    g->context->init(&state->ctx, state->allocator, state->entity_ctx);
+    tm_gameplay_context_t *ctx = &state->ctx;
 
     state->dcc_asset_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
     state->mover_component = tm_entity_api->lookup_component(ctx->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
@@ -191,7 +185,7 @@ static tm_script_state_o *start(struct tm_allocator_i *allocator, struct tm_enti
     state->player_carry_anchor = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = g->entity->find_entity_with_tag(ctx, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
-    change_box_to_random_color(state->box, ctx);
+    change_box_to_random_color(state->box, state);
     state->box_starting_point = g->entity->get_position(ctx, state->box);
     state->box_starting_rot = g->entity->get_rotation(ctx, state->box);
     TM_INIT_TEMP_ALLOCATOR_WITH_ADAPTER(ta, a);
@@ -201,7 +195,7 @@ static tm_script_state_o *start(struct tm_allocator_i *allocator, struct tm_enti
     state->box_collision_type = tm_hash_get_rv(&collision_types, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 
-    return ss;
+    return state;
 }
 
 static void stop(tm_script_state_o *state)
@@ -211,11 +205,10 @@ static void stop(tm_script_state_o *state)
     tm_free(&a, state, sizeof(*state));
 }
 
-static void update(tm_script_state_o *ss)
+static void update(tm_script_state_o *state)
 {
-    g->context->update(&ss->ctx);
-    tm_gameplay_context_t *ctx = &ss->ctx;
-    tm_gameplay_state_o* state = ctx->state;
+    g->context->update(&state->ctx);
+    tm_gameplay_context_t *ctx = &state->ctx;
 
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -450,7 +443,7 @@ static void update(tm_script_state_o *ss)
             g->entity->set_position(ctx, state->box, state->box_starting_point);
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, false);
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
-            change_box_to_random_color(state->box, ctx);
+            change_box_to_random_color(state->box, state);
             state->box_state = BOX_STATE_FREE;
             state->score += 1.0f;
         } else {
