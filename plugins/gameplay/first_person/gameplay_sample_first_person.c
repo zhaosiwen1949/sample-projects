@@ -260,14 +260,11 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     {
         if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
             state->mouse_captured = false;
-            struct tm_application_o* app = tm_application_api->application();
-            tm_application_api->set_cursor_hidden(app, false);
+            tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
         }
 
-        if (state->mouse_captured) {
-            struct tm_application_o* app = tm_application_api->application();
-            tm_application_api->set_cursor_hidden(app, true);
-        }
+        if (state->mouse_captured)
+            tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
     }
 
     tm_physx_scene_o* physx_scene = args->physx_scene;
@@ -282,10 +279,8 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     // Process input if mouse is captured.
     if (state->mouse_captured) {
         // Exit on ESC
-        if (!args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) {
-            struct tm_application_o* app = tm_application_api->application();
-            tm_application_api->exit(app);
-        }
+        if (!args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE])
+            tm_application_api->exit(tm_application_api->application());
 
         tm_vec3_t local_movement = { 0 };
         if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A])
@@ -464,12 +459,19 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
+static void hot_reload(tm_simulate_state_o *state)
+{
+    // This reinit updates the APIs cached inside the context.
+    tm_simulate_helpers_init_context(tm_api_registry_api, &state->h, state->entity_ctx);
+}
+
 static tm_simulate_entry_i simulate_entry_i = {
     .id = TM_STATIC_HASH("tm_gameplay_sample_first_person_simulate_entry_i", 0x5661a6a1bf704391ULL),
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample First Person"),
     .start = start,
     .stop = stop,
     .update = update,
+    .hot_reload = hot_reload,
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)

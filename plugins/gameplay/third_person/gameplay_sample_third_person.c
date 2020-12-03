@@ -323,12 +323,19 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 }
 
+static void hot_reload(tm_simulate_state_o *state)
+{
+    // This reinit updates the APIs cached inside the context.
+    tm_simulate_helpers_init_context(tm_global_api_registry, &state->h, state->entity_ctx);
+}
+
 static tm_simulate_entry_i simulate_entry_i = {
     .id = TM_STATIC_HASH("tm_gameplay_sample_third_person_simulate_entry_i", 0xacfa6f07020cdff9ULL),
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample Third Person"),
     .start = start,
     .stop = stop,
     .update = update,
+    .hot_reload = hot_reload,
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
