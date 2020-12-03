@@ -240,6 +240,9 @@ static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
 
+    if (!TM_ASSERT(player_mover, tm_error_api->def, "Invalid player"))
+        return;
+
     // For fudging jump timing
     if (player_mover->is_standing)
         state->last_standing_time = args->time;
