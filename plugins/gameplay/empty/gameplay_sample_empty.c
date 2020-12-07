@@ -19,14 +19,13 @@ struct tm_simulate_state_o {
     uint64_t some_state;
 } tm_gameplay_state_o;
 
-static tm_simulate_state_o *start(struct tm_allocator_i *allocator, struct tm_entity_context_o *entity_ctx,
-    struct tm_simulate_context_o *simulate_ctx)
+static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
 {
     TM_LOG("Empty Sample Start");
  
-    tm_simulate_state_o *state = tm_alloc(allocator, sizeof(*state));
+    tm_simulate_state_o *state = tm_alloc(args->allocator, sizeof(*state));
     *state = (tm_simulate_state_o) {
-        .allocator = allocator,
+        .allocator = args->allocator,
     };
 
     return state;

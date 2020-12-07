@@ -4,17 +4,19 @@
 // it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
 // enter this file.
 
-static struct tm_animation_state_machine_api* tm_animation_state_machine_api;
-static struct tm_api_registry_api* tm_global_api_registry;
-static struct tm_application_api* tm_application_api;
-static struct tm_entity_api* tm_entity_api;
-static struct tm_error_api* tm_error_api;
-static struct tm_input_api* tm_input_api;
-static struct tm_localizer_api* tm_localizer_api;
-static struct tm_render_component_api* tm_render_component_api;
-static struct tm_shader_api* tm_shader_api;
-static struct tm_simulate_context_api* tm_simulate_context_api;
-static struct tm_ui_api* tm_ui_api;
+static struct tm_animation_state_machine_api *tm_animation_state_machine_api;
+static struct tm_api_registry_api *tm_global_api_registry;
+static struct tm_application_api *tm_application_api;
+static struct tm_entity_api *tm_entity_api;
+static struct tm_error_api *tm_error_api;
+static struct tm_input_api *tm_input_api;
+static struct tm_localizer_api *tm_localizer_api;
+static struct tm_render_component_api *tm_render_component_api;
+static struct tm_shader_api *tm_shader_api;
+static struct tm_simulate_context_api *tm_simulate_context_api;
+static struct tm_ui_api *tm_ui_api;
+static struct tm_tag_component_api *tm_tag_component_api;
+static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -28,6 +30,7 @@ static struct tm_ui_api* tm_ui_api;
 #include <plugins/animation/animation_state_machine_component.h>
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/entity/entity.h>
+#include <plugins/entity/tag_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
@@ -56,11 +59,17 @@ typedef struct input_state_t {
 struct tm_simulate_state_o {
     tm_allocator_i *allocator;
 
+    // For interacing with `tm_the_truth_api`.
+    tm_the_truth_o *tt;
+
     // For interfacing with `tm_entity_api`.
     tm_entity_context_o *entity_ctx;
 
     // For interfacing with `tm_simulate_context_api`.
     tm_simulate_context_o *simulate_ctx;
+
+    // For interfacing with many functions in `tm_the_truth_assets_api`.
+    tm_tt_id_t asset_root;
 
     // For interfacing with functions in `simulate_helpers.inl`
     tm_simulate_helpers_context_t h;
@@ -91,7 +100,10 @@ struct tm_simulate_state_o {
     uint32_t asm_component;
     uint32_t mover_component;
     uint32_t render_component;
-    uint32_t score_component;
+    uint32_t tag_component;
+
+    // Component managers
+    tm_tag_component_manager_o *tag_mgr;
 
     bool mouse_captured;
     TM_PAD(7);
@@ -111,40 +123,44 @@ static tm_entity_t find_root_entity(tm_entity_context_o *entity_ctx, tm_entity_t
     return p;
 }
 
-static tm_simulate_state_o *start(struct tm_allocator_i *allocator, struct tm_entity_context_o *entity_ctx,
-    struct tm_simulate_context_o *simulate_ctx)
+static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
 {
-    tm_simulate_state_o *state = tm_alloc(allocator, sizeof(*state));
+    tm_simulate_state_o *state = tm_alloc(args->allocator, sizeof(*state));
     *state = (tm_simulate_state_o) {
-        .allocator = allocator,
-        .entity_ctx = entity_ctx,
-        .simulate_ctx = simulate_ctx,
+        .allocator = args->allocator,
+        .tt = args->tt,
+        .entity_ctx = args->entity_ctx,
+        .simulate_ctx = args->simulate_ctx,
+        .asset_root = args->asset_root,
     };
 
     tm_simulate_helpers_context_t *h = &state->h;
-    tm_simulate_helpers_init_context(tm_global_api_registry, h, entity_ctx);
+    tm_simulate_helpers_init_context(tm_global_api_registry, h, state->entity_ctx);
 
-    state->mover_component = tm_entity_api->lookup_component(entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
-    state->asm_component = tm_entity_api->lookup_component(entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
-    state->render_component = tm_entity_api->lookup_component(entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
+    state->mover_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
+    state->asm_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
+    state->render_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
+    state->tag_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
 
-    state->player = tm_entity_find_with_tag(TM_STATIC_HASH("player", 0xafff68de8a0598dfULL), h);
+    state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);
 
-    state->player_camera_pivot = tm_entity_find_with_tag(TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL), h);
-    state->checkpoint_sphere = tm_entity_find_with_tag(TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL), h);
+    state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
+
+    state->player_camera_pivot = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL));
+    state->checkpoint_sphere = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
     state->camera_tilt = 3.18f;
-    state->particle_entity = tm_get_asset("vfx/particles.entity", h);
+    state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
 
-    const tm_entity_t camera = tm_entity_find_with_tag(TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL), h);
-    tm_simulate_context_api->set_camera(simulate_ctx, camera);
+    const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
+    tm_simulate_context_api->set_camera(state->simulate_ctx, camera);
 
-    const tm_entity_t root_entity = find_root_entity(entity_ctx, state->player);
+    const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
     char checkpoint_path[30];
     for (uint32_t i = 0; i < 8; ++i) {
         snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
-        const tm_entity_t c = tm_entity_api->resolve_path(entity_ctx, root_entity, checkpoint_path);
+        const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
 
-        if (!TM_ASSERT(tm_entity_api->is_alive(entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
+        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
             continue;
 
         state->checkpoints_positions[i] = tm_entity_get_position(c, h);
@@ -351,6 +367,8 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_shader_api = reg->get(TM_SHADER_API_NAME);
     tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
+    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
+    tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }
