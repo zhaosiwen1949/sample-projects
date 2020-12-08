@@ -38,7 +38,7 @@ static void stop(tm_simulate_state_o *state)
     tm_free(&a, state, sizeof(*state));
 }
 
-static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
+static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 {
     TM_LOG("Empty Sample Update. Counter: %u. Frame time: %f", state->some_state, args->dt);
     ++state->some_state;
@@ -49,7 +49,7 @@ static tm_simulate_entry_i simulate_entry_i = {
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample Empty"),
     .start = start,
     .stop = stop,
-    .update = update,
+    .tick = tick,
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)

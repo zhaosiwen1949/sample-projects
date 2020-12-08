@@ -203,7 +203,7 @@ static void private__adjust_effect_start_color(tm_simulate_state_o *state, tm_en
     }
 }
 
-static void update(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
+static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 {
     // Reset per-frame input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -350,7 +350,7 @@ static tm_simulate_entry_i simulate_entry_i = {
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample Third Person"),
     .start = start,
     .stop = stop,
-    .update = update,
+    .tick = tick,
     .hot_reload = hot_reload,
 };
 
