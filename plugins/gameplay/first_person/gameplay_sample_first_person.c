@@ -499,7 +499,7 @@ static tm_simulate_entry_i simulate_entry_i = {
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample First Person"),
     .start = start,
     .stop = stop,
-    .physics_tick = tick,
+    .tick = tick,
     .hot_reload = hot_reload,
 };
 
