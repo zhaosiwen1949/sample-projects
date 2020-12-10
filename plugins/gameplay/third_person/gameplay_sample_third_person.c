@@ -164,7 +164,7 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
         if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
             continue;
 
-        state->checkpoints_positions[i] = tm_transform_component_api->get_position(state->trans_mgr, c);
+        state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
     }
 
     uint32_t num_backends;
@@ -276,15 +276,14 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
         const float mouse_sens = 0.5f * args->dt;
         const float camera_pan_delta = -state->input.mouse_delta.x * mouse_sens;
         const tm_vec4_t pan_rot = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, camera_pan_delta);
-        const tm_vec4_t player_rot = tm_transform_component_api->get_rotation(state->trans_mgr, state->player);
-        tm_transform_component_api->set_rotation(state->trans_mgr, state->player, tm_quaternion_mul(pan_rot, player_rot));
+        tm_set_rotation(state->trans_mgr, state->player, tm_quaternion_mul(pan_rot, tm_get_rotation(state->trans_mgr, state->player)));
 
         // Camera tilt control
         const float camera_tilt_delta = -state->input.mouse_delta.y * mouse_sens;
         state->camera_tilt += camera_tilt_delta;
         state->camera_tilt = tm_clamp(state->camera_tilt, 1.5f, 3.8f);
         const tm_vec4_t camera_pivot_rot = tm_euler_to_quaternion((tm_vec3_t){ state->camera_tilt, 0, -TM_PI });
-        tm_transform_component_api->set_local_rotation(state->trans_mgr, state->player_camera_pivot, camera_pivot_rot);
+        tm_set_local_rotation(state->trans_mgr, state->player_camera_pivot, camera_pivot_rot);
 
         // Control animation state machine using input
         tm_animation_state_machine_component_t* smc = tm_entity_api->get_component(state->entity_ctx, state->player, state->asm_component);
@@ -304,8 +303,8 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     }
 
     // Check player against checkpoint
-    const tm_vec3_t sphere_pos = tm_transform_component_api->get_position(state->trans_mgr, state->checkpoint_sphere);
-    const tm_vec3_t player_pos = tm_transform_component_api->get_position(state->trans_mgr, state->player);
+    const tm_vec3_t sphere_pos = tm_get_position(state->trans_mgr, state->checkpoint_sphere);
+    const tm_vec3_t player_pos = tm_get_position(state->trans_mgr, state->player);
 
     if (tm_vec3_length(tm_vec3_sub(sphere_pos, player_pos)) < 1.5f) {
         ++state->current_checkpoint;
@@ -318,7 +317,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             // Spawn particle effect at position of next checkpoint.
             tm_entity_t p = tm_entity_api->create_entity_from_asset(state->entity_ctx, state->particle_entity);
             // Set particle spawn location to next check point.
-            tm_transform_component_api->set_position(state->trans_mgr, p, state->checkpoints_positions[state->current_checkpoint]);
+            tm_set_position(state->trans_mgr, p, state->checkpoints_positions[state->current_checkpoint]);
 
             // Make up an arbitrary color based on the direction the player entered the last check point.
             tm_vec3_t color = tm_vec3_normalize(tm_vec3_sub(sphere_pos, player_pos));
@@ -326,7 +325,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             private__adjust_effect_start_color(state, p, color);
         }
 
-        tm_transform_component_api->set_position(state->trans_mgr, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
+        tm_set_position(state->trans_mgr, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
     }
 
     // Rendering

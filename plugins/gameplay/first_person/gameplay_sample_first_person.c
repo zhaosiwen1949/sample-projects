@@ -296,8 +296,8 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     }
 
     tm_physx_scene_o* physx_scene = args->physx_scene;
-    const tm_vec3_t camera_pos = tm_transform_component_api->get_position(state->trans_mgr, state->player_camera);
-    const tm_vec4_t camera_rot = tm_transform_component_api->get_rotation(state->trans_mgr, state->player_camera);
+    const tm_vec3_t camera_pos = tm_get_position(state->trans_mgr, state->player_camera);
+    const tm_vec4_t camera_rot = tm_get_rotation(state->trans_mgr, state->player_camera);
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
 
     if (!TM_ASSERT(player_mover, tm_error_api->def, "Invalid player"))
@@ -340,7 +340,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
         const tm_vec4_t yawq = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, state->look_yaw);
         const tm_vec3_t local_sideways = tm_quaternion_rotate_vec3(yawq, (tm_vec3_t){ 1, 0, 0 });
         const tm_vec4_t pitchq = tm_quaternion_from_rotation(local_sideways, state->look_pitch);
-        tm_transform_component_api->set_local_rotation(state->trans_mgr, state->player_camera, tm_quaternion_mul(pitchq, yawq));
+        tm_set_local_rotation(state->trans_mgr, state->player_camera, tm_quaternion_mul(pitchq, yawq));
 
         // Jump
         if (state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_SPACE] && player_mover->is_standing)
@@ -351,8 +351,8 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
     const tm_vec3_t anchor_pos = tm_vec3_add(tm_vec3_add(camera_pos, tm_vec3_mul(camera_forward, 1.5f)), tm_vec3_mul(player_mover->velocity, args->dt));
 
-    tm_transform_component_api->set_position(state->trans_mgr, state->player_carry_anchor, anchor_pos);
-    tm_transform_component_api->set_rotation(state->trans_mgr, state->player_carry_anchor, camera_rot);
+    tm_set_position(state->trans_mgr, state->player_carry_anchor, anchor_pos);
+    tm_set_rotation(state->trans_mgr, state->player_carry_anchor, camera_rot);
 
     // Modified if the raycast below hits the box.
     tm_color_srgb_t crosshair_color = { 120, 120, 120, 255 };
@@ -408,7 +408,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
                         // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
                         tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_rigid_body_component);
 
-                        tm_transform_component_api->set_position(state->trans_mgr, state->box, anchor_pos);
+                        tm_set_position(state->trans_mgr, state->box, anchor_pos);
                         tm_physics_joint_component_t* j = tm_entity_api->add_component(state->entity_ctx, state->box, state->physics_joint_component);
                         j->joint_type = TM_PHYSICS_JOINT__FIXED;
                         j->body_0 = state->box;
@@ -451,12 +451,12 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
         // This state interpolates the box back to its initial position and changes the
         // color once it reaches it.
 
-        const tm_vec3_t box_pos = tm_transform_component_api->get_position(state->trans_mgr, state->box);
+        const tm_vec3_t box_pos = tm_get_position(state->trans_mgr, state->box);
         const tm_vec3_t box_to_spawn = tm_vec3_sub(state->box_starting_point, box_pos);
         const tm_vec3_t spawn_point_dir = tm_vec3_normalize(box_to_spawn);
 
         if (tm_vec3_length(box_to_spawn) < 0.1f) {
-            tm_transform_component_api->set_position(state->trans_mgr, state->box, state->box_starting_point);
+            tm_set_position(state->trans_mgr, state->box, state->box_starting_point);
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, false);
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
             change_box_to_random_color(state->box, state);
@@ -464,7 +464,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             state->score += 1.0f;
         } else {
             const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, args->dt * 10));
-            tm_transform_component_api->set_position(state->trans_mgr, state->box, interpolate_to_start_pos);
+            tm_set_position(state->trans_mgr, state->box, interpolate_to_start_pos);
         }
     } break;
     }
