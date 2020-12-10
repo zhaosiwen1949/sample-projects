@@ -72,7 +72,7 @@ static void component__create(struct tm_entity_context_o* ctx)
     tm_entity_api->register_component(ctx, &component);
 }
 
-// Runs on (custom_component, transform_component, link_component)
+// Runs on (custom_component, transform_component)
 static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* data)
 {
     TM_INIT_TEMP_ALLOCATOR(ta);

@@ -12,6 +12,7 @@ static struct tm_error_api *tm_error_api;
 static struct tm_input_api *tm_input_api;
 static struct tm_localizer_api *tm_localizer_api;
 static struct tm_render_component_api *tm_render_component_api;
+static struct tm_transform_component_api *tm_transform_component_api;
 static struct tm_shader_api *tm_shader_api;
 static struct tm_simulate_context_api *tm_simulate_context_api;
 static struct tm_ui_api *tm_ui_api;
@@ -21,6 +22,7 @@ static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/application.h>
+#include <foundation/error.h>
 #include <foundation/input.h>
 #include <foundation/localizer.h>
 #include <foundation/the_truth.h>
@@ -30,6 +32,7 @@ static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 #include <plugins/animation/animation_state_machine_component.h>
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/entity/entity.h>
+#include <plugins/entity/transform_component.h>
 #include <plugins/entity/tag_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
@@ -44,7 +47,6 @@ static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 
 #include <plugins/creation_graph/creation_graph_output.inl>
 #include <foundation/math.inl>
-#include <plugins/simulate/simulate_helpers.inl>
 
 #include <stdio.h>
 
@@ -70,9 +72,6 @@ struct tm_simulate_state_o {
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
-
-    // For interfacing with functions in `simulate_helpers.inl`
-    tm_simulate_helpers_context_t h;
 
     // Contains keyboard and mouse input state.
     input_state_t input;
@@ -101,8 +100,11 @@ struct tm_simulate_state_o {
     uint32_t mover_component;
     uint32_t render_component;
     uint32_t tag_component;
+    uint32_t transform_component;
+    TM_PAD(4);
 
     // Component managers
+    tm_transform_component_manager_o *trans_mgr;
     tm_tag_component_manager_o *tag_mgr;
 
     bool mouse_captured;
@@ -134,14 +136,13 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
         .asset_root = args->asset_root,
     };
 
-    tm_simulate_helpers_context_t *h = &state->h;
-    tm_simulate_helpers_init_context(tm_global_api_registry, h, state->entity_ctx);
-
     state->mover_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
     state->asm_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
     state->render_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
     state->tag_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
+    state->transform_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
+    state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_component);
     state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
@@ -163,7 +164,7 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
         if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
             continue;
 
-        state->checkpoints_positions[i] = tm_entity_get_position(c, h);
+        state->checkpoints_positions[i] = tm_transform_component_api->get_position(state->trans_mgr, c);
     }
 
     uint32_t num_backends;
@@ -263,9 +264,6 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     if (player_mover->is_standing)
         state->last_standing_time = args->time;
 
-    // For using functions from `simulate_helpers.inl`
-    tm_simulate_helpers_context_t *h = &state->h;
-
     // Only allow input when mouse is captured.
     if (state->mouse_captured) {
         // Exit on ESC
@@ -278,15 +276,15 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
         const float mouse_sens = 0.5f * args->dt;
         const float camera_pan_delta = -state->input.mouse_delta.x * mouse_sens;
         const tm_vec4_t pan_rot = tm_quaternion_from_rotation((tm_vec3_t){ 0, 1, 0 }, camera_pan_delta);
-        const tm_vec4_t player_rot = tm_entity_get_rotation(state->player, h);
-        tm_entity_set_rotation(state->player, tm_quaternion_mul(pan_rot, player_rot), h);
+        const tm_vec4_t player_rot = tm_transform_component_api->get_rotation(state->trans_mgr, state->player);
+        tm_transform_component_api->set_rotation(state->trans_mgr, state->player, tm_quaternion_mul(pan_rot, player_rot));
 
         // Camera tilt control
         const float camera_tilt_delta = -state->input.mouse_delta.y * mouse_sens;
         state->camera_tilt += camera_tilt_delta;
         state->camera_tilt = tm_clamp(state->camera_tilt, 1.5f, 3.8f);
         const tm_vec4_t camera_pivot_rot = tm_euler_to_quaternion((tm_vec3_t){ state->camera_tilt, 0, -TM_PI });
-        tm_entity_set_local_rotation(state->player_camera_pivot, camera_pivot_rot, h);
+        tm_transform_component_api->set_local_rotation(state->trans_mgr, state->player_camera_pivot, camera_pivot_rot);
 
         // Control animation state machine using input
         tm_animation_state_machine_component_t* smc = tm_entity_api->get_component(state->entity_ctx, state->player, state->asm_component);
@@ -306,8 +304,8 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     }
 
     // Check player against checkpoint
-    const tm_vec3_t sphere_pos = tm_entity_get_position(state->checkpoint_sphere, h);
-    const tm_vec3_t player_pos = tm_entity_get_position(state->player, h);
+    const tm_vec3_t sphere_pos = tm_transform_component_api->get_position(state->trans_mgr, state->checkpoint_sphere);
+    const tm_vec3_t player_pos = tm_transform_component_api->get_position(state->trans_mgr, state->player);
 
     if (tm_vec3_length(tm_vec3_sub(sphere_pos, player_pos)) < 1.5f) {
         ++state->current_checkpoint;
@@ -320,7 +318,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             // Spawn particle effect at position of next checkpoint.
             tm_entity_t p = tm_entity_api->create_entity_from_asset(state->entity_ctx, state->particle_entity);
             // Set particle spawn location to next check point.
-            tm_entity_set_position(p, state->checkpoints_positions[state->current_checkpoint], h);
+            tm_transform_component_api->set_position(state->trans_mgr, p, state->checkpoints_positions[state->current_checkpoint]);
 
             // Make up an arbitrary color based on the direction the player entered the last check point.
             tm_vec3_t color = tm_vec3_normalize(tm_vec3_sub(sphere_pos, player_pos));
@@ -328,7 +326,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             private__adjust_effect_start_color(state, p, color);
         }
 
-        tm_entity_set_position(state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint], h);
+        tm_transform_component_api->set_position(state->trans_mgr, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
     }
 
     // Rendering
@@ -339,19 +337,12 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
     tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 }
 
-static void hot_reload(tm_simulate_state_o *state)
-{
-    // This reinit updates the APIs cached inside the context.
-    tm_simulate_helpers_init_context(tm_global_api_registry, &state->h, state->entity_ctx);
-}
-
 static tm_simulate_entry_i simulate_entry_i = {
     .id = TM_STATIC_HASH("tm_gameplay_sample_third_person_simulate_entry_i", 0xacfa6f07020cdff9ULL),
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample Third Person"),
     .start = start,
     .stop = stop,
     .tick = tick,
-    .hot_reload = hot_reload,
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
@@ -369,6 +360,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_ui_api = reg->get(TM_UI_API_NAME);
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
     tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
+    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }
