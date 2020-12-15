@@ -829,7 +829,7 @@
 				type_hash: "9723e0133dc6620a"
 			}
 			{
-				name: "uuid_tags"
+				name: "uuid_labels"
 				type: "subobject_set"
 				type_hash: "b11aa2e510ce635e"
 			}
@@ -871,6 +871,19 @@
 				name: "parent"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
+			}
+		]
+	}
+	{
+		name: "tm_asset_label"
+		properties: [
+			{
+				name: "uuid"
+				type: "uint64_t"
+			}
+			{
+				name: "name"
+				type: "string"
 			}
 		]
 	}
@@ -1357,9 +1370,6 @@
 		]
 		default: {
 			settings: {
-				extract_images: true
-				extract_materials: true
-				rig_entity: true
 			}
 		}
 	}
@@ -1957,26 +1967,14 @@
 				type_hash: "a8eaa514c96b3d32"
 			}
 			{
-				name: "extract_images"
-				type: "bool"
-			}
-			{
 				name: "extracted_images"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
 			}
 			{
-				name: "extract_materials"
-				type: "bool"
-			}
-			{
 				name: "extracted_materials"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
-			}
-			{
-				name: "rig_entity"
-				type: "bool"
 			}
 			{
 				name: "entity"
@@ -2026,6 +2024,11 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 			{
+				name: "entity_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
 				name: "dcc_asset_image_directory"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
@@ -2034,6 +2037,22 @@
 				name: "dcc_asset_material_directory"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "create_prototype_on_drop"
+				type: "bool"
+			}
+			{
+				name: "extract_images"
+				type: "bool"
+			}
+			{
+				name: "extract_materials"
+				type: "bool"
+			}
+			{
+				name: "rig_entity"
+				type: "bool"
 			}
 			{
 				name: "import_image_cg"
@@ -2050,6 +2069,9 @@
 			dcc_asset_image_cg: "e47809e9-558e-a0cb-866b-2072a2e0888c"
 			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
 			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			extract_images: true
+			extract_materials: true
+			rig_entity: true
 			import_image_cg: "9f829e31-b0cb-b5fe-21af-ab561d841602"
 			drop_image_cg: "37ddeda8-49a6-95e6-4506-7f2bb8c2a32f"
 		}
@@ -4047,6 +4069,68 @@
 		]
 	}
 	{
+		name: "tm_physx_visualization_parameters"
+		properties: [
+			{
+				name: "visualize"
+				type: "bool"
+			}
+			{
+				name: "scale"
+				type: "float"
+			}
+			{
+				name: "body_axes"
+				type: "bool"
+			}
+			{
+				name: "contact_point"
+				type: "bool"
+			}
+			{
+				name: "actor_axes"
+				type: "bool"
+			}
+			{
+				name: "collision_aabbs"
+				type: "bool"
+			}
+			{
+				name: "collision_shapes"
+				type: "bool"
+			}
+			{
+				name: "collision_dynamic"
+				type: "bool"
+			}
+			{
+				name: "joint_local_frames"
+				type: "bool"
+			}
+			{
+				name: "joint_limits"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_plugin"
+		properties: [
+			{
+				name: "import_on_change"
+				type: "bool"
+			}
+			{
+				name: "windows_dll_import_path"
+				type: "string"
+			}
+			{
+				name: "windows_dll"
+				type: "buffer"
+			}
+		]
+	}
+	{
 		name: "tm_position"
 		properties: [
 			{
@@ -4713,10 +4797,6 @@
 			}
 			{
 				name: "optional"
-				type: "bool"
-			}
-			{
-				name: "function"
 				type: "bool"
 			}
 			{
@@ -5613,27 +5693,31 @@
 		name: "tm_transform_component"
 		properties: [
 			{
-				name: "position"
+				name: "local_position"
 				type: "subobject"
 				type_hash: "7a29b8f6b1ca42ec"
 			}
 			{
-				name: "rotation"
+				name: "local_rotation"
 				type: "subobject"
 				type_hash: "a4d2f46b41c9d717"
 			}
 			{
-				name: "scale"
+				name: "local_scale"
 				type: "subobject"
 				type_hash: "20ef513a9606cc30"
 			}
+			{
+				name: "scene_tree_node"
+				type: "uint64_t"
+			}
 		]
 		default: {
-			position: {
+			local_position: {
 			}
-			rotation: {
+			local_rotation: {
 			}
-			scale: {
+			local_scale: {
 			}
 		}
 	}

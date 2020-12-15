@@ -4,27 +4,27 @@ components: [
 	{
 		__type: "tm_transform_component"
 		__uuid: "78c483e1-d285-33db-65c1-b203498bdd04"
-		position: {
-			__uuid: "3ce37432-d77d-c615-7318-b97dffdfade3"
+		local_position: {
+			__uuid: "a47456ef-4800-89f2-5ac9-2ed0be2cccb2"
 		}
-		rotation: {
-			__uuid: "f131e9c8-be36-3c0a-6db8-ee30a5a2929c"
+		local_rotation: {
+			__uuid: "af56e09a-5187-4e87-a8cc-5c8a24295286"
 		}
-		scale: {
-			__uuid: "36780766-4371-1b5d-332a-a6956b78a39f"
+		local_scale: {
+			__uuid: "8df70bbe-c5a3-c2c4-8eef-c34c8fad3cce"
 		}
 	}
 	{
-		__type: "tm_link_component"
-		__uuid: "2ac9f85a-f2ae-0057-5d14-f1b9e6d01409"
-		position: {
-			__uuid: "480d9463-3bad-8e39-dcdb-f1ccfcebf664"
+		__type: "tm_default_render_pipe_light_component"
+		__uuid: "e9ab2b60-9b18-61ad-1af4-7aada3ecbe7f"
+		type: 3
+		color: {
+			__uuid: "8acc8117-3518-4e59-1db7-c2069ad2c635"
 		}
-		rotation: {
-			__uuid: "5f456625-7b1d-0f5d-855d-a0d33e6fcdce"
-		}
-		scale: {
-			__uuid: "59bb9598-e14c-03d9-081d-fe2640df6ad1"
+		area_extent: {
+			__uuid: "f133f1aa-cbf1-135b-8e52-5be7acb4cb51"
+			x: 1
+			y: 1
 		}
 	}
 	{
@@ -252,14 +252,6 @@ components: [
 			}
 		}
 	}
-	{
-		__type: "tm_default_render_pipe_light_component"
-		__uuid: "e9ab2b60-9b18-61ad-1af4-7aada3ecbe7f"
-		type: 3
-		color: {
-			__uuid: "8acc8117-3518-4e59-1db7-c2069ad2c635"
-		}
-	}
 ]
 children: [
 	{
@@ -269,29 +261,16 @@ children: [
 			{
 				__type: "tm_transform_component"
 				__uuid: "ace06b12-dc34-e526-a505-c51df78758f7"
-				position: {
-					__uuid: "b964712f-fff4-2399-9af8-9b5f43ac19b6"
+				local_position: {
+					__uuid: "a5f59073-c7b3-36c0-8523-b50785991e80"
 				}
-				rotation: {
-					__uuid: "d734bcc2-b19a-c72c-1cf5-9027a13268e4"
-				}
-				scale: {
-					__uuid: "ed7117dd-e2a4-e0b1-ea8c-ab10fc5d32ac"
-				}
-			}
-			{
-				__type: "tm_link_component"
-				__uuid: "6fd51d9d-d011-18a8-f355-8c799b008e3b"
-				position: {
-					__uuid: "20528ca2-4cea-7e0c-f1a2-44b704e85c52"
-				}
-				rotation: {
-					__uuid: "a549a17a-6784-24f7-f472-67aeeaa2d5ff"
+				local_rotation: {
+					__uuid: "3d5ecbbc-ac31-2eb7-9e51-c7e4f1efaa20"
 					x: -0.7071067690849304
 					w: 0.7071067690849304
 				}
-				scale: {
-					__uuid: "1a3283c8-24e4-3c8d-c9ab-554df6ded926"
+				local_scale: {
+					__uuid: "e06df6af-5f26-5599-669b-46b36140f9d6"
 				}
 			}
 			{
@@ -307,6 +286,11 @@ children: [
 				spot_inner_angle: 0
 				spot_outer_angle: 2.443460941314697
 				cast_shadows: true
+				area_extent: {
+					__uuid: "e40264af-67c7-ca5d-50e1-91e49384c335"
+					x: 1
+					y: 1
+				}
 			}
 		]
 	}
