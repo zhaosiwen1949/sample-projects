@@ -1647,9 +1647,9 @@ children: [
 							__uuid: "41daea7e-1b87-d434-3b22-ccd664764c9b"
 							__prototype_type: "tm_position"
 							__prototype_uuid: "db1bf480-9ecf-33ef-2c8e-5cd38dd87a1c"
-							x: -12.89999866485596
+							x: -12.89999961853027
 							y: 0.9999996423721313
-							z: -1.699999570846558
+							z: -5.769657611846924
 						}
 						local_rotation: {
 							__uuid: "554984a6-b314-272d-9697-94849723fd15"
@@ -1682,9 +1682,9 @@ children: [
 							__uuid: "b7222cab-8ec6-13fe-ba98-40e474b9cc57"
 							__prototype_type: "tm_position"
 							__prototype_uuid: "a78fd859-f0d5-5eee-5409-43ffa37d3208"
-							x: -11.89999771118164
+							x: -11.89999866485596
 							y: 0.9999996423721313
-							z: -1.700001001358032
+							z: -5.769659042358398
 						}
 						local_rotation: {
 							__uuid: "f726850a-cd14-71ce-3cfb-5e91226939cb"
@@ -1720,9 +1720,9 @@ children: [
 							__uuid: "f6769cc7-c33e-3896-6a3d-ba10a8c3bf63"
 							__prototype_type: "tm_position"
 							__prototype_uuid: "65a1e7dd-b694-9b93-461e-b759c002145f"
-							x: -10.89999771118164
+							x: -10.89999866485596
 							y: 1.0999995470047
-							z: -1.700000643730164
+							z: -5.76965856552124
 						}
 						local_rotation: {
 							__uuid: "1a9c5e50-db53-765e-d88f-7854ed4b522e"
@@ -1757,7 +1757,7 @@ children: [
 							__prototype_uuid: "a78fd859-f0d5-5eee-5409-43ffa37d3208"
 							x: -11.89999771118164
 							y: 0.9999996423721313
-							z: -0.3000010251998901
+							z: -2.480752468109131
 						}
 						local_rotation: {
 							__uuid: "366da4c5-de85-bfff-6435-a3723ea6462d"
@@ -1770,7 +1770,7 @@ children: [
 							__uuid: "8df44a0a-3a82-b9c5-3b2f-fdb3d874c2e3"
 							__prototype_type: "tm_scale"
 							__prototype_uuid: "b11538ee-b551-47d7-95d5-b80b5740cf27"
-							x: 1.844209432601929
+							x: 5.759635448455811
 							y: 1
 							z: 3
 						}
@@ -2364,6 +2364,33 @@ children: [
 						__uuid: "f57f1616-e623-6c2a-dcb7-2bf06b6d2342"
 						__prototype_type: "tm_entity"
 						__prototype_uuid: "63c0714b-80ee-4059-9f94-5f4ae650eb61"
+						children__instantiated: [
+							{
+								__uuid: "a7cf37bb-d455-96a9-4122-13d18e04e978"
+								__prototype_type: "tm_entity"
+								__prototype_uuid: "f64283a8-3b31-420d-744c-bbd17f7c395a"
+								components__instantiated: [
+									{
+										__type: "tm_default_render_pipe_light_component"
+										__uuid: "00daff50-29fb-b08e-37c3-0c0b2256c96c"
+										__prototype_type: "tm_default_render_pipe_light_component"
+										__prototype_uuid: "3c1bcbd9-f391-5a2b-fbb6-a86e2e7e54a7"
+										color: {
+											__uuid: "8caf18c7-a6fa-fe49-92d8-91a9e7756226"
+											__prototype_type: "tm_color_rgb"
+											__prototype_uuid: "68a4b5ec-35b8-462d-515a-70875c2649ed"
+										}
+										intensity: 0.5
+										shadow_depth_bias: 0.001000000047497451
+										area_extent: {
+											__uuid: "b0ebe41f-5675-bb03-7244-75f47927c4b0"
+											__prototype_type: "tm_vec2_t"
+											__prototype_uuid: "84606d3d-10ff-152a-00ac-cd77df690592"
+										}
+									}
+								]
+							}
+						]
 					}
 				]
 				sort_order: 0
@@ -3169,6 +3196,43 @@ children: [
 						]
 					}
 				]
+			}
+		]
+	}
+	{
+		__uuid: "20865175-3c4a-ba23-1400-4374699377c0"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "9e8e772e-1c2a-a5ff-57ba-133d40b417b8"
+		name: "crystal_1"
+		components__instantiated: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "d304bfaf-0b2a-4ca9-f412-b007d32e4d30"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "05d6fb46-0332-2ad7-c5c1-cff2d7489adb"
+				local_position: {
+					__uuid: "c9468ca8-7a53-1b90-d7f9-bff69f96eef5"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "2e3fb918-e029-5733-ff9a-5dfd1c7b9482"
+					x: -14.03157806396484
+					y: 1.52642023563385
+					z: -5.381448745727539
+				}
+				local_rotation: {
+					__uuid: "4c96d330-cd6b-1226-c91c-e8c1b0726bb9"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "9717ab90-5eb5-6cf2-7678-a1a9c55b4794"
+					y: 0.258819043636322
+					w: 0.9659258723258972
+				}
+				local_scale: {
+					__uuid: "d51908fe-cfa1-4d9a-ac79-18d19ec1d127"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "9ef6d95a-77fd-a707-494f-a5b1e0d04002"
+					x: 0.5
+					y: 0.5
+					z: 0.5
+				}
 			}
 		]
 	}
