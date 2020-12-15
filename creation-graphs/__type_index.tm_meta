@@ -809,7 +809,7 @@
 				type_hash: "9723e0133dc6620a"
 			}
 			{
-				name: "uuid_tags"
+				name: "uuid_labels"
 				type: "subobject_set"
 				type_hash: "b11aa2e510ce635e"
 			}
@@ -851,6 +851,19 @@
 				name: "parent"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
+			}
+		]
+	}
+	{
+		name: "tm_asset_label"
+		properties: [
+			{
+				name: "uuid"
+				type: "uint64_t"
+			}
+			{
+				name: "name"
+				type: "string"
 			}
 		]
 	}
@@ -1265,9 +1278,6 @@
 		]
 		default: {
 			settings: {
-				extract_images: true
-				extract_materials: true
-				rig_entity: true
 			}
 		}
 	}
@@ -1865,26 +1875,14 @@
 				type_hash: "a8eaa514c96b3d32"
 			}
 			{
-				name: "extract_images"
-				type: "bool"
-			}
-			{
 				name: "extracted_images"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
 			}
 			{
-				name: "extract_materials"
-				type: "bool"
-			}
-			{
 				name: "extracted_materials"
 				type: "subobject_set"
 				type_hash: "6afaa9f50456cb1b"
-			}
-			{
-				name: "rig_entity"
-				type: "bool"
 			}
 			{
 				name: "entity"
@@ -1934,6 +1932,11 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 			{
+				name: "entity_directory"
+				type: "reference"
+				type_hash: "9723e0133dc6620a"
+			}
+			{
 				name: "dcc_asset_image_directory"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
@@ -1942,6 +1945,22 @@
 				name: "dcc_asset_material_directory"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
+			}
+			{
+				name: "create_prototype_on_drop"
+				type: "bool"
+			}
+			{
+				name: "extract_images"
+				type: "bool"
+			}
+			{
+				name: "extract_materials"
+				type: "bool"
+			}
+			{
+				name: "rig_entity"
+				type: "bool"
 			}
 			{
 				name: "import_image_cg"
@@ -1958,6 +1977,9 @@
 			dcc_asset_image_cg: "e47809e9-558e-a0cb-866b-2072a2e0888c"
 			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
 			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			extract_images: true
+			extract_materials: true
+			rig_entity: true
 			import_image_cg: "9f829e31-b0cb-b5fe-21af-ab561d841602"
 			drop_image_cg: "37ddeda8-49a6-95e6-4506-7f2bb8c2a32f"
 		}
@@ -2495,6 +2517,10 @@
 				name: "public"
 				type: "bool"
 			}
+			{
+				name: "order"
+				type: "double"
+			}
 		]
 	}
 	{
@@ -2565,6 +2591,10 @@
 			{
 				name: "type_hash"
 				type: "uint64_t"
+			}
+			{
+				name: "order"
+				type: "double"
 			}
 		]
 	}
@@ -3258,6 +3288,68 @@
 		]
 	}
 	{
+		name: "tm_physx_visualization_parameters"
+		properties: [
+			{
+				name: "visualize"
+				type: "bool"
+			}
+			{
+				name: "scale"
+				type: "float"
+			}
+			{
+				name: "body_axes"
+				type: "bool"
+			}
+			{
+				name: "contact_point"
+				type: "bool"
+			}
+			{
+				name: "actor_axes"
+				type: "bool"
+			}
+			{
+				name: "collision_aabbs"
+				type: "bool"
+			}
+			{
+				name: "collision_shapes"
+				type: "bool"
+			}
+			{
+				name: "collision_dynamic"
+				type: "bool"
+			}
+			{
+				name: "joint_local_frames"
+				type: "bool"
+			}
+			{
+				name: "joint_limits"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_plugin"
+		properties: [
+			{
+				name: "import_on_change"
+				type: "bool"
+			}
+			{
+				name: "windows_dll_import_path"
+				type: "string"
+			}
+			{
+				name: "windows_dll"
+				type: "buffer"
+			}
+		]
+	}
+	{
 		name: "tm_position"
 		properties: [
 			{
@@ -3908,10 +4000,6 @@
 				type: "bool"
 			}
 			{
-				name: "function"
-				type: "bool"
-			}
-			{
 				name: "type"
 				type: "uint32_t"
 			}
@@ -4128,54 +4216,59 @@
 				type: "uint32_t"
 			}
 			{
-				name: "vertex_code"
-				type: "string"
+				name: "vertex_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_code_line_number"
-				type: "uint32_t"
+				name: "hull_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
+				name: "domain_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_system_semantics_imports"
-				type: "buffer"
+				name: "geometry_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_system_semantics_exports"
-				type: "buffer"
+				name: "pixel_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "vertex_stage_attributes"
-				type: "buffer"
+				name: "compute_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_code"
-				type: "string"
+				name: "raygen_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_code_line_number"
-				type: "uint32_t"
+				name: "any_hit_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
+				name: "closest_hit_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_system_semantics_imports"
-				type: "buffer"
+				name: "miss_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
-				name: "hull_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "hull_stage_attributes"
-				type: "buffer"
+				name: "intersection_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
 			}
 			{
 				name: "hull_stage_patch"
@@ -4184,118 +4277,6 @@
 			{
 				name: "hull_stage_patch_line_number"
 				type: "uint32_t"
-			}
-			{
-				name: "hull_stage_condition"
-				type: "buffer"
-			}
-			{
-				name: "domain_code"
-				type: "string"
-			}
-			{
-				name: "domain_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "domain_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "domain_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "domain_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "domain_stage_attributes"
-				type: "buffer"
-			}
-			{
-				name: "domain_stage_condition"
-				type: "buffer"
-			}
-			{
-				name: "geometry_code"
-				type: "string"
-			}
-			{
-				name: "geometry_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "geometry_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "geometry_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "geometry_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "geometry_stage_attributes"
-				type: "buffer"
-			}
-			{
-				name: "geometry_stage_condition"
-				type: "buffer"
-			}
-			{
-				name: "pixel_code"
-				type: "string"
-			}
-			{
-				name: "pixel_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "pixel_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "pixel_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "pixel_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "pixel_stage_attributes"
-				type: "buffer"
-			}
-			{
-				name: "compute_code"
-				type: "string"
-			}
-			{
-				name: "compute_code_line_number"
-				type: "uint32_t"
-			}
-			{
-				name: "compute_stage_exports"
-				type: "subobject_set"
-				type_hash: "16be80283f5ab5c4"
-			}
-			{
-				name: "compute_system_semantics_imports"
-				type: "buffer"
-			}
-			{
-				name: "compute_system_semantics_exports"
-				type: "buffer"
-			}
-			{
-				name: "compute_stage_attributes"
-				type: "buffer"
 			}
 		]
 	}
@@ -4426,6 +4407,40 @@
 		]
 	}
 	{
+		name: "tm_shader_system_stage_declaration"
+		properties: [
+			{
+				name: "code"
+				type: "string"
+			}
+			{
+				name: "code_line_number"
+				type: "uint32_t"
+			}
+			{
+				name: "stage_exports"
+				type: "subobject_set"
+				type_hash: "16be80283f5ab5c4"
+			}
+			{
+				name: "system_semantics_imports"
+				type: "buffer"
+			}
+			{
+				name: "system_semantics_exports"
+				type: "buffer"
+			}
+			{
+				name: "stage_attributes"
+				type: "buffer"
+			}
+			{
+				name: "condition"
+				type: "buffer"
+			}
+		]
+	}
+	{
 		name: "tm_shader_system_stage_export"
 		properties: [
 			{
@@ -4458,6 +4473,15 @@
 		properties: [
 			{
 				name: "name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_simulate_entry"
+		properties: [
+			{
+				name: "id"
 				type: "uint64_t"
 			}
 		]
@@ -4737,27 +4761,31 @@
 		name: "tm_transform_component"
 		properties: [
 			{
-				name: "position"
+				name: "local_position"
 				type: "subobject"
 				type_hash: "7a29b8f6b1ca42ec"
 			}
 			{
-				name: "rotation"
+				name: "local_rotation"
 				type: "subobject"
 				type_hash: "a4d2f46b41c9d717"
 			}
 			{
-				name: "scale"
+				name: "local_scale"
 				type: "subobject"
 				type_hash: "20ef513a9606cc30"
 			}
+			{
+				name: "scene_tree_node"
+				type: "uint64_t"
+			}
 		]
 		default: {
-			position: {
+			local_position: {
 			}
-			rotation: {
+			local_rotation: {
 			}
-			scale: {
+			local_scale: {
 			}
 		}
 	}
@@ -4919,6 +4947,67 @@
 			{
 				name: "uuid"
 				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_vox_asset"
+		properties: [
+			{
+				name: "models"
+				type: "subobject_set"
+				type_hash: "d66d982141bc8aaa"
+			}
+			{
+				name: "palette"
+				type: "buffer"
+			}
+		]
+	}
+	{
+		name: "tm_vox_component"
+		properties: [
+			{
+				name: "asset"
+				type: "reference"
+				type_hash: "7e6c3b08f358034e"
+			}
+			{
+				name: "model"
+				type: "reference"
+				type_hash: "d66d982141bc8aaa"
+			}
+			{
+				name: "voxel_size"
+				type: "float"
+			}
+		]
+		default: {
+			voxel_size: 0.1000000014901161
+		}
+	}
+	{
+		name: "tm_vox_model"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "size_x"
+				type: "uint32_t"
+			}
+			{
+				name: "size_y"
+				type: "uint32_t"
+			}
+			{
+				name: "size_z"
+				type: "uint32_t"
+			}
+			{
+				name: "voxels"
+				type: "buffer"
 			}
 		]
 	}
