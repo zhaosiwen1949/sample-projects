@@ -4,28 +4,20 @@ components: [
 	{
 		__type: "tm_transform_component"
 		__uuid: "881395d1-f7fd-f1e3-d764-cecb670e703a"
-		position: {
-			__uuid: "35c04dd3-6baa-621e-ad4c-0aef5f86f7de"
+		local_position: {
+			__uuid: "dfe61e03-3eb9-9a35-6b81-a52775e0b807"
 		}
-		rotation: {
-			__uuid: "1df31839-be86-885e-2c2f-5b5e05bf0c49"
+		local_rotation: {
+			__uuid: "9731472a-3704-e3c6-bd92-6cbe4a2692c7"
 		}
-		scale: {
-			__uuid: "f7604404-3115-5f27-1218-37767a16880c"
+		local_scale: {
+			__uuid: "7cbba28d-686b-e6e2-8952-4c9fc3d8465a"
 		}
 	}
 	{
-		__type: "tm_link_component"
-		__uuid: "7aa43e0e-4320-00c5-162a-93d4179b4e81"
-		position: {
-			__uuid: "1afc3fb1-d0a7-d628-ad10-da6322f48ffc"
-		}
-		rotation: {
-			__uuid: "bde15f0f-3105-ea70-a5fd-be109da69429"
-		}
-		scale: {
-			__uuid: "abfc2cbb-3854-3ed1-ccc0-141e4624c8bc"
-		}
+		__type: "tm_dcc_asset_component"
+		__uuid: "ffcbad92-0dbe-384c-776f-df7029ca0a93"
+		dcc_asset: "2dea38e2-52f6-60c4-ce76-a1a771202a81"
 	}
 	{
 		__type: "tm_physics_body_component"
@@ -57,11 +49,6 @@ components: [
 				z: 0.5
 			}
 		}
-	}
-	{
-		__type: "tm_dcc_asset_component"
-		__uuid: "ffcbad92-0dbe-384c-776f-df7029ca0a93"
-		dcc_asset: "2dea38e2-52f6-60c4-ce76-a1a771202a81"
 	}
 ]
 __asset_uuid: "1847d69b-14a2-81db-4f4b-96f98082b385"

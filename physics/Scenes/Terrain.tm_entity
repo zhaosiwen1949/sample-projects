@@ -4,27 +4,14 @@ components: [
 	{
 		__type: "tm_transform_component"
 		__uuid: "38df05ad-c8ed-49e5-940e-ebfcb7ea4489"
-		position: {
-			__uuid: "14bcbb50-8c00-2f18-0abc-b999549234b6"
+		local_position: {
+			__uuid: "3f7eecfd-5548-7911-ce39-c0d079a6a2b5"
 		}
-		rotation: {
-			__uuid: "0bdf7abc-097a-053b-a4ac-0648941c4a64"
+		local_rotation: {
+			__uuid: "ba14e6ed-090e-ac32-4b6b-15b248055494"
 		}
-		scale: {
-			__uuid: "ae3c0176-2fab-fbd3-f2eb-e7591d4094ea"
-		}
-	}
-	{
-		__type: "tm_link_component"
-		__uuid: "547e551d-661c-92a0-da86-c0cf866ad474"
-		position: {
-			__uuid: "8ac4e147-ae3f-7fb1-9f50-e68411671abe"
-		}
-		rotation: {
-			__uuid: "405d1bd5-e437-a00b-ce25-67bede48bf06"
-		}
-		scale: {
-			__uuid: "2fdfa1ff-495a-88f9-d727-4d6c570c5b27"
+		local_scale: {
+			__uuid: "c44ceb05-1a35-bb64-824d-14f22622d872"
 		}
 	}
 ]
@@ -35,30 +22,29 @@ children: [
 		__prototype_uuid: "8da09ebc-62b9-4364-05fe-fe6e3ab7d4f0"
 		components__instantiated: [
 			{
-				__type: "tm_link_component"
-				__uuid: "275dcad3-9b8c-e577-9e6d-a98d13a77e7a"
-				__prototype_type: "tm_link_component"
-				__prototype_uuid: "edc7dfe5-a8b2-02ba-734c-ae13fbea2dab"
-				position: {
-					__uuid: "145db596-1ae0-8000-2c06-2d9bef70a7fc"
+				__type: "tm_transform_component"
+				__uuid: "90b67902-2e52-d004-077c-e2ea529dfd35"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "2176b875-bbb2-1366-faa1-eb2ccecd62c9"
+				local_position: {
+					__uuid: "ed28e008-7a95-40da-6efb-a76fa6e24b4d"
 					__prototype_type: "tm_position"
-					__prototype_uuid: "aa39681a-9086-17da-f495-259f4db5882b"
-					x: 0
-					z: 0
+					__prototype_uuid: "c76c9f8a-25f6-fb33-af16-080c2071dd31"
 				}
-				rotation: {
-					__uuid: "88870010-77cb-67b0-8a9e-7c311c5ca889"
+				local_rotation: {
+					__uuid: "4ce1c36c-fc0d-f240-bf66-ea77482130e9"
 					__prototype_type: "tm_rotation"
-					__prototype_uuid: "1127dc03-9fea-4448-4d57-598ae6dd1e97"
+					__prototype_uuid: "a48d81af-a4f2-5a3e-441e-6878242dd808"
 				}
-				scale: {
-					__uuid: "f18491d0-f65b-75d0-1585-ddc9f1599c93"
+				local_scale: {
+					__uuid: "0b3407da-ce80-4f4e-78a4-d7ad59c789ea"
 					__prototype_type: "tm_scale"
-					__prototype_uuid: "65f163da-732c-2763-98c5-f4655769824d"
+					__prototype_uuid: "2371c5b8-2df9-4933-7d18-1d2055c29caf"
 					x: 0.1000000014901161
 					y: 0.1000000014901161
 					z: 0.1000000014901161
 				}
+				scene_tree_node: 0
 			}
 		]
 	}
