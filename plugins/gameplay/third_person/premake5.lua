@@ -8,7 +8,7 @@ newoption {
     description = "Force use of CLANG for Windows builds"
 }
 
-workspace "gameplay_sample_third_person_component"
+workspace "gameplay_sample_third_person"
     configurations {"Debug", "Release"}
     language "C++"
     cppdialect "C++11"
@@ -69,9 +69,9 @@ filter "configurations:Release"
     defines { "TM_CONFIGURATION_RELEASE" }
     optimize "On"
 
-project "gameplay_sample_third_person_component"
-    location "build/gameplay_sample_third_person_component"
-    targetname "tm_gameplay_sample_third_person_component"
+project "gameplay_sample_third_person"
+    location "build/gameplay_sample_third_person"
+    targetname "tm_gameplay_sample_third_person"
     kind "SharedLib"
     language "C++"
     files {"*.inl", "*.h", "*.c"}
