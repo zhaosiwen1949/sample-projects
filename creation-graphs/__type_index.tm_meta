@@ -2286,6 +2286,17 @@
 		]
 	}
 	{
+		name: "tm_gpu_image_create_settings"
+		properties: [
+			{
+				name: "policy"
+				type: "uint32_t"
+			}
+		]
+		default: {
+		}
+	}
+	{
 		name: "tm_gpu_simulation_accessor_settings"
 		properties: [
 			{
@@ -3416,6 +3427,18 @@
 					}
 				}
 			}
+		}
+	}
+	{
+		name: "tm_render_pass_settings"
+		properties: [
+			{
+				name: "load_op"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			load_op: 1
 		}
 	}
 	{
