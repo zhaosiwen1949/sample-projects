@@ -30,13 +30,16 @@ components: [
 	{
 		__type: "tm_physics_shape_component"
 		__uuid: "3094e785-756e-4b89-f191-cf3edb63a7e3"
-		type: 6
+		type: 4
 		shape: {
-			__type: "tm_physics_shape_mesh"
-			__uuid: "c74ea1d7-941b-aa1f-397f-021b0282d400"
-			mesh: "1761b650-d8d7-0d1a-73f8-b48a1fb816c3"
-			format: "tm_physx_mesh_cooked_data"
-			data: "a5e57535257df404"
+			__type: "tm_physics_shape_box"
+			__uuid: "6b9744fb-ba6f-d5d7-0df2-b1c63d7be202"
+			half_extent: {
+				__uuid: "f858584e-3dda-20b9-ec3a-5f14140bf1e4"
+				x: 0.5
+				y: 0.5
+				z: 0.5
+			}
 		}
 	}
 ]
@@ -54,6 +57,7 @@ children: [
 						__uuid: "8c52e061-ec8b-0f53-59a4-8bc48b57ee93"
 						local_position: {
 							__uuid: "7da56349-be65-b5ba-10db-2aa2af7edea1"
+							y: -0.5
 						}
 						local_rotation: {
 							__uuid: "6a5048ac-8b62-6e07-df31-df0b13db07b8"
@@ -117,6 +121,7 @@ children: [
 						__uuid: "5668612a-08ba-5e00-8399-65e2428a4c75"
 						local_position: {
 							__uuid: "a2e40d81-ef5d-837a-4470-12ee94d76287"
+							y: -0.5
 						}
 						local_rotation: {
 							__uuid: "20b1f093-d30a-7af5-06cb-2cf261a07429"

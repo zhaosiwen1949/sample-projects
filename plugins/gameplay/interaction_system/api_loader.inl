@@ -30,6 +30,13 @@
         TM_CALL_FOR_EACH(TM_API_GET, __VA_ARGS__)\
     }
 
+// Sets an API where the pointer name and API name are the same (for example tm_interaction_component_api).
+#define tm_set_api(reg, load, ptr) \
+    if (load)                                      \
+        reg->set(#ptr, ptr, sizeof(*ptr));         \
+    else                                           \
+        reg->remove(ptr)
+
 // tm_docgen off
 
 #define TM_API_DEF(def_name) static struct def_name *def_name;

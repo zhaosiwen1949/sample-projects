@@ -585,13 +585,6 @@ static tm_interactable_component_manager_o *component__create(struct tm_entity_c
     return m;
 }
 
-#define tm_set_api(reg, load, ptr) \
-    if (load)                                      \
-        reg->set(#ptr, ptr, sizeof(*ptr));         \
-    else                                           \
-        reg->remove(ptr)
-
-
 static void create_truth_types(struct tm_the_truth_o* tt)
 {
     tm_the_truth_property_definition_t interactable_component_properties[] = {
