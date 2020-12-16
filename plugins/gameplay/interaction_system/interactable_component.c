@@ -30,6 +30,9 @@ TM_LOAD_APIS(load_apis,
 
 // ---
 
+// In most other parts of the engine these kind of property listings go in the header, but they aren't used anywhere
+// else than this file (for now...)
+
 enum interactable_component_prop {
     INTERACTABLE_COMPONENT_PROP__DESC, // subobject(TM_TT_TYPE__INTERACTABLE_XXX) -- for example TT_TYPE__INTERACTABLE_LEVER
     INTERACTABLE_COMPONENT_PROP__TARGET, // reference(entity)
@@ -159,10 +162,10 @@ struct tm_interactable_component_manager_o {
     tm_transform_component_manager_o *trans_mgr;
 };
 
-
 static void interact(tm_interactable_component_manager_o *mgr, tm_entity_t interactable);
 static bool can_interact(tm_interactable_component_manager_o *mgr, tm_entity_t interactable, bool is_player);
 
+// State machine for lever
 static bool update_lever(tm_interactable_component_manager_o *mgr, float dt, double t, active_interaction_t *a,
     interactable_component_t *c, bool can_activate_target)
 {
@@ -181,6 +184,8 @@ static bool update_lever(tm_interactable_component_manager_o *mgr, float dt, dou
             if (p >= 1) {
                 l->state = LEVER_STATE_OPEN;
 
+                // If target of this lever hasn't been activated by auto-acitvation yet, then activate it now, since
+                // we are done animating.
                 if (can_activate_target && can_interact(mgr, c->target, false)) {
                     interact(mgr, c->target);
                     a->target_activated = true;
@@ -215,6 +220,7 @@ static bool update_lever(tm_interactable_component_manager_o *mgr, float dt, dou
     return res;
 }
 
+// State machine for button
 static bool update_button(tm_interactable_component_manager_o *mgr, float dt, double t, active_interaction_t *a,
     interactable_component_t *c, bool can_activate_target)
 {
@@ -267,6 +273,7 @@ static bool update_button(tm_interactable_component_manager_o *mgr, float dt, do
     return res;
 }
 
+// State machine for door
 static bool update_rotating_door(tm_interactable_component_manager_o *mgr, float dt, double t, active_interaction_t *a, interactable_component_t *c)
 {
     bool res = false;
@@ -306,7 +313,7 @@ static bool update_rotating_door(tm_interactable_component_manager_o *mgr, float
     return res;
 }
 
-
+// Goes through all interactables that are active (doing something, such as animating etc) and updates them.
 static void update_active_interactables(tm_interactable_component_manager_o *mgr, float dt, double t)
 {
     for (int32_t active_idx = 0; active_idx < (int32_t)tm_carray_size(mgr->active); ++active_idx) {
@@ -316,6 +323,8 @@ static void update_active_interactables(tm_interactable_component_manager_o *mgr
         if (!a->start_time)
             a->start_time = t;
 
+        // An interactable can chain-activate another one (which is what button and levers do, but doors can do this
+        // to if you wish...)
         const bool auto_activate_target = c->target_activation_delay >= 0;
 
         if (tm_entity_api->is_alive(mgr->ctx, c->target) && !a->target_activated && auto_activate_target
@@ -353,6 +362,7 @@ static void manager_deinit(tm_interactable_component_manager_o *mgr)
     tm_carray_free(mgr->active, &mgr->allocator);
 }
 
+// Push the entity on a list, it's processed in `update_active_interactables` later.
 static void interact(tm_interactable_component_manager_o *mgr, tm_entity_t interactable)
 {
     tm_carray_push(mgr->active, ((active_interaction_t) { .interactable = interactable } ), &mgr->allocator);
@@ -371,10 +381,11 @@ static bool can_interact(tm_interactable_component_manager_o *mgr, tm_entity_t i
     if (is_player && !c->player_can_activate)
         return false;
 
-    // Send is_player false here because this is a check if this interactable can activate its target.
+    // Send is_player false here. This check is for check if this component can interact with another one, as a chain.
     if (tm_entity_api->is_alive(mgr->ctx, c->target) && !can_interact(mgr, c->target, false))
         return false;
 
+    // Make sure this interactable component isn't already doing something.
     for (int32_t active_idx = 0; active_idx < (int32_t)tm_carray_size(mgr->active); ++active_idx) {
         active_interaction_t *a = mgr->active + active_idx;
 
@@ -391,6 +402,7 @@ static struct tm_interactable_component_api *tm_interactable_component_api = &(s
     .update_active_interactables = update_active_interactables,
 };
 
+// Special UI for editing the component in property editor
 static float component_properties_ui(struct tm_properties_ui_args_t *args, tm_rect_t item_rect, tm_tt_id_t component_id, uint32_t indent)
 {
     tm_the_truth_o *tt = args->tt;
@@ -470,7 +482,7 @@ static tm_properties_aspect_i *properties_aspect = &(tm_properties_aspect_i){
     .custom_ui = component_properties_ui,
 };
 
-
+// Loads stuff from The Truth into the structs that we get when we call tm_entity_api->get_component()
 static void component__asset_loaded(tm_component_manager_o *mgr_in, tm_entity_t e, void *data)
 {
     tm_interactable_component_manager_o *mgr = (tm_interactable_component_manager_o*)mgr_in;
@@ -585,6 +597,8 @@ static tm_interactable_component_manager_o *component__create(struct tm_entity_c
     return m;
 }
 
+// This defines all the The Truth types needed and also makes it possible to see the Interactable Component in the
+// editor.
 static void create_truth_types(struct tm_the_truth_o* tt)
 {
     tm_the_truth_property_definition_t interactable_component_properties[] = {
@@ -617,7 +631,10 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         };
 
         const uint64_t interactable_lever_type = tm_the_truth_api->create_object_type(tt, TT_TYPE__INTERACTABLE_LEVER, lever_properties, TM_ARRAY_COUNT(lever_properties));
+
+        // This makes it possible to pick entities in the scene when the property panel renders this property.
         tm_the_truth_api->set_property_aspect(tt, interactable_lever_type, INTERACTABLE_LEVER_PROP__HANDLE, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void *)1);
+
         tm_the_truth_api->set_default_object_to_create_subobjects(tt, interactable_lever_type);
     }
 
@@ -630,8 +647,10 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         };
 
         const uint64_t interactable_button_type = tm_the_truth_api->create_object_type(tt, TT_TYPE__INTERACTABLE_BUTTON, button_properties, TM_ARRAY_COUNT(button_properties));
+
+        // This makes it possible to pick entities in the scene when the property panel renders this property.
         tm_the_truth_api->set_property_aspect(tt, interactable_button_type, INTERACTABLE_BUTTON_PROP__BUTTON, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void *)1);
-        
+
         tm_the_truth_api->set_default_object_to_create_subobjects(tt, interactable_button_type);
     }
 
@@ -644,7 +663,10 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         };
 
         const uint64_t rotating_door_type = tm_the_truth_api->create_object_type(tt, TT_TYPE__INTERACTABLE_ROTATING_DOOR, rotating_door, TM_ARRAY_COUNT(rotating_door));
+
+        // This makes it possible to pick entities in the scene when the property panel renders this property.
         tm_the_truth_api->set_property_aspect(tt, rotating_door_type, ROTATING_DOOR_PROP__PIVOT, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void *)1);
+
         tm_the_truth_api->set_default_object_to_create_subobjects(tt, rotating_door_type);
     }
 }

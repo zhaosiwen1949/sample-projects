@@ -1,3 +1,6 @@
+// Main entry point file for Interaction System sample. This sample exposes an Interaction Component that lets you
+// define buttons, levers and rotating doors from within the editor.
+
 #include "api_loader.inl"
 
 TM_LOAD_APIS(load_apis,
@@ -50,29 +53,20 @@ typedef struct input_state_t {
 } input_state_t;
 
 struct tm_simulate_state_o {
-    tm_entity_t player;
     input_state_t input;
-
+    tm_entity_t player;
     tm_entity_t player_camera;
-    tm_entity_t door;
-    tm_entity_t lever;
 
     tm_tt_id_t player_collision_type;
-    tm_vec4_t door_initial_rot;
-    tm_vec4_t lever_initial_rot;
 
     bool mouse_captured;
     TM_PAD(3);
+
     float look_yaw;
     float look_pitch;
-    
-    float door_end_angle;
-    double door_start_open_time;
-    double last_standing_time;
-
-    float lever_end_angle;
     TM_PAD(4);
-    double lever_start_move_time;
+    
+    double last_standing_time;
 
     uint64_t processed_events;
     tm_entity_context_o *entity_ctx;
@@ -87,7 +81,6 @@ struct tm_simulate_state_o {
     uint32_t transform_comp_idx;
     uint32_t tag_comp_idx;
     uint32_t interact_comp_idx;
-
     TM_PAD(4);
 } tm_gameplay_state_o;
 
@@ -129,8 +122,6 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
 
 static void stop(tm_simulate_state_o *state)
 {
-    // Clean up when simulation ends.
-
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
@@ -202,6 +193,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
             tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
     }
 
+    // Updates any inteactables that are moving etc.
     tm_interactable_component_api->update_active_interactables(state->interactable_mgr, args->dt, args->time);
 
     const tm_vec3_t camera_pos = tm_get_position(state->trans_mgr, state->player_camera);
@@ -261,7 +253,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
         }
     }
 
-    // Modified if the raycast below hits the box.
+    // Modified if the raycast below hits something that can be interacted with.
     tm_color_srgb_t crosshair_color = { 70, 80, 70, 255 };
 
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
@@ -273,6 +265,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
         if (tm_entity_mask_has_component(hit_mask, state->interact_comp_idx) && tm_interactable_component_api->can_interact(state->interactable_mgr, hit, true)) {
             crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
             if (state->input.left_mouse_pressed) {
+                // This is what starts the interaction!
                 tm_interactable_component_api->interact(state->interactable_mgr, hit);
             }
         }
@@ -288,7 +281,6 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 }
 
 static tm_simulate_entry_i simulate_entry_i = {
-     // Change this and re-run hash.exe if you wish to change the unique identifier
     .id = TM_STATIC_HASH("Gameplay Interaction System", 0xca35947276977f52ULL),
     .display_name = "Gameplay Interaction System",
     .start = start,
@@ -297,7 +289,6 @@ static tm_simulate_entry_i simulate_entry_i = {
 };
 
 extern void load_interactable_component(struct tm_api_registry_api* reg, bool load);
-extern void load_interactable_target_component(struct tm_api_registry_api* reg, bool load);
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
