@@ -5,6 +5,8 @@
 
 typedef struct tm_interactable_component_manager_o tm_interactable_component_manager_o;
 
+#define TM_INTERACTABLE_COMPONENT_API_NAME "tm_interactable_component_api"
+
 struct tm_interactable_component_api {
     bool (*can_interact)(tm_interactable_component_manager_o *mgr, tm_entity_t interactable, bool is_player);
     void (*interact)(tm_interactable_component_manager_o *mgr, tm_entity_t interactable);

@@ -1,24 +1,20 @@
 // Main entry point file for Interaction System sample. This sample exposes an Interaction Component that lets you
 // define buttons, levers and rotating doors from within the editor.
 
-#include "api_loader.inl"
-
-TM_LOAD_APIS(load_apis,
-    tm_application_api,
-    tm_draw2d_api,
-    tm_entity_api,
-    tm_error_api,
-    tm_input_api,
-    tm_physics_collision_api,
-    tm_physx_scene_api,
-    tm_simulate_context_api,
-    tm_tag_component_api,
-    tm_temp_allocator_api,
-    tm_temp_allocator_api,
-    tm_transform_component_api,
-    tm_ui_api,
-    tm_interactable_component_api
-);
+static struct tm_application_api *tm_application_api;
+static struct tm_draw2d_api *tm_draw2d_api;
+static struct tm_entity_api *tm_entity_api;
+static struct tm_error_api *tm_error_api;
+static struct tm_input_api *tm_input_api;
+static struct tm_physics_collision_api *tm_physics_collision_api;
+static struct tm_physx_scene_api *tm_physx_scene_api;
+static struct tm_simulate_context_api *tm_simulate_context_api;
+static struct tm_tag_component_api *tm_tag_component_api;
+static struct tm_temp_allocator_api *tm_temp_allocator_api;
+static struct tm_temp_allocator_api *tm_temp_allocator_api;
+static struct tm_transform_component_api *tm_transform_component_api;
+static struct tm_ui_api *tm_ui_api;
+static struct tm_interactable_component_api *tm_interactable_component_api;
 
 #include "interactable_component.h"
 
@@ -292,7 +288,21 @@ extern void load_interactable_component(struct tm_api_registry_api* reg, bool lo
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
-    load_apis(reg);
+    tm_application_api = reg->get(TM_APPLICATION_API_NAME);
+    tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
+    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
+    tm_error_api = reg->get(TM_ERROR_API_NAME);
+    tm_input_api = reg->get(TM_INPUT_API_NAME);
+    tm_physics_collision_api = reg->get(TM_PHYSICS_COLLISION_API_NAME);
+    tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
+    tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);
+    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
+    tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
+    tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
+    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
+    tm_ui_api = reg->get(TM_UI_API_NAME);
+    tm_interactable_component_api = reg->get(TM_INTERACTABLE_COMPONENT_API_NAME);
+
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
     load_interactable_component(reg, load);
 }

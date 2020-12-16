@@ -1,16 +1,15 @@
-#include "api_loader.inl"
-
-TM_LOAD_APIS(load_apis,
-    tm_entity_api,
-    tm_the_truth_api,
-    tm_localizer_api,
-    tm_properties_view_api,
-    tm_ui_api,
-    tm_logger_api,
-    tm_transform_component_api,
-    tm_the_truth_common_types_api);
+static struct tm_entity_api *tm_entity_api;
+static struct tm_the_truth_api *tm_the_truth_api;
+static struct tm_localizer_api *tm_localizer_api;
+static struct tm_properties_view_api *tm_properties_view_api;
+static struct tm_ui_api *tm_ui_api;
+static struct tm_logger_api *tm_logger_api;
+static struct tm_transform_component_api *tm_transform_component_api;
+static struct tm_the_truth_common_types_api *tm_the_truth_common_types_api;
 
 #include "interactable_component.h"
+
+#include <foundation/api_registry.h>
 #include <foundation/macros.h>
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_types.h>
@@ -18,6 +17,7 @@ TM_LOAD_APIS(load_apis,
 #include <foundation/allocator.h>
 #include <foundation/undo.h>
 #include <foundation/log.h>
+
 #include <plugins/entity/entity.h>
 #include <plugins/entity/transform_component.h>
 #include <plugins/ui/ui.h>
@@ -673,9 +673,16 @@ static void create_truth_types(struct tm_the_truth_o* tt)
 
 void load_interactable_component(struct tm_api_registry_api* reg, bool load)
 {
-    load_apis(reg);
+    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
+    tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
+    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
+    tm_properties_view_api = reg->get(TM_PROPERTIES_VIEW_API_NAME);
+    tm_ui_api = reg->get(TM_UI_API_NAME);
+    tm_logger_api = reg->get(TM_LOGGER_API_NAME);
+    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
+    tm_the_truth_common_types_api = reg->get(TM_THE_TRUTH_COMMON_TYPES_API_NAME);
 
-    tm_set_api(reg, load, tm_interactable_component_api);
+    tm_set_or_remove_api(reg, load, TM_INTERACTABLE_COMPONENT_API_NAME, tm_interactable_component_api);
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
 }
