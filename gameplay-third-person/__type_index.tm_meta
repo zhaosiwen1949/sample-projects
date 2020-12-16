@@ -3028,6 +3028,17 @@
 		]
 	}
 	{
+		name: "tm_gpu_image_create_settings"
+		properties: [
+			{
+				name: "policy"
+				type: "uint32_t"
+			}
+		]
+		default: {
+		}
+	}
+	{
 		name: "tm_gpu_simulation_accessor_settings"
 		properties: [
 			{
@@ -3575,6 +3586,113 @@
 				type_hash: "9aa53193b00323a6"
 			}
 		]
+	}
+	{
+		name: "tm_interactable_button"
+		properties: [
+			{
+				name: "button"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "button_push_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "button_push_distance"
+				type: "float"
+			}
+			{
+				name: "button_push_time"
+				type: "float"
+			}
+		]
+		default: {
+			button_push_axis: {
+			}
+		}
+	}
+	{
+		name: "tm_interactable_component"
+		properties: [
+			{
+				name: "desc"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "target"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "target_activation_delay"
+				type: "float"
+			}
+			{
+				name: "player_can_activate"
+				type: "bool"
+			}
+		]
+		default: {
+			player_can_activate: true
+		}
+	}
+	{
+		name: "tm_interactable_lever"
+		properties: [
+			{
+				name: "handle"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "handle_rotate_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "handle_rotate_angle"
+				type: "float"
+			}
+			{
+				name: "handle_open_time"
+				type: "float"
+			}
+		]
+		default: {
+			handle_rotate_axis: {
+			}
+		}
+	}
+	{
+		name: "tm_interactable_rotating_door"
+		properties: [
+			{
+				name: "pivot"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "pivot_rotate_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "pivot_rotate_angle"
+				type: "float"
+			}
+			{
+				name: "pivot_rotate_time"
+				type: "float"
+			}
+		]
+		default: {
+			pivot_rotate_axis: {
+			}
+		}
 	}
 	{
 		name: "tm_keyboard_item"
@@ -4202,6 +4320,18 @@
 					}
 				}
 			}
+		}
+	}
+	{
+		name: "tm_render_pass_settings"
+		properties: [
+			{
+				name: "load_op"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			load_op: 1
 		}
 	}
 	{

@@ -76,5 +76,3 @@ project "gameplay_sample_interaction_system"
     language "C++"
     files {"*.inl", "*.h", "*.c"}
     sysincludedirs { "" }
-    filter "platforms:Win64"
-        targetdir "$(TM_SDK_DIR)/bin/plugins"
