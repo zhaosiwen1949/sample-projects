@@ -1,5 +1,8 @@
 // Main entry point file for Interaction System sample. This sample exposes an Interaction Component that lets you
-// define buttons, levers and rotating doors from within the editor.
+// define buttons, levers and rotating doors from within the editor. It also contains an implementation of
+// `tm_simulate_entry_i`, which lets the engine enter into the `start`, `stop` and `tick` functions. This implementation
+// of `tm_simulate_entry_i` is referenced `levels/main.simulate_entry` in the Interaction System sample, which is found
+// by the `world.entity` asset when the engine starts simulating that entity.
 
 static struct tm_application_api *tm_application_api;
 static struct tm_draw2d_api *tm_draw2d_api;

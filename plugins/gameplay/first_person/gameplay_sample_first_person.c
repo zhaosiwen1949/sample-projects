@@ -1,6 +1,6 @@
 // This file contains all the gameplay code associated with the first person gameplay sample. It adds an implementation
-// of the interface `tm_simulate_entry_i`, which is referenced by the asset `main.simulate_entry` in the root of of the
-// first person sample project. When simulating `world.entity`, it will look in its folder, or any parent folder, until
+// of the interface `tm_simulate_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the first
+// person sample project. When simulating `levels/world.entity`, it will look in its folder, or any parent folder, until
 // it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
 // enter this file.
 
