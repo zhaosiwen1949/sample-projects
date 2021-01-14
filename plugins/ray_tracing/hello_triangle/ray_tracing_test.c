@@ -247,15 +247,19 @@ static void component__manager_destroy(tm_component_manager_o *manager)
 
 static void component__manager_create(tm_entity_context_o *ctx)
 {
+    uint32_t num_backends;
+    tm_renderer_backend_i *backend = tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0];
+    if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL))
+        return;
+
     tm_allocator_i allocator;
     tm_entity_api->create_child_allocator(ctx, TM_TT_TYPE__RAY_TRACING_TEST, &allocator);
     tm_component_manager_o *manager = tm_alloc(&allocator, sizeof(tm_component_manager_o));
 
-    uint32_t num_backends;
     *manager = (tm_component_manager_o){
         .ctx = ctx,
         .allocator = allocator,
-        .backend = (tm_renderer_backend_i *)tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0]
+        .backend = backend
     };
 
     tm_render_graph_pass_i pass = {
