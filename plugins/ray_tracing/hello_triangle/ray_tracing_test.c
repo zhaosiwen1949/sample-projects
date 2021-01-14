@@ -88,7 +88,7 @@ static void module__init_pass(void *const_data, tm_allocator_i *allocator, tm_re
         .debug_tag = "Ray Tracing Vertex Buffer"
     };
 
-    tm_vec3_t *vertex_data;
+    void *vertex_data;
     manager->vertex_buffer_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->map_create_buffer(res_buf, &vertex_buffer_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL, 0, &vertex_data);
     memcpy(vertex_data, vertices, vertex_buffer_desc.size);
 
