@@ -1,0 +1,83 @@
+__type: "tm_entity"
+__uuid: "0f0dd6b1-211a-9d13-d9d9-d555168fed11"
+name: "world"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "e347d3fb-99a3-64d3-3498-b05d8e6af56b"
+		local_position: {
+			__uuid: "83f215eb-6482-3a5e-cb6d-24b56383c160"
+		}
+		local_rotation: {
+			__uuid: "1ac705f3-37d4-e38c-f8c2-f3ea9c2ecdae"
+		}
+		local_scale: {
+			__uuid: "bef99d10-bf1c-034a-52bf-fe40eaa022b7"
+		}
+	}
+]
+children: [
+	{
+		__uuid: "d2bb5357-3e9e-7afd-8287-24688e0c109b"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "a54f6f5c-b3ee-6ab8-4f2b-03f9bd53b0b8"
+		components__instantiated: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "93157fc9-f6e9-f4fe-2c36-5f31619d49cf"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "fba9c4d9-7104-4b02-1bc2-8e810fef21c5"
+				local_position: {
+					__uuid: "f7b4eabb-4907-073b-979e-bc8d27baaa65"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "60ef26a1-7062-969a-b984-7d39ef0a5ffe"
+					x: 10.66855239868164
+					y: 4.980159282684326
+					z: -8.197910308837891
+				}
+				local_rotation: {
+					__uuid: "51814a75-d003-b3a0-cf77-1a11173f93e0"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "4791d183-5f4d-b0d1-8b4f-e098291c9a1b"
+					x: -0.3159854114055634
+					y: -0.3596047461032867
+					z: -0.1308853924274445
+					w: 0.8681628108024597
+				}
+				local_scale: {
+					__uuid: "e9e39f9c-5a0c-5810-25e0-a87f5a75d83b"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "2dfd6f12-22be-3c8d-87fc-82b734dba9b7"
+				}
+				scene_tree_node: 0
+			}
+			{
+				__type: "tm_default_render_pipe_light_component"
+				__uuid: "3435f844-ea9c-bbe2-414c-1bd9c9a24ef8"
+				__prototype_type: "tm_default_render_pipe_light_component"
+				__prototype_uuid: "731b66a9-720c-809b-b9d9-1b0867f94bbe"
+				type: 2
+				color: {
+					__uuid: "ce5969db-ff87-1385-02bb-25eb9f607b53"
+					__prototype_type: "tm_color_rgb"
+					__prototype_uuid: "dd891cfc-5175-6a7f-d536-e62802e8012c"
+				}
+				intensity: 2
+				cast_shadows: true
+				area_extent: {
+					__uuid: "e1447215-413c-9581-1a0a-b871bb1c5db5"
+					x: 1
+					y: 1
+				}
+			}
+		]
+		sort_order: 100
+	}
+	{
+		__uuid: "9a6ae757-0202-9f03-0566-59c51ca23e99"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "3ad88a64-2b81-508b-4e84-4160cc346b12"
+		sort_order: 101
+	}
+]
+__asset_uuid: "21d86981-405f-27e2-53ba-1264770e9687"
