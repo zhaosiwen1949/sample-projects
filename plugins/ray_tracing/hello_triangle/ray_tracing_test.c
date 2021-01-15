@@ -43,6 +43,7 @@ typedef struct tm_component_manager_o
     tm_renderer_backend_i *backend;
 
     tm_render_graph_module_o *test_module;
+    tm_shader_o *shaders[3];
 
     tm_renderer_handle_t vertex_buffer_handle;
     tm_renderer_handle_t blas_handle;
@@ -51,12 +52,11 @@ typedef struct tm_component_manager_o
     tm_renderer_handle_t sbt_hit_handle;
     tm_renderer_handle_t sbt_miss_handle;
     tm_renderer_handle_t tlas_handle;
-    TM_PAD(4);
+    tm_shader_resource_binder_instance_t rbinder;
 } tm_component_manager_o;
 
 typedef struct tm_module_runtime_data_o
 {
-    tm_shader_o *shaders[3];
     tm_render_graph_handle_t output_handle;
     uint32_t group_count[2];
     TM_PAD(4);
@@ -136,6 +136,8 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
 static void module__shutdown_trace_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
 {
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
+
+    tm_shader_api->destroy_resource_binder_instances(tm_shader_api->shader_io(manager->shaders[0]), &manager->rbinder, 1);
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->blas_handle);
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->vertex_buffer_handle);
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->tlas_handle);
@@ -147,14 +149,14 @@ static void module__shutdown_trace_pass(void *const_data, tm_allocator_i *alloca
 
 static void module__setup_trace_pass(const void *const_data, void *runtime_data, tm_render_graph_setup_o *graph_setup)
 {
-    const tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
+    tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     tm_module_runtime_data_o *rdata = runtime_data;
 
     if (manager->pipeline_handle.resource == 0) {
         tm_shader_repository_o *shader_repo = tm_render_graph_setup_api->shader_repository(graph_setup);
-        rdata->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
-        rdata->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
-        rdata->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
+        manager->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
+        manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
+        manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
     }
 
     tm_render_graph_setup_api->set_active(graph_setup, true);
@@ -174,27 +176,21 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     tm_module_runtime_data_o *rdata = runtime_data;
 
+    uint32_t resource_slot;
+    tm_renderer_resource_command_buffer_o *res_buf = tm_render_graph_execute_api->default_resource_command_buffer(graph_execute);
+    tm_shader_io_o *io = tm_shader_api->shader_io(manager->shaders[0]);
+
     if (manager->pipeline_handle.resource == 0) {
         const tm_shader_system_context_o *shader_ctx = tm_render_graph_execute_api->shader_context(graph_execute);
-        tm_renderer_resource_command_buffer_o *res_buf = tm_render_graph_execute_api->default_resource_command_buffer(graph_execute);
-
-        tm_shader_resource_binder_instance_t rbinder;
-        tm_shader_io_o *io = tm_shader_api->shader_io(rdata->shaders[0]);
-        tm_shader_api->create_resource_binder_instances(io, 1, &rbinder);
-
-        uint32_t resource_slot;
+        tm_shader_api->create_resource_binder_instances(io, 1, &manager->rbinder);
+        
         tm_shader_api->lookup_resource(io, TM_STATIC_HASH("tm_ray_tracing_test__scene", 0x6542aed4352649f6ULL), 0, &resource_slot);
-        tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){ .instance_id = rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &manager->tlas_handle }, 1);
-
-        const tm_renderer_handle_t output_backend_handle = tm_render_graph_execute_api->backend_handle(graph_execute, rdata->output_handle);
-        tm_shader_api->lookup_resource(io, TM_RAY_TRACING_TEST_OUTPUT_IMAGE, 0, &resource_slot);
-        tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){ .instance_id = rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &output_backend_handle }, 1);
+        tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){ .instance_id = manager->rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &manager->tlas_handle }, 1);
 
         tm_renderer_shader_info_t shader_infos[3];
-        tm_shader_api->assemble_shader_infos(rdata->shaders[0], 0, 0, shader_ctx, 0, res_buf, 0, &rbinder, 1, shader_infos);
-        tm_shader_api->assemble_shader_infos(rdata->shaders[1], 0, 0, shader_ctx, 0, res_buf, 0, 0, 1, shader_infos + 1);
-        tm_shader_api->assemble_shader_infos(rdata->shaders[2], 0, 0, shader_ctx, 0, res_buf, 0, 0, 1, shader_infos + 2);
-        tm_shader_api->destroy_resource_binder_instances(io, &rbinder, 1);
+        tm_shader_api->assemble_shader_infos(manager->shaders[0], 0, 0, shader_ctx, 0, res_buf, 0, &manager->rbinder, 1, shader_infos);
+        tm_shader_api->assemble_shader_infos(manager->shaders[1], 0, 0, shader_ctx, 0, res_buf, 0, 0, 1, shader_infos + 1);
+        tm_shader_api->assemble_shader_infos(manager->shaders[2], 0, 0, shader_ctx, 0, res_buf, 0, 0, 1, shader_infos + 2);
 
         const tm_renderer_ray_tracing_pipeline_desc_t pipeline_desc = {
             .max_recursion_depth = 1,
@@ -218,6 +214,10 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
         ++sbt_desc.shader_infos;
         manager->sbt_miss_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_shader_binding_table(res_buf, &sbt_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
     }
+
+    const tm_renderer_handle_t output_backend_handle = tm_render_graph_execute_api->backend_handle(graph_execute, rdata->output_handle);
+    tm_shader_api->lookup_resource(io, TM_RAY_TRACING_TEST_OUTPUT_IMAGE, 0, &resource_slot);
+    tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){.instance_id = manager->rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &output_backend_handle }, 1);
 
     const tm_renderer_trace_call_t trace_desc = {
         .pipeline = manager->pipeline_handle,
