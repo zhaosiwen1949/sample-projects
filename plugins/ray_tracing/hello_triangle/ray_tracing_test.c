@@ -1,6 +1,7 @@
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/buffer_format.h>
+#include <foundation/log.h>
 #include <foundation/macros.h>
 #include <foundation/math.inl>
 #include <foundation/the_truth.h>
@@ -25,6 +26,7 @@
 static struct tm_api_registry_api *tm_api_registry_api;
 static struct tm_buffer_format_api *tm_buffer_format_api;
 static struct tm_entity_api *tm_entity_api;
+static struct tm_logger_api *tm_logger_api;
 static struct tm_render_graph_execute_api *tm_render_graph_execute_api;
 static struct tm_render_graph_module_api *tm_render_graph_module_api;
 static struct tm_render_graph_setup_api *tm_render_graph_setup_api;
@@ -67,6 +69,11 @@ static void shader_ci__graph_module_inject(tm_component_manager_o *manager, tm_r
 
 static void component__create_truth_types(struct tm_the_truth_o *tt)
 {
+    uint32_t num_backends;
+    tm_renderer_backend_i *backend = tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0];
+    if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL))
+        return;
+
     static tm_ci_shader_i shader_aspect = {
         .graph_module_inject = shader_ci__graph_module_inject
     };
@@ -75,13 +82,13 @@ static void component__create_truth_types(struct tm_the_truth_o *tt)
     tm_the_truth_api->set_aspect(tt, component_type, TM_CI_SHADER, &shader_aspect);
 }
 
-static void module__init_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
+static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
 {
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     if (manager->vertex_buffer_handle.resource)
         return;
 
-    const tm_vec3_t vertices[] = { { 1.0f, 1.0f, 0.0f }, { -1.0f, 1.0f, 0.0f }, { 0.0f, -1.0f, 0.0f } };
+    const tm_vec3_t vertices[] = { { -0.75f, 0.5f, 15.0f }, { 0.0f, -0.5f, 15.0f }, { 0.75f, 0.5f, 15.0f } };
     const tm_renderer_buffer_desc_t vertex_buffer_desc = {
         .usage_flags = TM_RENDERER_BUFFER_USAGE_ACCELERATION_STRUCTURE,
         .size = sizeof(vertices),
@@ -119,14 +126,14 @@ static void module__init_pass(void *const_data, tm_allocator_i *allocator, tm_re
             .transform = *tm_mat44_identity(),
             .mask = 0xFF,
             .flags = TM_RENDERER_GEOMETRY_INSTANCE_DISABLE_TRIANGLE_CULL | TM_RENDERER_GEOMETRY_INSTANCE_OPAQUE,
-            .blas_handle = manager->blas_handle,
-            .shader_info_idx = 0 }
+            .blas_handle = manager->blas_handle
+        }
     };
 
     manager->tlas_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_top_level_acceleration_structure(res_buf, &tlas_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
 }
 
-static void module__shutdown_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
+static void module__shutdown_trace_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
 {
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->blas_handle);
@@ -138,7 +145,7 @@ static void module__shutdown_pass(void *const_data, tm_allocator_i *allocator, t
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->pipeline_handle);
 }
 
-static void module__setup_pass(const void *const_data, void *runtime_data, tm_render_graph_setup_o *graph_setup)
+static void module__setup_trace_pass(const void *const_data, void *runtime_data, tm_render_graph_setup_o *graph_setup)
 {
     const tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     tm_module_runtime_data_o *rdata = runtime_data;
@@ -151,26 +158,18 @@ static void module__setup_pass(const void *const_data, void *runtime_data, tm_re
     }
 
     tm_render_graph_setup_api->set_active(graph_setup, true);
-    tm_render_graph_setup_api->set_output(graph_setup, true);
 
-    rdata->output_handle = tm_render_graph_setup_api->external_resource(graph_setup, TM_RAY_TRACING_TEST_OUTPUT_IMAGE);
-    tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, TM_RENDERER_RESOURCE_LOAD_OP_CLEAR, 0, 0);
-
-    const tm_renderer_image_desc_t *output_desc = tm_render_graph_toolbox_api->image_desc(graph_setup, TM_DEFAULT_RENDER_PIPE_MAIN_OUTPUT_TARGET);
-    rdata->group_count[0] = output_desc->width;
-    rdata->group_count[1] = output_desc->height;
-
-    tm_render_graph_blackboard_value value;
-    tm_render_graph_setup_api->read_blackboard(graph_setup, TM_STATIC_HASH("debug_visualization_resources", 0xd0d50436a0f3fcb9ULL), &value);
-    tm_debug_visualization_resources_t *resources = (tm_debug_visualization_resources_t *)value.data;
-
-    const uint32_t slot = resources->num_resources;
-    resources->resources[slot].name = TM_RAY_TRACING_TEST_OUTPUT_IMAGE;
-    resources->resources[slot].contents = CONTENT_COLOR_RGB;
-    ++resources->num_resources;
+    tm_renderer_image_desc_t output_desc = *tm_render_graph_toolbox_api->image_desc(graph_setup, TM_DEFAULT_RENDER_PIPE_MAIN_OUTPUT_TARGET);
+    output_desc.usage_flags = TM_RENDERER_IMAGE_USAGE_UAV;
+    output_desc.debug_tag = "Test Output";
+    tm_render_graph_setup_api->create_gpu_images(graph_setup, &output_desc, 1, &rdata->output_handle);
+    tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, TM_RENDERER_RESOURCE_LOAD_OP_CLEAR, 0, TM_RAY_TRACING_TEST_OUTPUT_IMAGE);
+    
+    rdata->group_count[0] = output_desc.width;
+    rdata->group_count[1] = output_desc.height;
 }
 
-static void module__execute_pass(const void *const_data, void *runtime_data, uint64_t sort_key, tm_render_graph_execute_o *graph_execute)
+static void module__execute_trace_pass(const void *const_data, void *runtime_data, uint64_t sort_key, tm_render_graph_execute_o *graph_execute)
 {
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     tm_module_runtime_data_o *rdata = runtime_data;
@@ -249,8 +248,10 @@ static void component__manager_create(tm_entity_context_o *ctx)
 {
     uint32_t num_backends;
     tm_renderer_backend_i *backend = tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0];
-    if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL))
+    if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL)) {
+        tm_logger_api->print(TM_LOG_TYPE_ERROR, "Cannot run Hello Triangle example (ray tracing is not supported).");
         return;
+    }
 
     tm_allocator_i allocator;
     tm_entity_api->create_child_allocator(ctx, TM_TT_TYPE__RAY_TRACING_TEST, &allocator);
@@ -262,16 +263,24 @@ static void component__manager_create(tm_entity_context_o *ctx)
         .backend = backend
     };
 
-    tm_render_graph_pass_i pass = {
-        .api = { .init_pass = module__init_pass, .shutdown_pass = module__shutdown_pass, .setup_pass = module__setup_pass, .execute_pass = module__execute_pass },
+    const tm_render_graph_pass_i pass_trace = {
+        .api = { .init_pass = module__init_trace_pass, .shutdown_pass = module__shutdown_trace_pass, .setup_pass = module__setup_trace_pass, .execute_pass = module__execute_trace_pass },
         .const_data_size = sizeof(tm_component_manager_o **),
         .const_data = &manager,
-        .runtime_data_size = sizeof(tm_module_runtime_data_o)
+        .runtime_data_size = sizeof(tm_module_runtime_data_o),
+        .profiling_scope = "Trace"
+    };
+
+    tm_fullscreen_pass_setup_t pass_copy = {
+        .input_slots[0].slot_name = TM_STATIC_HASH("texture", 0xcd4238c6a0c69e32ULL),
+        .input_slots[0].resources[0].name = TM_RAY_TRACING_TEST_OUTPUT_IMAGE,
+        .color_targets[0] = { .name = TM_DEFAULT_RENDER_PIPE_MAIN_OUTPUT_TARGET },
+        .shader = TM_STATIC_HASH("copy_with_blend", 0x96cc5d5b7e68e12ULL)
     };
 
     manager->test_module = tm_render_graph_module_api->create(&allocator, "Ray Tracing Test");
-    tm_render_graph_module_api->create_persistent_gpu_image(manager->test_module, TM_RAY_TRACING_TEST_OUTPUT_IMAGE, &(tm_renderer_image_desc_t){ .usage_flags = TM_RENDERER_IMAGE_USAGE_UAV, .debug_tag = "Test Output" }, TM_DEFAULT_RENDER_PIPE_MAIN_OUTPUT_TARGET);
-    tm_render_graph_module_api->add_pass(manager->test_module, &pass);
+    tm_render_graph_module_api->add_pass(manager->test_module, &pass_trace);
+    tm_render_graph_toolbox_api->fullscreen_pass(manager->test_module, &pass_copy, "Copy");
 
     const tm_component_i component = {
         .name = TM_TT_TYPE__RAY_TRACING_TEST,
@@ -287,6 +296,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
     tm_api_registry_api = reg;
     tm_buffer_format_api = reg->get(TM_BUFFER_FORMAT_API_NAME);
     tm_entity_api = reg->get(TM_ENTITY_API_NAME);
+    tm_logger_api = reg->get(TM_LOGGER_API_NAME);
     tm_render_graph_execute_api = reg->get(TM_RENDER_GRAPH_EXECUTE_API_NAME);
     tm_render_graph_module_api = reg->get(TM_RENDER_GRAPH_MODULE_API_NAME);
     tm_render_graph_setup_api = reg->get(TM_RENDER_GRAPH_SETUP_API_NAME);
