@@ -1,3 +1,13 @@
+// This file contains all code required to render a simple ray traced triangle to the main output target.
+// This is done by adding an extension module to the default render pipeline at the debug visualization point.
+// There are two passed in this module, one that traces the triangle to an image and one that copies that image to the main render target.
+// The overal flow of this example is as follows:
+// - Create an invisible component with an associated thruth type in order to inject into the render pipeline.
+// - Initialize the trace pass by creating the bottom-level and top-level acceleration structures.
+// - Setup the trace pass by creating a transient image and querying the ray dimensions.
+// - Execute the trace pass, on the first execute call this will also create the ray tracing pipeline and shader binding tables.
+// - Destroy all the resources.
+
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
 #include <foundation/buffer_format.h>
@@ -20,8 +30,8 @@
 
 #include <string.h>
 
-#define TM_TT_TYPE__RAY_TRACING_TEST "tm_default_render_pipe_ray_tracing_test"
-#define TM_RAY_TRACING_TEST_OUTPUT_IMAGE TM_STATIC_HASH("tm_ray_tracing_test__output", 0xf3474cf604a4b868ULL)
+#define TM_TT_TYPE__RAY_TRACING_TEST "tm_default_render_pipe_ray_tracing_hello_triangle"
+#define TM_RAY_TRACING_TEMP_OUTPUT TM_STATIC_HASH("tm_ray_tracing_hello_triangle__output", 0xc994b4c08a3b6dadULL)
 
 static struct tm_api_registry_api *tm_api_registry_api;
 static struct tm_buffer_format_api *tm_buffer_format_api;
@@ -62,11 +72,15 @@ typedef struct tm_module_runtime_data_o
     TM_PAD(4);
 } tm_module_runtime_data_o;
 
+// Inserts the ray tracing example module into the default render pipeline at the debug visualization point.
+// It's added with a high ordering weight in order for it to be executed last.
 static void shader_ci__graph_module_inject(tm_component_manager_o *manager, tm_render_graph_module_o *mod)
 {
-    tm_render_graph_module_api->insert_extension(mod, TM_DEFAULT_RENDER_PIPE_MAIN_EXTENSION_DEBUG_VISUALIZATION, manager->test_module, 0.0f);
+    tm_render_graph_module_api->insert_extension(mod, TM_DEFAULT_RENDER_PIPE_MAIN_EXTENSION_DEBUG_VISUALIZATION, manager->test_module, 100.0f);
 }
 
+// We only create a truth type in order to insert the render graph module.
+// If however ray tracing isn't supported then we just early out as the module won't be created.
 static void component__create_truth_types(struct tm_the_truth_o *tt)
 {
     uint32_t num_backends;
@@ -82,6 +96,8 @@ static void component__create_truth_types(struct tm_the_truth_o *tt)
     tm_the_truth_api->set_aspect(tt, component_type, TM_CI_SHADER, &shader_aspect);
 }
 
+// Creates the bottom-level acceleration structure, top-level acceleration structure, and initializes the shaders needed.
+// This can be called multiple times, so there is a guard at the start in order to not leak memory.
 static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
 {
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
@@ -92,7 +108,7 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
     const tm_renderer_buffer_desc_t vertex_buffer_desc = {
         .usage_flags = TM_RENDERER_BUFFER_USAGE_ACCELERATION_STRUCTURE,
         .size = sizeof(vertices),
-        .debug_tag = "Ray Tracing Vertex Buffer"
+        .debug_tag = "Hello Triangle Vertex Buffer"
     };
 
     void *vertex_data;
@@ -106,14 +122,15 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
             .format = tm_buffer_format_api->encode_uncompressed_format(TM_BUFFER_COMPONENT_TYPE_FLOAT, true, 32, 32, 32, 0),
             .vertex_data = manager->vertex_buffer_handle,
             .vertex_stride = sizeof(tm_vec3_t),
-            .vertex_count = TM_ARRAY_COUNT(vertices) }
+            .vertex_count = TM_ARRAY_COUNT(vertices) 
+        }
     };
 
     const tm_renderer_bottom_level_acceleration_structure_desc_t blas_desc = {
         .build_flags = TM_RENDERER_ACCELERATION_STRUCTURE_BUILD_PREFER_FAST_TRACE,
         .geometry_desc_count = 1,
         .geometry_desc = &geometry_desc,
-        .debug_tag = "Test BLAS"
+        .debug_tag = "Hello Triangle Bottom-Level Acceleration Structure"
     };
 
     manager->blas_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_bottom_level_acceleration_structure(res_buf, &blas_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
@@ -121,7 +138,7 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
     const tm_renderer_top_level_acceleration_structure_desc_t tlas_desc = {
         .build_flags = TM_RENDERER_ACCELERATION_STRUCTURE_BUILD_PREFER_FAST_TRACE,
         .num_instances = 1,
-        .debug_tag = "Test TLAS",
+        .debug_tag = "Hello Triangle Top-Level Acceleration Structure",
         .instaces = &(tm_renderer_top_level_acceleration_structure_instance_t){
             .transform = *tm_mat44_identity(),
             .mask = 0xFF,
@@ -131,6 +148,13 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
     };
 
     manager->tlas_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_top_level_acceleration_structure(res_buf, &tlas_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
+
+    uint32_t num_shader_repos;
+    tm_shader_repository_o *shader_repo = *(tm_shader_repository_o **)tm_api_registry_api->implementations(TM_SHADER_REPOSITORY_INSTANCE_NAME, &num_shader_repos);
+    manager->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
+    manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
+    manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
+    tm_shader_api->create_resource_binder_instances(tm_shader_api->shader_io(manager->shaders[0]), 1, &manager->rbinder);
 }
 
 static void module__shutdown_trace_pass(void *const_data, tm_allocator_i *allocator, tm_renderer_resource_command_buffer_o *res_buf)
@@ -147,30 +171,27 @@ static void module__shutdown_trace_pass(void *const_data, tm_allocator_i *alloca
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->pipeline_handle);
 }
 
+// We need to setup the trace pass in order to render to a transient UAV image.
+// This image will later be copied to the main output target so we inherit from that.
+// We can't render to this target directly as it cannot be bound as a UAV.
 static void module__setup_trace_pass(const void *const_data, void *runtime_data, tm_render_graph_setup_o *graph_setup)
 {
-    tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
     tm_module_runtime_data_o *rdata = runtime_data;
-
-    if (manager->pipeline_handle.resource == 0) {
-        tm_shader_repository_o *shader_repo = tm_render_graph_setup_api->shader_repository(graph_setup);
-        manager->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
-        manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
-        manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
-    }
-
     tm_render_graph_setup_api->set_active(graph_setup, true);
 
     tm_renderer_image_desc_t output_desc = *tm_render_graph_toolbox_api->image_desc(graph_setup, TM_DEFAULT_RENDER_PIPE_MAIN_OUTPUT_TARGET);
     output_desc.usage_flags = TM_RENDERER_IMAGE_USAGE_UAV;
-    output_desc.debug_tag = "Test Output";
+    output_desc.debug_tag = "Hello Triangle Temporary Output";
     tm_render_graph_setup_api->create_gpu_images(graph_setup, &output_desc, 1, &rdata->output_handle);
-    tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, TM_RENDERER_RESOURCE_LOAD_OP_CLEAR, 0, TM_RAY_TRACING_TEST_OUTPUT_IMAGE);
+    tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, TM_RENDERER_RESOURCE_LOAD_OP_CLEAR, 0, TM_RAY_TRACING_TEMP_OUTPUT);
     
     rdata->group_count[0] = output_desc.width;
     rdata->group_count[1] = output_desc.height;
 }
 
+// On the first call we assemble the required shaders into a single ray tracing pipeline which is cached in the manager.
+// We also create three shader binding tables that will be using when tracing for their respective stages (ray generation, miss, and closest hit).
+// During all subsequent calls make sure the output target is updated incase the size changes and we dispatch the trace call.
 static void module__execute_trace_pass(const void *const_data, void *runtime_data, uint64_t sort_key, tm_render_graph_execute_o *graph_execute)
 {
     tm_component_manager_o *manager = *(tm_component_manager_o **)const_data;
@@ -182,9 +203,8 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
 
     if (manager->pipeline_handle.resource == 0) {
         const tm_shader_system_context_o *shader_ctx = tm_render_graph_execute_api->shader_context(graph_execute);
-        tm_shader_api->create_resource_binder_instances(io, 1, &manager->rbinder);
         
-        tm_shader_api->lookup_resource(io, TM_STATIC_HASH("tm_ray_tracing_test__scene", 0x6542aed4352649f6ULL), 0, &resource_slot);
+        tm_shader_api->lookup_resource(io, TM_STATIC_HASH("tm_ray_tracing_hello_triangle__scene", 0xb531d03e53db3ab7ULL), 0, &resource_slot);
         tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){ .instance_id = manager->rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &manager->tlas_handle }, 1);
 
         tm_renderer_shader_info_t shader_infos[3];
@@ -196,7 +216,7 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
             .max_recursion_depth = 1,
             .num_shaders = TM_ARRAY_COUNT(shader_infos),
             .shader_infos = shader_infos,
-            .debug_tag = "Test Pipeline"
+            .debug_tag = "Hello Triangle Ray Tracing Pipeline"
         };
 
         manager->pipeline_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_ray_tracing_pipeline(res_buf, &pipeline_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
@@ -205,7 +225,7 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
             .pipeline = manager->pipeline_handle,
             .num_shader_infos = 1,
             .shader_infos = shader_infos,
-            .debug_tag = "Test SBT"
+            .debug_tag = "Hello Triangle Shader Binding Table"
         };
 
         manager->sbt_raygen_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_shader_binding_table(res_buf, &sbt_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
@@ -216,7 +236,7 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
     }
 
     const tm_renderer_handle_t output_backend_handle = tm_render_graph_execute_api->backend_handle(graph_execute, rdata->output_handle);
-    tm_shader_api->lookup_resource(io, TM_RAY_TRACING_TEST_OUTPUT_IMAGE, 0, &resource_slot);
+    tm_shader_api->lookup_resource(io, TM_RAY_TRACING_TEMP_OUTPUT, 0, &resource_slot);
     tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){.instance_id = manager->rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &output_backend_handle }, 1);
 
     const tm_renderer_trace_call_t trace_desc = {
@@ -244,12 +264,14 @@ static void component__manager_destroy(tm_component_manager_o *manager)
     tm_entity_api->destroy_child_allocator(ctx, &allocator);
 }
 
+// The first thing we check for during creation is whether ray tracing is supported on the render backend, since it's an extension.
+// If it is supported then we setup the render graph module with two passes, a custom trace pass and a standart copy pass.
 static void component__manager_create(tm_entity_context_o *ctx)
 {
     uint32_t num_backends;
     tm_renderer_backend_i *backend = tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0];
     if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL)) {
-        tm_logger_api->print(TM_LOG_TYPE_ERROR, "Cannot run Hello Triangle example (ray tracing is not supported).");
+        tm_logger_api->print(TM_LOG_TYPE_ERROR, "Cannot run Hello Triangle sample (ray tracing is not supported).");
         return;
     }
 
@@ -273,12 +295,12 @@ static void component__manager_create(tm_entity_context_o *ctx)
 
     tm_fullscreen_pass_setup_t pass_copy = {
         .input_slots[0].slot_name = TM_STATIC_HASH("texture", 0xcd4238c6a0c69e32ULL),
-        .input_slots[0].resources[0].name = TM_RAY_TRACING_TEST_OUTPUT_IMAGE,
+        .input_slots[0].resources[0].name = TM_RAY_TRACING_TEMP_OUTPUT,
         .color_targets[0] = { .name = TM_DEFAULT_RENDER_PIPE_MAIN_OUTPUT_TARGET },
         .shader = TM_STATIC_HASH("copy_with_blend", 0x96cc5d5b7e68e12ULL)
     };
 
-    manager->test_module = tm_render_graph_module_api->create(&allocator, "Ray Tracing Test");
+    manager->test_module = tm_render_graph_module_api->create(&allocator, "Ray Tracing Hello Triangle");
     tm_render_graph_module_api->add_pass(manager->test_module, &pass_trace);
     tm_render_graph_toolbox_api->fullscreen_pass(manager->test_module, &pass_copy, "Copy");
 
