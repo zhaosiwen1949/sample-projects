@@ -50,7 +50,6 @@ typedef struct tm_component_manager_o
 {
     tm_entity_context_o *ctx;
     tm_allocator_i allocator;
-    tm_renderer_backend_i *backend;
 
     tm_render_graph_module_o *test_module;
     tm_shader_o *shaders[3];
@@ -72,20 +71,26 @@ typedef struct tm_module_runtime_data_o
     TM_PAD(4);
 } tm_module_runtime_data_o;
 
+static inline bool backend__check_support(void)
+{
+    uint32_t num_backends;
+    tm_renderer_backend_i *backend = *tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends);
+    return backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
+}
+
 // Inserts the ray tracing example module into the default render pipeline at the debug visualization point.
 // It's added with a high ordering weight in order for it to be executed last.
 static void shader_ci__graph_module_inject(tm_component_manager_o *manager, tm_render_graph_module_o *mod)
 {
-    tm_render_graph_module_api->insert_extension(mod, TM_DEFAULT_RENDER_PIPE_MAIN_EXTENSION_DEBUG_VISUALIZATION, manager->test_module, 100.0f);
+    if (manager)
+        tm_render_graph_module_api->insert_extension(mod, TM_DEFAULT_RENDER_PIPE_MAIN_EXTENSION_DEBUG_VISUALIZATION, manager->test_module, 100.0f);
 }
 
 // We only create a truth type in order to insert the render graph module.
 // If however ray tracing isn't supported then we just early out as the module won't be created.
 static void component__create_truth_types(struct tm_the_truth_o *tt)
 {
-    uint32_t num_backends;
-    tm_renderer_backend_i *backend = tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0];
-    if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL))
+    if (!backend__check_support())
         return;
 
     static tm_ci_shader_i shader_aspect = {
@@ -252,11 +257,14 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
 
 static void component__manager_destroy(tm_component_manager_o *manager)
 {
+    uint32_t num_backends;
+    tm_renderer_backend_i *backend = *tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends);
+
     tm_renderer_resource_command_buffer_o *res_buf;
-    manager->backend->create_resource_command_buffers(manager->backend->inst, &res_buf, 1);
+    backend->create_resource_command_buffers(backend->inst, &res_buf, 1);
     tm_render_graph_module_api->destroy(manager->test_module, res_buf);
-    manager->backend->submit_resource_command_buffers(manager->backend->inst, &res_buf, 1);
-    manager->backend->destroy_resource_command_buffers(manager->backend->inst, &res_buf, 1);
+    backend->submit_resource_command_buffers(backend->inst, &res_buf, 1);
+    backend->destroy_resource_command_buffers(backend->inst, &res_buf, 1);
 
     tm_entity_context_o *ctx = manager->ctx;
     tm_allocator_i allocator = manager->allocator;
@@ -268,9 +276,7 @@ static void component__manager_destroy(tm_component_manager_o *manager)
 // If it is supported then we setup the render graph module with two passes, a custom trace pass and a standart copy pass.
 static void component__manager_create(tm_entity_context_o *ctx)
 {
-    uint32_t num_backends;
-    tm_renderer_backend_i *backend = tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends)[0];
-    if (!backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL)) {
+    if (!backend__check_support()) {
         tm_logger_api->print(TM_LOG_TYPE_ERROR, "Cannot run Hello Triangle sample (ray tracing is not supported).");
         return;
     }
@@ -281,8 +287,7 @@ static void component__manager_create(tm_entity_context_o *ctx)
 
     *manager = (tm_component_manager_o){
         .ctx = ctx,
-        .allocator = allocator,
-        .backend = backend
+        .allocator = allocator
     };
 
     const tm_render_graph_pass_i pass_trace = {
