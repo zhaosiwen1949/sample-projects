@@ -57,9 +57,7 @@ typedef struct tm_component_manager_o
     tm_renderer_handle_t vertex_buffer_handle;
     tm_renderer_handle_t blas_handle;
     tm_renderer_handle_t pipeline_handle;
-    tm_renderer_handle_t sbt_raygen_handle;
-    tm_renderer_handle_t sbt_hit_handle;
-    tm_renderer_handle_t sbt_miss_handle;
+    tm_renderer_handle_t sbt_handle;
     tm_renderer_handle_t tlas_handle;
     tm_shader_resource_binder_instance_t rbinder;
 } tm_component_manager_o;
@@ -157,8 +155,8 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
     uint32_t num_shader_repos;
     tm_shader_repository_o *shader_repo = *(tm_shader_repository_o **)tm_api_registry_api->implementations(TM_SHADER_REPOSITORY_INSTANCE_NAME, &num_shader_repos);
     manager->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
-    manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
-    manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
+    manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
+    manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
     tm_shader_api->create_resource_binder_instances(tm_shader_api->shader_io(manager->shaders[0]), 1, &manager->rbinder);
 }
 
@@ -170,9 +168,7 @@ static void module__shutdown_trace_pass(void *const_data, tm_allocator_i *alloca
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->blas_handle);
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->vertex_buffer_handle);
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->tlas_handle);
-    tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->sbt_raygen_handle);
-    tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->sbt_hit_handle);
-    tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->sbt_miss_handle);
+    tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->sbt_handle);
     tm_renderer_api->tm_renderer_resource_command_buffer_api->destroy_resource(res_buf, manager->pipeline_handle);
 }
 
@@ -226,18 +222,14 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
 
         manager->pipeline_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_ray_tracing_pipeline(res_buf, &pipeline_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
 
-        tm_renderer_shader_binding_table_desc_t sbt_desc = {
+        const tm_renderer_shader_binding_table_desc_t sbt_desc = {
             .pipeline = manager->pipeline_handle,
-            .num_shader_infos = 1,
+            .num_shader_infos = TM_ARRAY_COUNT(shader_infos),
             .shader_infos = shader_infos,
             .debug_tag = "Hello Triangle Shader Binding Table"
         };
 
-        manager->sbt_raygen_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_shader_binding_table(res_buf, &sbt_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
-        ++sbt_desc.shader_infos;
-        manager->sbt_hit_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_shader_binding_table(res_buf, &sbt_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
-        ++sbt_desc.shader_infos;
-        manager->sbt_miss_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_shader_binding_table(res_buf, &sbt_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
+        manager->sbt_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_shader_binding_table(res_buf, &sbt_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
     }
 
     const tm_renderer_handle_t output_backend_handle = tm_render_graph_execute_api->backend_handle(graph_execute, rdata->output_handle);
@@ -246,9 +238,9 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
 
     const tm_renderer_trace_call_t trace_desc = {
         .pipeline = manager->pipeline_handle,
-        .raygen_sbt = manager->sbt_raygen_handle,
-        .miss_sbt = manager->sbt_miss_handle,
-        .hit_sbt = manager->sbt_hit_handle,
+        .raygen_sbt = manager->sbt_handle,
+        .miss_sbt = manager->sbt_handle,
+        .hit_sbt = manager->sbt_handle,
         .group_count = { rdata->group_count[0], rdata->group_count[1], 1 }
     };
 
