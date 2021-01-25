@@ -22,6 +22,9 @@ filter "system:windows"
     platforms { "Win64" }
     systemversion("latest")
 
+filter {"system:linux"}
+    platforms { "Linux" }
+
 filter { "system:windows", "options:clang" }
     toolset("msc-clangcl")
     buildoptions {
@@ -61,6 +64,28 @@ filter "platforms:Win64"
     }
     linkoptions {"/ignore:4099"}
 
+filter {"platforms:Linux"}
+    defines { "TM_OS_LINUX", "TM_OS_POSIX" }
+    includedirs { "${TM_SDK_DIR}/headers" }
+    architecture "x64"
+    toolset "clang"
+    buildoptions {
+        "-fms-extensions",                   -- Allow anonymous struct as C inheritance.
+        "-g",                                -- Debugging.
+        "-mavx",                             -- AVX.
+        "-mfma",                             -- FMA.
+        "-fcommon",                          -- Allow tentative definitions
+    }
+    libdirs { "${TM_SDK_DIR}/lib/" .. _ACTION .. "/%{cfg.buildcfg}"}
+    disablewarnings {
+        "missing-field-initializers",   -- = {0} is OK.
+        "unused-parameter",             -- Useful for documentation purposes.
+        "unused-local-typedef",         -- We don't always use all typedefs.
+        "missing-braces",               -- = {0} is OK.
+        "microsoft-anon-tag",           -- Allow anonymous structs.
+    }
+    removeflags {"FatalWarnings"}
+
 filter "configurations:Debug"
     defines { "TM_CONFIGURATION_DEBUG", "DEBUG" }
     symbols "On"
@@ -78,3 +103,5 @@ project "minimal"
     sysincludedirs { "" }
     filter "platforms:Win64"
         targetdir "$(TM_SDK_DIR)/bin/plugins"
+    filter "platforms:Linux"
+        targetdir "${TM_SDK_DIR}/bin/plugins"
