@@ -10,7 +10,7 @@ Sample projects for The Machinery -- distributed with the Beta:
     <tr><th>physics</th> <td>Sample physics project.</td></tr>
     <tr><th>plugins</th> <td>Sample plugins to extend the engine.</td></tr>
     <tr><th>pong</th> <td>Sample visual scripting and gameplay project.</td></tr>
+    <tr><th>ray-tracing-hello-triangle</th> <td>Sample ray tracing introduction.</td></tr>
     <tr><th>sound</th> <td>Sample sound project.</td></tr>
-	<tr><th>ray-tracing-hello-triangle</th> <td>Sample ray tracing introduction.</td></tr>
 </table>
 
