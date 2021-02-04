@@ -25,12 +25,11 @@ struct tm_tab_o {
     tm_allocator_i* allocator;
 };
 
-static void tab__ui(tm_tab_o* tab, uint32_t font, const tm_font_t* font_info, float font_scale, tm_ui_o* ui, tm_rect_t rect)
+static void tab__ui(tm_tab_o* tab, const tm_draw2d_font_t* font, float font_scale, tm_ui_o* ui, tm_rect_t rect)
 {
     tm_ui_buffers_t uib = tm_ui_api->buffers(ui);
     const tm_ui_style_t* uistyle = &(tm_ui_style_t){
         .font = font,
-        .font_info = font_info,
         .font_scale = font_scale,
     };
     tm_draw2d_style_t* style = &(tm_draw2d_style_t){ 0 };
