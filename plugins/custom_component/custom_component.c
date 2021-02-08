@@ -109,7 +109,7 @@ static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* dat
 
 static bool engine_filter__custom(tm_engine_o* inst, const uint32_t* components, uint32_t num_components, const tm_component_mask_t* mask)
 {
-    return tm_entity_mask_has_component(mask, components[0]) && (tm_entity_mask_has_component(mask, components[1]) || tm_entity_mask_has_component(mask, components[2]));
+    return tm_entity_mask_has_component(mask, components[0]) && tm_entity_mask_has_component(mask, components[1]);
 }
 
 static void component__register_engine(struct tm_entity_context_o* ctx)
