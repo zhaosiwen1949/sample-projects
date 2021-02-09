@@ -140,13 +140,14 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
 
     const tm_renderer_top_level_acceleration_structure_desc_t tlas_desc = {
         .build_flags = TM_RENDERER_ACCELERATION_STRUCTURE_BUILD_PREFER_FAST_TRACE,
+        .geometry_flags = TM_RENDERER_GEOMETRY_OPAQUE,
         .num_instances = 1,
         .sbt_resource_stride = 8,
         .debug_tag = "Hello Triangle Top-Level Acceleration Structure",
         .instaces = &(tm_renderer_top_level_acceleration_structure_instance_t){
             .transform = *tm_mat44_identity(),
             .mask = 0xFF,
-            .flags = TM_RENDERER_GEOMETRY_INSTANCE_DISABLE_TRIANGLE_CULL | TM_RENDERER_GEOMETRY_INSTANCE_OPAQUE,
+            .flags = TM_RENDERER_GEOMETRY_INSTANCE_DISABLE_TRIANGLE_CULL,
             .blas_handle = manager->blas_handle
         }
     };

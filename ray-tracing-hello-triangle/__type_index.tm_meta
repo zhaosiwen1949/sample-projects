@@ -1343,6 +1343,9 @@
 		]
 		default: {
 			settings: {
+				source_path: ""
+				coordinate_rotation: {
+				}
 			}
 		}
 	}
@@ -1954,7 +1957,25 @@
 				type: "reference"
 				type_hash: "ca71127abbb72960"
 			}
+			{
+				name: "source_path"
+				type: "string"
+			}
+			{
+				name: "coordinate_rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "apply_unit_scale"
+				type: "bool"
+			}
 		]
+		default: {
+			coordinate_rotation: {
+			}
+			apply_unit_scale: true
+		}
 	}
 	{
 		name: "tm_dcc_asset_texture"
@@ -2134,6 +2155,14 @@
 				type: "uint32_t"
 			}
 			{
+				name: "unit_type"
+				type: "uint32_t"
+			}
+			{
+				name: "color_type"
+				type: "uint32_t"
+			}
+			{
 				name: "color"
 				type: "subobject"
 				type_hash: "d0c8704d11c0c0f1"
@@ -2191,6 +2220,7 @@
 			}
 		]
 		default: {
+			unit_type: 3
 			color: {
 			}
 			intensity: 1
@@ -3498,6 +3528,15 @@
 		]
 	}
 	{
+		name: "tm_properties_settings"
+		properties: [
+			{
+				name: "mask"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_recent_file"
 		properties: [
 			{
@@ -4161,7 +4200,7 @@
 			}
 			{
 				name: "evaluation_stage"
-				type: "uint32_t"
+				type: "buffer"
 			}
 			{
 				name: "settings"
