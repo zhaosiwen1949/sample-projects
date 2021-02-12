@@ -142,7 +142,6 @@ static void module__init_trace_pass(void *const_data, tm_allocator_i *allocator,
         .build_flags = TM_RENDERER_ACCELERATION_STRUCTURE_BUILD_PREFER_FAST_TRACE,
         .geometry_flags = TM_RENDERER_GEOMETRY_OPAQUE,
         .num_instances = 1,
-        .sbt_resource_stride = 8,
         .debug_tag = "Hello Triangle Top-Level Acceleration Structure",
         .instaces = &(tm_renderer_top_level_acceleration_structure_instance_t){
             .transform = *tm_mat44_identity(),
@@ -187,7 +186,7 @@ static void module__setup_trace_pass(const void *const_data, void *runtime_data,
     output_desc.debug_tag = "Hello Triangle Temporary Output";
     tm_render_graph_setup_api->create_gpu_images(graph_setup, &output_desc, 1, &rdata->output_handle);
     tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, TM_RENDERER_RESOURCE_LOAD_OP_CLEAR, 0, TM_RAY_TRACING_TEMP_OUTPUT);
-    
+
     rdata->group_count[0] = output_desc.width;
     rdata->group_count[1] = output_desc.height;
 }
@@ -228,7 +227,6 @@ static void module__execute_trace_pass(const void *const_data, void *runtime_dat
             .pipeline = manager->pipeline_handle,
             .num_shader_infos = TM_ARRAY_COUNT(shader_infos),
             .shader_infos = shader_infos,
-            .resource_stride = 8, // Minimum stride
             .debug_tag = "Hello Triangle Shader Binding Table"
         };
 
