@@ -44,7 +44,7 @@ static void truth__create_types(struct tm_the_truth_o* tt)
         [TM_TT_PROP__CUSTOM_COMPONENT__AMPLITUDE] = { "amplitude", TM_THE_TRUTH_PROPERTY_TYPE_FLOAT },
     };
 
-    const uint64_t custom_component_type = tm_the_truth_api->create_object_type(tt, TM_TT_TYPE__CUSTOM_COMPONENT, custom_component_properties, TM_ARRAY_COUNT(custom_component_properties));
+    const tm_tt_type_t custom_component_type = tm_the_truth_api->create_object_type(tt, TM_TT_TYPE__CUSTOM_COMPONENT, custom_component_properties, TM_ARRAY_COUNT(custom_component_properties));
     const tm_tt_id_t default_object = tm_the_truth_api->quick_create_object(tt, TM_TT_NO_UNDO_SCOPE, TM_TT_TYPE_HASH__CUSTOM_COMPONENT, TM_TT_PROP__CUSTOM_COMPONENT__FREQUENCY, 1.0f, TM_TT_PROP__CUSTOM_COMPONENT__AMPLITUDE, 1.0f, -1);
     tm_the_truth_api->set_default_object(tt, custom_component_type, default_object);
 
