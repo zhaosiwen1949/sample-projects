@@ -4,20 +4,20 @@
 // it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
 // enter this file.
 
-static struct tm_animation_state_machine_api *tm_animation_state_machine_api;
-static struct tm_api_registry_api *tm_global_api_registry;
-static struct tm_application_api *tm_application_api;
-static struct tm_entity_api *tm_entity_api;
-static struct tm_error_api *tm_error_api;
-static struct tm_input_api *tm_input_api;
-static struct tm_localizer_api *tm_localizer_api;
-static struct tm_render_component_api *tm_render_component_api;
-static struct tm_transform_component_api *tm_transform_component_api;
-static struct tm_shader_api *tm_shader_api;
-static struct tm_simulate_context_api *tm_simulate_context_api;
-static struct tm_ui_api *tm_ui_api;
-static struct tm_tag_component_api *tm_tag_component_api;
-static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
+static struct tm_animation_state_machine_api* tm_animation_state_machine_api;
+static struct tm_api_registry_api* tm_global_api_registry;
+static struct tm_application_api* tm_application_api;
+static struct tm_entity_api* tm_entity_api;
+static struct tm_error_api* tm_error_api;
+static struct tm_input_api* tm_input_api;
+static struct tm_localizer_api* tm_localizer_api;
+static struct tm_render_component_api* tm_render_component_api;
+static struct tm_transform_component_api* tm_transform_component_api;
+static struct tm_shader_api* tm_shader_api;
+static struct tm_simulate_context_api* tm_simulate_context_api;
+static struct tm_ui_api* tm_ui_api;
+static struct tm_tag_component_api* tm_tag_component_api;
+static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -32,8 +32,8 @@ static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 #include <plugins/animation/animation_state_machine_component.h>
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/entity/entity.h>
-#include <plugins/entity/transform_component.h>
 #include <plugins/entity/tag_component.h>
+#include <plugins/entity/transform_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
@@ -41,12 +41,12 @@ static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
 #include <plugins/renderer/render_command_buffer.h>
 #include <plugins/renderer/resources.h>
 #include <plugins/shader_system/shader_system.h>
-#include <plugins/ui/ui.h>
 #include <plugins/simulate/simulate_entry.h>
 #include <plugins/simulate_common/simulate_context.h>
+#include <plugins/ui/ui.h>
 
-#include <plugins/creation_graph/creation_graph_output.inl>
 #include <foundation/math.inl>
+#include <plugins/creation_graph/creation_graph_output.inl>
 
 #include <stdio.h>
 
@@ -59,16 +59,16 @@ typedef struct input_state_t {
 } input_state_t;
 
 struct tm_simulate_state_o {
-    tm_allocator_i *allocator;
+    tm_allocator_i* allocator;
 
     // For interacing with `tm_the_truth_api`.
-    tm_the_truth_o *tt;
+    tm_the_truth_o* tt;
 
     // For interfacing with `tm_entity_api`.
-    tm_entity_context_o *entity_ctx;
+    tm_entity_context_o* entity_ctx;
 
     // For interfacing with `tm_simulate_context_api`.
-    tm_simulate_context_o *simulate_ctx;
+    tm_simulate_context_o* simulate_ctx;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -104,14 +104,14 @@ struct tm_simulate_state_o {
     TM_PAD(4);
 
     // Component managers
-    tm_transform_component_manager_o *trans_mgr;
-    tm_tag_component_manager_o *tag_mgr;
+    tm_transform_component_manager_o* trans_mgr;
+    tm_tag_component_manager_o* tag_mgr;
 
     bool mouse_captured;
     TM_PAD(7);
 };
 
-static tm_entity_t find_root_entity(tm_entity_context_o *entity_ctx, tm_entity_t e)
+static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t e)
 {
     tm_entity_t p = e;
     while (true) {
@@ -125,10 +125,10 @@ static tm_entity_t find_root_entity(tm_entity_context_o *entity_ctx, tm_entity_t
     return p;
 }
 
-static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
+static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 {
-    tm_simulate_state_o *state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulate_state_o) {
+    tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulate_state_o){
         .allocator = args->allocator,
         .tt = args->tt,
         .entity_ctx = args->entity_ctx,
@@ -172,13 +172,13 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
     return state;
 }
 
-static void stop(tm_simulate_state_o *state)
+static void stop(tm_simulate_state_o* state)
 {
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void private__set_shader_constant(tm_shader_io_o* io, tm_renderer_resource_command_buffer_o* res_buf, const tm_shader_constant_buffer_instance_t* instance, uint64_t name, const void* data, uint32_t data_size)
+static void private__set_shader_constant(tm_shader_io_o* io, tm_renderer_resource_command_buffer_o* res_buf, const tm_shader_constant_buffer_instance_t* instance, tm_strhash_t name, const void* data, uint32_t data_size)
 {
     tm_shader_constant_t constant;
     uint32_t constant_offset;
@@ -187,7 +187,7 @@ static void private__set_shader_constant(tm_shader_io_o* io, tm_renderer_resourc
         tm_shader_api->update_constants(io, res_buf, &(tm_shader_constant_update_t){ .instance_id = instance->instance_id, .constant_offset = constant_offset, .num_bytes = data_size, .data = data }, 1);
 }
 
-static void private__adjust_effect_start_color(tm_simulate_state_o *state, tm_entity_t p, tm_vec3_t color)
+static void private__adjust_effect_start_color(tm_simulate_state_o* state, tm_entity_t p, tm_vec3_t color)
 {
     // Show how to poke at a custom shader variable (`start_color`) exposed in a creation graph bound to a specific draw call (`vfx`)
     tm_render_component_public_t* rc = tm_entity_api->get_component(state->entity_ctx, p, state->render_component);
@@ -204,7 +204,7 @@ static void private__adjust_effect_start_color(tm_simulate_state_o *state, tm_en
     }
 }
 
-static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
+static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
 {
     // Reset per-frame input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;

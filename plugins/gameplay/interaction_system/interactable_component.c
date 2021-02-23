@@ -408,10 +408,10 @@ static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_re
     tm_the_truth_o* tt = args->tt;
     tm_tt_id_t desc = tm_the_truth_api->get_subobject(tt, tm_tt_read(tt, component_id), INTERACTABLE_COMPONENT_PROP__DESC);
     const tm_tt_type_t desc_type = desc.index ? tm_tt_type(desc) : (tm_tt_type_t){ 0 };
-    const uint64_t desc_type_hash = desc_type.u64 ? tm_the_truth_api->type_name_hash(tt, desc_type) : 0;
+    const tm_strhash_t desc_type_hash = desc_type.u64 ? tm_the_truth_api->type_name_hash(tt, desc_type) : TM_STRHASH(0);
 
-    const uint64_t type_hashes[] = {
-        0,
+    const tm_strhash_t type_hashes[] = {
+        TM_STRHASH(0),
         TT_TYPE_HASH__INTERACTABLE_LEVER,
         TT_TYPE_HASH__INTERACTABLE_BUTTON,
         TT_TYPE_HASH__INTERACTABLE_ROTATING_DOOR,
@@ -438,7 +438,7 @@ static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_re
     uint32_t selected_idx = 0;
 
     for (uint32_t type_idx = 0; type_idx < TM_ARRAY_COUNT(type_hashes); ++type_idx) {
-        if (type_hashes[type_idx] == desc_type_hash) {
+        if (TM_U64(type_hashes[type_idx]) == TM_U64(desc_type_hash)) {
             selected_idx = type_idx;
             break;
         }
@@ -455,9 +455,9 @@ static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_re
             tm_the_truth_api->set_subobject(tt, component_w, INTERACTABLE_COMPONENT_PROP__DESC, 0);
         }
 
-        const uint64_t new_hash = type_hashes[selected_idx];
+        const tm_strhash_t new_hash = type_hashes[selected_idx];
 
-        if (new_hash) {
+        if (TM_U64(new_hash)) {
             const tm_tt_type_t new_type = tm_the_truth_api->optional_object_type_from_name_hash(tt, new_hash);
 
             if (new_type.u64) {
@@ -503,11 +503,11 @@ static void component__asset_loaded(tm_component_manager_o* mgr_in, tm_entity_t 
 
     const tm_tt_id_t desc = tm_the_truth_api->get_subobject(tt, asset_r, INTERACTABLE_COMPONENT_PROP__DESC);
     const tm_tt_type_t desc_type = tm_tt_type(desc);
-    const uint64_t desc_type_hash = tm_the_truth_api->type_name_hash(tt, desc_type);
+    const tm_strhash_t desc_type_hash = tm_the_truth_api->type_name_hash(tt, desc_type);
     const tm_the_truth_object_o* desc_r = tm_tt_read(tt, desc);
 
-    switch (desc_type_hash) {
-    case TT_TYPE_HASH__INTERACTABLE_LEVER: {
+    switch (TM_U64(desc_type_hash)) {
+    case TM_U64(TT_TYPE_HASH__INTERACTABLE_LEVER): {
         c->type = INTERACTABLE_TYPE_LEVER;
         lever_t* l = &c->lever;
         const tm_tt_id_t handle = tm_the_truth_api->get_reference(tt, desc_r, INTERACTABLE_LEVER_PROP__HANDLE);
@@ -522,7 +522,7 @@ static void component__asset_loaded(tm_component_manager_o* mgr_in, tm_entity_t 
                 l->handle_open_time = 1.0f;
         }
     } break;
-    case TT_TYPE_HASH__INTERACTABLE_BUTTON: {
+    case TM_U64(TT_TYPE_HASH__INTERACTABLE_BUTTON): {
         c->type = INTERACTABLE_TYPE_BUTTON;
         button_t* b = &c->button;
         const tm_tt_id_t button = tm_the_truth_api->get_reference(tt, desc_r, INTERACTABLE_BUTTON_PROP__BUTTON);
@@ -537,7 +537,7 @@ static void component__asset_loaded(tm_component_manager_o* mgr_in, tm_entity_t 
                 b->button_push_time = 1.0f;
         }
     } break;
-    case TT_TYPE_HASH__INTERACTABLE_ROTATING_DOOR: {
+    case TM_U64(TT_TYPE_HASH__INTERACTABLE_ROTATING_DOOR): {
         c->type = INTERACTABLE_TYPE_ROTATING_DOOR;
         rotating_door_t* s = &c->rotating_door;
         const tm_tt_id_t pivot = tm_the_truth_api->get_reference(tt, desc_r, ROTATING_DOOR_PROP__PIVOT);

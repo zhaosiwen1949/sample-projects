@@ -206,9 +206,9 @@ static void module__execute_trace_pass(const void* const_data, void* runtime_dat
         tm_shader_api->update_resources(io, res_buf, &(tm_shader_resource_update_t){ .instance_id = manager->rbinder.instance_id, .resource_slot = resource_slot, .num_resources = 1, .resources = &manager->tlas_handle }, 1);
 
         tm_renderer_shader_info_t shader_infos[3];
-        tm_shader_api->assemble_shader_infos(manager->shaders[0], 0, 0, shader_ctx, 0, res_buf, 0, &manager->rbinder, 1, shader_infos);
-        tm_shader_api->assemble_shader_infos(manager->shaders[1], 0, 0, shader_ctx, 0, res_buf, 0, 0, 1, shader_infos + 1);
-        tm_shader_api->assemble_shader_infos(manager->shaders[2], 0, 0, shader_ctx, 0, res_buf, 0, 0, 1, shader_infos + 2);
+        tm_shader_api->assemble_shader_infos(manager->shaders[0], 0, 0, shader_ctx, TM_STRHASH(0), res_buf, 0, &manager->rbinder, 1, shader_infos);
+        tm_shader_api->assemble_shader_infos(manager->shaders[1], 0, 0, shader_ctx, TM_STRHASH(0), res_buf, 0, 0, 1, shader_infos + 1);
+        tm_shader_api->assemble_shader_infos(manager->shaders[2], 0, 0, shader_ctx, TM_STRHASH(0), res_buf, 0, 0, 1, shader_infos + 2);
 
         const tm_renderer_ray_tracing_pipeline_desc_t pipeline_desc = {
             .max_recursion_depth = 1,

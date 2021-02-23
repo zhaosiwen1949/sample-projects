@@ -4,22 +4,22 @@
 // it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
 // enter this file.
 
-static struct tm_api_registry_api *tm_api_registry_api;
-static struct tm_application_api *tm_application_api;
-static struct tm_draw2d_api *tm_draw2d_api;
-static struct tm_entity_api *tm_entity_api;
-static struct tm_error_api *tm_error_api;
-static struct tm_input_api *tm_input_api;
-static struct tm_localizer_api *tm_localizer_api;
-static struct tm_physics_collision_api *tm_physics_collision_api;
-static struct tm_physx_scene_api *tm_physx_scene_api;
-static struct tm_random_api *tm_random_api;
-static struct tm_simulate_context_api *tm_simulate_context_api;
-static struct tm_tag_component_api *tm_tag_component_api;
-static struct tm_temp_allocator_api *tm_temp_allocator_api;
-static struct tm_the_truth_assets_api *tm_the_truth_assets_api;
-static struct tm_transform_component_api *tm_transform_component_api;
-static struct tm_ui_api *tm_ui_api;
+static struct tm_api_registry_api* tm_api_registry_api;
+static struct tm_application_api* tm_application_api;
+static struct tm_draw2d_api* tm_draw2d_api;
+static struct tm_entity_api* tm_entity_api;
+static struct tm_error_api* tm_error_api;
+static struct tm_input_api* tm_input_api;
+static struct tm_localizer_api* tm_localizer_api;
+static struct tm_physics_collision_api* tm_physics_collision_api;
+static struct tm_physx_scene_api* tm_physx_scene_api;
+static struct tm_random_api* tm_random_api;
+static struct tm_simulate_context_api* tm_simulate_context_api;
+static struct tm_tag_component_api* tm_tag_component_api;
+static struct tm_temp_allocator_api* tm_temp_allocator_api;
+static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
+static struct tm_transform_component_api* tm_transform_component_api;
+static struct tm_ui_api* tm_ui_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -51,9 +51,9 @@ static struct tm_ui_api *tm_ui_api;
 
 #include <stdio.h>
 
-static const uint64_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
-static const uint64_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
-static const uint64_t blue_tag = TM_STATIC_HASH("color_blue", 0xbe7fd3918560dcddULL);
+static const tm_strhash_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
+static const tm_strhash_t green_tag = TM_STATIC_HASH("color_green", 0x3f94cb7d4091d93bULL);
+static const tm_strhash_t blue_tag = TM_STATIC_HASH("color_blue", 0xbe7fd3918560dcddULL);
 
 typedef struct input_state_t {
     bool held_keys[TM_INPUT_KEYBOARD_ITEM_COUNT];
@@ -71,16 +71,16 @@ enum box_state {
 };
 
 struct tm_simulate_state_o {
-    tm_allocator_i *allocator;
+    tm_allocator_i* allocator;
 
     // For interacing with `tm_the_truth_api`.
-    tm_the_truth_o *tt;
+    tm_the_truth_o* tt;
 
     // For interfacing with `tm_entity_api`.
-    tm_entity_context_o *entity_ctx;
+    tm_entity_context_o* entity_ctx;
 
     // For interfacing with `tm_simulate_context_api`.
-    tm_simulate_context_o *simulate_ctx;
+    tm_simulate_context_o* simulate_ctx;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -125,8 +125,8 @@ struct tm_simulate_state_o {
     uint32_t transform_component;
 
     // Component managers
-    tm_transform_component_manager_o *trans_mgr;
-    tm_tag_component_manager_o *tag_mgr;
+    tm_transform_component_manager_o* trans_mgr;
+    tm_tag_component_manager_o* tag_mgr;
 
     bool mouse_captured;
     TM_PAD(7);
@@ -138,14 +138,14 @@ static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* sta
     uint32_t color = UINT32_MAX;
     while (color == UINT32_MAX) {
         const uint32_t c = tm_random_api->next() % 3;
-        const uint64_t c_tag = c == 0 ? red_tag : (c == 1 ? green_tag : blue_tag);
+        const tm_strhash_t c_tag = c == 0 ? red_tag : (c == 1 ? green_tag : blue_tag);
 
         if (!tm_tag_component_api->has_tag(state->tag_mgr, box, c_tag))
             color = c;
     }
 
     tm_tt_id_t dcc_asset = (tm_tt_id_t){ 0 };
-    uint64_t tag = 0;
+    tm_strhash_t tag = TM_STRHASH(0);
 
     switch (color) {
     case 0:
@@ -172,10 +172,10 @@ static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* sta
     tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
 }
 
-static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
+static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 {
-    tm_simulate_state_o *state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulate_state_o) {
+    tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulate_state_o){
         .allocator = args->allocator,
         .tt = args->tt,
         .entity_ctx = args->entity_ctx,
@@ -199,22 +199,22 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
     tm_simulate_context_api->set_camera(state->simulate_ctx, state->player_camera);
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
-    
+
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
     change_box_to_random_color(state->box, state);
-    const tm_transform_component_t *box_trans = tm_entity_api->get_component(state->entity_ctx, state->box, state->transform_component);
+    const tm_transform_component_t* box_trans = tm_entity_api->get_component(state->entity_ctx, state->box, state->transform_component);
     state->box_starting_point = box_trans->world.pos;
     state->box_starting_rot = box_trans->world.rot;
 
     TM_INIT_TEMP_ALLOCATOR(ta);
-    const tm_physics_collision_t *collision_types = tm_physics_collision_api->find_all(state->tt, ta);
+    const tm_physics_collision_t* collision_types = tm_physics_collision_api->find_all(state->tt, ta);
     for (uint32_t coll_type_idx = 0; coll_type_idx < tm_carray_size(collision_types); ++coll_type_idx) {
-        const tm_physics_collision_t *c = collision_types + coll_type_idx;
+        const tm_physics_collision_t* c = collision_types + coll_type_idx;
 
-        if (c->name == TM_STATIC_HASH("player", 0xafff68de8a0598dfULL))
+        if (TM_U64(c->name) == TM_U64(TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)))
             state->player_collision_type = c->collision;
 
-        if (c->name == TM_STATIC_HASH("box", 0x9eef98b479cef090ULL))
+        if (TM_U64(c->name) == TM_U64(TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)))
             state->box_collision_type = c->collision;
     }
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
@@ -222,13 +222,13 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
     return state;
 }
 
-static void stop(tm_simulate_state_o *state)
+static void stop(tm_simulate_state_o* state)
 {
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
+static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
 {
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;

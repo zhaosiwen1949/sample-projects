@@ -4,20 +4,20 @@
 // of `tm_simulate_entry_i` is referenced `levels/main.simulate_entry` in the Interaction System sample, which is found
 // by the `world.entity` asset when the engine starts simulating that entity.
 
-static struct tm_application_api *tm_application_api;
-static struct tm_draw2d_api *tm_draw2d_api;
-static struct tm_entity_api *tm_entity_api;
-static struct tm_error_api *tm_error_api;
-static struct tm_input_api *tm_input_api;
-static struct tm_physics_collision_api *tm_physics_collision_api;
-static struct tm_physx_scene_api *tm_physx_scene_api;
-static struct tm_simulate_context_api *tm_simulate_context_api;
-static struct tm_tag_component_api *tm_tag_component_api;
-static struct tm_temp_allocator_api *tm_temp_allocator_api;
-static struct tm_temp_allocator_api *tm_temp_allocator_api;
-static struct tm_transform_component_api *tm_transform_component_api;
-static struct tm_ui_api *tm_ui_api;
-static struct tm_interactable_component_api *tm_interactable_component_api;
+static struct tm_application_api* tm_application_api;
+static struct tm_draw2d_api* tm_draw2d_api;
+static struct tm_entity_api* tm_entity_api;
+static struct tm_error_api* tm_error_api;
+static struct tm_input_api* tm_input_api;
+static struct tm_physics_collision_api* tm_physics_collision_api;
+static struct tm_physx_scene_api* tm_physx_scene_api;
+static struct tm_simulate_context_api* tm_simulate_context_api;
+static struct tm_tag_component_api* tm_tag_component_api;
+static struct tm_temp_allocator_api* tm_temp_allocator_api;
+static struct tm_temp_allocator_api* tm_temp_allocator_api;
+static struct tm_transform_component_api* tm_transform_component_api;
+static struct tm_ui_api* tm_ui_api;
+static struct tm_interactable_component_api* tm_interactable_component_api;
 
 #include "interactable_component.h"
 
@@ -64,18 +64,18 @@ struct tm_simulate_state_o {
     float look_yaw;
     float look_pitch;
     TM_PAD(4);
-    
+
     double last_standing_time;
 
     uint64_t processed_events;
-    tm_entity_context_o *entity_ctx;
-    tm_the_truth_o *tt;
-    tm_simulate_context_o *simulate_ctx;
-    tm_allocator_i *allocator;
+    tm_entity_context_o* entity_ctx;
+    tm_the_truth_o* tt;
+    tm_simulate_context_o* simulate_ctx;
+    tm_allocator_i* allocator;
 
-    tm_transform_component_manager_o *trans_mgr;
-    tm_tag_component_manager_o *tag_mgr;
-    tm_interactable_component_manager_o *interactable_mgr;
+    tm_transform_component_manager_o* trans_mgr;
+    tm_tag_component_manager_o* tag_mgr;
+    tm_interactable_component_manager_o* interactable_mgr;
 
     uint32_t transform_comp_idx;
     uint32_t tag_comp_idx;
@@ -83,10 +83,10 @@ struct tm_simulate_state_o {
     TM_PAD(4);
 } tm_gameplay_state_o;
 
-static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
+static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 {
-    tm_simulate_state_o *state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulate_state_o) {
+    tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulate_state_o){
         .allocator = args->allocator,
         .entity_ctx = args->entity_ctx,
         .simulate_ctx = args->simulate_ctx,
@@ -104,28 +104,28 @@ static tm_simulate_state_o *start(tm_simulate_start_args_t *args)
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
     tm_simulate_context_api->set_camera(state->simulate_ctx, state->player_camera);
-    
+
     TM_INIT_TEMP_ALLOCATOR(ta);
-    tm_physics_collision_t *all_collision_types = tm_physics_collision_api->find_all(state->tt, ta);
-    const uint64_t player_coll_type = TM_STATIC_HASH("player", 0xafff68de8a0598dfULL);
+    tm_physics_collision_t* all_collision_types = tm_physics_collision_api->find_all(state->tt, ta);
+    const tm_strhash_t player_coll_type = TM_STATIC_HASH("player", 0xafff68de8a0598dfULL);
     for (uint32_t coll_type = 0; coll_type < tm_carray_size(all_collision_types); ++coll_type) {
-        if (all_collision_types[coll_type].name == player_coll_type) {
+        if (TM_U64(all_collision_types[coll_type].name) == TM_U64(player_coll_type)) {
             state->player_collision_type = all_collision_types[coll_type].collision;
             break;
         }
     }
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-    
+
     return state;
 }
 
-static void stop(tm_simulate_state_o *state)
+static void stop(tm_simulate_state_o* state)
 {
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
+static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
 {
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -260,7 +260,7 @@ static void tick(tm_simulate_state_o *state, tm_simulate_frame_args_t *args)
 
     if (r.has_block) {
         const tm_entity_t hit = r.block.body;
-        const tm_component_mask_t *hit_mask = tm_entity_api->component_mask(state->entity_ctx, hit);
+        const tm_component_mask_t* hit_mask = tm_entity_api->component_mask(state->entity_ctx, hit);
         if (tm_entity_mask_has_component(hit_mask, state->interact_comp_idx) && tm_interactable_component_api->can_interact(state->interactable_mgr, hit, true)) {
             crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
             if (state->input.left_mouse_pressed) {
