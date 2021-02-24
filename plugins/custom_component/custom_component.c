@@ -83,7 +83,7 @@ static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* dat
 
     double t = 0;
     for (const tm_entity_blackboard_value_t* bb = data->blackboard_start; bb != data->blackboard_end; ++bb) {
-        if (TM_U64(bb->id) == TM_U64(TM_ENTITY_BB__TIME))
+        if (TM_STRHASH_U64(bb->id) == TM_STRHASH_U64(TM_ENTITY_BB__TIME))
             t = bb->double_value;
     }
 

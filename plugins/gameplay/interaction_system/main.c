@@ -109,7 +109,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     tm_physics_collision_t* all_collision_types = tm_physics_collision_api->find_all(state->tt, ta);
     const tm_strhash_t player_coll_type = TM_STATIC_HASH("player", 0xafff68de8a0598dfULL);
     for (uint32_t coll_type = 0; coll_type < tm_carray_size(all_collision_types); ++coll_type) {
-        if (TM_U64(all_collision_types[coll_type].name) == TM_U64(player_coll_type)) {
+        if (TM_STRHASH_U64(all_collision_types[coll_type].name) == TM_STRHASH_U64(player_coll_type)) {
             state->player_collision_type = all_collision_types[coll_type].collision;
             break;
         }

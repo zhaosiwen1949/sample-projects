@@ -211,10 +211,10 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     for (uint32_t coll_type_idx = 0; coll_type_idx < tm_carray_size(collision_types); ++coll_type_idx) {
         const tm_physics_collision_t* c = collision_types + coll_type_idx;
 
-        if (TM_U64(c->name) == TM_U64(TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)))
+        if (TM_STRHASH_U64(c->name) == TM_STRHASH_U64(TM_STATIC_HASH("player", 0xafff68de8a0598dfULL)))
             state->player_collision_type = c->collision;
 
-        if (TM_U64(c->name) == TM_U64(TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)))
+        if (TM_STRHASH_U64(c->name) == TM_STRHASH_U64(TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)))
             state->box_collision_type = c->collision;
     }
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
