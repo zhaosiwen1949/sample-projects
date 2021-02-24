@@ -1141,6 +1141,16 @@
 		}
 	}
 	{
+		name: "tm_creation_graph_asset_reference"
+		properties: [
+			{
+				name: "creation_graph"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_input_id"
 		properties: [
 			{
@@ -1352,6 +1362,13 @@
 		]
 		default: {
 			settings: {
+				source_import_settings: {
+					source_path: ""
+					rotation: {
+					}
+					scale: {
+					}
+				}
 			}
 		}
 	}
@@ -1963,7 +1980,51 @@
 				type: "reference"
 				type_hash: "ca71127abbb72960"
 			}
+			{
+				name: "source_import_settings"
+				type: "subobject"
+				type_hash: "547ea358e1329c8c"
+			}
 		]
+		default: {
+			source_import_settings: {
+				source_path: ""
+				rotation: {
+				}
+				scale: {
+				}
+			}
+		}
+	}
+	{
+		name: "tm_dcc_asset_source_import_settings"
+		properties: [
+			{
+				name: "source_path"
+				type: "string"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "20ef513a9606cc30"
+			}
+			{
+				name: "apply_unit_scale"
+				type: "bool"
+			}
+		]
+		default: {
+			rotation: {
+			}
+			scale: {
+			}
+			apply_unit_scale: true
+		}
 	}
 	{
 		name: "tm_dcc_asset_texture"
@@ -2006,7 +2067,7 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 			{
-				name: "entity_directory"
+				name: "output_directory"
 				type: "reference"
 				type_hash: "9723e0133dc6620a"
 			}
@@ -2022,6 +2083,10 @@
 			}
 			{
 				name: "create_prototype_on_drop"
+				type: "bool"
+			}
+			{
+				name: "extract_into_subdirectory"
 				type: "bool"
 			}
 			{
@@ -2143,6 +2208,14 @@
 				type: "uint32_t"
 			}
 			{
+				name: "unit_type"
+				type: "uint32_t"
+			}
+			{
+				name: "color_type"
+				type: "uint32_t"
+			}
+			{
 				name: "color"
 				type: "subobject"
 				type_hash: "d0c8704d11c0c0f1"
@@ -2200,6 +2273,7 @@
 			}
 		]
 		default: {
+			unit_type: 3
 			color: {
 			}
 			intensity: 1
@@ -2215,6 +2289,11 @@
 			}
 			area_radius: 1
 		}
+	}
+	{
+		name: "tm_default_render_pipe_ray_trace_debug"
+		properties: [
+		]
 	}
 	{
 		name: "tm_default_render_pipe_volume_component"
@@ -2307,8 +2386,9 @@
 				type_hash: "ff156da2e01c4a3d"
 			}
 			{
-				name: "sort_order"
-				type: "double"
+				name: "child_sort_values"
+				type: "subobject_set"
+				type_hash: "eaaf394705f83715"
 			}
 		]
 	}
@@ -2354,6 +2434,20 @@
 		]
 		default: {
 		}
+	}
+	{
+		name: "tm_entity_sort_value"
+		properties: [
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "value"
+				type: "double"
+			}
+		]
 	}
 	{
 		name: "tm_float"
@@ -3505,6 +3599,15 @@
 		]
 	}
 	{
+		name: "tm_properties_settings"
+		properties: [
+			{
+				name: "mask"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_recent_file"
 		properties: [
 			{
@@ -3783,6 +3886,21 @@
 				type: "reference_set"
 				type_hash: "8944e0b1cefd4756"
 			}
+			{
+				name: "to show entities"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "locked entities"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "unlocked entities"
+				type: "reference_set"
+				type_hash: "8944e0b1cefd4756"
+			}
 		]
 	}
 	{
@@ -3828,6 +3946,11 @@
 			{
 				name: "node_names"
 				type: "buffer"
+			}
+			{
+				name: "asset"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -4168,7 +4291,7 @@
 			}
 			{
 				name: "evaluation_stage"
-				type: "uint32_t"
+				type: "buffer"
 			}
 			{
 				name: "settings"
@@ -4992,8 +5115,16 @@
 				type: "uint32_t"
 			}
 			{
-				name: "position"
+				name: "position_x"
 				type: "float"
+			}
+			{
+				name: "position_y"
+				type: "float"
+			}
+			{
+				name: "draw_mode"
+				type: "uint32_t"
 			}
 		]
 	}
