@@ -2323,6 +2323,7 @@
 		]
 		default: {
 			type: 1
+			sphere_radius: 1
 			box_lowerbound: {
 				x: -0.5
 				y: -0.5
@@ -4191,6 +4192,11 @@
 				type: "string"
 			}
 			{
+				name: "includes"
+				type: "subobject_set"
+				type_hash: "191eb05a2b489146"
+			}
+			{
 				name: "actions"
 				type: "subobject_set"
 				type_hash: "80800d1f71eed33f"
@@ -4275,6 +4281,10 @@
 			{
 				name: "type"
 				type: "uint32_t"
+			}
+			{
+				name: "struct_name"
+				type: "string"
 			}
 			{
 				name: "rows"
