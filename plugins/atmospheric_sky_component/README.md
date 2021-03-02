@@ -1,1 +1,0 @@
-# atmospheric_sky_component
