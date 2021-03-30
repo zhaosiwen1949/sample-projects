@@ -95,12 +95,12 @@ struct tm_simulate_state_o {
     // For giving some extra time to press jump.
     double last_standing_time;
 
-    // Component indices
-    uint32_t asm_component;
-    uint32_t mover_component;
-    uint32_t render_component;
-    uint32_t tag_component;
-    uint32_t transform_component;
+    // Component types
+    tm_component_type_t asm_component;
+    tm_component_type_t mover_component;
+    tm_component_type_t render_component;
+    tm_component_type_t tag_component;
+    tm_component_type_t transform_component;
     TM_PAD(4);
 
     // Component managers
@@ -136,11 +136,11 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         .asset_root = args->asset_root,
     };
 
-    state->mover_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
-    state->asm_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
-    state->render_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
-    state->tag_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
-    state->transform_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
+    state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
+    state->asm_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
+    state->render_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
+    state->tag_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
+    state->transform_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
     state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_component);
     state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);

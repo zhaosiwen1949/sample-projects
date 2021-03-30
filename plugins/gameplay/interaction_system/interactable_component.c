@@ -157,8 +157,8 @@ struct tm_interactable_component_manager_o {
     tm_allocator_i allocator;
     tm_entity_context_o* ctx;
     active_interaction_t* active;
-    uint32_t interactable_component_type;
-    uint32_t transform_component_type;
+    tm_component_type_t interactable_component_type;
+    tm_component_type_t transform_component_type;
     tm_transform_component_manager_o* trans_mgr;
 };
 
@@ -353,7 +353,7 @@ static void update_active_interactables(tm_interactable_component_manager_o* mgr
 
 static void manager_init(tm_interactable_component_manager_o* mgr)
 {
-    mgr->transform_component_type = tm_entity_api->lookup_component(mgr->ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
+    mgr->transform_component_type = tm_entity_api->lookup_component_type(mgr->ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
     mgr->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(mgr->ctx, mgr->transform_component_type);
 }
 
@@ -586,7 +586,7 @@ static tm_interactable_component_manager_o* component__create(struct tm_entity_c
         .components_created = manager_components_created,
     };
 
-    const uint32_t interactable_component_type = tm_entity_api->register_component(ctx, &component);
+    const tm_component_type_t interactable_component_type = tm_entity_api->register_component(ctx, &component);
 
     *m = (tm_interactable_component_manager_o){
         .allocator = a,

@@ -77,9 +77,9 @@ struct tm_simulate_state_o {
     tm_tag_component_manager_o* tag_mgr;
     tm_interactable_component_manager_o* interactable_mgr;
 
-    uint32_t transform_comp_idx;
-    uint32_t tag_comp_idx;
-    uint32_t interact_comp_idx;
+    tm_component_type_t transform_comp;
+    tm_component_type_t tag_comp;
+    tm_component_type_t interact_comp;
     TM_PAD(4);
 } tm_gameplay_state_o;
 
@@ -93,13 +93,13 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         .tt = args->tt,
     };
 
-    state->interact_comp_idx = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__INTERACTABLE_COMPONENT);
-    state->tag_comp_idx = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
-    state->transform_comp_idx = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
+    state->interact_comp = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__INTERACTABLE_COMPONENT);
+    state->tag_comp = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
+    state->transform_comp = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
-    state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_comp_idx);
-    state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_comp_idx);
-    state->interactable_mgr = (tm_interactable_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->interact_comp_idx);
+    state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_comp);
+    state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_comp);
+    state->interactable_mgr = (tm_interactable_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->interact_comp);
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
@@ -261,7 +261,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     if (r.has_block) {
         const tm_entity_t hit = r.block.body;
         const tm_component_mask_t* hit_mask = tm_entity_api->component_mask(state->entity_ctx, hit);
-        if (tm_entity_mask_has_component(hit_mask, state->interact_comp_idx) && tm_interactable_component_api->can_interact(state->interactable_mgr, hit, true)) {
+        if (tm_entity_mask_has_component(hit_mask, state->interact_comp) && tm_interactable_component_api->can_interact(state->interactable_mgr, hit, true)) {
             crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
             if (state->input.left_mouse_pressed) {
                 // This is what starts the interaction!

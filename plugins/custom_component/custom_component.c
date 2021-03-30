@@ -107,15 +107,15 @@ static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* dat
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
-static bool engine_filter__custom(tm_engine_o* inst, const uint32_t* components, uint32_t num_components, const tm_component_mask_t* mask)
+static bool engine_filter__custom(tm_engine_o* inst, const tm_component_type_t * components, uint32_t num_components, const tm_component_mask_t* mask)
 {
     return tm_entity_mask_has_component(mask, components[0]) && tm_entity_mask_has_component(mask, components[1]);
 }
 
 static void component__register_engine(struct tm_entity_context_o* ctx)
 {
-    const uint32_t custom_component = tm_entity_api->lookup_component(ctx, TM_TT_TYPE_HASH__CUSTOM_COMPONENT);
-    const uint32_t transform_component = tm_entity_api->lookup_component(ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
+    const tm_component_type_t custom_component = tm_entity_api->lookup_component_type(ctx, TM_TT_TYPE_HASH__CUSTOM_COMPONENT);
+    const tm_component_type_t transform_component = tm_entity_api->lookup_component_type(ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
     const tm_engine_i custom_engine = {
         .name = "Custom Component",

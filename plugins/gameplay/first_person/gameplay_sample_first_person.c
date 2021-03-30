@@ -114,15 +114,15 @@ struct tm_simulate_state_o {
     tm_tt_id_t player_collision_type;
     tm_tt_id_t box_collision_type;
 
-    // Component indicies
-    uint32_t dcc_asset_component;
-    uint32_t mover_component;
-    uint32_t physics_shape_component;
-    uint32_t physics_joint_component;
-    uint32_t physx_rigid_body_component;
-    uint32_t physx_joint_component;
-    uint32_t tag_component;
-    uint32_t transform_component;
+    // Component types
+    tm_component_type_t dcc_asset_component;
+    tm_component_type_t mover_component;
+    tm_component_type_t physics_shape_component;
+    tm_component_type_t physics_joint_component;
+    tm_component_type_t physx_rigid_body_component;
+    tm_component_type_t physx_joint_component;
+    tm_component_type_t tag_component;
+    tm_component_type_t transform_component;
 
     // Component managers
     tm_transform_component_manager_o* trans_mgr;
@@ -183,14 +183,14 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         .asset_root = args->asset_root,
     };
 
-    state->dcc_asset_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
-    state->mover_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
-    state->physics_joint_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
-    state->physics_shape_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
-    state->physx_joint_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_JOINT_COMPONENT);
-    state->physx_rigid_body_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_RIGID_BODY_COMPONENT);
-    state->tag_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
-    state->transform_component = tm_entity_api->lookup_component(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
+    state->dcc_asset_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
+    state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
+    state->physics_joint_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
+    state->physics_shape_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
+    state->physx_joint_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_JOINT_COMPONENT);
+    state->physx_rigid_body_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_RIGID_BODY_COMPONENT);
+    state->tag_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
+    state->transform_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
     state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_component);
     state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);
