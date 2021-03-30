@@ -159,6 +159,18 @@
 		}
 	}
 	{
+		name: "shader_tm_frame_system_image_luts_node_settings"
+		properties: [
+			{
+				name: "lut"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			lut: "822d28f4b11f5b7d"
+		}
+	}
+	{
 		name: "tm_animation_clip"
 		properties: [
 			{
@@ -191,9 +203,8 @@
 				type: "double"
 			}
 			{
-				name: "locomotion_node"
-				type: "reference"
-				type_hash: "1ed02afba4e23875"
+				name: "locomotion_node_name"
+				type: "string"
 			}
 			{
 				name: "locomotion"
@@ -214,6 +225,23 @@
 				type_hash: "b6e5de67c7549505"
 			}
 		]
+	}
+	{
+		name: "tm_animation_compression_settings"
+		properties: [
+			{
+				name: "max_error"
+				type: "float"
+			}
+			{
+				name: "skin_size"
+				type: "float"
+			}
+		]
+		default: {
+			max_error: 0.001000000047497451
+			skin_size: 0.1000000014901161
+		}
 	}
 	{
 		name: "tm_animation_simple_player_component"
@@ -955,6 +983,149 @@
 		]
 	}
 	{
+		name: "tm_atmospheric_sky_component"
+		properties: [
+			{
+				name: "sun_entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "sun_angular_diameter"
+				type: "float"
+			}
+			{
+				name: "celestial_body_center"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "planet_radius"
+				type: "float"
+			}
+			{
+				name: "karman_line"
+				type: "float"
+			}
+			{
+				name: "rayleigh_density1_height_scale"
+				type: "float"
+			}
+			{
+				name: "rayleigh_scattering"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "rayleigh_scattering_scale"
+				type: "float"
+			}
+			{
+				name: "mie_density1_height_scale"
+				type: "float"
+			}
+			{
+				name: "mie_scattering"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "mie_scattering_scale"
+				type: "float"
+			}
+			{
+				name: "mie_absorption"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "mie_absorption_scale"
+				type: "float"
+			}
+			{
+				name: "mie_phase_function_g"
+				type: "float"
+			}
+			{
+				name: "absorption_height_scale"
+				type: "float"
+			}
+			{
+				name: "absorption_extinction"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "absorption_extinction_scale"
+				type: "float"
+			}
+			{
+				name: "ozone_enabled"
+				type: "bool"
+			}
+			{
+				name: "ground_albedo"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "fog_density"
+				type: "float"
+			}
+			{
+				name: "aerial_perspective_scale"
+				type: "float"
+			}
+			{
+				name: "automatic_cubemap_capture"
+				type: "bool"
+			}
+		]
+		default: {
+			sun_angular_diameter: 1920
+			celestial_body_center: {
+			}
+			planet_radius: 6371
+			karman_line: 100
+			rayleigh_density1_height_scale: 8
+			rayleigh_scattering: {
+				r: 0.05801999941468239
+				g: 0.1355800032615662
+				b: 0.3310000002384186
+			}
+			rayleigh_scattering_scale: 0.1000000014901161
+			mie_density1_height_scale: 1.200000047683716
+			mie_scattering: {
+				r: 0.3995999991893768
+				g: 0.3995999991893768
+				b: 0.3995999991893768
+			}
+			mie_scattering_scale: 0.009999999776482582
+			mie_absorption: {
+				r: 0.4440000057220459
+				g: 0.4440000057220459
+				b: 0.4440000057220459
+			}
+			mie_phase_function_g: 0.800000011920929
+			absorption_height_scale: 15
+			absorption_extinction: {
+				r: 0.06499999761581421
+				g: 0.1880999952554703
+				b: 0.008500000461935997
+			}
+			absorption_extinction_scale: 0.009999999776482582
+			ozone_enabled: true
+			ground_albedo: {
+				x: 0.300000011920929
+				y: 0.300000011920929
+				z: 0.300000011920929
+			}
+			fog_density: 1
+			aerial_perspective_scale: 1
+			automatic_cubemap_capture: true
+		}
+	}
+	{
 		name: "tm_bool"
 		properties: [
 			{
@@ -1088,6 +1259,28 @@
 			b: 1
 			a: 1
 		}
+	}
+	{
+		name: "tm_compressed_animation"
+		properties: [
+			{
+				name: "format"
+				type: "string"
+			}
+			{
+				name: "version"
+				type: "uint32_t"
+			}
+			{
+				name: "buffer"
+				type: "buffer"
+			}
+			{
+				name: "dcc_animation"
+				type: "reference"
+				type_hash: "b4f2c5822cde57db"
+			}
+		]
 	}
 	{
 		name: "tm_core_index"
@@ -1297,6 +1490,10 @@
 				type: "subobject"
 				type_hash: "c5f12f23d4534d76"
 			}
+			{
+				name: "resolution"
+				type: "uint32_t"
+			}
 		]
 		default: {
 			capture_interface: "d2420b8f77d91139"
@@ -1306,6 +1503,7 @@
 					}
 				}
 			}
+			resolution: 512
 		}
 	}
 	{
@@ -2387,6 +2585,23 @@
 		}
 	}
 	{
+		name: "tm_default_render_ray_traced_ao_component"
+		properties: [
+			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
+				name: "ray_length"
+				type: "float"
+			}
+		]
+		default: {
+			enabled: true
+			ray_length: 32
+		}
+	}
+	{
 		name: "tm_docking_settings"
 		properties: [
 			{
@@ -2497,6 +2712,42 @@
 			{
 				name: "value"
 				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_entity_spawner_channel"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "draw_mode"
+				type: "uint32_t"
+			}
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "max_count"
+				type: "uint32_t"
+			}
+			{
+				name: "min_sepration"
+				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_entity_spawner_component"
+		properties: [
+			{
+				name: "channels"
+				type: "subobject_set"
+				type_hash: "436a01576b7bf03c"
 			}
 		]
 	}
@@ -3223,6 +3474,10 @@
 				type: "reference"
 				type_hash: "7d15e1df3084e998"
 			}
+			{
+				name: "index_mode"
+				type: "uint32_t"
+			}
 		]
 	}
 	{
@@ -3539,6 +3794,10 @@
 				name: "grid_size"
 				type: "float"
 			}
+			{
+				name: "debug_watch_wire_overlay_mode"
+				type: "uint32_t"
+			}
 		]
 		default: {
 			grid_size: 30
@@ -3619,6 +3878,10 @@
 			{
 				name: "buffer"
 				type: "buffer"
+			}
+			{
+				name: "raw"
+				type: "bool"
 			}
 		]
 		default: {
@@ -4329,6 +4592,10 @@
 				name: "linux_dll"
 				type: "buffer"
 			}
+			{
+				name: "is_helper"
+				type: "bool"
+			}
 		]
 	}
 	{
@@ -4365,6 +4632,11 @@
 				type: "reference"
 				type_hash: "8944e0b1cefd4756"
 			}
+		]
+	}
+	{
+		name: "tm_ray_tracing_debug"
+		properties: [
 		]
 	}
 	{
@@ -5910,6 +6182,14 @@
 				type: "float"
 			}
 			{
+				name: "width"
+				type: "float"
+			}
+			{
+				name: "height"
+				type: "float"
+			}
+			{
 				name: "draw_mode"
 				type: "uint32_t"
 			}
@@ -5988,6 +6268,21 @@
 				name: "scale"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_tt_entity_spawner_channel_reference"
+		properties: [
+			{
+				name: "entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "channel"
+				type: "reference"
+				type_hash: "436a01576b7bf03c"
 			}
 		]
 	}
@@ -6181,6 +6476,45 @@
 			{
 				name: "palette"
 				type: "buffer"
+			}
+			{
+				name: "nodes"
+				type: "subobject_set"
+				type_hash: "77983deec66f80d1"
+			}
+		]
+	}
+	{
+		name: "tm_vox_asset_node"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "scale"
+				type: "subobject"
+				type_hash: "20ef513a9606cc30"
+			}
+			{
+				name: "children"
+				type: "reference_set"
+				type_hash: "77983deec66f80d1"
+			}
+			{
+				name: "models"
+				type: "reference_set"
+				type_hash: "d66d982141bc8aaa"
 			}
 		]
 	}

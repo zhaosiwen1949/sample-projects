@@ -1049,15 +1049,6 @@
 				type: "float"
 			}
 			{
-				name: "mie_extinction"
-				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
-			}
-			{
-				name: "mie_extinction_scale"
-				type: "float"
-			}
-			{
 				name: "mie_absorption"
 				type: "subobject"
 				type_hash: "d0c8704d11c0c0f1"
@@ -1093,21 +1084,16 @@
 				type_hash: "8d1487af36b1e3e1"
 			}
 			{
-				name: "global_illuminance_color"
-				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
-			}
-			{
-				name: "global illuminance scale"
-				type: "float"
-			}
-			{
 				name: "fog_density"
 				type: "float"
 			}
 			{
 				name: "aerial_perspective_scale"
 				type: "float"
+			}
+			{
+				name: "automatic_cubemap_capture"
+				type: "bool"
 			}
 		]
 		default: {
@@ -1130,16 +1116,10 @@
 				b: 0.3995999991893768
 			}
 			mie_scattering_scale: 0.009999999776482582
-			mie_extinction: {
+			mie_absorption: {
 				r: 0.4440000057220459
 				g: 0.4440000057220459
 				b: 0.4440000057220459
-			}
-			mie_extinction_scale: 0.009999999776482582
-			mie_absorption: {
-				r: 0
-				g: 0
-				b: 0
 			}
 			mie_phase_function_g: 0.800000011920929
 			absorption_height_scale: 15
@@ -1155,11 +1135,9 @@
 				y: 0.300000011920929
 				z: 0.300000011920929
 			}
-			global_illuminance_color: {
-			}
-			"global illuminance scale": 3
 			fog_density: 1
 			aerial_perspective_scale: 1
+			automatic_cubemap_capture: true
 		}
 	}
 	{
@@ -1555,6 +1533,10 @@
 				type: "subobject"
 				type_hash: "c5f12f23d4534d76"
 			}
+			{
+				name: "resolution"
+				type: "uint32_t"
+			}
 		]
 		default: {
 			capture_interface: "d2420b8f77d91139"
@@ -1564,6 +1546,7 @@
 					}
 				}
 			}
+			resolution: 512
 		}
 	}
 	{
