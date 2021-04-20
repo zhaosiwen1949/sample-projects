@@ -225,6 +225,11 @@
 				name: "locomotion"
 				type: "uint32_t"
 			}
+			{
+				name: "triggers"
+				type: "subobject_set"
+				type_hash: "796b8cc8cc5baac2"
+			}
 		]
 		default: {
 			loop: true
@@ -238,6 +243,23 @@
 				name: "animation"
 				type: "reference"
 				type_hash: "b6e5de67c7549505"
+			}
+		]
+	}
+	{
+		name: "tm_animation_clip_trigger"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "frame"
+				type: "double"
+			}
+			{
+				name: "value"
+				type: "float"
 			}
 		]
 	}
@@ -1276,6 +1298,23 @@
 		}
 	}
 	{
+		name: "tm_color_space_settings"
+		properties: [
+			{
+				name: "color_primary"
+				type: "uint32_t"
+			}
+			{
+				name: "transfer_function"
+				type: "uint32_t"
+			}
+			{
+				name: "color_model"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
 		name: "tm_compressed_animation"
 		properties: [
 			{
@@ -1380,6 +1419,15 @@
 				name: "value"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_data_type"
+		properties: [
+			{
+				name: "data_type"
+				type: "uint64_t"
 			}
 		]
 	}
@@ -1629,6 +1677,11 @@
 				type: "subobject"
 				type_hash: "bee36020d022cc51"
 			}
+			{
+				name: "preview_entity"
+				type: "subobject"
+				type_hash: "5e0fd59434dda1de"
+			}
 		]
 		default: {
 			settings: {
@@ -1639,6 +1692,8 @@
 					scale: {
 					}
 				}
+			}
+			preview_entity: {
 			}
 		}
 	}
@@ -1860,7 +1915,7 @@
 			{
 				name: "resource"
 				type: "reference"
-				type_hash: "c5f12f23d4534d76"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -2172,6 +2227,40 @@
 			{
 				name: "z"
 				type: "float"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_preview_entity"
+		properties: [
+			{
+				name: "entity"
+				type: "subobject"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "extracted_images"
+				type: "subobject_set"
+				type_hash: "a6efabc21bbed077"
+			}
+			{
+				name: "extracted_materials"
+				type: "subobject_set"
+				type_hash: "a6efabc21bbed077"
+			}
+		]
+	}
+	{
+		name: "tm_dcc_asset_preview_entity_extracted_resource"
+		properties: [
+			{
+				name: "resource"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "name"
+				type: "string"
 			}
 		]
 	}
@@ -2561,6 +2650,28 @@
 		}
 	}
 	{
+		name: "tm_default_render_pipe_light_probes_component"
+		properties: [
+			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
+				name: "update_frequency"
+				type: "uint32_t"
+			}
+			{
+				name: "density"
+				type: "float"
+			}
+		]
+		default: {
+			enabled: true
+			update_frequency: 2
+			density: 1
+		}
+	}
+	{
 		name: "tm_default_render_pipe_ray_trace_debug"
 		properties: [
 		]
@@ -2758,10 +2869,19 @@
 				type: "uint32_t"
 			}
 			{
-				name: "min_sepration"
-				type: "float"
+				name: "creation_graph"
+				type: "subobject"
+				type_hash: "c5f12f23d4534d76"
 			}
 		]
+		default: {
+			creation_graph: {
+				graph: {
+					interface: {
+					}
+				}
+			}
+		}
 	}
 	{
 		name: "tm_entity_spawner_component"
@@ -3449,6 +3569,15 @@
 		}
 	}
 	{
+		name: "tm_gpu_image_to_cpu_image_settings"
+		properties: [
+			{
+				name: "release_input"
+				type: "bool"
+			}
+		]
+	}
+	{
 		name: "tm_gpu_simulation_accessor_settings"
 		properties: [
 			{
@@ -3748,6 +3877,10 @@
 		name: "tm_graph_output"
 		properties: [
 			{
+				name: "name"
+				type: "string"
+			}
+			{
 				name: "display_name"
 				type: "string"
 			}
@@ -3810,9 +3943,14 @@
 				name: "debug_watch_wire_overlay_mode"
 				type: "uint32_t"
 			}
+			{
+				name: "show_removed_inherited"
+				type: "bool"
+			}
 		]
 		default: {
 			grid_size: 30
+			show_removed_inherited: true
 		}
 	}
 	{
@@ -4201,6 +4339,10 @@
 			{
 				name: "override_existing_mips"
 				type: "bool"
+			}
+			{
+				name: "storage_policy"
+				type: "uint32_t"
 			}
 		]
 		default: {
@@ -5860,7 +6002,7 @@
 			{
 				name: "systems_active"
 				type: "subobject_set"
-				type_hash: "14a46edeaac824fc"
+				type_hash: "c96488cb408e745f"
 			}
 		]
 	}
