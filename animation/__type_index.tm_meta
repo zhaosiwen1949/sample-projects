@@ -4036,6 +4036,7 @@
 		]
 		default: {
 			description: {
+				debug_tag: "Default Image"
 			}
 		}
 	}
@@ -4103,6 +4104,10 @@
 				name: "sample_count"
 				type: "uint32_t"
 			}
+			{
+				name: "debug_tag"
+				type: "string"
+			}
 		]
 		default: {
 			type: 1
@@ -4113,6 +4118,7 @@
 			mip_levels: 1
 			layer_count: 1
 			sample_count: 1
+			debug_tag: "Default Image"
 		}
 	}
 	{
