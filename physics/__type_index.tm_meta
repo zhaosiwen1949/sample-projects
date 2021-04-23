@@ -1394,6 +1394,15 @@
 		]
 	}
 	{
+		name: "tm_creation_graph_component_instance_provider"
+		properties: [
+			{
+				name: "component_name"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_creation_graph_data_type"
 		properties: [
 			{
@@ -3935,9 +3944,15 @@
 				name: "show_removed_inherited"
 				type: "bool"
 			}
+			{
+				name: "debug_watched_wires"
+				type: "subobject_set"
+				type_hash: "b11aa2e510ce635e"
+			}
 		]
 		default: {
 			grid_size: 30
+			debug_watch_wire_overlay_mode: 5
 			show_removed_inherited: true
 		}
 	}
@@ -4024,6 +4039,7 @@
 		]
 		default: {
 			description: {
+				debug_tag: "Default Image"
 			}
 		}
 	}
@@ -4091,6 +4107,10 @@
 				name: "sample_count"
 				type: "uint32_t"
 			}
+			{
+				name: "debug_tag"
+				type: "string"
+			}
 		]
 		default: {
 			type: 1
@@ -4101,6 +4121,7 @@
 			mip_levels: 1
 			layer_count: 1
 			sample_count: 1
+			debug_tag: "Default Image"
 		}
 	}
 	{
@@ -6427,6 +6448,448 @@
 				type_hash: "436a01576b7bf03c"
 			}
 		]
+	}
+	{
+		name: "tm_ui_canvas_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "world_space"
+				type: "bool"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_button"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "visible_rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "icon"
+				type: "uint32_t"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "text_offset_y"
+				type: "float"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "hide_background"
+				type: "bool"
+			}
+			{
+				name: "hide_margins"
+				type: "bool"
+			}
+		]
+		default: {
+			rect: {
+			}
+			visible_rect: {
+			}
+			color: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_checkbox"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_dropdown"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "items"
+				type: "subobject_set"
+				type_hash: "3706bdc24f43d377"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_dropdown_item"
+		properties: [
+			{
+				name: "order"
+				type: "float"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+		}
+	}
+	{
+		name: "tm_ui_control_label"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "icon"
+				type: "uint32_t"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_link"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "align"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			rect: {
+			}
+			color: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_progress"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_radio"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_scrollbar"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "min"
+				type: "float"
+			}
+			{
+				name: "max"
+				type: "float"
+			}
+			{
+				name: "size"
+				type: "float"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_slider"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "min"
+				type: "float"
+			}
+			{
+				name: "max"
+				type: "float"
+			}
+			{
+				name: "size"
+				type: "float"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_spinner"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "min"
+				type: "double"
+			}
+			{
+				name: "max"
+				type: "double"
+			}
+			{
+				name: "value_per_pixel"
+				type: "double"
+			}
+			{
+				name: "decimals"
+				type: "uint32_t"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_text"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "align"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			rect: {
+			}
+			color: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_control_textedit"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+			{
+				name: "is_password"
+				type: "bool"
+			}
+			{
+				name: "default_text"
+				type: "string"
+			}
+			{
+				name: "select_on_mouse_activate"
+				type: "bool"
+			}
+			{
+				name: "scroll_to_end"
+				type: "bool"
+			}
+			{
+				name: "select_all_on_startup"
+				type: "bool"
+			}
+		]
+		default: {
+			rect: {
+			}
+		}
+	}
+	{
+		name: "tm_ui_element_component"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "control"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+		default: {
+			type: 1
+			control: {
+				__type: "tm_ui_control_label"
+				rect: {
+				}
+				text: ""
+				tooltip: ""
+			}
+		}
 	}
 	{
 		name: "tm_ui_sample_tt_type"
