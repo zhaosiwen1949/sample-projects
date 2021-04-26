@@ -2686,6 +2686,37 @@
 		]
 	}
 	{
+		name: "tm_default_render_pipe_ssao_component"
+		properties: [
+			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+			{
+				name: "power"
+				type: "float"
+			}
+			{
+				name: "bias"
+				type: "float"
+			}
+			{
+				name: "step_count"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			enabled: true
+			radius: 1
+			power: 1
+			step_count: 4
+		}
+	}
+	{
 		name: "tm_default_render_pipe_volume_component"
 		properties: [
 			{
@@ -6508,19 +6539,63 @@
 		name: "tm_ui_canvas_component"
 		properties: [
 			{
-				name: "rect"
+				name: "canvas_type"
+				type: "uint32_t"
+			}
+			{
+				name: "unit_types"
+				type: "subobject"
+				type_hash: "1925ce971c95f851"
+			}
+			{
+				name: "virtual_rect"
 				type: "subobject"
 				type_hash: "a6e9c5f4ec093df1"
 			}
 			{
-				name: "world_space"
+				name: "pixels_per_meter"
+				type: "float"
+			}
+			{
+				name: "fullscreen"
 				type: "bool"
+			}
+			{
+				name: "theme"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 		default: {
-			rect: {
+			unit_types: {
 			}
+			virtual_rect: {
+				w: 1
+				h: 1
+			}
+			pixels_per_meter: 256
 		}
+	}
+	{
+		name: "tm_ui_component_unit_types"
+		properties: [
+			{
+				name: "x"
+				type: "uint32_t"
+			}
+			{
+				name: "y"
+				type: "uint32_t"
+			}
+			{
+				name: "w"
+				type: "uint32_t"
+			}
+			{
+				name: "h"
+				type: "uint32_t"
+			}
+		]
 	}
 	{
 		name: "tm_ui_control_button"
@@ -6930,6 +7005,11 @@
 				type: "uint32_t"
 			}
 			{
+				name: "unit_types"
+				type: "subobject"
+				type_hash: "1925ce971c95f851"
+			}
+			{
 				name: "control"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
@@ -6937,6 +7017,8 @@
 		]
 		default: {
 			type: 1
+			unit_types: {
+			}
 			control: {
 				__type: "tm_ui_control_label"
 				rect: {
