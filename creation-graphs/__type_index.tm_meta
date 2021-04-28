@@ -5599,6 +5599,10 @@
 				type: "bool"
 			}
 			{
+				name: "input_disabled"
+				type: "bool"
+			}
+			{
 				name: "theme"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
@@ -5612,6 +5616,7 @@
 				h: 1
 			}
 			pixels_per_meter: 256
+			input_disabled: true
 		}
 	}
 	{
@@ -6043,6 +6048,10 @@
 				type: "uint32_t"
 			}
 			{
+				name: "font scale"
+				type: "float"
+			}
+			{
 				name: "unit_types"
 				type: "subobject"
 				type_hash: "1925ce971c95f851"
@@ -6055,6 +6064,7 @@
 		]
 		default: {
 			type: 1
+			"font scale": 1
 			unit_types: {
 			}
 			control: {
@@ -6112,7 +6122,7 @@
 			{
 				name: "color"
 				type: "subobject"
-				type_hash: "d0c8704d11c0c0f1"
+				type_hash: "11e53fa0440a07e4"
 			}
 		]
 	}
