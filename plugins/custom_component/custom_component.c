@@ -107,7 +107,7 @@ static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* dat
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
-static bool engine_filter__custom(tm_engine_o* inst, const tm_component_type_t * components, uint32_t num_components, const tm_component_mask_t* mask)
+static bool engine_filter__custom(tm_engine_o* inst, const tm_component_type_t* components, uint32_t num_components, const tm_component_mask_t* mask)
 {
     return tm_entity_mask_has_component(mask, components[0]) && tm_entity_mask_has_component(mask, components[1]);
 }
@@ -118,7 +118,8 @@ static void component__register_engine(struct tm_entity_context_o* ctx)
     const tm_component_type_t transform_component = tm_entity_api->lookup_component_type(ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
     const tm_engine_i custom_engine = {
-        .name = "Custom Component",
+        .ui_name = "Custom Component",
+        .hash = TM_STATIC_HASH("TM_ENGINE__CUSTOM_COMPONENT", 0x8e8316d05d37167eULL),
         .num_components = 2,
         .components = { custom_component, transform_component },
         .writes = { false, true },
@@ -139,5 +140,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, truth__create_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
-    tm_add_or_remove_implementation(reg, load, TM_ENTITY_SIMULATION_INTERFACE_NAME, component__register_engine);
+    tm_add_or_remove_implementation(reg, load, TM_ENTITY_SIMULATION_REGISTER_ENGINES_INTERFACE_NAME, component__register_engine);
 }
