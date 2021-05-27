@@ -158,6 +158,18 @@
 		}
 	}
 	{
+		name: "shader_noise_fbm_node_settings"
+		properties: [
+			{
+				name: "noise_function"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			noise_function: "c2db2d1ecdb00dcb"
+		}
+	}
+	{
 		name: "shader_sample_2d_node_settings"
 		properties: [
 			{
@@ -183,6 +195,26 @@
 		]
 		default: {
 			lut: "822d28f4b11f5b7d"
+		}
+	}
+	{
+		name: "tm_aim_constraint"
+		properties: [
+			{
+				name: "axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "max_angle"
+				type: "float"
+			}
+		]
+		default: {
+			axis: {
+				x: -1
+			}
+			max_angle: 0.5235987901687622
 		}
 	}
 	{
@@ -460,6 +492,11 @@
 				type: "string"
 			}
 			{
+				name: "constraints"
+				type: "subobject_set"
+				type_hash: "5c6e920aba6c0255"
+			}
+			{
 				name: "dimensions"
 				type: "uint32_t"
 			}
@@ -502,6 +539,20 @@
 		]
 	}
 	{
+		name: "tm_asm_constraint"
+		properties: [
+			{
+				name: "constraint"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "sort_order"
+				type: "double"
+			}
+		]
+	}
+	{
 		name: "tm_asm_empty_state"
 		properties: [
 			{
@@ -528,6 +579,11 @@
 			{
 				name: "speed"
 				type: "string"
+			}
+			{
+				name: "constraints"
+				type: "subobject_set"
+				type_hash: "5c6e920aba6c0255"
 			}
 		]
 	}
@@ -704,6 +760,11 @@
 				type: "string"
 			}
 			{
+				name: "constraints"
+				type: "subobject_set"
+				type_hash: "5c6e920aba6c0255"
+			}
+			{
 				name: "strategy"
 				type: "uint32_t"
 			}
@@ -765,6 +826,11 @@
 			{
 				name: "speed"
 				type: "string"
+			}
+			{
+				name: "constraints"
+				type: "subobject_set"
+				type_hash: "5c6e920aba6c0255"
 			}
 			{
 				name: "animation"
@@ -1312,6 +1378,14 @@
 				name: "color_model"
 				type: "uint32_t"
 			}
+			{
+				name: "color_depth"
+				type: "uint32_t"
+			}
+			{
+				name: "auto_transfer"
+				type: "bool"
+			}
 		]
 	}
 	{
@@ -1335,6 +1409,68 @@
 				type_hash: "b4f2c5822cde57db"
 			}
 		]
+	}
+	{
+		name: "tm_constraint_component"
+		properties: [
+			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
+				name: "blend_time"
+				type: "float"
+			}
+			{
+				name: "constrained_entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "constrained_node"
+				type: "uint64_t"
+			}
+			{
+				name: "goal_entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "goal_node"
+				type: "uint64_t"
+			}
+			{
+				name: "goal_position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "match_rotation"
+				type: "bool"
+			}
+			{
+				name: "goal_rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "constraint"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+		default: {
+			enabled: true
+			goal_position: {
+			}
+			goal_rotation: {
+			}
+			type: 1
+		}
 	}
 	{
 		name: "tm_core_index"
@@ -2430,6 +2566,11 @@
 				type_hash: "c5f12f23d4534d76"
 			}
 			{
+				name: "dcc_asset_material_opacity_cg"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
 				name: "dcc_asset_mesh_cg"
 				type: "reference"
 				type_hash: "c5f12f23d4534d76"
@@ -2483,6 +2624,7 @@
 		default: {
 			dcc_asset_image_cg: "e47809e9-558e-a0cb-866b-2072a2e0888c"
 			dcc_asset_material_cg: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
+			dcc_asset_material_opacity_cg: "74f0d52d-d921-3216-e7dc-1166679fd896"
 			dcc_asset_mesh_cg: "ae204997-eea9-53c1-17bd-2faca6857c73"
 			extract_images: true
 			extract_materials: true
@@ -2613,6 +2755,10 @@
 				type: "uint32_t"
 			}
 			{
+				name: "extrusion_distance"
+				type: "float"
+			}
+			{
 				name: "shadow_distance"
 				type: "float"
 			}
@@ -2649,6 +2795,7 @@
 			spot_outer_angle: 1.221730589866638
 			shadow_depth_bias: 0.2000000029802322
 			num_cascades: 4
+			extrusion_distance: 100
 			shadow_distance: 60
 			uniform_log_weight: 0.800000011920929
 			area_extent: {
@@ -2673,11 +2820,16 @@
 				name: "density"
 				type: "float"
 			}
+			{
+				name: "samples_per_iteration"
+				type: "uint32_t"
+			}
 		]
 		default: {
 			enabled: true
 			update_frequency: 2
 			density: 1
+			samples_per_iteration: 4
 		}
 	}
 	{
@@ -2896,6 +3048,10 @@
 				type: "string"
 			}
 			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
 				name: "draw_mode"
 				type: "uint32_t"
 			}
@@ -2913,8 +3069,17 @@
 				type: "subobject"
 				type_hash: "c5f12f23d4534d76"
 			}
+			{
+				name: "cell_size"
+				type: "float"
+			}
+			{
+				name: "culling_distance"
+				type: "float"
+			}
 		]
 		default: {
+			enabled: true
 			creation_graph: {
 				graph: {
 					interface: {
@@ -2932,6 +3097,18 @@
 				type_hash: "436a01576b7bf03c"
 			}
 		]
+	}
+	{
+		name: "tm_fabrik_constraint"
+		properties: [
+			{
+				name: "ik_chain_length"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			ik_chain_length: 3
+		}
 	}
 	{
 		name: "tm_float"
@@ -3645,7 +3822,15 @@
 				name: "num_components"
 				type: "uint32_t"
 			}
+			{
+				name: "num_rows"
+				type: "uint32_t"
+			}
 		]
+		default: {
+			num_components: 1
+			num_rows: 1
+		}
 	}
 	{
 		name: "tm_gpu_simulation_description_ref"
@@ -3824,6 +4009,10 @@
 	{
 		name: "tm_graph_input"
 		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
 			{
 				name: "display_name"
 				type: "string"
@@ -4417,6 +4606,31 @@
 		]
 	}
 	{
+		name: "tm_lod_settings"
+		properties: [
+			{
+				name: "lod"
+				type: "uint32_t"
+			}
+			{
+				name: "auto_size_range"
+				type: "bool"
+			}
+			{
+				name: "size_range"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+		]
+		default: {
+			lod: 4294967295
+			auto_size_range: true
+			size_range: {
+				y: 1
+			}
+		}
+	}
+	{
 		name: "tm_mipmap_settings"
 		properties: [
 			{
@@ -4464,6 +4678,11 @@
 				name: "grid_size"
 				type: "float"
 			}
+		]
+	}
+	{
+		name: "tm_path_tracing_component"
+		properties: [
 		]
 	}
 	{
@@ -5700,6 +5919,11 @@
 				type: "subobject"
 				type_hash: "68e5ce58c21a6a1b"
 			}
+			{
+				name: "evaluation_contexts"
+				type: "subobject_set"
+				type_hash: "1638b587705ecfbf"
+			}
 		]
 	}
 	{
@@ -5799,6 +6023,15 @@
 	}
 	{
 		name: "tm_shader_system_creation_graph_node_define"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_shader_system_creation_graph_node_evaluation_context_name"
 		properties: [
 			{
 				name: "name"
@@ -6729,8 +6962,8 @@
 			unit_types: {
 			}
 			virtual_rect: {
-				w: 1
-				h: 1
+				w: 100
+				h: 100
 			}
 			pixels_per_meter: 256
 			input_disabled: true
@@ -6762,11 +6995,6 @@
 		properties: [
 			{
 				name: "rect"
-				type: "subobject"
-				type_hash: "a6e9c5f4ec093df1"
-			}
-			{
-				name: "visible_rect"
 				type: "subobject"
 				type_hash: "a6e9c5f4ec093df1"
 			}
@@ -6806,9 +7034,12 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
-			visible_rect: {
-			}
+			text: "button"
 			color: {
 			}
 		}
@@ -6836,7 +7067,12 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			text: "checkbox"
 		}
 	}
 	{
@@ -6859,6 +7095,10 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
 		}
 	}
@@ -6879,6 +7119,32 @@
 			}
 		]
 		default: {
+		}
+	}
+	{
+		name: "tm_ui_control_hsplitter"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "width"
+				type: "float"
+			}
+			{
+				name: "min_size"
+				type: "float"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				w: 10
+				h: 90
+			}
+			width: 5
 		}
 	}
 	{
@@ -6904,7 +7170,12 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			text: "label"
 		}
 	}
 	{
@@ -6960,10 +7231,20 @@
 				name: "tooltip"
 				type: "string"
 			}
+			{
+				name: "initial_fraction"
+				type: "float"
+			}
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			text: "progress"
+			initial_fraction: 0.5
 		}
 	}
 	{
@@ -6989,7 +7270,12 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			text: "radio"
 		}
 	}
 	{
@@ -7045,7 +7331,13 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			max: 100
+			size: 10
 		}
 	}
 	{
@@ -7083,7 +7375,13 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			max: 100
+			value_per_pixel: 1
 		}
 	}
 	{
@@ -7114,7 +7412,12 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			text: "text"
 			color: {
 			}
 		}
@@ -7154,7 +7457,38 @@
 		]
 		default: {
 			rect: {
+				x: 45
+				y: 45
+				w: 10
+				h: 10
 			}
+			default_text: "textedit"
+		}
+	}
+	{
+		name: "tm_ui_control_vsplitter"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "height"
+				type: "float"
+			}
+			{
+				name: "min_size"
+				type: "float"
+			}
+		]
+		default: {
+			rect: {
+				y: 45
+				w: 90
+				h: 10
+			}
+			height: 5
 		}
 	}
 	{
@@ -7178,18 +7512,29 @@
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
 			}
+			{
+				name: "parent_rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
 		]
 		default: {
-			type: 1
 			"font scale": 1
 			unit_types: {
 			}
 			control: {
 				__type: "tm_ui_control_label"
 				rect: {
+					x: 45
+					y: 45
+					w: 10
+					h: 10
 				}
-				text: ""
-				tooltip: ""
+				text: "label"
+			}
+			parent_rect: {
+				w: 1920
+				h: 1080
 			}
 		}
 	}
@@ -7330,6 +7675,61 @@
 			velocity: {
 			}
 			angular_velocity: {
+			}
+		}
+	}
+	{
+		name: "tm_verlet_constraint"
+		properties: [
+			{
+				name: "chain_length"
+				type: "uint32_t"
+			}
+			{
+				name: "damping"
+				type: "float"
+			}
+			{
+				name: "collision_shapes"
+				type: "subobject_set"
+				type_hash: "6f1727a660b8a1fd"
+			}
+		]
+		default: {
+			chain_length: 3
+			damping: 0.009999999776482582
+		}
+	}
+	{
+		name: "tm_verlet_constraint_collision_shape"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "node"
+				type: "uint64_t"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "radius"
+				type: "float"
+			}
+		]
+		default: {
+			position: {
+			}
+			rotation: {
 			}
 		}
 	}
