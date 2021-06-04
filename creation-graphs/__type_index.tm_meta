@@ -2737,12 +2737,17 @@
 				name: "samples_per_iteration"
 				type: "uint32_t"
 			}
+			{
+				name: "occlusion_bias"
+				type: "float"
+			}
 		]
 		default: {
 			enabled: true
 			update_frequency: 2
 			density: 1
 			samples_per_iteration: 4
+			occlusion_bias: 0.1000000014901161
 		}
 	}
 	{
@@ -2894,6 +2899,10 @@
 				type: "subobject_set"
 				type_hash: "eaaf394705f83715"
 			}
+			{
+				name: "persistence"
+				type: "uint32_t"
+			}
 		]
 	}
 	{
@@ -2976,6 +2985,10 @@
 			{
 				name: "max_count"
 				type: "uint32_t"
+			}
+			{
+				name: "order"
+				type: "double"
 			}
 			{
 				name: "creation_graph"
@@ -3439,12 +3452,68 @@
 				type: "subobject_set"
 				type_hash: "b11aa2e510ce635e"
 			}
+			{
+				name: "breakpoints"
+				type: "reference"
+				type_hash: "8bb5f5da9117fe07"
+			}
 		]
 		default: {
 			grid_size: 30
 			debug_watch_wire_overlay_mode: 5
 			show_removed_inherited: true
 		}
+	}
+	{
+		name: "tm_graph_settings_breakpoint"
+		properties: [
+			{
+				name: "node_unique_id"
+				type: "uint64_t"
+			}
+			{
+				name: "node_uuid_a"
+				type: "uint64_t"
+			}
+			{
+				name: "node_uuid_b"
+				type: "uint64_t"
+			}
+			{
+				name: "subgraph_node_unique_id"
+				type: "uint64_t"
+			}
+			{
+				name: "subgraph_node_uuid_a"
+				type: "uint64_t"
+			}
+			{
+				name: "subgraph_node_uuid_b"
+				type: "uint64_t"
+			}
+			{
+				name: "paused"
+				type: "bool"
+			}
+			{
+				name: "graph_uuid_a"
+				type: "uint64_t"
+			}
+			{
+				name: "graph_uuid_b"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph_settings_breakpoints"
+		properties: [
+			{
+				name: "breakpoints"
+				type: "subobject_set"
+				type_hash: "b48d194122bc0f45"
+			}
+		]
 	}
 	{
 		name: "tm_grid_settings"
@@ -4532,6 +4601,10 @@
 				name: "asset"
 				type: "reference"
 				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "pin_asset"
+				type: "bool"
 			}
 			{
 				name: "selection"
