@@ -15,23 +15,6 @@ components: [
 		}
 	}
 	{
-		__type: "tm_dcc_asset_component"
-		__uuid: "44ed12fb-0dbf-26e5-a61d-947a01be9610"
-		dcc_asset: "df4add0d-9441-679f-6e98-379ae78b2bf4"
-	}
-	{
-		__type: "tm_physics_shape_component"
-		__uuid: "afa5ee2c-b25b-5b74-41dc-a0b3088e4128"
-		type: 5
-		shape: {
-			__type: "tm_physics_shape_convex"
-			__uuid: "9a1ed72d-aa60-e302-9c53-80df015ac858"
-			mesh: "30f3a537-b4db-f0a0-73c0-d357a08d4e0c"
-			format: "tm_physx_convex_cooked_data"
-			data: "ddadefa71cc3be22"
-		}
-	}
-	{
 		__type: "tm_physics_body_component"
 		__uuid: "3d145cad-e85d-b5e8-99fc-141bb08cb8a7"
 		center_of_mass: {
@@ -53,6 +36,48 @@ components: [
 			z: 0.3332185447216034
 			w: 0.9427693486213684
 		}
+	}
+	{
+		__type: "tm_physics_shape_component"
+		__uuid: "afa5ee2c-b25b-5b74-41dc-a0b3088e4128"
+		type: 5
+		shape: {
+			__type: "tm_physics_shape_convex"
+			__uuid: "9a1ed72d-aa60-e302-9c53-80df015ac858"
+			mesh: "30f3a537-b4db-f0a0-73c0-d357a08d4e0c"
+			format: "tm_physx_convex_cooked_data"
+			data: "ddadefa71cc3be22"
+		}
+	}
+]
+children: [
+	{
+		__uuid: "50e88c77-e18f-8537-1f30-5495df4a3dc4"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "31c5c87b-d4af-6a55-5d4d-0321d49a2a23"
+		components__instantiated: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "23565556-3cd9-6bc6-caaf-054716c6ce24"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "5d8203e9-206f-d9af-9f9a-e6cf5108c497"
+				local_position: {
+					__uuid: "e6f950de-f823-7069-f925-6648a164136e"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "4b9ca47c-d509-4894-c62d-dd8ee05b8b2b"
+				}
+				local_rotation: {
+					__uuid: "33a8653a-06aa-faf5-005d-029f825e28e8"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "7b9d5aa5-5dfd-8641-ccee-f4297ee26677"
+				}
+				local_scale: {
+					__uuid: "321a06be-d346-c21f-9c8f-a6c8e1d6a550"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "1eb73148-b878-6afa-d54a-e9b6dbb63c46"
+				}
+			}
+		]
 	}
 ]
 __asset_uuid: "737dd0d8-5fef-2747-6e73-8d574339a114"

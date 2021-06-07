@@ -1,0 +1,68 @@
+__type: "tm_entity"
+__uuid: "31c5c87b-d4af-6a55-5d4d-0321d49a2a23"
+name: "Convex"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "5d8203e9-206f-d9af-9f9a-e6cf5108c497"
+		local_position: {
+			__uuid: "4b9ca47c-d509-4894-c62d-dd8ee05b8b2b"
+		}
+		local_rotation: {
+			__uuid: "7b9d5aa5-5dfd-8641-ccee-f4297ee26677"
+		}
+		local_scale: {
+			__uuid: "1eb73148-b878-6afa-d54a-e9b6dbb63c46"
+		}
+	}
+	{
+		__type: "tm_render_component"
+		__uuid: "d13f5f01-2857-6417-f40d-e0d20171bcd3"
+		creation_graph: {
+			__uuid: "a51c9925-4c26-b0e0-08af-d3d198754101"
+			__prototype_type: "tm_creation_graph"
+			__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			graph: {
+				__uuid: "42a46c22-4791-2a8c-00c8-8a7d12bbb8c4"
+				__prototype_type: "tm_graph"
+				__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+				interface: {
+					__uuid: "f9a6ad14-1ffe-2515-8daf-809fa60c82a4"
+					__prototype_type: "tm_graph_interface"
+					__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+					inputs__instantiated: [
+						{
+							__uuid: "517cdba4-dcc6-2dec-0eae-325cd9aa2095"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+							value: {
+								__type: "tm_dcc_asset_mesh_node_settings"
+								__uuid: "27594cbe-61f4-77eb-2610-16d3a8971579"
+								dcc_asset: "df4add0d-9441-679f-6e98-379ae78b2bf4"
+								mesh: "79dd10e9-fdfd-7150-3a2e-8d6c46c7daae"
+							}
+						}
+						{
+							__uuid: "ddd2a6f3-5640-6bd2-35c7-75804f6de062"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+							value_set_by_user: true
+							value: {
+								__type: "tm_creation_graph_resource_reference"
+								__uuid: "d46f37bd-b0d6-bf99-f940-fceaf1437b7d"
+								creation_graph: "05e65d0d-004a-9339-e21f-4abb8275fa36"
+								node_type_hash: "f09329374a5bbd5e"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+]
+child_sort_values: [
+	{
+		__uuid: "549d49c0-88a1-4e0d-6c99-817df5443796"
+	}
+]
+__asset_uuid: "7e9943f4-33ba-cfcd-599b-cf70fa554b2a"

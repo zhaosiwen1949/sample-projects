@@ -1,0 +1,71 @@
+__type: "tm_entity"
+__uuid: "06ab92b7-7129-d15a-7144-0f07ba227204"
+name: "Sphere"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "5e05ac03-8b2f-b5e5-8586-3daca14952e6"
+		local_position: {
+			__uuid: "5be23c17-3149-e487-ab92-9857121f4752"
+		}
+		local_rotation: {
+			__uuid: "7b90d6d6-14b9-69e0-968b-b1e36dc09084"
+		}
+		local_scale: {
+			__uuid: "e99e73de-df4b-d081-0dc6-247332709a99"
+			x: 2
+			y: 2
+			z: 2
+		}
+	}
+	{
+		__type: "tm_render_component"
+		__uuid: "30ce8c5c-055e-fd27-b775-921d9ff1914c"
+		creation_graph: {
+			__uuid: "fbd7230f-2928-3975-7928-050c49e313bd"
+			__prototype_type: "tm_creation_graph"
+			__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			graph: {
+				__uuid: "11e016c2-8a02-e0e4-d9b2-4de00dba7513"
+				__prototype_type: "tm_graph"
+				__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+				interface: {
+					__uuid: "778c6036-d97a-987e-c928-081f6177db34"
+					__prototype_type: "tm_graph_interface"
+					__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+					inputs__instantiated: [
+						{
+							__uuid: "bf907533-4d47-a0b0-898d-21c33566e1a6"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+							value: {
+								__type: "tm_dcc_asset_mesh_node_settings"
+								__uuid: "7c7bb3a1-9428-ed78-67b3-c150a15e06af"
+								dcc_asset: "c8178b0e-821f-529d-63d3-075b84771f90"
+								mesh: "b8f613ee-125e-7b9a-b76b-da0635e74982"
+							}
+						}
+						{
+							__uuid: "1ef22dd4-4c97-0a89-6f5b-c5ec143b84f1"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+							value_set_by_user: true
+							value: {
+								__type: "tm_creation_graph_resource_reference"
+								__uuid: "f2354771-5abe-239f-16f6-e80b5861cffc"
+								creation_graph: "9a1f029c-be34-36a4-e544-b0af16830697"
+								node_type_hash: "f09329374a5bbd5e"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+]
+child_sort_values: [
+	{
+		__uuid: "7aac3a80-1e6b-bf30-7def-5fa3414071fc"
+	}
+]
+__asset_uuid: "aa7ace44-23ee-cb0a-10f4-da253f7d62cd"

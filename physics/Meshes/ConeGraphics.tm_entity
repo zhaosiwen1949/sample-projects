@@ -1,0 +1,68 @@
+__type: "tm_entity"
+__uuid: "cccc5e01-2263-48ea-5a9a-2ffcc5cdfcc5"
+name: "Cone"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "35fc082d-a1f9-b219-e78a-e520c29c8c20"
+		local_position: {
+			__uuid: "0b2b9f07-13a4-5d03-0eca-7e9e786ca0aa"
+		}
+		local_rotation: {
+			__uuid: "5c211915-0886-ac23-111b-42a48d3e4408"
+		}
+		local_scale: {
+			__uuid: "a41533a5-0f83-88cc-4a93-e55421dc1b64"
+		}
+	}
+	{
+		__type: "tm_render_component"
+		__uuid: "941e4302-c618-0d76-fc49-674d28a55789"
+		creation_graph: {
+			__uuid: "db38b04f-27a4-bd14-c62f-a0310bfd2ea8"
+			__prototype_type: "tm_creation_graph"
+			__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			graph: {
+				__uuid: "f5e40f48-4bf5-0502-02ea-85e5070057f2"
+				__prototype_type: "tm_graph"
+				__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+				interface: {
+					__uuid: "fcf03291-76bb-c66b-50f4-e8555fed570e"
+					__prototype_type: "tm_graph_interface"
+					__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+					inputs__instantiated: [
+						{
+							__uuid: "3ecdbd58-2938-a132-a951-d6524d202751"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+							value: {
+								__type: "tm_dcc_asset_mesh_node_settings"
+								__uuid: "26fa59b6-7fd5-2f66-d68c-abb4016a66ae"
+								dcc_asset: "16725a40-7b75-d2e8-89c8-4940e845be62"
+								mesh: "5ef2fe77-7965-823a-16d8-5fbc93d9cf93"
+							}
+						}
+						{
+							__uuid: "655a0994-6724-42d0-21df-c63ec4e92a1c"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+							value_set_by_user: true
+							value: {
+								__type: "tm_creation_graph_resource_reference"
+								__uuid: "47733d0e-ad64-fd06-b90f-158f11c1dc58"
+								creation_graph: "cd50f4eb-1506-b43b-4f0d-8bb8604be9c1"
+								node_type_hash: "f09329374a5bbd5e"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+]
+child_sort_values: [
+	{
+		__uuid: "2b4f626b-b207-d1bf-74e1-d6fcf2228f0d"
+	}
+]
+__asset_uuid: "762c0e27-17a3-04d4-ba9f-fe9dba7e5fe9"

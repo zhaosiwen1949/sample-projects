@@ -15,23 +15,6 @@ components: [
 		}
 	}
 	{
-		__type: "tm_dcc_asset_component"
-		__uuid: "0009e9b3-ce12-0ade-ad00-59aa65381133"
-		dcc_asset: "1eecb4dc-7111-dc4f-09e0-b0beb03dedf1"
-	}
-	{
-		__type: "tm_physics_shape_component"
-		__uuid: "1030bc83-8d97-3a7c-7740-7271be904095"
-		type: 5
-		shape: {
-			__type: "tm_physics_shape_convex"
-			__uuid: "bed2d8b0-d3c9-7847-62dd-0df9e784802f"
-			mesh: "00fb97c8-ed28-55bf-e7be-8d8846142463"
-			format: "tm_physx_convex_cooked_data"
-			data: "577b8d188fd39892"
-		}
-	}
-	{
 		__type: "tm_physics_body_component"
 		__uuid: "25d04838-d0a7-860f-5e66-68aa423eb33d"
 		center_of_mass: {
@@ -53,6 +36,48 @@ components: [
 			z: 0.002783631440252066
 			w: 0.9999961256980896
 		}
+	}
+	{
+		__type: "tm_physics_shape_component"
+		__uuid: "1030bc83-8d97-3a7c-7740-7271be904095"
+		type: 5
+		shape: {
+			__type: "tm_physics_shape_convex"
+			__uuid: "bed2d8b0-d3c9-7847-62dd-0df9e784802f"
+			mesh: "00fb97c8-ed28-55bf-e7be-8d8846142463"
+			format: "tm_physx_convex_cooked_data"
+			data: "577b8d188fd39892"
+		}
+	}
+]
+children: [
+	{
+		__uuid: "fd6c15aa-f721-3c3e-e279-f1fa51c5cac8"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "a330a8bd-f390-59d0-023b-5b7bdcf286ae"
+		components__instantiated: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "31e85d7f-1e90-9193-2d5d-df535b0c0114"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "f2ced7a1-1278-6ee0-9dc3-0281fb1865af"
+				local_position: {
+					__uuid: "abbc6858-4750-5e0d-c4d3-1515c0294c00"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "f29e32d7-aa06-256f-5f24-1492791997f3"
+				}
+				local_rotation: {
+					__uuid: "a79fe07c-1a32-c74a-4e9b-11a0408786e0"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "45a99825-e9bc-2b05-0db8-e1d7092720dd"
+				}
+				local_scale: {
+					__uuid: "70d05129-2ec5-5646-0de7-4ab189fba4fa"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "c107a0d4-3875-98f8-a2a6-f89788ae4ccd"
+				}
+			}
+		]
 	}
 ]
 __asset_uuid: "aea79177-5bbb-e440-977d-c05c6813b769"

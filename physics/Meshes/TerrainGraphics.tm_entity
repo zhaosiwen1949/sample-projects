@@ -1,0 +1,68 @@
+__type: "tm_entity"
+__uuid: "b77e5120-5799-8f98-749c-c1b70e1c3856"
+name: "Terrain"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "bb7a0d2a-557a-fc67-058c-098bca1592bb"
+		local_position: {
+			__uuid: "6bb5652d-6287-091b-3612-e33a7f364ff9"
+		}
+		local_rotation: {
+			__uuid: "878fa423-5b7d-f33c-e1e2-ef81f0041069"
+		}
+		local_scale: {
+			__uuid: "ea61243a-b6fa-3577-75e3-e36cd8e7d0f5"
+		}
+	}
+	{
+		__type: "tm_render_component"
+		__uuid: "412e2ac1-7bae-7e35-ec2c-1ec57075a908"
+		creation_graph: {
+			__uuid: "0ece6796-8bb0-e925-2d19-40a5f0550da8"
+			__prototype_type: "tm_creation_graph"
+			__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			graph: {
+				__uuid: "5a9c0910-584d-b858-0e8b-bffafdd34280"
+				__prototype_type: "tm_graph"
+				__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+				interface: {
+					__uuid: "bbc3a08c-7f61-7d46-c2c0-0061c064ca17"
+					__prototype_type: "tm_graph_interface"
+					__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+					inputs__instantiated: [
+						{
+							__uuid: "6190d5b7-722b-3bb6-44db-5553c63781cb"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+							value: {
+								__type: "tm_dcc_asset_mesh_node_settings"
+								__uuid: "78a069ea-4e92-a9e5-a0c2-4d8535fd6c48"
+								dcc_asset: "10887419-2689-2534-7853-74c11abb872c"
+								mesh: "501fe44d-277b-b7a5-a19d-799b04dd2d23"
+							}
+						}
+						{
+							__uuid: "23e36493-1cf5-fe30-0d40-a2a5afa7c2ef"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+							value_set_by_user: true
+							value: {
+								__type: "tm_creation_graph_resource_reference"
+								__uuid: "ca716318-10b2-189b-a335-1440cd5abf9b"
+								creation_graph: "8d324db5-5e98-088f-d5d9-299eb7cec260"
+								node_type_hash: "f09329374a5bbd5e"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+]
+child_sort_values: [
+	{
+		__uuid: "ceb8d559-bf33-05b4-a491-a2a0f09e9d97"
+	}
+]
+__asset_uuid: "b3758c66-0a9b-48d7-e877-2ad910421a2d"

@@ -15,11 +15,6 @@ components: [
 		}
 	}
 	{
-		__type: "tm_dcc_asset_component"
-		__uuid: "6fbfd463-9597-f48b-8b09-e6a8eded2bdd"
-		dcc_asset: "2dea38e2-52f6-60c4-ce76-a1a771202a81"
-	}
-	{
 		__type: "tm_physics_body_component"
 		__uuid: "b6da0b99-a081-ee95-3bb1-a9b401bfb237"
 		center_of_mass: {
@@ -50,6 +45,46 @@ components: [
 			}
 		}
 		collision: "66c12e79-b3f0-047d-5878-a2774331676a"
+	}
+]
+children: [
+	{
+		__uuid: "831a53a9-287b-8405-1383-d593eebfb711"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "f0002d82-ed86-ae12-b08f-64242c0db99e"
+		components__instantiated: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "a749cee1-04e1-ec58-c7ef-1f1edef6197a"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "f9ad8c92-4153-4331-63aa-3ed57eb1b14c"
+				local_position: {
+					__uuid: "217d997d-8dd1-7c09-d668-7f2e8744b112"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "e04988c1-a0c2-0e16-ff2d-9c130f26d390"
+				}
+				local_rotation: {
+					__uuid: "77bcd16d-06ea-1036-d6e4-0278f6bcb254"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "37489515-4325-38c3-4dce-dff19af606ae"
+				}
+				local_scale: {
+					__uuid: "3d0372da-346b-b2b3-81bf-893a6bda601c"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "d2d97681-9454-80a7-5822-db3de7011570"
+				}
+			}
+		]
+	}
+]
+child_sort_values: [
+	{
+		__uuid: "0e919996-73b9-5094-6af3-4dee4b82fc01"
+	}
+	{
+		__uuid: "497130f2-2dbe-e321-060d-de453fb48c96"
+		entity: "831a53a9-287b-8405-1383-d593eebfb711"
+		value: 1
 	}
 ]
 __asset_uuid: "989c0325-8816-1468-2116-ed4b3104ca71"
