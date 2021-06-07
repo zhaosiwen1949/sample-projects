@@ -2692,6 +2692,10 @@
 		name: "tm_default_render_pipe_light_component"
 		properties: [
 			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
 				name: "type"
 				type: "uint32_t"
 			}
@@ -2765,6 +2769,7 @@
 			}
 		]
 		default: {
+			enabled: true
 			unit_type: 3
 			color: {
 			}
@@ -3068,6 +3073,16 @@
 				name: "culling_distance"
 				type: "float"
 			}
+			{
+				name: "buffer_data_output"
+				type: "subobject"
+				type_hash: "a38f21c19a48ed25"
+			}
+			{
+				name: "max_height_output"
+				type: "subobject"
+				type_hash: "a38f21c19a48ed25"
+			}
 		]
 		default: {
 			enabled: true
@@ -3076,6 +3091,10 @@
 					interface: {
 					}
 				}
+			}
+			buffer_data_output: {
+			}
+			max_height_output: {
 			}
 		}
 	}
@@ -4050,6 +4069,24 @@
 		]
 	}
 	{
+		name: "tm_graph_input_reference"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "graph"
+				type: "reference"
+				type_hash: "01527750cf1208ef"
+			}
+		]
+	}
+	{
 		name: "tm_graph_interface"
 		properties: [
 			{
@@ -4125,6 +4162,24 @@
 			{
 				name: "order"
 				type: "double"
+			}
+		]
+	}
+	{
+		name: "tm_graph_output_reference"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "graph"
+				type: "reference"
+				type_hash: "01527750cf1208ef"
 			}
 		]
 	}
