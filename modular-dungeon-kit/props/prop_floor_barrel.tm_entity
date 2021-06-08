@@ -1,0 +1,161 @@
+__type: "tm_entity"
+__uuid: "54d0b7b4-0f3a-4531-02b5-774695d4e6b2"
+name: "prop_floor_barrel"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "5d29760b-fdad-7335-0662-cf94cc2a3d07"
+		local_position: {
+			__uuid: "db5a7a3a-8c8c-5ece-f086-42d98ce73498"
+		}
+		local_rotation: {
+			__uuid: "c3d5f6ed-c75a-f2d4-bda8-425f1bbb1234"
+		}
+		local_scale: {
+			__uuid: "cb7d8332-c426-2f2c-14b4-fa23ba1e1cda"
+		}
+	}
+	{
+		__type: "tm_scene_tree_component"
+		__uuid: "41426982-1727-2fa2-e4cc-4547f724d68b"
+		node: "0163335ee2b57688"
+		node_names: "af59dd186aac960e"
+		asset: "d5676643-4170-d070-5e41-4284748d2686"
+		asset__type: "tm_dcc_asset"
+	}
+]
+children: [
+	{
+		__uuid: "84a5ac68-8e20-b730-bea5-4dc66a55235b"
+		name: "Meshes"
+		children: [
+			{
+				__uuid: "5163b18b-ecde-99f8-d093-661f6079cb19"
+				name: "object1_1:Wood"
+				components: [
+					{
+						__type: "tm_transform_component"
+						__uuid: "804cf715-ca98-3b5e-06e7-86bf0cac470e"
+						local_position: {
+							__uuid: "bd8598a5-b0ee-6dcc-3741-8145a1b66047"
+						}
+						local_rotation: {
+							__uuid: "f9a5d3c2-6ceb-b517-361a-ec368d1118f1"
+						}
+						local_scale: {
+							__uuid: "1025ad20-ffed-8643-8d4b-5b7ee84dbf52"
+						}
+						scene_tree_node: "94ab0d68f43aa7a8"
+					}
+					{
+						__type: "tm_render_component"
+						__uuid: "7f6eed04-cad4-932c-4388-375885a05a85"
+						creation_graph: {
+							__uuid: "cb501656-f713-af98-1931-657a1f50f5d5"
+							__prototype_type: "tm_creation_graph"
+							__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+							graph: {
+								__uuid: "9588a255-e783-e197-21f4-9967b3981c32"
+								__prototype_type: "tm_graph"
+								__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+								interface: {
+									__uuid: "9f6c682a-4128-6423-c335-e6cb22d226bb"
+									__prototype_type: "tm_graph_interface"
+									__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+									inputs__instantiated: [
+										{
+											__uuid: "47c4655b-4ece-281d-79d6-1e6705cf17e2"
+											__prototype_type: "tm_graph_input"
+											__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+											value: {
+												__type: "tm_dcc_asset_mesh_node_settings"
+												__uuid: "f9f9a5a2-d752-f268-8634-68c362b1d909"
+												dcc_asset: "d5676643-4170-d070-5e41-4284748d2686"
+												mesh: "f1fe28fd-3f6f-a27d-118e-1739468ceffe"
+											}
+										}
+										{
+											__uuid: "180778db-23f2-1daf-249f-0d41d9b6b114"
+											__prototype_type: "tm_graph_input"
+											__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+											value: {
+												__type: "tm_creation_graph_resource_reference"
+												__uuid: "85a5430b-c2a9-bf17-ad14-cbfc7c68fb2f"
+												creation_graph: "ed0c7f5a-f5e5-e6c6-fffa-9f86db1a9c3c"
+												node_type_hash: "f09329374a5bbd5e"
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				]
+			}
+			{
+				__uuid: "dda9a5c7-252e-1e09-78db-d2aefe07c024"
+				name: "object1_1:Steel"
+				components: [
+					{
+						__type: "tm_transform_component"
+						__uuid: "24184fdd-50cb-c8ad-2b44-b7e2d914abb7"
+						local_position: {
+							__uuid: "a763fe2a-6a54-c815-b49b-ad155bc9d870"
+						}
+						local_rotation: {
+							__uuid: "d4ea05d7-b79f-3739-a018-5f75a802ebb3"
+						}
+						local_scale: {
+							__uuid: "00812bf2-6fad-5104-938e-7479fdddb54f"
+						}
+						scene_tree_node: "94ab0d68f43aa7a8"
+					}
+					{
+						__type: "tm_render_component"
+						__uuid: "37f5d3cb-0603-2401-c0fe-a85f9ace1ef3"
+						creation_graph: {
+							__uuid: "50e0040e-a6a6-be65-46db-3cb7a8fc01a1"
+							__prototype_type: "tm_creation_graph"
+							__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+							graph: {
+								__uuid: "fc31f766-3224-0c2b-ef00-2bb73faa3419"
+								__prototype_type: "tm_graph"
+								__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+								interface: {
+									__uuid: "a7296f7f-07b3-9936-5dca-e91a96f11b9b"
+									__prototype_type: "tm_graph_interface"
+									__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+									inputs__instantiated: [
+										{
+											__uuid: "1aecc4ae-0304-e929-199e-45737200427e"
+											__prototype_type: "tm_graph_input"
+											__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+											value: {
+												__type: "tm_dcc_asset_mesh_node_settings"
+												__uuid: "8d785d5c-0596-be57-d319-7e5233bbba56"
+												dcc_asset: "d5676643-4170-d070-5e41-4284748d2686"
+												mesh: "c154049a-1e8d-14bc-5470-f630412acb97"
+											}
+										}
+										{
+											__uuid: "8b5b2634-f860-074d-730c-ae96f0e24ea1"
+											__prototype_type: "tm_graph_input"
+											__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+											value: {
+												__type: "tm_creation_graph_resource_reference"
+												__uuid: "08d9ebcc-4e02-df40-2775-bb3382cff7f0"
+												creation_graph: "088c0abf-c5b0-3b60-fc0e-f8a823aa5974"
+												node_type_hash: "f09329374a5bbd5e"
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				]
+			}
+		]
+	}
+]
+__asset_uuid: "e71d9733-033c-e75a-c9f2-0f4709acc6bb"
