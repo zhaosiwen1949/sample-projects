@@ -3484,6 +3484,49 @@ children: [
 					}
 				]
 			}
+			{
+				__uuid: "c7fd4266-9081-1a93-1207-7a2b2a076133"
+				name: "text"
+				components: [
+					{
+						__type: "tm_transform_component"
+						__uuid: "127a263d-73d5-1936-ab06-60ebab841654"
+						local_position: {
+							__uuid: "88bf4df7-3b0a-1ec2-e707-d3b70e831afe"
+						}
+						local_rotation: {
+							__uuid: "90044b11-0e24-8b83-7dae-be7e1c4d41a5"
+						}
+						local_scale: {
+							__uuid: "c7563e27-78be-2fa3-4cff-c41de9411a3e"
+						}
+					}
+					{
+						__type: "tm_ui_element_component"
+						__uuid: "b1ff1b0c-7cdc-a3c3-a758-e949d5fc0f60"
+						"font scale": 2
+						unit_types: {
+							__uuid: "35711830-866f-7656-930b-627c74500b88"
+							x: 1
+							y: 1
+							h: 1
+						}
+						control: {
+							__type: "tm_ui_control_label"
+							__uuid: "608ab03a-0829-ec39-734c-fb44791c2042"
+							rect: {
+								__uuid: "e30019d8-0147-8928-0564-5fcca5ea3d81"
+								x: 20
+								y: 100
+								w: 50
+								h: 60
+							}
+							text: "Press LEFT MOUSE to point"
+							tooltip: ""
+						}
+					}
+				]
+			}
 		]
 		child_sort_values: [
 			{
@@ -3493,6 +3536,12 @@ children: [
 			{
 				__uuid: "11ceab16-b541-2bcf-c66d-906d60286b14"
 				entity: "8d50cb2d-dbb3-3963-586c-fdcb683d558d"
+				value: 1
+			}
+			{
+				__uuid: "543541ec-b132-adbb-48c5-ea7242cd725e"
+				entity: "c7fd4266-9081-1a93-1207-7a2b2a076133"
+				value: 1
 			}
 		]
 	}
