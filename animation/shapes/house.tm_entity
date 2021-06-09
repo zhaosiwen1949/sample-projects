@@ -1,0 +1,84 @@
+__type: "tm_entity"
+__uuid: "02b6543e-1f6c-e03a-d914-b5b05cabb2fe"
+name: "house"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "07907887-2728-4db9-c1fe-5ab60699f650"
+		local_position: {
+			__uuid: "7ce18242-afdf-7de9-15a4-c6266d06e14d"
+		}
+		local_rotation: {
+			__uuid: "63b6fbb1-93ee-4667-cee3-7c73bdbcf508"
+		}
+		local_scale: {
+			__uuid: "90223390-5483-6c1c-3642-2c59f7a1c7ed"
+			x: 5
+			y: 5
+			z: 10
+		}
+	}
+	{
+		__type: "tm_render_component"
+		__uuid: "406335d6-064d-1258-c49d-5aa7f47c38fc"
+		creation_graph: {
+			__uuid: "03c7c951-e1bb-7897-6ec9-a3dc5e4fbdaf"
+			__prototype_type: "tm_creation_graph"
+			__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			graph: {
+				__uuid: "88e17f65-6648-0c12-9bc5-5fa428e4fce4"
+				__prototype_type: "tm_graph"
+				__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+				interface: {
+					__uuid: "ac593e76-abce-1fe4-93de-08670124f12c"
+					__prototype_type: "tm_graph_interface"
+					__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+					inputs__instantiated: [
+						{
+							__uuid: "bf1d1d4e-c417-18ce-ef1a-cf17a8b9778f"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+							value: {
+								__type: "tm_dcc_asset_mesh_node_settings"
+								__uuid: "64ce6828-ad21-37aa-0818-b8182b9ab99f"
+								dcc_asset: "00f60da3-dc33-09c0-8c5c-cdd9337fe5eb"
+								mesh: "935ca57f-faa5-2a95-01ba-48abca629837"
+							}
+						}
+						{
+							__uuid: "b6e9f7a9-d5a7-e553-1bb7-0564267535a1"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+							value: {
+								__type: "tm_creation_graph_resource_reference"
+								__uuid: "e4523bfe-b44f-dc88-4622-d754b96af8cb"
+								creation_graph: "b47039d0-7c29-07ff-30ad-9ee8c4d166c5"
+								node_type_hash: "f09329374a5bbd5e"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+	{
+		__type: "tm_physics_shape_component"
+		__uuid: "546af7a7-88fc-f85c-fc85-a0e55995d560"
+		type: 6
+		shape: {
+			__type: "tm_physics_shape_mesh"
+			__uuid: "1967f295-3572-0099-8e3b-3cee3f819565"
+			mesh: "02b6543e-1f6c-e03a-d914-b5b05cabb2fe"
+			format: "tm_physx_mesh_cooked_data"
+			data: "91c3ab32d8b392e1"
+		}
+	}
+]
+children: [
+]
+child_sort_values: [
+	{
+		__uuid: "0a4dd6fb-829d-c94a-6cb7-03e65189452d"
+	}
+]
+__asset_uuid: "58a8fc1a-a597-7274-ff21-e4a72ae054a2"

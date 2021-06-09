@@ -1,0 +1,81 @@
+__type: "tm_entity"
+__uuid: "9c627c0f-6242-d684-ed57-3b7bc0ae3bbb"
+name: "barell"
+components: [
+	{
+		__type: "tm_transform_component"
+		__uuid: "97976d63-a3c1-177e-5dc5-da216db1f77f"
+		local_position: {
+			__uuid: "48759f78-c0c0-9ba0-20ea-30c7f52539c8"
+		}
+		local_rotation: {
+			__uuid: "c38a5bd2-01f5-ae18-ceaf-0e190a894182"
+		}
+		local_scale: {
+			__uuid: "0c8bf171-bdc4-77be-0649-323354ca4d63"
+		}
+	}
+	{
+		__type: "tm_render_component"
+		__uuid: "338337a8-724c-698c-c9b7-c523977b265d"
+		creation_graph: {
+			__uuid: "5408c532-e636-589c-3375-a7bf95397a5b"
+			__prototype_type: "tm_creation_graph"
+			__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+			graph: {
+				__uuid: "63017d98-2377-99d0-6448-d09bc854b04d"
+				__prototype_type: "tm_graph"
+				__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+				interface: {
+					__uuid: "e65dd13f-b94e-a51c-5ed0-03e01b3d2cf2"
+					__prototype_type: "tm_graph_interface"
+					__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+					inputs__instantiated: [
+						{
+							__uuid: "e35b588d-4c56-ba21-a2d2-db3719ea7dc4"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+							value: {
+								__type: "tm_dcc_asset_mesh_node_settings"
+								__uuid: "c4646eb2-c68c-8926-be8b-3b58fd463c45"
+								dcc_asset: "d2c18c0f-f7cf-3a9e-9708-29410206cdf1"
+								mesh: "54e95ba7-42be-b0d4-4304-b54aef0b1e8f"
+							}
+						}
+						{
+							__uuid: "4efef05d-ea1e-c41b-df42-7c5719c5f16c"
+							__prototype_type: "tm_graph_input"
+							__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+							value: {
+								__type: "tm_creation_graph_resource_reference"
+								__uuid: "368d3da6-dfb8-0b31-476f-ed7ad98d6776"
+								creation_graph: "2acb8de9-7506-480b-2d62-b43f8692a0ed"
+								node_type_hash: "f09329374a5bbd5e"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+	{
+		__type: "tm_physics_shape_component"
+		__uuid: "bfb3d066-fa12-a5d8-1a6f-737a976e35ff"
+		type: 5
+		shape: {
+			__type: "tm_physics_shape_convex"
+			__uuid: "351072c9-6c11-0e22-1c26-7d7839650f81"
+			mesh: "9c627c0f-6242-d684-ed57-3b7bc0ae3bbb"
+			format: "tm_physx_convex_cooked_data"
+			data: "3c85d5ca24150eb1"
+		}
+	}
+]
+children: [
+]
+child_sort_values: [
+	{
+		__uuid: "b79bf435-d82a-2635-2e7e-4cfdf9004df2"
+	}
+]
+__asset_uuid: "dd4f3597-c32b-c79e-a3e5-892b9f3259e1"
