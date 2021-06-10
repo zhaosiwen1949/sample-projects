@@ -334,14 +334,45 @@ children: [
 						}
 					}
 					{
-						__type: "tm_dcc_asset_component"
-						__uuid: "c47f823f-2439-da14-57a7-403cf37a82c2"
-						dcc_asset: "486a0877-4888-b95c-4fd9-034e8b664c18"
-					}
-					{
 						__type: "tm_sound_source_component"
 						__uuid: "e999f460-9005-4cf6-2a86-1acfde89707d"
 						sound: "ba08841c-d3ad-dcc6-b50b-097fd5b191f7"
+					}
+				]
+				children: [
+					{
+						__uuid: "2d7b4dca-92b3-1c77-41da-fcef384293ae"
+						__prototype_type: "tm_entity"
+						__prototype_uuid: "1c03772b-6972-4b94-a773-6e3c752b243a"
+						components__instantiated: [
+							{
+								__type: "tm_transform_component"
+								__uuid: "2d7b0c58-38e5-74d5-cf00-f8d5ba63ae37"
+								__prototype_type: "tm_transform_component"
+								__prototype_uuid: "7d3c7ab0-9837-3132-a456-c1c144626a14"
+								local_position: {
+									__uuid: "cf374ea2-d20e-d018-1683-e96bfd48a8da"
+									__prototype_type: "tm_position"
+									__prototype_uuid: "5b7d8ffe-bbd9-24df-baad-c17f40c7eece"
+								}
+								local_rotation: {
+									__uuid: "b2c0614e-3211-b4bd-5f26-466159d91d7b"
+									__prototype_type: "tm_rotation"
+									__prototype_uuid: "6f22b2ea-0765-91ba-d0e3-30c72d86c9e5"
+								}
+								local_scale: {
+									__uuid: "82c39bd7-9b5f-672f-b202-379a9e50ea55"
+									__prototype_type: "tm_scale"
+									__prototype_uuid: "ac138a21-0d37-a784-e9f5-661401ef770a"
+								}
+							}
+						]
+					}
+				]
+				child_sort_values: [
+					{
+						__uuid: "d933fc1e-1ae2-5430-dd2e-c1f88797d5cb"
+						entity: "2d7b4dca-92b3-1c77-41da-fcef384293ae"
 					}
 				]
 			}

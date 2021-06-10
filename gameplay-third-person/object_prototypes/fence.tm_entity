@@ -3,11 +3,6 @@ __uuid: "85749196-609e-125d-b95b-20ab64222a96"
 name: "Fence"
 components: [
 	{
-		__type: "tm_dcc_asset_component"
-		__uuid: "061f73d8-ea10-26af-64c3-27e39b90a518"
-		dcc_asset: "8cd9b46e-c852-52d9-87bc-3bef30c7f283"
-	}
-	{
 		__type: "tm_transform_component"
 		__uuid: "41181dc9-2e9f-94ee-a9d7-970808d3a3c4"
 		local_position: {
@@ -56,6 +51,45 @@ children: [
 				}
 			}
 		]
+	}
+	{
+		__uuid: "e27f01ae-81a4-cfa1-2ad5-b930ba8e7307"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "6a97aa79-e198-adfe-0f43-98e03f181fbb"
+		components__instantiated: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "b09a8d9c-71d1-92ed-a411-d72c9855312b"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "98da62f3-4ff5-81c9-7eec-7bee18102083"
+				local_position: {
+					__uuid: "8af8d117-97bd-bc69-831d-b90fdc4f4860"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "41f20012-7385-fa7a-53dd-da1fbf870632"
+				}
+				local_rotation: {
+					__uuid: "101a55bc-04f2-efa0-6476-661c730083b8"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "b59f223d-346e-fc7f-7dc4-44e1f492b258"
+				}
+				local_scale: {
+					__uuid: "4bc5d5d8-9c94-e40c-4e66-3255d57d68a8"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "ab6c899e-049b-0bbe-75f1-2447bf45d980"
+				}
+			}
+		]
+	}
+]
+child_sort_values: [
+	{
+		__uuid: "4a037687-bf64-cfc1-3242-0aad5b64e9f3"
+		entity: "3a4afdbb-4369-0167-38b1-b923267b7239"
+	}
+	{
+		__uuid: "ab170eb7-6b31-01fc-5234-ba1007a892b9"
+		entity: "e27f01ae-81a4-cfa1-2ad5-b930ba8e7307"
+		value: 1
 	}
 ]
 __asset_uuid: "6be9df9c-440e-1f09-feb9-f8dd27e8c86d"
