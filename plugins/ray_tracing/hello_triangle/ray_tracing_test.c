@@ -1,11 +1,15 @@
-// This file contains all code required to render a simple ray traced triangle to the main output target.
-// This is done by adding an extension module to the default render pipeline at the debug visualization point.
-// There are two passed in this module, one that traces the triangle to an image and one that copies that image to the main render target.
-// The overal flow of this example is as follows:
-// - Create an invisible component with an associated thruth type in order to inject into the render pipeline.
+// This file contains all code required to render a simple ray traced triangle to the main output
+// target. This is done by adding an extension module to the default render pipeline at the debug
+// visualization point. There are two passes in this module, one that traces the triangle to an
+// image and one that copies that image to the main render target. The overall flow of this example
+// is as follows:
+//
+// - Create an invisible component with an associated truth type in order to inject into the render
+//   pipeline.
 // - Initialize the trace pass by creating the bottom-level and top-level acceleration structures.
 // - Setup the trace pass by creating a transient image and querying the ray dimensions.
-// - Execute the trace pass, on the first execute call this will also create the ray tracing pipeline and shader binding tables.
+// - Execute the trace pass, on the first execute call this will also create the ray tracing
+//   pipeline and shader binding tables.
 // - Destroy all the resources.
 
 #include <foundation/allocator.h>
