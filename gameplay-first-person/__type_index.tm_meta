@@ -2792,7 +2792,7 @@
 		]
 		default: {
 			enabled: true
-			unit_type: 3
+			unit_type: 4
 			color: {
 			}
 			intensity: 1
@@ -2844,6 +2844,11 @@
 	}
 	{
 		name: "tm_default_render_pipe_ray_trace_debug"
+		properties: [
+		]
+	}
+	{
+		name: "tm_default_render_pipe_ray_tracing_hello_triangle"
 		properties: [
 		]
 	}
@@ -4610,6 +4615,39 @@
 		}
 	}
 	{
+		name: "tm_interactable_target_component"
+		properties: [
+			{
+				name: "desc"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_interactable_target_door"
+		properties: [
+			{
+				name: "pivot_entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "pivot_rotate_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "pivot_rotate_angle"
+				type: "float"
+			}
+			{
+				name: "open_time"
+				type: "float"
+			}
+		]
+	}
+	{
 		name: "tm_keyboard_item"
 		properties: [
 			{
@@ -4871,6 +4909,16 @@
 				type_hash: "ff156da2e01c4a3d"
 			}
 			{
+				name: "offset_0"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "offset_1"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
 				name: "limit_enabled"
 				type: "bool"
 			}
@@ -4899,6 +4947,12 @@
 				type: "float"
 			}
 		]
+		default: {
+			offset_0: {
+			}
+			offset_1: {
+			}
+		}
 	}
 	{
 		name: "tm_physics_joint_distance"
