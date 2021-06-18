@@ -45,6 +45,7 @@ static struct tm_ui_api* tm_ui_api;
 #include <plugins/simulate_common/simulate_context.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
+#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/carray.inl>
 #include <foundation/math.inl>
@@ -132,6 +133,71 @@ struct tm_simulate_state_o {
     TM_PAD(7);
 };
 
+typedef struct simulate_persistent_state
+{
+    tm_gamestate_object_id_t player;
+     tm_gamestate_object_id_t player_camera;
+     tm_gamestate_object_id_t player_carry_anchor;
+     tm_gamestate_object_id_t box;
+    tm_vec3_t box_starting_point;
+    tm_vec4_t box_starting_rot;
+    
+    enum box_state box_state;
+    
+    float box_fly_timer;
+    
+    float look_yaw;
+    float look_pitch;
+    
+    float score;
+} simulate_persistent_state;
+
+static void serialize(void* user_data, void* buffer, uint32_t size)
+{
+    tm_simulate_state_o* source = (tm_simulate_state_o*) user_data;
+    simulate_persistent_state* dest = (simulate_persistent_state*) buffer;
+    
+    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
+    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
+    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_carry_anchor, &dest->player_carry_anchor);
+    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->box, &dest->box);
+    
+    dest->box_starting_point = source->box_starting_point;
+    dest->box_starting_rot = source->box_starting_rot;
+    
+    dest->box_state = source->box_state;
+    dest->box_fly_timer = source->box_fly_timer;
+    
+    dest->look_yaw = source->look_yaw;
+    dest->look_pitch = source->look_pitch;
+    
+    dest->score = source->score;
+    }
+
+static void deserialize(void* user_data, void* buffer, uint32_t size)
+{
+    tm_simulate_state_o* dest = (tm_simulate_state_o*) user_data;
+    simulate_persistent_state* source = (simulate_persistent_state*) buffer;
+    
+    dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
+    dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
+    dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_carry_anchor);
+    dest->box = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->box);
+    
+    dest->box_starting_point = source->box_starting_point;
+    dest->box_starting_rot = source->box_starting_rot;
+    
+    dest->box_state = source->box_state;
+    dest->box_fly_timer = source->box_fly_timer;
+    
+    dest->look_yaw = source->look_yaw;
+    dest->look_pitch = source->look_pitch;
+    
+    dest->score = source->score;
+    
+    tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
+}
+
 static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* state)
 {
     // Chose a random color, but never re-use the current one;
@@ -218,7 +284,9 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
             state->box_collision_type = c->collision;
     }
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-
+    
+    tm_entity_api->persistent_global_data(state->entity_ctx, state, "simulation_state", sizeof(simulate_persistent_state), serialize, deserialize);
+    
     return state;
 }
 

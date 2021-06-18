@@ -39,6 +39,7 @@ static struct tm_interactable_component_api* tm_interactable_component_api;
 #include <plugins/simulate_common/simulate_context.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
+#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/carray.inl>
 #include <foundation/math.inl>
@@ -83,6 +84,50 @@ struct tm_simulate_state_o {
     TM_PAD(4);
 } tm_gameplay_state_o;
 
+
+typedef struct simulate_persistent_state
+{
+    tm_gamestate_object_id_t player;
+    tm_gamestate_object_id_t player_camera;
+    
+    float look_yaw;
+    float look_pitch;
+    
+    double last_standing_time;
+} simulate_persistent_state;
+
+
+static void serialize(void* user_data, void* buffer, uint32_t size)
+{
+    tm_simulate_state_o* source = (tm_simulate_state_o*) user_data;
+    simulate_persistent_state* dest = (simulate_persistent_state*) buffer;
+    
+    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
+    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
+    
+    dest->look_yaw = source->look_yaw;
+    dest->look_pitch = source->look_pitch;
+    
+    dest->last_standing_time = source->last_standing_time;
+}
+
+static void deserialize(void* user_data, void* buffer, uint32_t size)
+{
+    tm_simulate_state_o* dest = (tm_simulate_state_o*) user_data;
+    simulate_persistent_state* source = (simulate_persistent_state*) buffer;
+    
+    dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
+    dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
+    
+    dest->look_yaw = source->look_yaw;
+    dest->look_pitch = source->look_pitch;
+    
+    dest->last_standing_time = source->last_standing_time;
+    
+    tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
+}
+
+
 static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 {
     tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
@@ -115,7 +160,9 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         }
     }
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-
+    
+    tm_entity_api->persistent_global_data(state->entity_ctx, state, "interaction_state", sizeof(simulate_persistent_state), serialize, deserialize);
+    
     return state;
 }
 
