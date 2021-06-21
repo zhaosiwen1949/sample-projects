@@ -183,6 +183,18 @@
 		}
 	}
 	{
+		name: "shader_tm_frame_system_resources_node_settings"
+		properties: [
+			{
+				name: "resoure"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			resoure: "9b8038e00d19107f"
+		}
+	}
+	{
 		name: "tm_aim_constraint"
 		properties: [
 			{
@@ -1321,6 +1333,31 @@
 			b: 1
 			a: 1
 		}
+	}
+	{
+		name: "tm_color_space"
+		properties: [
+			{
+				name: "color_primary"
+				type: "uint32_t"
+			}
+			{
+				name: "transfer_function"
+				type: "uint32_t"
+			}
+			{
+				name: "color_model"
+				type: "uint32_t"
+			}
+			{
+				name: "color_depth"
+				type: "uint32_t"
+			}
+			{
+				name: "auto_transfer"
+				type: "bool"
+			}
+		]
 	}
 	{
 		name: "tm_color_space_settings"
@@ -2742,6 +2779,10 @@
 				name: "occlusion_bias"
 				type: "float"
 			}
+			{
+				name: "deringing_weight"
+				type: "float"
+			}
 		]
 		default: {
 			enabled: true
@@ -2749,6 +2790,7 @@
 			density: 1
 			samples_per_iteration: 4
 			occlusion_bias: 0.1000000014901161
+			deringing_weight: 3.141592741012573
 		}
 	}
 	{
@@ -3303,6 +3345,20 @@
 		]
 	}
 	{
+		name: "tm_graph_debugger_persistent_settings"
+		properties: [
+			{
+				name: "breakpoints"
+				type: "subobject_set"
+				type_hash: "b48d194122bc0f45"
+			}
+			{
+				name: "overlay_opened"
+				type: "bool"
+			}
+		]
+	}
+	{
 		name: "tm_graph_input"
 		properties: [
 			{
@@ -3504,9 +3560,9 @@
 				type_hash: "b11aa2e510ce635e"
 			}
 			{
-				name: "breakpoints"
+				name: "debugger_persistent_settings"
 				type: "reference"
-				type_hash: "8bb5f5da9117fe07"
+				type_hash: "74079da6d852b357"
 			}
 		]
 		default: {
