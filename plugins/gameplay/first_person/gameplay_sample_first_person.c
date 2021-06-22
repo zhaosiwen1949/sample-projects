@@ -20,6 +20,7 @@ static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
 static struct tm_transform_component_api* tm_transform_component_api;
 static struct tm_ui_api* tm_ui_api;
+static struct tm_gamestate_api* tm_gamestate_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -31,6 +32,7 @@ static struct tm_ui_api* tm_ui_api;
 #include <foundation/random.h>
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_assets.h>
+#include <foundation/murmurhash64a.inl>
 
 #include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
@@ -152,11 +154,8 @@ typedef struct simulate_persistent_state
     float score;
 } simulate_persistent_state;
 
-static void serialize(void* user_data, void* buffer, uint32_t size)
+static void serialize(tm_simulate_state_o* source, simulate_persistent_state* dest)
 {
-    tm_simulate_state_o* source = (tm_simulate_state_o*) user_data;
-    simulate_persistent_state* dest = (simulate_persistent_state*) buffer;
-    
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_carry_anchor, &dest->player_carry_anchor);
@@ -174,11 +173,8 @@ static void serialize(void* user_data, void* buffer, uint32_t size)
     dest->score = source->score;
     }
 
-static void deserialize(void* user_data, void* buffer, uint32_t size)
+static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* source)
 {
-    tm_simulate_state_o* dest = (tm_simulate_state_o*) user_data;
-    simulate_persistent_state* source = (simulate_persistent_state*) buffer;
-    
     dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
     dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
     dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_carry_anchor);
@@ -196,6 +192,11 @@ static void deserialize(void* user_data, void* buffer, uint32_t size)
     dest->score = source->score;
     
     tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
+}
+
+void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+{
+    deserialize(user_data, data);
 }
 
 static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* state)
@@ -283,9 +284,26 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         if (TM_STRHASH_U64(c->name) == TM_STRHASH_U64(TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)))
             state->box_collision_type = c->collision;
     }
-    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
     
-    tm_entity_api->persistent_global_data(state->entity_ctx, state, "simulation_state", sizeof(simulate_persistent_state), serialize, deserialize);
+    const char* name = "simulation_state";
+    tm_strhash_t name_hash = tm_murmur_hash_string(name);
+    
+    tm_gamestate_struct_t s = {
+        .name = name,
+        .user_data = state,
+        .size = sizeof(simulate_persistent_state),
+        .created = private__state_loaded_from_gamestate,
+    };
+    
+    tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
+    tm_gamestate_api->add_struct_type(gamestate, s, 0, 0);
+    
+    simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
+    serialize(state, dest);
+    tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
+    
+    
+    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
     
     return state;
 }
@@ -578,6 +596,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
     tm_physics_collision_api = reg->get(TM_PHYSICS_COLLISION_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
+    tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }
