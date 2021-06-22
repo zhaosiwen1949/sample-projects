@@ -18,6 +18,7 @@ static struct tm_simulate_context_api* tm_simulate_context_api;
 static struct tm_ui_api* tm_ui_api;
 static struct tm_tag_component_api* tm_tag_component_api;
 static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
+static struct tm_gamestate_api* tm_gamestate_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -27,6 +28,7 @@ static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
 #include <foundation/localizer.h>
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_assets.h>
+#include <foundation/murmurhash64a.inl>
 
 #include <plugins/animation/animation_state_machine.h>
 #include <plugins/animation/animation_state_machine_component.h>
@@ -44,6 +46,7 @@ static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
 #include <plugins/simulate/simulate_entry.h>
 #include <plugins/simulate_common/simulate_context.h>
 #include <plugins/ui/ui.h>
+#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/math.inl>
 #include <plugins/creation_graph/creation_graph_output.inl>
@@ -109,20 +112,82 @@ struct tm_simulate_state_o {
 
     bool mouse_captured;
     TM_PAD(7);
+    
+    tm_gamestate_struct_id_t persistent_state_id;
 };
+
+
+typedef struct simulate_persistent_state
+{
+    uint32_t current_checkpoint;
+    float camera_tilt;
+    float score;
+    TM_PAD(4);
+    double last_standing_time;
+} simulate_persistent_state;
+
+static void serialize(tm_simulate_state_o* source, simulate_persistent_state* dest)
+{
+    dest->current_checkpoint = source->current_checkpoint;
+    dest->camera_tilt = source->camera_tilt;
+    dest->score = source->score;
+    dest->last_standing_time = source->last_standing_time;
+}
+
 
 static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t e)
 {
     tm_entity_t p = e;
     while (true) {
         tm_entity_t par = tm_entity_api->parent(entity_ctx, p);
-
+        
         if (!par.u64)
             break;
-
+        
         p = par;
     }
     return p;
+}
+
+static void private__load_game(tm_simulate_state_o* state)
+{
+    state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
+    
+    state->player_camera_pivot = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL));
+    state->checkpoint_sphere = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
+    state->camera_tilt = 3.18f;
+    state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
+    
+    const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
+    tm_simulate_context_api->set_camera(state->simulate_ctx, camera);
+    
+    const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
+    char checkpoint_path[30];
+    for (uint32_t i = 0; i < 8; ++i) {
+        snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
+        const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
+        
+        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
+            continue;
+        
+        state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
+    }
+}
+
+static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* source)
+{
+    dest->current_checkpoint = source->current_checkpoint;
+    dest->camera_tilt = source->camera_tilt;
+    dest->score = source->score;
+    dest->last_standing_time = source->last_standing_time;
+}
+
+void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+{
+    tm_simulate_state_o* state = user_data;
+    private__load_game(state);
+    deserialize(state, data);
+    state->persistent_state_id = s;
 }
 
 static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
@@ -144,29 +209,28 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 
     state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_component);
     state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);
-
-    state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
-
-    state->player_camera_pivot = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL));
-    state->checkpoint_sphere = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
-    state->camera_tilt = 3.18f;
-    state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
-
-    const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
-    tm_simulate_context_api->set_camera(state->simulate_ctx, camera);
-
-    const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
-    char checkpoint_path[30];
-    for (uint32_t i = 0; i < 8; ++i) {
-        snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
-        const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
-
-        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
-            continue;
-
-        state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
-    }
-
+    
+    private__load_game(state);
+    
+    const char* name = "simulation_state";
+    tm_strhash_t name_hash = tm_murmur_hash_string(name);
+    
+    tm_gamestate_struct_t s = {
+        .name = name,
+        .user_data = state,
+        .size = sizeof(simulate_persistent_state),
+        .created = private__state_loaded_from_gamestate,
+    };
+    
+    tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
+    
+    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = tm_offset_of(simulate_persistent_state, score)};
+    tm_gamestate_api->add_struct_type(gamestate, s, &score_member, 1);
+    
+    simulate_persistent_state dest = {0};
+    serialize(state, &dest);
+    state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, &dest, sizeof(simulate_persistent_state));
+    
     uint32_t num_backends;
     state->rb = (tm_renderer_backend_i*)(*tm_global_api_registry->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends));
     return state;
@@ -327,7 +391,12 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
 
         tm_set_position(state->trans_mgr, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
     }
-
+    
+    // Save Persistent State.
+    simulate_persistent_state persistent = {0};
+    serialize(state, &persistent);
+    tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, &persistent, sizeof(simulate_persistent_state));
+    
     // Rendering
     char label_text[30];
     snprintf(label_text, 30, "You reached: %.0f checkpoints", state->score);
@@ -360,6 +429,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
     tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
     tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
+    tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }

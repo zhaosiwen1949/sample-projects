@@ -133,6 +133,8 @@ struct tm_simulate_state_o {
 
     bool mouse_captured;
     TM_PAD(7);
+    
+    tm_gamestate_struct_id_t persistent_state_id;
 };
 
 typedef struct simulate_persistent_state
@@ -194,49 +196,55 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
 }
 
-void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+static void change_box_to_random_color(tm_simulate_state_o* state)
 {
-    deserialize(user_data, data);
-}
-
-static void change_box_to_random_color(tm_entity_t box, tm_simulate_state_o* state)
-{
+    tm_entity_t box = state->box;
+    
     // Chose a random color, but never re-use the current one;
     uint32_t color = UINT32_MAX;
     while (color == UINT32_MAX) {
         const uint32_t c = tm_random_api->next() % 3;
         const tm_strhash_t c_tag = c == 0 ? red_tag : (c == 1 ? green_tag : blue_tag);
-
+        
         if (!tm_tag_component_api->has_tag(state->tag_mgr, box, c_tag))
             color = c;
     }
-
+    
     tm_tt_id_t dcc_asset = (tm_tt_id_t){ 0 };
     tm_strhash_t tag = TM_STRHASH(0);
-
+    
     switch (color) {
-    case 0:
+        case 0:
         dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "red_box.dcc_asset");
         tag = red_tag;
         break;
-    case 1:
+        case 1:
         dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "green_box.dcc_asset");
         tag = green_tag;
         break;
-    case 2:
+        case 2:
         dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "blue_box.dcc_asset");
         tag = blue_tag;
         break;
     }
-
+    
     tm_tag_component_api->remove_tag(state->tag_mgr, box, red_tag);
     tm_tag_component_api->remove_tag(state->tag_mgr, box, green_tag);
     tm_tag_component_api->remove_tag(state->tag_mgr, box, blue_tag);
     tm_tag_component_api->add_tag(state->tag_mgr, box, tag);
-
+    
     void* dcc_comp = tm_entity_api->get_component(state->entity_ctx, box, state->dcc_asset_component);
     struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
     tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
+}
+
+void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+{
+    tm_simulate_state_o* state = user_data;
+    deserialize(state, data);
+    state->persistent_state_id = s;
+    if(state->box.u64)
+    change_box_to_random_color(state);
 }
 
 static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
@@ -268,7 +276,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
-    change_box_to_random_color(state->box, state);
+    change_box_to_random_color(state);
     const tm_transform_component_t* box_trans = tm_entity_api->get_component(state->entity_ctx, state->box, state->transform_component);
     state->box_starting_point = box_trans->world.pos;
     state->box_starting_rot = box_trans->world.rot;
@@ -296,11 +304,13 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     };
     
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
-    tm_gamestate_api->add_struct_type(gamestate, s, 0, 0);
+    
+    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = tm_offset_of(simulate_persistent_state, score)};
+    tm_gamestate_api->add_struct_type(gamestate, s, &score_member, 1);
     
     simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
     serialize(state, dest);
-    tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
+    state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
     
     
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
@@ -319,7 +329,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
     state->input.left_mouse_pressed = false;
-
+    
     // Read input
     tm_input_event_t events[32];
     bool mouse_captured_this_frame = state->mouse_captured;
@@ -545,16 +555,25 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
             tm_set_position(state->trans_mgr, state->box, state->box_starting_point);
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, false);
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
-            change_box_to_random_color(state->box, state);
+            change_box_to_random_color(state);
             state->box_state = BOX_STATE_FREE;
-            state->score += 1.0f;
+                state->score += 1.0f;
+                tm_gamestate_api->float_member_set(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, "score", state->score);
         } else {
             const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, args->dt * 10));
             tm_set_position(state->trans_mgr, state->box, interpolate_to_start_pos);
         }
     } break;
     }
-
+    
+    // Save Persistent State.
+    TM_INIT_TEMP_ALLOCATOR(ta);
+    simulate_persistent_state* persistent = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
+    serialize(state, persistent);
+    tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, persistent, sizeof(simulate_persistent_state));
+    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
+    
+    
     // UI: Score
     char label_text[128];
     snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
