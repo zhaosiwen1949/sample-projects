@@ -21,6 +21,7 @@ static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
 static struct tm_transform_component_api* tm_transform_component_api;
 static struct tm_ui_api* tm_ui_api;
 static struct tm_gamestate_api* tm_gamestate_api;
+static struct tm_creation_graph_api* tm_creation_graph_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -29,25 +30,29 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <foundation/input.h>
 #include <foundation/localizer.h>
 #include <foundation/macros.h>
+#include <foundation/murmurhash64a.inl>
 #include <foundation/random.h>
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_assets.h>
-#include <foundation/murmurhash64a.inl>
 
-#include <plugins/dcc_asset/dcc_asset_component.h>
 #include <plugins/entity/entity.h>
 #include <plugins/entity/tag_component.h>
 #include <plugins/entity/transform_component.h>
+#include <plugins/gamestate/gamestate.h>
 #include <plugins/physics/physics_body_component.h>
 #include <plugins/physics/physics_collision.h>
 #include <plugins/physics/physics_joint_component.h>
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
+#include <plugins/renderer/render_backend.h>
 #include <plugins/simulate/simulate_entry.h>
 #include <plugins/simulate_common/simulate_context.h>
+#include <plugins/render_utilities/render_component.h>
+#include <plugins/creation_graph/creation_graph.h>
+#include <plugins/creation_graph/render_nodes.h>
+#include <plugins/creation_graph/creation_graph_output.inl>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/carray.inl>
 #include <foundation/math.inl>
@@ -91,6 +96,8 @@ struct tm_simulate_state_o {
     // Contains keyboard and mouse input state.
     input_state_t input;
 
+    tm_renderer_backend_i *render_backend;
+
     // Entities
     tm_entity_t player;
     tm_entity_t player_camera;
@@ -121,7 +128,6 @@ struct tm_simulate_state_o {
     tm_tt_id_t box_collision_type;
 
     // Component types
-    tm_component_type_t dcc_asset_component;
     tm_component_type_t mover_component;
     tm_component_type_t physics_shape_component;
     tm_component_type_t physics_joint_component;
@@ -129,6 +135,7 @@ struct tm_simulate_state_o {
     tm_component_type_t physx_joint_component;
     tm_component_type_t tag_component;
     tm_component_type_t transform_component;
+    TM_PAD(4);
 
     // Component managers
     tm_transform_component_manager_o* trans_mgr;
@@ -207,23 +214,48 @@ static void private__update_box_dcc_asset(tm_simulate_state_o* state)
 {
     tm_entity_t box = state->box;
     
-    tm_tt_id_t dcc_asset = (tm_tt_id_t){ 0 };
+    tm_tt_id_t material = (tm_tt_id_t){ 0 };
     
     switch (state->box_color) {
         case 0:
-        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "red_box.dcc_asset");
+        material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-red.creation");
         break;
         case 1:
-        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "green_box.dcc_asset");
+        material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-green.creation");
         break;
         case 2:
-        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "blue_box.dcc_asset");
+        material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-blue.creation");
         break;
     }
     
-    void* dcc_comp = tm_entity_api->get_component(state->entity_ctx, box, state->dcc_asset_component);
-    struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
-    tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
+    const tm_entity_t cube = tm_entity_api->resolve_path(state->entity_ctx, box, "Meshes/Cube");
+
+    if (!cube.u64)
+        return;
+
+    TM_INIT_TEMP_ALLOCATOR(ta);
+    tm_creation_graph_instance_t **instances = tm_creation_graph_api->get_instances_from_component(state->tt, state->entity_ctx, cube, TM_TT_TYPE_HASH__RENDER_COMPONENT, ta);
+
+    tm_creation_graph_context_t cg_ctx = {
+        .tt = state->tt,
+        .entity_ctx = state->entity_ctx,
+        .ta = ta,
+        .entity_id = box.u64,
+        .rb = state->render_backend,
+        .device_affinity_mask = TM_RENDERER_DEVICE_AFFINITY_MASK_ALL,
+    };
+
+    tm_resource_reference_t mat = {
+        .creation_graph = material,
+        .node_type_hash = TM_CREATION_GRAPH__SHADER_INSTANCE_OUTPUT_HASH,
+    };
+
+    for (uint32_t instance_idx = 0; instance_idx < tm_carray_size(instances); ++instance_idx) {
+        tm_creation_graph_instance_t *instance = instances[instance_idx];
+        tm_creation_graph_api->set_input_value(instance, &cg_ctx, TM_STATIC_HASH("material", 0xeac0b497876adedfULL), &mat, sizeof(mat));
+    }
+
+    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
 static void change_box_to_random_color(tm_simulate_state_o* state)
@@ -282,9 +314,9 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         .entity_ctx = args->entity_ctx,
         .simulate_ctx = args->simulate_ctx,
         .asset_root = args->asset_root,
+        .render_backend = args->render_backend,
     };
 
-    state->dcc_asset_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__DCC_ASSET_COMPONENT);
     state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
     state->physics_joint_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
     state->physics_shape_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
@@ -642,6 +674,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_physics_collision_api = reg->get(TM_PHYSICS_COLLISION_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
     tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
+    tm_creation_graph_api = reg->get(TM_CREATION_GRAPH_API_NAME);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
 }
