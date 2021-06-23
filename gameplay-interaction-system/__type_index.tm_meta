@@ -7126,9 +7126,9 @@
 				type: "uint32_t"
 			}
 			{
-				name: "unit_types"
+				name: "reference_screen_size"
 				type: "subobject"
-				type_hash: "1925ce971c95f851"
+				type_hash: "5ea1bb7b6537de46"
 			}
 			{
 				name: "virtual_rect"
@@ -7149,12 +7149,14 @@
 			}
 			{
 				name: "theme"
-				type: "subobject"
-				type_hash: "8944e0b1cefd4756"
+				type: "reference"
+				type_hash: "2068b64b38668594"
 			}
 		]
 		default: {
-			unit_types: {
+			reference_screen_size: {
+				x: 1920
+				y: 1080
 			}
 			virtual_rect: {
 				w: 100
@@ -7698,9 +7700,9 @@
 				type: "float"
 			}
 			{
-				name: "unit_types"
-				type: "subobject"
-				type_hash: "1925ce971c95f851"
+				name: "theme"
+				type: "reference"
+				type_hash: "2068b64b38668594"
 			}
 			{
 				name: "control"
@@ -7710,8 +7712,6 @@
 		]
 		default: {
 			"font scale": 1
-			unit_types: {
-			}
 			control: {
 				__type: "tm_ui_control_label"
 				rect: {
