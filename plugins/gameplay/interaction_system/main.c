@@ -85,6 +85,8 @@ struct tm_simulate_state_o {
     tm_component_type_t tag_comp;
     tm_component_type_t interact_comp;
     TM_PAD(4);
+    
+    tm_gamestate_struct_id_t persistent_state_id;
 } tm_gameplay_state_o;
 
 
@@ -127,6 +129,8 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
 {
     deserialize(user_data, data);
+    tm_simulate_state_o* state = user_data;
+    state->persistent_state_id = s;
 }
 
 
@@ -178,7 +182,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     
     simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
     serialize(state, dest);
-    tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
+    state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
     
     return state;
 }
@@ -333,7 +337,14 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
             }
         }
     }
-
+    
+    // Save Persistent State.
+    TM_INIT_TEMP_ALLOCATOR(ta);
+    simulate_persistent_state* persistent = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
+    serialize(state, persistent);
+    tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, persistent, sizeof(simulate_persistent_state));
+    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
+    
     // UI: Crosshair
     tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
     tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
