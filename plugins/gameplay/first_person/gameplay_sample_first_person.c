@@ -101,7 +101,9 @@ struct tm_simulate_state_o {
 
     // How we currently are/may interact with the box
     enum box_state box_state;
-
+    
+    uint32_t box_color;
+    
     // Used to decide when to move box from BOX_STATE_FLYING_UP to BOX_STATE_FLYING_BACK
     float box_fly_timer;
 
@@ -111,7 +113,8 @@ struct tm_simulate_state_o {
 
     // Current score
     float score;
-
+    TM_PAD(4);
+    
     // Misc
     uint64_t processed_events;
     tm_tt_id_t player_collision_type;
@@ -147,6 +150,7 @@ typedef struct simulate_persistent_state
     tm_vec4_t box_starting_rot;
     
     enum box_state box_state;
+    uint32_t box_color;
     
     float box_fly_timer;
     
@@ -154,6 +158,7 @@ typedef struct simulate_persistent_state
     float look_pitch;
     
     float score;
+    TM_PAD(4);
 } simulate_persistent_state;
 
 static void serialize(tm_simulate_state_o* source, simulate_persistent_state* dest)
@@ -167,6 +172,7 @@ static void serialize(tm_simulate_state_o* source, simulate_persistent_state* de
     dest->box_starting_rot = source->box_starting_rot;
     
     dest->box_state = source->box_state;
+    dest->box_color = source->box_color;
     dest->box_fly_timer = source->box_fly_timer;
     
     dest->look_yaw = source->look_yaw;
@@ -186,6 +192,7 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     dest->box_starting_rot = source->box_starting_rot;
     
     dest->box_state = source->box_state;
+    dest->box_color = source->box_color;
     dest->box_fly_timer = source->box_fly_timer;
     
     dest->look_yaw = source->look_yaw;
@@ -194,6 +201,29 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     dest->score = source->score;
     
     tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
+}
+
+static void private__update_box_dcc_asset(tm_simulate_state_o* state)
+{
+    tm_entity_t box = state->box;
+    
+    tm_tt_id_t dcc_asset = (tm_tt_id_t){ 0 };
+    
+    switch (state->box_color) {
+        case 0:
+        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "red_box.dcc_asset");
+        break;
+        case 1:
+        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "green_box.dcc_asset");
+        break;
+        case 2:
+        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "blue_box.dcc_asset");
+        break;
+    }
+    
+    void* dcc_comp = tm_entity_api->get_component(state->entity_ctx, box, state->dcc_asset_component);
+    struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
+    tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
 }
 
 static void change_box_to_random_color(tm_simulate_state_o* state)
@@ -210,20 +240,18 @@ static void change_box_to_random_color(tm_simulate_state_o* state)
             color = c;
     }
     
-    tm_tt_id_t dcc_asset = (tm_tt_id_t){ 0 };
-    tm_strhash_t tag = TM_STRHASH(0);
+    state->box_color = color;
     
+    
+    tm_strhash_t tag = TM_STRHASH(0);
     switch (color) {
         case 0:
-        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "red_box.dcc_asset");
         tag = red_tag;
         break;
         case 1:
-        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "green_box.dcc_asset");
         tag = green_tag;
         break;
         case 2:
-        dcc_asset = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "blue_box.dcc_asset");
         tag = blue_tag;
         break;
     }
@@ -233,9 +261,7 @@ static void change_box_to_random_color(tm_simulate_state_o* state)
     tm_tag_component_api->remove_tag(state->tag_mgr, box, blue_tag);
     tm_tag_component_api->add_tag(state->tag_mgr, box, tag);
     
-    void* dcc_comp = tm_entity_api->get_component(state->entity_ctx, box, state->dcc_asset_component);
-    struct tm_dcc_asset_component_api* tm_dcc_asset_component_api = tm_api_registry_api->get(TM_DCC_ASSET_COMPONENT_API_NAME);
-    tm_dcc_asset_component_api->set_component_dcc_asset(dcc_comp, dcc_asset);
+    private__update_box_dcc_asset(state);
 }
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
@@ -244,7 +270,7 @@ void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void
     deserialize(state, data);
     state->persistent_state_id = s;
     if(state->box.u64)
-    change_box_to_random_color(state);
+        private__update_box_dcc_asset(state);
 }
 
 static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
