@@ -17,7 +17,7 @@ components: [
 	{
 		__type: "tm_atmospheric_sky_component"
 		__uuid: "793e03cd-36ef-b9bc-9e25-6528fa4dd7cc"
-		sun_entity: "a6a956dc-7ca4-7bc5-c4cd-c2b47955bd02"
+		sun_entity: "5205483d-cc83-5cd8-b7c3-ddb33d7038c2"
 		celestial_body_center: {
 			__uuid: "0555185e-2000-6a7b-6afa-fb0e0cfd659e"
 		}
@@ -39,8 +39,8 @@ components: [
 			g: 0
 			b: 0
 		}
-		absorption_extinction: {
-			__uuid: "dc175a4a-c1a2-739f-742a-6a00afb63e86"
+		ozone_absorption: {
+			__uuid: "e93b9a62-6589-f642-e6a1-fc77e45eb4a4"
 			r: 0.06499999761581421
 			g: 0.1880999952554703
 			b: 0.008500000461935997
@@ -63,32 +63,34 @@ components: [
 					{
 						__uuid: "c4634e2d-c7cd-4fe1-5f41-cf8c6eeae185"
 						type: "gpu_image_import"
-						position_x: -259.7675170898438
-						position_y: -19.75
+						position_x: -239.7675170898438
+						position_y: -24.75
 					}
 					{
 						__uuid: "3f1e155a-78fd-2dac-199d-7cc3a7b50f78"
 						type: "mipmap"
-						position_x: -7.76751708984375
+						position_x: 7.73248291015625
 						position_y: -148.75
+						width: 181
 					}
 					{
 						__uuid: "52ba3f5f-aed8-ed98-dbf2-f38ed436aeb3"
 						type: "mipmap"
-						position_x: -9.76751708984375
+						position_x: 7.23248291015625
 						position_y: 13.25
+						width: 184
 					}
 					{
 						__uuid: "cc040374-912f-def0-c2a4-2c7cfea509f5"
 						type: "image_output"
-						position_x: 258.2324829101563
-						position_y: -71.75
+						position_x: 257.2324829101563
+						position_y: -64.75
 					}
 					{
 						__uuid: "ecf25b78-2b4e-0446-154f-b7d7b7ce5b87"
 						type: "image_output"
-						position_x: 259.2324829101563
-						position_y: 20.25
+						position_x: 258.2324829101563
+						position_y: 27.25
 					}
 				]
 				connections: [
@@ -141,6 +143,7 @@ components: [
 							__uuid: "0cbee450-04cd-7963-1c25-713fe8ee0fb6"
 							color_space: 0
 							filter: 2
+							storage_policy: 1
 						}
 					}
 					{
@@ -152,6 +155,7 @@ components: [
 							__uuid: "4462cfac-c779-b268-6b48-99931528960a"
 							color_space: 0
 							filter: 1
+							storage_policy: 1
 						}
 					}
 					{
@@ -198,44 +202,73 @@ components: [
 ]
 children: [
 	{
-		__uuid: "a6a956dc-7ca4-7bc5-c4cd-c2b47955bd02"
+		__uuid: "5205483d-cc83-5cd8-b7c3-ddb33d7038c2"
+		__prototype_type: "tm_entity"
+		__prototype_uuid: "a54f6f5c-b3ee-6ab8-4f2b-03f9bd53b0b8"
 		name: "sun-light"
-		components: [
+		components__instantiated: [
 			{
 				__type: "tm_transform_component"
-				__uuid: "f721dfaa-bae3-b21e-3e10-1726e96608b5"
+				__uuid: "6a3dd9c6-e319-1a50-9a63-86d871615705"
+				__prototype_type: "tm_transform_component"
+				__prototype_uuid: "fba9c4d9-7104-4b02-1bc2-8e810fef21c5"
 				local_position: {
-					__uuid: "55996db7-982e-5b2e-a654-89fb9be0bd0e"
+					__uuid: "70332570-744d-8754-2f99-e0986b65852b"
+					__prototype_type: "tm_position"
+					__prototype_uuid: "60ef26a1-7062-969a-b984-7d39ef0a5ffe"
+					x: 0
+					z: 0
 				}
 				local_rotation: {
-					__uuid: "89ad12ee-7a09-795e-f358-f8f0497eed96"
-					x: -0.3134758174419403
-					y: -0.5299156308174133
-					z: -0.2194981724023819
-					w: 0.7567977905273438
+					__uuid: "c1135018-faa8-fef1-ccc4-f8f42428f723"
+					__prototype_type: "tm_rotation"
+					__prototype_uuid: "4791d183-5f4d-b0d1-8b4f-e098291c9a1b"
+					x: -0.3535534143447876
+					y: -0.3535534143447876
+					z: -0.146446630358696
+					w: 0.8535533547401428
 				}
 				local_scale: {
-					__uuid: "8c588653-46a2-d356-59b9-87c73a33e069"
+					__uuid: "f8b0d726-c8f6-c084-6b3d-1c819edd0707"
+					__prototype_type: "tm_scale"
+					__prototype_uuid: "2dfd6f12-22be-3c8d-87fc-82b734dba9b7"
+					x: 1
+					y: 1
+					z: 1
 				}
 			}
 			{
 				__type: "tm_default_render_pipe_light_component"
-				__uuid: "0785da2d-1d11-a333-2742-7505c53ea340"
+				__uuid: "3bfb97b6-6e0d-ac69-0719-55feb396823e"
+				__prototype_type: "tm_default_render_pipe_light_component"
+				__prototype_uuid: "731b66a9-720c-809b-b9d9-1b0867f94bbe"
+				enabled: true
 				type: 2
 				unit_type: 2
 				color_type: 1
 				color: {
-					__uuid: "7ed054ec-6a8e-0a28-8fad-ef9149543245"
+					__uuid: "85ccbee5-6a44-5e92-6849-b4ee73dc57a1"
+					__prototype_type: "tm_color_rgb"
+					__prototype_uuid: "dd891cfc-5175-6a7f-d536-e62802e8012c"
+					r: 1
 					g: 0.9595418572425842
 					b: 0.9191688895225525
 				}
 				intensity: 5.599999904632568
+				spot_inner_angle: 0.3490658700466156
+				spot_outer_angle: 1.221730589866638
 				cast_shadows: true
+				shadow_depth_bias: 0.2000000029802322
+				num_cascades: 4
+				extrusion_distance: 100
+				shadow_distance: 60
+				uniform_log_weight: 0.800000011920929
 				area_extent: {
-					__uuid: "565ccea1-0121-5822-a385-ba30c8d8a82c"
-					x: 1
-					y: 1
+					__uuid: "d0d62ca2-ac35-5faa-60db-74b0b7efe2ba"
+					__prototype_type: "tm_vec2_t"
+					__prototype_uuid: "22cdebda-966b-1bb5-62ed-4416b6c00a9a"
 				}
+				area_radius: 1
 			}
 		]
 	}
@@ -243,7 +276,12 @@ children: [
 child_sort_values: [
 	{
 		__uuid: "403e1c75-ead1-bf14-bff4-1929798e48ab"
-		entity: "a6a956dc-7ca4-7bc5-c4cd-c2b47955bd02"
+	}
+	{
+		__uuid: "ce0be513-88dc-e9c0-e228-72472a95ccb9"
+	}
+	{
+		__uuid: "e3e24d48-e4ae-f1ec-55f7-416c6b40f1fa"
 	}
 ]
 __asset_uuid: "c9a524ad-b306-d918-5866-18b0d3bb9bcb"
