@@ -210,52 +210,55 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
 }
 
-static void private__update_box_dcc_asset(tm_simulate_state_o* state)
+static void update_box_dcc_asset(tm_simulate_state_o* state)
 {
     tm_entity_t box = state->box;
     
-    tm_tt_id_t material = (tm_tt_id_t){ 0 };
-    
-    switch (state->box_color) {
-        case 0:
-        material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-red.creation");
-        break;
-        case 1:
-        material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-green.creation");
-        break;
-        case 2:
-        material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-blue.creation");
-        break;
-    }
-    
-    const tm_entity_t cube = tm_entity_api->resolve_path(state->entity_ctx, box, "Meshes/Cube");
-
-    if (!cube.u64)
-        return;
-
-    TM_INIT_TEMP_ALLOCATOR(ta);
-    tm_creation_graph_instance_t **instances = tm_creation_graph_api->get_instances_from_component(state->tt, state->entity_ctx, cube, TM_TT_TYPE_HASH__RENDER_COMPONENT, ta);
-
-    tm_creation_graph_context_t cg_ctx = {
-        .tt = state->tt,
-        .entity_ctx = state->entity_ctx,
-        .ta = ta,
-        .entity_id = box.u64,
-        .rb = state->render_backend,
-        .device_affinity_mask = TM_RENDERER_DEVICE_AFFINITY_MASK_ALL,
-    };
-
-    tm_resource_reference_t mat = {
-        .creation_graph = material,
-        .node_type_hash = TM_CREATION_GRAPH__SHADER_INSTANCE_OUTPUT_HASH,
-    };
-
-    for (uint32_t instance_idx = 0; instance_idx < tm_carray_size(instances); ++instance_idx) {
-        tm_creation_graph_instance_t *instance = instances[instance_idx];
-        tm_creation_graph_api->set_input_value(instance, &cg_ctx, TM_STATIC_HASH("material", 0xeac0b497876adedfULL), &mat, sizeof(mat));
-    }
-
-    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
+    if(box.u64)
+{
+        tm_tt_id_t material = (tm_tt_id_t){ 0 };
+        
+        switch (state->box_color) {
+            case 0:
+            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-red.creation");
+            break;
+            case 1:
+            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-green.creation");
+            break;
+            case 2:
+            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-blue.creation");
+            break;
+        }
+        
+        const tm_entity_t cube = tm_entity_api->resolve_path(state->entity_ctx, box, "Meshes/Cube");
+        
+        if (!cube.u64)
+            return;
+        
+        TM_INIT_TEMP_ALLOCATOR(ta);
+        tm_creation_graph_instance_t **instances = tm_creation_graph_api->get_instances_from_component(state->tt, state->entity_ctx, cube, TM_TT_TYPE_HASH__RENDER_COMPONENT, ta);
+        
+        tm_creation_graph_context_t cg_ctx = {
+            .tt = state->tt,
+            .entity_ctx = state->entity_ctx,
+            .ta = ta,
+            .entity_id = box.u64,
+            .rb = state->render_backend,
+            .device_affinity_mask = TM_RENDERER_DEVICE_AFFINITY_MASK_ALL,
+        };
+        
+        tm_resource_reference_t mat = {
+            .creation_graph = material,
+            .node_type_hash = TM_CREATION_GRAPH__SHADER_INSTANCE_OUTPUT_HASH,
+        };
+        
+        for (uint32_t instance_idx = 0; instance_idx < tm_carray_size(instances); ++instance_idx) {
+            tm_creation_graph_instance_t *instance = instances[instance_idx];
+            tm_creation_graph_api->set_input_value(instance, &cg_ctx, TM_STATIC_HASH("material", 0xeac0b497876adedfULL), &mat, sizeof(mat));
+        }
+        
+        TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
+}
 }
 
 static void change_box_to_random_color(tm_simulate_state_o* state)
@@ -293,7 +296,7 @@ static void change_box_to_random_color(tm_simulate_state_o* state)
     tm_tag_component_api->remove_tag(state->tag_mgr, box, blue_tag);
     tm_tag_component_api->add_tag(state->tag_mgr, box, tag);
     
-    private__update_box_dcc_asset(state);
+    update_box_dcc_asset(state);
 }
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
@@ -301,8 +304,6 @@ void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void
     tm_simulate_state_o* state = user_data;
     deserialize(state, data);
     state->persistent_state_id = s;
-    if(state->box.u64)
-        private__update_box_dcc_asset(state);
 }
 
 static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
@@ -510,7 +511,10 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
 
     // Modified if the raycast below hits the box.
     tm_color_srgb_t crosshair_color = { 120, 120, 120, 255 };
-
+    
+    // Update box color if necessary.
+        update_box_dcc_asset(state);
+    
     // Box state machine
     switch (state->box_state) {
     case BOX_STATE_FREE: {
