@@ -12,7 +12,9 @@ workspace "ray_tracing_sample_hello_triangle"
     configurations {"Debug", "Release"}
     language "C++"
     cppdialect "C++11"
-    flags { "FatalWarnings", "MultiProcessorCompile" }
+    flags { "FatalWarnings"}
+    filter { "options:not clang" }
+        flags {"MultiProcessorCompile" }
     warnings "Extra"
     inlining "Auto"
     sysincludedirs { "" }

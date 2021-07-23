@@ -12,7 +12,9 @@ workspace "gameplay_sample_empty"
     configurations {"Debug", "Release"}
     language "C++"
     cppdialect "C++11"
-    flags { "FatalWarnings", "MultiProcessorCompile" }
+    flags { "FatalWarnings"}
+    filter { "options:not clang" }
+        flags {"MultiProcessorCompile" }
     warnings "Extra"
     inlining "Auto"
     sysincludedirs { "" }
