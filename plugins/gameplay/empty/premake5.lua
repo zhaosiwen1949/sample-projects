@@ -65,6 +65,7 @@ filter "platforms:Win64"
         "4702", -- Unreachable code. We sometimes want return after exit() because otherwise we get an error about no return value.
     }
     linkoptions {"/ignore:4099"}
+    buildoptions {"/utf-8"}
 
 filter {"platforms:Linux"}
     defines { "TM_OS_LINUX", "TM_OS_POSIX" }
