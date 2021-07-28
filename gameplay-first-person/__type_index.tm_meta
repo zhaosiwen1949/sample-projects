@@ -975,6 +975,10 @@
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
 			}
+			{
+				name: "thumbnail"
+				type: "buffer"
+			}
 		]
 	}
 	{
@@ -1778,6 +1782,31 @@
 			}
 			resolution: 512
 		}
+	}
+	{
+		name: "tm_curve"
+		properties: [
+			{
+				name: "type"
+				type: "uint64_t"
+			}
+			{
+				name: "param1"
+				type: "float"
+			}
+			{
+				name: "param2"
+				type: "float"
+			}
+			{
+				name: "param3"
+				type: "float"
+			}
+			{
+				name: "param4"
+				type: "float"
+			}
+		]
 	}
 	{
 		name: "tm_custom_component"
@@ -2696,6 +2725,42 @@
 			threshold: 1
 			falloff: 1
 			tint: {
+			}
+		}
+	}
+	{
+		name: "tm_default_render_pipe_color_grading_component"
+		properties: [
+			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
+				name: "offset"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "power"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "slope"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+		default: {
+			enabled: true
+			offset: {
+				r: 0
+				g: 0
+				b: 0
+			}
+			power: {
+			}
+			slope: {
 			}
 		}
 	}
@@ -4388,6 +4453,16 @@
 				type: "subobject"
 				type_hash: "11e53fa0440a07e4"
 			}
+			{
+				name: "origin_axis_x_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
+			{
+				name: "origin_axis_z_color"
+				type: "subobject"
+				type_hash: "11e53fa0440a07e4"
+			}
 		]
 		default: {
 			cell_size: 1
@@ -4402,6 +4477,14 @@
 				r: 0
 				g: 0
 				b: 0
+			}
+			origin_axis_x_color: {
+				g: 0.03299999982118607
+				b: 0.07999999821186066
+			}
+			origin_axis_z_color: {
+				r: 0.02199999988079071
+				g: 0.2630000114440918
 			}
 		}
 	}
@@ -4460,6 +4543,10 @@
 			{
 				name: "output_format"
 				type: "uint32_t"
+			}
+			{
+				name: "release_gpu_image_input"
+				type: "bool"
 			}
 		]
 		default: {
@@ -5236,6 +5323,43 @@
 				type: "buffer"
 			}
 		]
+	}
+	{
+		name: "tm_physics_shape_heightfield"
+		properties: [
+			{
+				name: "heightmap"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "format"
+				type: "string"
+			}
+			{
+				name: "data"
+				type: "buffer"
+			}
+			{
+				name: "samples_scale"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "samples_offset"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+		default: {
+			samples_scale: {
+				x: 1
+				y: 1
+				z: 1
+			}
+			samples_offset: {
+			}
+		}
 	}
 	{
 		name: "tm_physics_shape_mesh"
@@ -6692,6 +6816,43 @@
 		]
 	}
 	{
+		name: "tm_shortcuts_entry"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "key_1"
+				type: "uint32_t"
+			}
+			{
+				name: "modifiers_1"
+				type: "uint32_t"
+			}
+			{
+				name: "key_2"
+				type: "uint32_t"
+			}
+			{
+				name: "modifiers_2"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
+		name: "tm_shortcuts_index"
+		properties: [
+			{
+				name: "entries"
+				type: "subobject_set"
+				type_hash: "cf7e203c57b13307"
+			}
+		]
+		default: {
+		}
+	}
+	{
 		name: "tm_simulate_entry"
 		properties: [
 			{
@@ -6777,6 +6938,48 @@
 		]
 		default: {
 			angular_velocity: {
+			}
+		}
+	}
+	{
+		name: "tm_spline_component"
+		properties: [
+			{
+				name: "time_per_point"
+				type: "float"
+			}
+			{
+				name: "points"
+				type: "subobject_set"
+				type_hash: "b9db5c65d6200afc"
+			}
+		]
+		default: {
+			time_per_point: 1
+		}
+	}
+	{
+		name: "tm_spline_component_point"
+		properties: [
+			{
+				name: "sort_order"
+				type: "double"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+		]
+		default: {
+			position: {
+			}
+			rotation: {
 			}
 		}
 	}
