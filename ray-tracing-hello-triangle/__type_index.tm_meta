@@ -1090,9 +1090,12 @@
 				type: "float"
 			}
 			{
-				name: "celestial_body_center"
-				type: "subobject"
-				type_hash: "8d1487af36b1e3e1"
+				name: "offset_to_ground"
+				type: "bool"
+			}
+			{
+				name: "distance_unit"
+				type: "uint32_t"
 			}
 			{
 				name: "planet_radius"
@@ -1178,8 +1181,7 @@
 		]
 		default: {
 			sun_angular_diameter: 1920
-			celestial_body_center: {
-			}
+			offset_to_ground: true
 			planet_radius: 6371
 			karman_line: 100
 			rayleigh_density1_height_scale: 8
