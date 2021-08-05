@@ -231,8 +231,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     serialize(state, &dest);
     state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, &dest, sizeof(simulate_persistent_state));
     
-    uint32_t num_backends;
-    state->rb = (tm_renderer_backend_i*)(*tm_global_api_registry->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends));
+    state->rb = (tm_renderer_backend_i*)(*tm_global_api_registry->implementations(TM_RENDER_BACKEND_INTERFACE_NAME));
     return state;
 }
 

@@ -73,8 +73,7 @@ typedef struct tm_module_runtime_data_o {
 
 static inline bool backend__check_support(void)
 {
-    uint32_t num_backends;
-    tm_renderer_backend_i* backend = *tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends);
+    tm_renderer_backend_i* backend = *tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME);
     return backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
 }
 
@@ -153,8 +152,7 @@ static void module__init_trace_pass(void* const_data, tm_allocator_i* allocator,
 
     manager->tlas_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_top_level_acceleration_structure(res_buf, &tlas_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
 
-    uint32_t num_shader_repos;
-    tm_shader_repository_o* shader_repo = *(tm_shader_repository_o**)tm_api_registry_api->implementations(TM_SHADER_REPOSITORY_INSTANCE_NAME, &num_shader_repos);
+    tm_shader_repository_o* shader_repo = tm_api_registry_api->single_implementation(TM_SHADER_REPOSITORY_INSTANCE_NAME);
     manager->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
     manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
     manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
@@ -250,8 +248,7 @@ static void module__execute_trace_pass(const void* const_data, void* runtime_dat
 
 static void component__manager_destroy(tm_component_manager_o* manager)
 {
-    uint32_t num_backends;
-    tm_renderer_backend_i* backend = *tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME, &num_backends);
+    tm_renderer_backend_i* backend = tm_api_registry_api->single_implementation(TM_RENDER_BACKEND_INTERFACE_NAME);
 
     tm_renderer_resource_command_buffer_o* res_buf;
     backend->create_resource_command_buffers(backend->inst, &res_buf, 1);
