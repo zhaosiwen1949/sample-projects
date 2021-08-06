@@ -57,6 +57,7 @@ static struct tm_creation_graph_api* tm_creation_graph_api;
 #include <foundation/carray.inl>
 #include <foundation/math.inl>
 
+#include <stddef.h>
 #include <stdio.h>
 
 static const tm_strhash_t red_tag = TM_STATIC_HASH("color_red", 0xb56d0d7b72d5e8f2ULL);
@@ -364,7 +365,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
     
-    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = tm_offset_of(simulate_persistent_state, score)};
+    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score)};
     tm_gamestate_api->add_struct_type(gamestate, s, &score_member, 1);
     
     simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));

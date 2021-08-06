@@ -51,6 +51,7 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <foundation/math.inl>
 #include <plugins/creation_graph/creation_graph_output.inl>
 
+#include <stddef.h>
 #include <stdio.h>
 
 typedef struct input_state_t {
@@ -224,7 +225,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
     
-    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = tm_offset_of(simulate_persistent_state, score)};
+    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score)};
     tm_gamestate_api->add_struct_type(gamestate, s, &score_member, 1);
     
     simulate_persistent_state dest = {0};
