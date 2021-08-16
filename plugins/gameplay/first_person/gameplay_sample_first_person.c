@@ -316,7 +316,6 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
         .entity_ctx = args->entity_ctx,
         .simulate_ctx = args->simulate_ctx,
         .asset_root = args->asset_root,
-        .render_backend = args->render_backend,
     };
 
     state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
@@ -389,6 +388,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
     state->input.left_mouse_pressed = false;
+    state->render_backend = args->render_backend;
     
     // Read input
     tm_input_event_t events[32];
