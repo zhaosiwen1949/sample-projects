@@ -345,7 +345,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
         const float camera_tilt_delta = -state->input.mouse_delta.y * mouse_sens;
         state->camera_tilt += camera_tilt_delta;
         state->camera_tilt = tm_clamp(state->camera_tilt, 1.5f, 3.8f);
-        const tm_vec4_t camera_pivot_rot = tm_quaternion_from_euler((tm_vec3_t) { -TM_PI, state->camera_tilt, 0 });
+        const tm_vec4_t camera_pivot_rot = tm_quaternion_from_euler((tm_vec3_t) { state->camera_tilt, 0, -TM_PI });
         tm_set_local_rotation(state->trans_mgr, state->player_camera_pivot, camera_pivot_rot);
 
         // Control animation state machine using input
