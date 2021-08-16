@@ -1,16 +1,17 @@
 # sample-projects
 
-Sample projects for The Machinery -- distributed with the Beta:
+Sample projects for The Machinery -- distributed with the engine:
 
-<table>
-    <tr><th>animation</th> <td>Sample animation project.</td></tr>
-    <tr><th>gameplay-first-person</th>   <td>A sample first-person project.</td></tr>
-    <tr><th>gameplay-third-person</th>   <td>A sample third-person project.</td></tr>
-    <tr><th>modular-dungeon-kit</th> <td>Sample scene editing project.</td></tr>
-    <tr><th>physics</th> <td>Sample physics project.</td></tr>
-    <tr><th>plugins</th> <td>Sample plugins to extend the engine.</td></tr>
-    <tr><th>pong</th> <td>Sample visual scripting and gameplay project.</td></tr>
-    <tr><th>ray-tracing-hello-triangle</th> <td>Sample ray tracing introduction.</td></tr>
-    <tr><th>sound</th> <td>Sample sound project.</td></tr>
-</table>
-
+| Project                          | Description                                                                   |
+| -------------------------------- | ---------------------------------------------                                 |
+| animation                        | Shows use of animations and state machines.                                   |
+| creation-graphs                  | Demonstrating creation graphs.                                                |
+| gameplay-first-person            | A simple first-person game.                                                   |
+| gameplay-interaction-system      | A more complicated first-person game involving doors and levers.              |
+| gameplay-third-person            | A simple third-person game.                                                   |
+| modular-dungeon-kit              | A project with some modular dungeon assets that can be used to build a level. |
+| physics                          | A project demonstrating physics simulations.                                  |
+| plugins                          | Source code for project plugins.                                              |
+| pong                             | A simple Pong game implemented using visual scripting.                        |
+| ray-tracing-hello-triangle       | Shows use of ray tracing.                                                     |
+| sound                            | Shows use of sound.                                                           |
