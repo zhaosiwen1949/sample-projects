@@ -14,7 +14,7 @@ static struct tm_localizer_api* tm_localizer_api;
 static struct tm_physics_collision_api* tm_physics_collision_api;
 static struct tm_physx_scene_api* tm_physx_scene_api;
 static struct tm_random_api* tm_random_api;
-static struct tm_simulate_context_api* tm_simulate_context_api;
+static struct tm_simulation_api* tm_simulation_api;
 static struct tm_tag_component_api* tm_tag_component_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
@@ -46,7 +46,7 @@ static struct tm_creation_graph_api* tm_creation_graph_api;
 #include <plugins/physx/physx_scene.h>
 #include <plugins/renderer/render_backend.h>
 #include <plugins/simulate/simulate_entry.h>
-#include <plugins/simulate_common/simulate_context.h>
+#include <plugins/simulate_common/simulation.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/creation_graph/creation_graph.h>
 #include <plugins/creation_graph/render_nodes.h>
@@ -88,8 +88,8 @@ struct tm_simulate_state_o {
     // For interfacing with `tm_entity_api`.
     tm_entity_context_o* entity_ctx;
 
-    // For interfacing with `tm_simulate_context_api`.
-    tm_simulate_context_o* simulate_ctx;
+    // For interfacing with `tm_simulation_api`.
+    tm_simulation_o* simulate_ctx;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -208,7 +208,7 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     
     dest->score = source->score;
     
-    tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
+    tm_simulation_api->set_camera(dest->simulate_ctx, dest->player_camera);
 }
 
 static void update_box_dcc_asset(tm_simulate_state_o* state)
@@ -331,7 +331,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    tm_simulate_context_api->set_camera(state->simulate_ctx, state->player_camera);
+    tm_simulation_api->set_camera(state->simulate_ctx, state->player_camera);
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
@@ -671,7 +671,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
     tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
     tm_random_api = reg->get(TM_RANDOM_API_NAME);
-    tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);
+    tm_simulation_api = reg->get(TM_SIMULATION_API_NAME);
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
     tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);

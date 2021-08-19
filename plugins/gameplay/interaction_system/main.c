@@ -11,7 +11,7 @@ static struct tm_error_api* tm_error_api;
 static struct tm_input_api* tm_input_api;
 static struct tm_physics_collision_api* tm_physics_collision_api;
 static struct tm_physx_scene_api* tm_physx_scene_api;
-static struct tm_simulate_context_api* tm_simulate_context_api;
+static struct tm_simulation_api* tm_simulation_api;
 static struct tm_tag_component_api* tm_tag_component_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
 static struct tm_temp_allocator_api* tm_temp_allocator_api;
@@ -39,7 +39,7 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <plugins/physics/physics_mover_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/simulate/simulate_entry.h>
-#include <plugins/simulate_common/simulate_context.h>
+#include <plugins/simulate_common/simulation.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
 #include <plugins/gamestate/gamestate.h>
@@ -74,7 +74,7 @@ struct tm_simulate_state_o {
     uint64_t processed_events;
     tm_entity_context_o* entity_ctx;
     tm_the_truth_o* tt;
-    tm_simulate_context_o* simulate_ctx;
+    tm_simulation_o* simulate_ctx;
     tm_allocator_i* allocator;
 
     tm_transform_component_manager_o* trans_mgr;
@@ -123,7 +123,7 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     
     dest->last_standing_time = source->last_standing_time;
     
-    tm_simulate_context_api->set_camera(dest->simulate_ctx, dest->player_camera);
+    tm_simulation_api->set_camera(dest->simulate_ctx, dest->player_camera);
 }
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
@@ -154,7 +154,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    tm_simulate_context_api->set_camera(state->simulate_ctx, state->player_camera);
+    tm_simulation_api->set_camera(state->simulate_ctx, state->player_camera);
 
     TM_INIT_TEMP_ALLOCATOR(ta);
     tm_physics_collision_t* all_collision_types = tm_physics_collision_api->find_all(state->tt, ta);
@@ -373,7 +373,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_input_api = reg->get(TM_INPUT_API_NAME);
     tm_physics_collision_api = reg->get(TM_PHYSICS_COLLISION_API_NAME);
     tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
-    tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);
+    tm_simulation_api = reg->get(TM_SIMULATION_API_NAME);
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
     tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);

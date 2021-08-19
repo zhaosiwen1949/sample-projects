@@ -14,7 +14,7 @@ static struct tm_localizer_api* tm_localizer_api;
 static struct tm_render_component_api* tm_render_component_api;
 static struct tm_transform_component_api* tm_transform_component_api;
 static struct tm_shader_api* tm_shader_api;
-static struct tm_simulate_context_api* tm_simulate_context_api;
+static struct tm_simulation_api* tm_simulation_api;
 static struct tm_ui_api* tm_ui_api;
 static struct tm_tag_component_api* tm_tag_component_api;
 static struct tm_the_truth_assets_api* tm_the_truth_assets_api;
@@ -44,7 +44,7 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <plugins/renderer/resources.h>
 #include <plugins/shader_system/shader_system.h>
 #include <plugins/simulate/simulate_entry.h>
-#include <plugins/simulate_common/simulate_context.h>
+#include <plugins/simulate_common/simulation.h>
 #include <plugins/ui/ui.h>
 #include <plugins/gamestate/gamestate.h>
 
@@ -71,8 +71,8 @@ struct tm_simulate_state_o {
     // For interfacing with `tm_entity_api`.
     tm_entity_context_o* entity_ctx;
 
-    // For interfacing with `tm_simulate_context_api`.
-    tm_simulate_context_o* simulate_ctx;
+    // For interfacing with `tm_simulation_api`.
+    tm_simulation_o* simulate_ctx;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -160,7 +160,7 @@ static void private__load_game(tm_simulate_state_o* state)
     state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
     
     const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
-    tm_simulate_context_api->set_camera(state->simulate_ctx, camera);
+    tm_simulation_api->set_camera(state->simulate_ctx, camera);
     
     const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
     char checkpoint_path[30];
@@ -424,7 +424,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
     tm_render_component_api = reg->get(TM_RENDER_COMPONENT_API_NAME);
     tm_shader_api = reg->get(TM_SHADER_API_NAME);
-    tm_simulate_context_api = reg->get(TM_SIMULATE_CONTEXT_API_NAME);
+    tm_simulation_api = reg->get(TM_SIMULATION_API_NAME);
     tm_ui_api = reg->get(TM_UI_API_NAME);
     tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
     tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
