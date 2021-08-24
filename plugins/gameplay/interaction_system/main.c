@@ -87,6 +87,9 @@ struct tm_simulate_state_o {
     TM_PAD(4);
     
     tm_gamestate_struct_id_t persistent_state_id;
+    
+    tm_color_srgb_t crosshair_color;
+    TM_PAD(4);
 } tm_gameplay_state_o;
 
 
@@ -193,6 +196,34 @@ static void stop(tm_simulate_state_o* state)
     tm_free(&a, state, sizeof(*state));
 }
 
+static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
+{
+    if (state->input.left_mouse_pressed) {
+        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
+            state->mouse_captured = true;
+        }
+    }
+    
+    // Capture mouse
+    {
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
+            state->mouse_captured = false;
+            tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
+        }
+        
+        if (state->mouse_captured)
+            tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
+    }
+    
+    // UI: Crosshair
+    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
+    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
+    tm_draw2d_style_t style[1] = { 0 };
+    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
+    style->color = state->crosshair_color;
+    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
+}
+
 static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
 {
     // Reset per-frame-input
@@ -227,11 +258,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
                 if (e->source && e->source->controller_type == TM_INPUT_CONTROLLER_TYPE_MOUSE) {
                     if (e->item_id == TM_INPUT_MOUSE_ITEM_BUTTON_LEFT) {
                         const bool down = e->data.f.x > 0.5f;
-                        if (down && !state->input.left_mouse_held) {
-                            if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
-                                state->mouse_captured = true;
-                            }
-                        }
+                        state->input.left_mouse_pressed = down && !state->input.left_mouse_held;
                         state->input.left_mouse_held = down;
                     }
                 }
@@ -247,17 +274,6 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
         state->processed_events += n;
         if (n < 32)
             break;
-    }
-
-    // Capture mouse
-    {
-        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
-            state->mouse_captured = false;
-            tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
-        }
-
-        if (state->mouse_captured)
-            tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
     }
 
     // Updates any inteactables that are moving etc.
@@ -321,7 +337,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     }
 
     // Modified if the raycast below hits something that can be interacted with.
-    tm_color_srgb_t crosshair_color = { 70, 80, 70, 255 };
+    state->crosshair_color = (tm_color_srgb_t){ 70, 80, 70, 255 };
 
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
     const tm_physx_raycast_t r = tm_physx_scene_api->raycast(args->physx_scene, camera_pos, camera_forward, 2.5f, state->player_collision_type, (tm_physx_raycast_flags_t){ 0 }, 0, 0);
@@ -330,7 +346,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
         const tm_entity_t hit = r.block.body;
         const tm_component_mask_t* hit_mask = tm_entity_api->component_mask(state->entity_ctx, hit);
         if (tm_entity_mask_has_component(hit_mask, state->interact_comp) && tm_interactable_component_api->can_interact(state->interactable_mgr, hit, true)) {
-            crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
+            state->crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
             if (state->input.left_mouse_pressed) {
                 // This is what starts the interaction!
                 tm_interactable_component_api->interact(state->interactable_mgr, hit);
@@ -344,14 +360,6 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     serialize(state, persistent);
     tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, persistent, sizeof(simulate_persistent_state));
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-    
-    // UI: Crosshair
-    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
-    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
-    tm_draw2d_style_t style[1] = { 0 };
-    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
-    style->color = crosshair_color;
-    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
 static tm_simulate_entry_i simulate_entry_i = {
@@ -360,6 +368,7 @@ static tm_simulate_entry_i simulate_entry_i = {
     .start = start,
     .stop = stop,
     .tick = tick,
+    .ui = ui,
 };
 
 extern void load_interactable_component(struct tm_api_registry_api* reg, bool load);
