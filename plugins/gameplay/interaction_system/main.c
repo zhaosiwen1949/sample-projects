@@ -38,8 +38,8 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <plugins/physics/physics_collision.h>
 #include <plugins/physics/physics_mover_component.h>
 #include <plugins/physx/physx_scene.h>
-#include <plugins/simulate/simulate_entry.h>
-#include <plugins/simulate_common/simulation.h>
+#include <plugins/simulation/simulate_entry.h>
+#include <plugins/simulation/simulation.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
 #include <plugins/gamestate/gamestate.h>

@@ -9,7 +9,7 @@
 #include <foundation/localizer.h>
 #include <foundation/log.h>
 
-#include <plugins/simulate/simulate_entry.h>
+#include <plugins/simulation/simulate_entry.h>
 
 static struct tm_logger_api *tm_logger_api;
 static struct tm_localizer_api *tm_localizer_api;
