@@ -1,7 +1,7 @@
 // Main entry point file for Interaction System sample. This sample exposes an Interaction Component that lets you
 // define buttons, levers and rotating doors from within the editor. It also contains an implementation of
-// `tm_simulate_entry_i`, which lets the engine enter into the `start`, `stop` and `tick` functions. This implementation
-// of `tm_simulate_entry_i` is referenced `levels/main.simulate_entry` in the Interaction System sample, which is found
+// `tm_simulation_entry_i`, which lets the engine enter into the `start`, `stop` and `tick` functions. This implementation
+// of `tm_simulation_entry_i` is referenced `levels/main.simulate_entry` in the Interaction System sample, which is found
 // by the `world.entity` asset when the engine starts simulating that entity.
 
 static struct tm_application_api* tm_application_api;
@@ -55,7 +55,7 @@ typedef struct input_state_t {
     tm_vec2_t mouse_delta;
 } input_state_t;
 
-struct tm_simulate_state_o {
+struct tm_simulation_state_o {
     input_state_t input;
     tm_entity_t player;
     tm_entity_t player_camera;
@@ -74,7 +74,7 @@ struct tm_simulate_state_o {
     uint64_t processed_events;
     tm_entity_context_o* entity_ctx;
     tm_the_truth_o* tt;
-    tm_simulation_o* simulate_ctx;
+    tm_simulation_o* simulation_ctx;
     tm_allocator_i* allocator;
 
     tm_transform_component_manager_o* trans_mgr;
@@ -90,8 +90,7 @@ struct tm_simulate_state_o {
     
     tm_color_srgb_t crosshair_color;
     TM_PAD(4);
-} tm_gameplay_state_o;
-
+};
 
 typedef struct simulate_persistent_state
 {
@@ -105,7 +104,7 @@ typedef struct simulate_persistent_state
 } simulate_persistent_state;
 
 
-static void serialize(tm_simulate_state_o* source, simulate_persistent_state* dest)
+static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
 {
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
@@ -116,7 +115,7 @@ static void serialize(tm_simulate_state_o* source, simulate_persistent_state* de
     dest->last_standing_time = source->last_standing_time;
 }
 
-static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* source)
+static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* source)
 {
     dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
     dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
@@ -126,24 +125,24 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     
     dest->last_standing_time = source->last_standing_time;
     
-    tm_simulation_api->set_camera(dest->simulate_ctx, dest->player_camera);
+    tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
 }
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
 {
     deserialize(user_data, data);
-    tm_simulate_state_o* state = user_data;
+    tm_simulation_state_o* state = user_data;
     state->persistent_state_id = s;
 }
 
 
-static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
+static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 {
-    tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulate_state_o){
+    tm_simulation_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulation_state_o){
         .allocator = args->allocator,
         .entity_ctx = args->entity_ctx,
-        .simulate_ctx = args->simulate_ctx,
+        .simulation_ctx = args->simulation_ctx,
         .tt = args->tt,
     };
 
@@ -157,7 +156,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    tm_simulation_api->set_camera(state->simulate_ctx, state->player_camera);
+    tm_simulation_api->set_camera(state->simulation_ctx, state->player_camera);
 
     TM_INIT_TEMP_ALLOCATOR(ta);
     tm_physics_collision_t* all_collision_types = tm_physics_collision_api->find_all(state->tt, ta);
@@ -190,13 +189,13 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     return state;
 }
 
-static void stop(tm_simulate_state_o* state)
+static void stop(tm_simulation_state_o* state)
 {
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
+static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
 {
     if (state->input.left_mouse_pressed) {
         if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
@@ -224,7 +223,7 @@ static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
     tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
-static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
+static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -362,7 +361,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
-static tm_simulate_entry_i simulate_entry_i = {
+static tm_simulation_entry_i simulation_entry_i = {
     .id = TM_STATIC_HASH("Gameplay Interaction System", 0xca35947276977f52ULL),
     .display_name = "Gameplay Interaction System",
     .start = start,
@@ -391,6 +390,6 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_interactable_component_api = reg->get(TM_INTERACTABLE_COMPONENT_API_NAME);
     tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
 
-    tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
+    tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
     load_interactable_component(reg, load);
 }

@@ -1132,6 +1132,10 @@
 				type: "float"
 			}
 			{
+				name: "global_illuminance_scale"
+				type: "float"
+			}
+			{
 				name: "offset_to_ground"
 				type: "bool"
 			}
@@ -1223,6 +1227,7 @@
 		]
 		default: {
 			sun_angular_diameter: 1920
+			global_illuminance_scale: 1
 			offset_to_ground: true
 			planet_radius: 6371
 			karman_line: 100
@@ -1245,6 +1250,7 @@
 				g: 0.4440000057220459
 				b: 0.4440000057220459
 			}
+			mie_absorption_scale: 0.009999999776482582
 			mie_phase_function_g: 0.800000011920929
 			ozone_absorption_height_scale: 15
 			ozone_absorption: {
@@ -1806,25 +1812,23 @@
 				type: "uint64_t"
 			}
 			{
-				name: "param1"
-				type: "float"
-			}
-			{
-				name: "param2"
-				type: "float"
-			}
-			{
-				name: "param3"
-				type: "float"
-			}
-			{
-				name: "param4"
-				type: "float"
+				name: "params"
+				type: "subobject_set"
+				type_hash: "6d0a4e744c45523b"
 			}
 		]
 		default: {
 			type: "849d2b1743ff6282"
 		}
+	}
+	{
+		name: "tm_curve_type"
+		properties: [
+			{
+				name: "name"
+				type: "uint64_t"
+			}
+		]
 	}
 	{
 		name: "tm_custom_component"
@@ -4023,7 +4027,7 @@
 			{
 				name: "channels"
 				type: "subobject_set"
-				type_hash: "7d15e1df3084e998"
+				type_hash: "169f904f8e936bf6"
 			}
 		]
 	}
@@ -7476,6 +7480,33 @@
 				name: "scale"
 				type: "subobject"
 				type_hash: "8944e0b1cefd4756"
+			}
+		]
+	}
+	{
+		name: "tm_translation"
+		properties: [
+			{
+				name: "english"
+				type: "string"
+			}
+			{
+				name: "language"
+				type: "string"
+			}
+			{
+				name: "translation"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_translation_cache"
+		properties: [
+			{
+				name: "translations"
+				type: "subobject_set"
+				type_hash: "1638c41e410895d9"
 			}
 		]
 	}

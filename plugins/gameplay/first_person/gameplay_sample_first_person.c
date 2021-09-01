@@ -1,7 +1,7 @@
 // This file contains all the gameplay code associated with the first person gameplay sample. It adds an implementation
-// of the interface `tm_simulate_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the first
+// of the interface `tm_simulation_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the first
 // person sample project. When simulating `levels/world.entity`, it will look in its folder, or any parent folder, until
-// it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
+// it finds a `.simulate_entry` file. It will use the `tm_simulation_entry_i` interface referenced in there in order to
 // enter this file.
 
 static struct tm_api_registry_api* tm_api_registry_api;
@@ -79,7 +79,7 @@ enum box_state {
     BOX_STATE_FLYING_BACK
 };
 
-struct tm_simulate_state_o {
+struct tm_simulation_state_o {
     tm_allocator_i* allocator;
 
     // For interacing with `tm_the_truth_api`.
@@ -89,7 +89,7 @@ struct tm_simulate_state_o {
     tm_entity_context_o* entity_ctx;
 
     // For interfacing with `tm_simulation_api`.
-    tm_simulation_o* simulate_ctx;
+    tm_simulation_o* simulation_ctx;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -170,7 +170,7 @@ typedef struct simulate_persistent_state
     TM_PAD(4);
 } simulate_persistent_state;
 
-static void serialize(tm_simulate_state_o* source, simulate_persistent_state* dest)
+static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
 {
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
@@ -190,7 +190,7 @@ static void serialize(tm_simulate_state_o* source, simulate_persistent_state* de
     dest->score = source->score;
     }
 
-static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* source)
+static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* source)
 {
     dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
     dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
@@ -209,10 +209,10 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
     
     dest->score = source->score;
     
-    tm_simulation_api->set_camera(dest->simulate_ctx, dest->player_camera);
+    tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
 }
 
-static void update_box_dcc_asset(tm_simulate_state_o* state)
+static void update_box_dcc_asset(tm_simulation_state_o* state)
 {
     tm_entity_t box = state->box;
     
@@ -265,7 +265,7 @@ static void update_box_dcc_asset(tm_simulate_state_o* state)
 }
 }
 
-static void change_box_to_random_color(tm_simulate_state_o* state)
+static void change_box_to_random_color(tm_simulation_state_o* state)
 {
     tm_entity_t box = state->box;
     
@@ -305,19 +305,19 @@ static void change_box_to_random_color(tm_simulate_state_o* state)
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
 {
-    tm_simulate_state_o* state = user_data;
+    tm_simulation_state_o* state = user_data;
     deserialize(state, data);
     state->persistent_state_id = s;
 }
 
-static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
+static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 {
-    tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulate_state_o){
+    tm_simulation_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulation_state_o){
         .allocator = args->allocator,
         .tt = args->tt,
         .entity_ctx = args->entity_ctx,
-        .simulate_ctx = args->simulate_ctx,
+        .simulation_ctx = args->simulation_ctx,
         .asset_root = args->asset_root,
     };
 
@@ -334,7 +334,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    tm_simulation_api->set_camera(state->simulate_ctx, state->player_camera);
+    tm_simulation_api->set_camera(state->simulation_ctx, state->player_camera);
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
@@ -380,13 +380,13 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     return state;
 }
 
-static void stop(tm_simulate_state_o* state)
+static void stop(tm_simulation_state_o* state)
 {
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
+static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
 {
     if (state->input.left_mouse_pressed) {
         if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
@@ -420,7 +420,7 @@ static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
     tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 }
 
-static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
+static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     // Reset per-frame-input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -659,7 +659,7 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
-static tm_simulate_entry_i simulate_entry_i = {
+static tm_simulation_entry_i simulation_entry_i = {
     .id = TM_STATIC_HASH("tm_gameplay_sample_first_person_simulate_entry_i", 0x5661a6a1bf704391ULL),
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample First Person"),
     .start = start,
@@ -689,5 +689,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
     tm_creation_graph_api = reg->get(TM_CREATION_GRAPH_API_NAME);
 
-    tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
+    tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
 }

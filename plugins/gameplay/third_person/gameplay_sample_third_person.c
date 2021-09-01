@@ -1,7 +1,7 @@
 // This file contains all the gameplay code associated with the third person gameplay sample. It adds an implementation
-// of the interface `tm_simulate_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the third
+// of the interface `tm_simulation_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the third
 // person sample project. When simulating `levels/world.entity`, it will look in its folder, or any parent folder, until
-// it finds a `.simulate_entry` file. It will use the `tm_simulate_entry_i` interface referenced in there in order to
+// it finds a `.simulate_entry` file. It will use the `tm_simulation_entry_i` interface referenced in there in order to
 // enter this file.
 
 static struct tm_animation_state_machine_api* tm_animation_state_machine_api;
@@ -62,7 +62,7 @@ typedef struct input_state_t {
     TM_PAD(1);
 } input_state_t;
 
-struct tm_simulate_state_o {
+struct tm_simulation_state_o {
     tm_allocator_i* allocator;
 
     // For interacing with `tm_the_truth_api`.
@@ -72,7 +72,7 @@ struct tm_simulate_state_o {
     tm_entity_context_o* entity_ctx;
 
     // For interfacing with `tm_simulation_api`.
-    tm_simulation_o* simulate_ctx;
+    tm_simulation_o* simulation_ctx;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -127,7 +127,7 @@ typedef struct simulate_persistent_state
     double last_standing_time;
 } simulate_persistent_state;
 
-static void serialize(tm_simulate_state_o* source, simulate_persistent_state* dest)
+static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
 {
     dest->current_checkpoint = source->current_checkpoint;
     dest->camera_tilt = source->camera_tilt;
@@ -150,7 +150,7 @@ static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t
     return p;
 }
 
-static void private__load_game(tm_simulate_state_o* state)
+static void private__load_game(tm_simulation_state_o* state)
 {
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     
@@ -160,7 +160,7 @@ static void private__load_game(tm_simulate_state_o* state)
     state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
     
     const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
-    tm_simulation_api->set_camera(state->simulate_ctx, camera);
+    tm_simulation_api->set_camera(state->simulation_ctx, camera);
     
     const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
     char checkpoint_path[30];
@@ -175,7 +175,7 @@ static void private__load_game(tm_simulate_state_o* state)
     }
 }
 
-static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* source)
+static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* source)
 {
     dest->current_checkpoint = source->current_checkpoint;
     dest->camera_tilt = source->camera_tilt;
@@ -185,20 +185,20 @@ static void deserialize(tm_simulate_state_o* dest, simulate_persistent_state* so
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
 {
-    tm_simulate_state_o* state = user_data;
+    tm_simulation_state_o* state = user_data;
     private__load_game(state);
     deserialize(state, data);
     state->persistent_state_id = s;
 }
 
-static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
+static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 {
-    tm_simulate_state_o* state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulate_state_o){
+    tm_simulation_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulation_state_o){
         .allocator = args->allocator,
         .tt = args->tt,
         .entity_ctx = args->entity_ctx,
-        .simulate_ctx = args->simulate_ctx,
+        .simulation_ctx = args->simulation_ctx,
         .asset_root = args->asset_root,
     };
 
@@ -236,7 +236,7 @@ static tm_simulate_state_o* start(tm_simulate_start_args_t* args)
     return state;
 }
 
-static void stop(tm_simulate_state_o* state)
+static void stop(tm_simulation_state_o* state)
 {
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
@@ -251,7 +251,7 @@ static void private__set_shader_constant(tm_shader_io_o* io, tm_renderer_resourc
         tm_shader_api->update_constants(io, res_buf, &(tm_shader_constant_update_t){ .instance_id = instance->instance_id, .constant_offset = constant_offset, .num_bytes = data_size, .data = data }, 1);
 }
 
-static void private__adjust_effect_start_color(tm_simulate_state_o* state, tm_entity_t p, tm_vec3_t color)
+static void private__adjust_effect_start_color(tm_simulation_state_o* state, tm_entity_t p, tm_vec3_t color)
 {
     // Show how to poke at a custom shader variable (`start_color`) exposed in a creation graph bound to a specific draw call (`vfx`)
     tm_render_component_public_t* rc = tm_entity_api->get_component(state->entity_ctx, p, state->render_component);
@@ -268,7 +268,7 @@ static void private__adjust_effect_start_color(tm_simulate_state_o* state, tm_en
     }
 }
 
-static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
+static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
 {
     // Capture mouse
     {
@@ -296,7 +296,7 @@ static void ui(tm_simulate_state_o* state, tm_simulate_ui_args_t* args)
     tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 }
 
-static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
+static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     // Reset per-frame input
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
@@ -408,8 +408,8 @@ static void tick(tm_simulate_state_o* state, tm_simulate_frame_args_t* args)
     tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, &persistent, sizeof(simulate_persistent_state));
 }
 
-static tm_simulate_entry_i simulate_entry_i = {
-    .id = TM_STATIC_HASH("tm_gameplay_sample_third_person_simulate_entry_i", 0xacfa6f07020cdff9ULL),
+static tm_simulation_entry_i simulation_entry_i = {
+    .id = TM_STATIC_HASH("tm_gameplay_sample_third_person_simulation_entry_i", 0xcbe37997706b78d5ULL),
     .display_name = TM_LOCALIZE_LATER("Gameplay Sample Third Person"),
     .start = start,
     .stop = stop,
@@ -435,5 +435,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
     tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
 
-    tm_add_or_remove_implementation(reg, load, TM_SIMULATE_ENTRY_INTERFACE_NAME, &simulate_entry_i);
+    tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
 }
