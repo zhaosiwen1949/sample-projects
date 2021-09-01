@@ -51,46 +51,32 @@ components: [
 children: [
 	{
 		__uuid: "5a695dbb-9362-0743-5f7a-3a1869383650"
-		__prototype_type: "tm_entity"
-		__prototype_uuid: "56f434a3-5e81-249a-7568-46b6cfc2a883"
+		name: "camera"
 		components: [
+			{
+				__type: "tm_camera_component"
+				__uuid: "269bc040-87be-aebc-63cc-77424a9d1f79"
+			}
+			{
+				__type: "tm_transform_component"
+				__uuid: "e02cb178-9454-11c5-c785-f919f63b8548"
+				local_position: {
+					__uuid: "da5dbce5-1a1d-3c31-38cb-a58b53ac0faf"
+					y: 1.549999952316284
+				}
+				local_rotation: {
+					__uuid: "294161d4-4f9b-8908-d610-5a3a11277a2c"
+				}
+				local_scale: {
+					__uuid: "4d160944-7233-d6e0-9cf0-5c0d1578f9fb"
+				}
+			}
 			{
 				__type: "tm_tag_component"
 				__uuid: "9f858db2-920b-0e01-d8f6-1f7d166e8677"
 				tags: [
 					"b27e65db-bf72-fe0a-cd9c-81ef6010cc8c"
 				]
-			}
-		]
-		components__instantiated: [
-			{
-				__type: "tm_transform_component"
-				__uuid: "e02cb178-9454-11c5-c785-f919f63b8548"
-				__prototype_type: "tm_transform_component"
-				__prototype_uuid: "a7a6db09-d14c-09d2-993d-68b5a43d1c1e"
-				local_position: {
-					__uuid: "da5dbce5-1a1d-3c31-38cb-a58b53ac0faf"
-					__prototype_type: "tm_position"
-					__prototype_uuid: "d6fc7946-caab-ffc5-68cf-6b46c65b3614"
-					y: 1.549999952316284
-				}
-				local_rotation: {
-					__uuid: "294161d4-4f9b-8908-d610-5a3a11277a2c"
-					__prototype_type: "tm_rotation"
-					__prototype_uuid: "9a2f0147-04c2-e0b9-aaaa-47972dd31bd0"
-				}
-				local_scale: {
-					__uuid: "4d160944-7233-d6e0-9cf0-5c0d1578f9fb"
-					__prototype_type: "tm_scale"
-					__prototype_uuid: "8e2e5d6f-3639-3d76-67b8-fbcc39087227"
-				}
-				scene_tree_node: 0
-			}
-			{
-				__type: "tm_camera_component"
-				__uuid: "269bc040-87be-aebc-63cc-77424a9d1f79"
-				__prototype_type: "tm_camera_component"
-				__prototype_uuid: "d4333f2c-4d0e-59b1-2a91-c66079aeb245"
 			}
 		]
 	}
@@ -169,6 +155,15 @@ children: [
 					__uuid: "58166ba1-1c28-13d4-b4fe-68edccde31cc"
 					radius: 0.5
 					half_height: 0.5
+				}
+				position: {
+					__uuid: "f57fd72f-875c-3ee4-e491-e69731829e87"
+				}
+				rotation: {
+					__uuid: "cf1cf869-92ad-82f8-4dd2-71412c01a5bf"
+				}
+				scale: {
+					__uuid: "a9329bd7-0eec-9a7e-91b6-8b87790741bc"
 				}
 				collision: "70a92566-d156-300e-2d1c-28da6d55023a"
 			}

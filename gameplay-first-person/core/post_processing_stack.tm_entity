@@ -4,14 +4,20 @@ components: [
 	{
 		__type: "tm_default_render_pipe_exposure_component"
 		__uuid: "ab12d1f4-69fd-8c67-bea6-72a09817a944"
-		metering_mode: 1
-		min_ev100: -1
+		exposure_compensation: 1
+		max_ev100: 10
+		speed_up: 8
+		speed_down: 4
 	}
 	{
 		__type: "tm_default_render_pipe_bloom_component"
 		__uuid: "95a48a49-1926-d91d-e5e7-dc1ed865723f"
+		threshold: 2
+		falloff: 0.1000000014901161
 		tint: {
 			__uuid: "918010ae-f494-f30f-29ce-b33bc747c2b7"
+			g: 0.9084981083869934
+			b: 0.8355709910392761
 		}
 	}
 	{
@@ -26,6 +32,10 @@ components: [
 		local_scale: {
 			__uuid: "d6ca4509-d3e0-25d8-c3f7-507748a71ee9"
 		}
+	}
+	{
+		__type: "tm_default_render_pipe_ssao_component"
+		__uuid: "a5619a28-4381-66b0-0917-6d87cd588a64"
 	}
 ]
 __asset_uuid: "0488ef63-d369-a1c9-4d23-61e2d394d734"

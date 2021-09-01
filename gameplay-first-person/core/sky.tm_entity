@@ -18,35 +18,41 @@ components: [
 		__type: "tm_atmospheric_sky_component"
 		__uuid: "793e03cd-36ef-b9bc-9e25-6528fa4dd7cc"
 		sun_entity: "5205483d-cc83-5cd8-b7c3-ddb33d7038c2"
+		global_illuminance_scale: 1.399999976158142
+		rayleigh_density1_height_scale: 16
 		rayleigh_scattering: {
 			__uuid: "0025fb65-96e9-dae3-310f-aa69e8e6414f"
-			r: 0.05801999941468239
-			g: 0.1355800032615662
-			b: 0.3310000002384186
+			r: 0.07911081612110138
+			g: 0.2282255589962006
+			b: 0.6110000610351563
 		}
+		rayleigh_scattering_scale: 0.1099999994039536
 		mie_scattering: {
 			__uuid: "f3ede1c8-8061-8cda-a74d-7cfb800ea45c"
-			r: 0.3995999991893768
-			g: 0.3995999991893768
-			b: 0.3995999991893768
+			r: 0.3785430192947388
+			g: 0.3943475186824799
+			b: 0.4945656061172485
 		}
+		mie_scattering_scale: 0.01499999966472387
 		mie_absorption: {
 			__uuid: "f0b4cf69-b14c-2386-4c53-fb15044dd230"
-			r: 0
-			g: 0
-			b: 0
+			r: 0.08428965508937836
+			g: 0.3238016068935394
+			b: 0.6018372774124146
 		}
+		mie_absorption_scale: 0.2000000029802322
+		mie_phase_function_g: 0.8500000238418579
 		ozone_absorption: {
 			__uuid: "e93b9a62-6589-f642-e6a1-fc77e45eb4a4"
-			r: 0.06499999761581421
-			g: 0.1880999952554703
-			b: 0.008500000461935997
+			r: 0.1077938675880432
+			g: 0.3158100843429565
+			b: 0.01345429476350546
 		}
 		ground_albedo: {
 			__uuid: "c66e87e5-c20d-9d07-6a85-adfcf129feb6"
-			x: 0.300000011920929
-			y: 0.300000011920929
-			z: 0.300000011920929
+			x: 0.04303464666008949
+			y: 0.03506828844547272
+			z: 0.0441691167652607
 		}
 	}
 	{
@@ -190,6 +196,7 @@ components: [
 		color: {
 			__uuid: "1acd4d32-526f-4c8b-f9eb-50c1dd0cb36e"
 		}
+		intensity: 2
 		area_extent: {
 			__uuid: "db5f688f-f634-3259-0d8f-d629a2bd62cf"
 			x: 1
