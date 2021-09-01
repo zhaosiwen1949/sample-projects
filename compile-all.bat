@@ -1,7 +1,4 @@
-REM set HEADERS=%TM_SDK_DIR%/headers
-
-set HEADERS=C:/Work/themachinery
-set FLAGS=-I %HEADERS% -Wno-microsoft-anon-tag -fms-extensions
+set FLAGS=-I %TM_SDK_DIR% -Wno-microsoft-anon-tag -fms-extensions
 
 zig cc -shared -o plugins/custom_component/bin/Debug/tm_custom_component.dll plugins/custom_component/custom_component.c %FLAGS%
 zig cc -shared -o plugins/custom_tab/bin/Debug/tm_custom_tab.dll plugins/custom_tab/custom_tab.c %FLAGS%
