@@ -45,7 +45,7 @@ static struct tm_creation_graph_api* tm_creation_graph_api;
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/renderer/render_backend.h>
-#include <plugins/simulation/simulate_entry.h>
+#include <plugins/simulation/simulation_entry.h>
 #include <plugins/simulation/simulation.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/creation_graph/creation_graph.h>
