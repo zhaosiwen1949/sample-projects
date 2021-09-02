@@ -222,17 +222,17 @@ static void update_box_dcc_asset(tm_simulation_state_o* state)
         
         switch (state->box_color) {
             case 0:
-            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-red.creation");
+            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "materials/box-red-mat.creation");
             break;
             case 1:
-            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-green.creation");
+            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "materials/box-green-mat.creation");
             break;
             case 2:
-            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "box-blue.creation");
+            material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "materials/box-blue-mat.creation");
             break;
         }
         
-        const tm_entity_t cube = tm_entity_api->resolve_path(state->entity_ctx, box, "Meshes/Cube");
+        const tm_entity_t cube = box;
         
         if (!cube.u64)
             return;
@@ -563,6 +563,8 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
             touching_correct_drop_zone = true;
         }
 
+        const tm_vec3_t box_pos = tm_get_position(state->trans_mgr, state->box);
+        // tm_physics_body_component_t* box_body = tm_entity_api->get_component(state->entity_ctx, state->box, state->physx_rigid_body_component);
         if (touching_correct_drop_zone) {
             // If box is in correct drop zone and has low velocity, send it flying upwards.
 
@@ -572,8 +574,15 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
                 tm_physx_scene_api->add_force(physx_scene, state->box, (tm_vec3_t){ 0, 10, 0 }, TM_PHYSX_FORCE_FLAGS__VELOCITY_CHANGE);
                 state->box_fly_timer = 0.7f;
                 state->box_state = BOX_STATE_FLYING_UP;
+                state->score += 1.0f;
+                tm_gamestate_api->float_member_set(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, "score", state->score);
             }
-        } else {
+        } else if (box_pos.y < -10.0f) {
+            tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 20, 0 });
+            state->box_fly_timer = 1.0f;
+            state->box_state = BOX_STATE_FLYING_UP;
+        }
+        else {
             // If box is not in correct drop zone and player clicks left mouse button, try picking it up using raycast.
 
             const tm_physx_raycast_t r = tm_physx_scene_api->raycast(physx_scene, camera_pos, camera_forward, 2.5f, state->player_collision_type, (tm_physx_raycast_flags_t){ 0 }, 0, 0);
@@ -643,8 +652,6 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 0, 0 });
             change_box_to_random_color(state);
             state->box_state = BOX_STATE_FREE;
-                state->score += 1.0f;
-                tm_gamestate_api->float_member_set(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, "score", state->score);
         } else {
             const tm_vec3_t interpolate_to_start_pos = tm_vec3_add(box_pos, tm_vec3_mul(spawn_point_dir, args->dt * 10));
             tm_set_position(state->trans_mgr, state->box, interpolate_to_start_pos);
