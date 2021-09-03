@@ -266,34 +266,6 @@ static void private__adjust_effect_start_color(tm_simulation_state_o* state, tm_
     }
 }
 
-static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
-{
-    // Capture mouse
-    {
-        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
-            state->mouse_captured = true;
-        }
-
-        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
-            state->mouse_captured = false;
-            struct tm_application_o* app = tm_application_api->application();
-            tm_application_api->set_cursor_hidden(app, false);
-        }
-
-        if (state->mouse_captured) {
-            struct tm_application_o* app = tm_application_api->application();
-            tm_application_api->set_cursor_hidden(app, true);
-        }
-    }
-
-    // Rendering
-    char label_text[30];
-    snprintf(label_text, 30, "You reached: %.0f checkpoints", state->score);
-
-    tm_rect_t rect = { 5, 5, 20, 20 };
-    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
-}
-
 static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     // Reset per-frame input
@@ -325,6 +297,24 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         state->processed_events += n;
         if (n < 32)
             break;
+    }
+
+    // Capture mouse
+    {
+        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
+            state->mouse_captured = true;
+        }
+
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
+            state->mouse_captured = false;
+            struct tm_application_o* app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, false);
+        }
+
+        if (state->mouse_captured) {
+            struct tm_application_o* app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, true);
+        }
     }
 
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
@@ -400,6 +390,13 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         tm_set_position(state->trans_mgr, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
     }
 
+    // UI
+    char label_text[30];
+    snprintf(label_text, 30, "You reached: %.0f checkpoints", state->score);
+
+    tm_rect_t rect = { 5, 5, 20, 20 };
+    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+
     // Save Persistent State.
     simulate_persistent_state persistent = { 0 };
     serialize(state, &persistent);
@@ -412,7 +409,6 @@ static tm_simulation_entry_i simulation_entry_i = {
     .start = start,
     .stop = stop,
     .tick = tick,
-    .ui = ui,
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)

@@ -86,9 +86,6 @@ struct tm_simulation_state_o {
     TM_PAD(4);
 
     tm_gamestate_struct_id_t persistent_state_id;
-
-    tm_color_srgb_t crosshair_color;
-    TM_PAD(4);
 };
 
 typedef struct simulate_persistent_state {
@@ -191,34 +188,6 @@ static void stop(tm_simulation_state_o* state)
     tm_free(&a, state, sizeof(*state));
 }
 
-static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
-{
-    if (state->input.left_mouse_pressed) {
-        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
-            state->mouse_captured = true;
-        }
-    }
-
-    // Capture mouse
-    {
-        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
-            state->mouse_captured = false;
-            tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
-        }
-
-        if (state->mouse_captured)
-            tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
-    }
-
-    // UI: Crosshair
-    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
-    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
-    tm_draw2d_style_t style[1] = { 0 };
-    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
-    style->color = state->crosshair_color;
-    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
-}
-
 static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     // Reset per-frame-input
@@ -269,6 +238,24 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         state->processed_events += n;
         if (n < 32)
             break;
+    }
+
+    // Capture mouse
+    {
+        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
+            state->mouse_captured = true;
+        }
+
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
+            state->mouse_captured = false;
+            struct tm_application_o* app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, false);
+        }
+
+        if (state->mouse_captured) {
+            struct tm_application_o* app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, true);
+        }
     }
 
     // Updates any inteactables that are moving etc.
@@ -332,7 +319,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     }
 
     // Modified if the raycast below hits something that can be interacted with.
-    state->crosshair_color = (tm_color_srgb_t){ 70, 80, 70, 255 };
+    tm_color_srgb_t crosshair_color = { 70, 80, 70, 255 };
 
     const tm_vec3_t camera_forward = tm_quaternion_rotate_vec3(camera_rot, (tm_vec3_t){ 0, 0, -1 });
     const tm_physx_raycast_t r = tm_physx_scene_api->raycast(args->physx_scene, camera_pos, camera_forward, 2.5f, state->player_collision_type, (tm_physx_raycast_flags_t){ 0 }, 0, 0);
@@ -341,13 +328,21 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         const tm_entity_t hit = r.block.body;
         const tm_component_mask_t* hit_mask = tm_entity_api->component_mask(state->entity_ctx, hit);
         if (tm_entity_mask_has_component(hit_mask, state->interact_comp) && tm_interactable_component_api->can_interact(state->interactable_mgr, hit, true)) {
-            state->crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
+            crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
             if (state->input.left_mouse_pressed) {
                 // This is what starts the interaction!
                 tm_interactable_component_api->interact(state->interactable_mgr, hit);
             }
         }
     }
+
+    // UI: Crosshair
+    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
+    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
+    tm_draw2d_style_t style[1] = { 0 };
+    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
+    style->color = crosshair_color;
+    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
 
     // Save Persistent State.
     TM_INIT_TEMP_ALLOCATOR(ta);
@@ -363,7 +358,6 @@ static tm_simulation_entry_i simulation_entry_i = {
     .start = start,
     .stop = stop,
     .tick = tick,
-    .ui = ui,
 };
 
 extern void load_interactable_component(struct tm_api_registry_api* reg, bool load);

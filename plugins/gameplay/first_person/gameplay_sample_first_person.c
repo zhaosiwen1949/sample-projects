@@ -383,40 +383,6 @@ static void stop(tm_simulation_state_o* state)
     tm_free(&a, state, sizeof(*state));
 }
 
-static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
-{
-    if (state->input.left_mouse_pressed) {
-        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0))) {
-            state->mouse_captured = true;
-        }
-    }
-
-    // Capture mouse
-    {
-        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
-            state->mouse_captured = false;
-            tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
-        }
-
-        if (state->mouse_captured)
-            tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
-    }
-
-    // UI: Score
-    char label_text[128];
-    snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
-    tm_rect_t rect = { 5, 5, 20, 20 };
-    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
-
-    // UI: Crosshair
-    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
-    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
-    tm_draw2d_style_t style[1] = { 0 };
-    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
-    style->color = state->crosshair_color;
-    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
-}
-
 static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     // Reset per-frame-input
@@ -468,6 +434,24 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         state->processed_events += n;
         if (n < 32)
             break;
+    }
+
+    // Capture mouse
+    {
+        if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
+            state->mouse_captured = true;
+        }
+
+        if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
+            state->mouse_captured = false;
+            struct tm_application_o* app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, false);
+        }
+
+        if (state->mouse_captured) {
+            struct tm_application_o* app = tm_application_api->application();
+            tm_application_api->set_cursor_hidden(app, true);
+        }
     }
 
     tm_physx_scene_o* physx_scene = args->physx_scene;
@@ -654,6 +638,20 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     } break;
     }
 
+    // UI: Score
+    char label_text[128];
+    snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
+    tm_rect_t rect = { 5, 5, 20, 20 };
+    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+
+    // UI: Crosshair
+    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
+    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
+    tm_draw2d_style_t style[1] = { 0 };
+    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
+    style->color = state->crosshair_color;
+    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
+
     // Save Persistent State.
     TM_INIT_TEMP_ALLOCATOR(ta);
     simulate_persistent_state* persistent = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
@@ -668,7 +666,6 @@ static tm_simulation_entry_i simulation_entry_i = {
     .start = start,
     .stop = stop,
     .tick = tick,
-    .ui = ui,
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
