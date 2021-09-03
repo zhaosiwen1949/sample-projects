@@ -26,9 +26,9 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <foundation/error.h>
 #include <foundation/input.h>
 #include <foundation/localizer.h>
+#include <foundation/murmurhash64a.inl>
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_assets.h>
-#include <foundation/murmurhash64a.inl>
 
 #include <plugins/animation/animation_state_machine.h>
 #include <plugins/animation/animation_state_machine_component.h>
@@ -36,6 +36,7 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <plugins/entity/entity.h>
 #include <plugins/entity/tag_component.h>
 #include <plugins/entity/transform_component.h>
+#include <plugins/gamestate/gamestate.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
@@ -43,10 +44,9 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <plugins/renderer/render_command_buffer.h>
 #include <plugins/renderer/resources.h>
 #include <plugins/shader_system/shader_system.h>
-#include <plugins/simulation/simulation_entry.h>
 #include <plugins/simulation/simulation.h>
+#include <plugins/simulation/simulation_entry.h>
 #include <plugins/ui/ui.h>
-#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/math.inl>
 #include <plugins/creation_graph/creation_graph_output.inl>
@@ -113,13 +113,11 @@ struct tm_simulation_state_o {
 
     bool mouse_captured;
     TM_PAD(7);
-    
+
     tm_gamestate_struct_id_t persistent_state_id;
 };
 
-
-typedef struct simulate_persistent_state
-{
+typedef struct simulate_persistent_state {
     uint32_t current_checkpoint;
     float camera_tilt;
     float score;
@@ -135,16 +133,15 @@ static void serialize(tm_simulation_state_o* source, simulate_persistent_state* 
     dest->last_standing_time = source->last_standing_time;
 }
 
-
 static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t e)
 {
     tm_entity_t p = e;
     while (true) {
         tm_entity_t par = tm_entity_api->parent(entity_ctx, p);
-        
+
         if (!par.u64)
             break;
-        
+
         p = par;
     }
     return p;
@@ -153,24 +150,24 @@ static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t
 static void private__load_game(tm_simulation_state_o* state)
 {
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
-    
+
     state->player_camera_pivot = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL));
     state->checkpoint_sphere = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
     state->camera_tilt = 3.18f;
     state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
-    
+
     const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
     tm_simulation_api->set_camera(state->simulation_ctx, camera);
-    
+
     const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
     char checkpoint_path[30];
     for (uint32_t i = 0; i < 8; ++i) {
         snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
         const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
-        
+
         if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
             continue;
-        
+
         state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
     }
 }
@@ -183,7 +180,7 @@ static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* 
     dest->last_standing_time = source->last_standing_time;
 }
 
-void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+void private__state_loaded_from_gamestate(struct tm_gamestate_o* gamestate, void* user_data, tm_gamestate_struct_id_t s, void* data, uint32_t data_size)
 {
     tm_simulation_state_o* state = user_data;
     private__load_game(state);
@@ -210,29 +207,29 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 
     state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_component);
     state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);
-    
+
     private__load_game(state);
-    
+
     const char* name = "simulation_state";
     tm_strhash_t name_hash = tm_murmur_hash_string(name);
-    
+
     tm_gamestate_struct_t s = {
         .name = name,
         .user_data = state,
         .size = sizeof(simulate_persistent_state),
         .created = private__state_loaded_from_gamestate,
     };
-    
+
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
-    
-    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score)};
+
+    tm_gamestate_member_t score_member = { .name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score) };
     tm_gamestate_api->add_struct_type(gamestate, s);
     tm_gamestate_api->configure_struct_global_members(gamestate, name_hash, &score_member, 1);
-    
-    simulate_persistent_state dest = {0};
+
+    simulate_persistent_state dest = { 0 };
     serialize(state, &dest);
     state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, &dest, sizeof(simulate_persistent_state));
-    
+
     state->rb = (tm_renderer_backend_i*)(*tm_global_api_registry->implementations(TM_RENDER_BACKEND_INTERFACE_NAME));
     return state;
 }
@@ -276,23 +273,23 @@ static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
         if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
             state->mouse_captured = true;
         }
-        
+
         if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
             state->mouse_captured = false;
             struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, false);
         }
-        
+
         if (state->mouse_captured) {
             struct tm_application_o* app = tm_application_api->application();
             tm_application_api->set_cursor_hidden(app, true);
         }
     }
-    
+
     // Rendering
     char label_text[30];
     snprintf(label_text, 30, "You reached: %.0f checkpoints", state->score);
-    
+
     tm_rect_t rect = { 5, 5, 20, 20 };
     tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 }
@@ -357,7 +354,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         const float camera_tilt_delta = -state->input.mouse_delta.y * mouse_sens;
         state->camera_tilt += camera_tilt_delta;
         state->camera_tilt = tm_clamp(state->camera_tilt, 1.5f, 3.8f);
-        const tm_vec4_t camera_pivot_rot = tm_quaternion_from_euler((tm_vec3_t) { state->camera_tilt, 0, -TM_PI });
+        const tm_vec4_t camera_pivot_rot = tm_quaternion_from_euler((tm_vec3_t){ state->camera_tilt, 0, -TM_PI });
         tm_set_local_rotation(state->trans_mgr, state->player_camera_pivot, camera_pivot_rot);
 
         // Control animation state machine using input
@@ -402,9 +399,9 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 
         tm_set_position(state->trans_mgr, state->checkpoint_sphere, state->checkpoints_positions[state->current_checkpoint]);
     }
-    
+
     // Save Persistent State.
-    simulate_persistent_state persistent = {0};
+    simulate_persistent_state persistent = { 0 };
     serialize(state, &persistent);
     tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, &persistent, sizeof(simulate_persistent_state));
 }
@@ -421,20 +418,20 @@ static tm_simulation_entry_i simulation_entry_i = {
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     tm_global_api_registry = reg;
-    tm_animation_state_machine_api = reg->get(TM_ANIMATION_STATE_MACHINE_API_NAME);
-    tm_application_api = reg->get(TM_APPLICATION_API_NAME);
-    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
-    tm_error_api = reg->get(TM_ERROR_API_NAME);
-    tm_input_api = reg->get(TM_INPUT_API_NAME);
-    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
-    tm_render_component_api = reg->get(TM_RENDER_COMPONENT_API_NAME);
-    tm_shader_api = reg->get(TM_SHADER_API_NAME);
-    tm_simulation_api = reg->get(TM_SIMULATION_API_NAME);
-    tm_ui_api = reg->get(TM_UI_API_NAME);
-    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
-    tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
-    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
-    tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
+    tm_animation_state_machine_api = tm_get_api(reg, tm_animation_state_machine_api);
+    tm_application_api = tm_get_api(reg, tm_application_api);
+    tm_entity_api = tm_get_api(reg, tm_entity_api);
+    tm_error_api = tm_get_api(reg, tm_error_api);
+    tm_input_api = tm_get_api(reg, tm_input_api);
+    tm_localizer_api = tm_get_api(reg, tm_localizer_api);
+    tm_render_component_api = tm_get_api(reg, tm_render_component_api);
+    tm_shader_api = tm_get_api(reg, tm_shader_api);
+    tm_simulation_api = tm_get_api(reg, tm_simulation_api);
+    tm_ui_api = tm_get_api(reg, tm_ui_api);
+    tm_tag_component_api = tm_get_api(reg, tm_tag_component_api);
+    tm_the_truth_assets_api = tm_get_api(reg, tm_the_truth_assets_api);
+    tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
+    tm_gamestate_api = tm_get_api(reg, tm_gamestate_api);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
 }

@@ -45,11 +45,11 @@ static const char* tab__title(tm_tab_o* tab, struct tm_ui_o* ui)
     return "Custom Tab";
 }
 
-static tm_tab_i* tab__create(tm_tab_create_context_t* context, tm_ui_o *ui)
+static tm_tab_i* tab__create(tm_tab_create_context_t* context, tm_ui_o* ui)
 {
     tm_allocator_i* allocator = context->allocator;
     uint64_t* id = context->id;
-    
+
     static tm_the_machinery_tab_vt* vt = 0;
     if (!vt)
         vt = tm_global_api_registry->get(TM_CUSTOM_TAB_VT_NAME);
@@ -87,9 +87,8 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     tm_global_api_registry = reg;
 
-    tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
-    tm_ui_api = reg->get(TM_UI_API_NAME);
+    tm_draw2d_api = tm_get_api(reg, tm_draw2d_api);
+    tm_ui_api = tm_get_api(reg, tm_ui_api);
 
-    tm_set_or_remove_api(reg, load, TM_CUSTOM_TAB_VT_NAME, custom_tab_vt);
     tm_add_or_remove_implementation(reg, load, TM_TAB_VT_INTERFACE_NAME, custom_tab_vt);
 }

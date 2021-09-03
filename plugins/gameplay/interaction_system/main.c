@@ -20,7 +20,6 @@ static struct tm_ui_api* tm_ui_api;
 static struct tm_interactable_component_api* tm_interactable_component_api;
 static struct tm_gamestate_api* tm_gamestate_api;
 
-
 #include "interactable_component.h"
 
 #include <foundation/allocator.h>
@@ -28,21 +27,21 @@ static struct tm_gamestate_api* tm_gamestate_api;
 #include <foundation/application.h>
 #include <foundation/error.h>
 #include <foundation/input.h>
+#include <foundation/murmurhash64a.inl>
 #include <foundation/temp_allocator.h>
 #include <foundation/the_truth.h>
-#include <foundation/murmurhash64a.inl>
 
 #include <plugins/entity/entity.h>
 #include <plugins/entity/tag_component.h>
 #include <plugins/entity/transform_component.h>
+#include <plugins/gamestate/gamestate.h>
 #include <plugins/physics/physics_collision.h>
 #include <plugins/physics/physics_mover_component.h>
 #include <plugins/physx/physx_scene.h>
-#include <plugins/simulation/simulation_entry.h>
 #include <plugins/simulation/simulation.h>
+#include <plugins/simulation/simulation_entry.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
-#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/carray.inl>
 #include <foundation/math.inl>
@@ -85,33 +84,31 @@ struct tm_simulation_state_o {
     tm_component_type_t tag_comp;
     tm_component_type_t interact_comp;
     TM_PAD(4);
-    
+
     tm_gamestate_struct_id_t persistent_state_id;
-    
+
     tm_color_srgb_t crosshair_color;
     TM_PAD(4);
 };
 
-typedef struct simulate_persistent_state
-{
+typedef struct simulate_persistent_state {
     tm_gamestate_object_id_t player;
     tm_gamestate_object_id_t player_camera;
-    
+
     float look_yaw;
     float look_pitch;
-    
+
     double last_standing_time;
 } simulate_persistent_state;
-
 
 static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
 {
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
-    
+
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
-    
+
     dest->last_standing_time = source->last_standing_time;
 }
 
@@ -119,22 +116,21 @@ static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* 
 {
     dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
     dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
-    
+
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
-    
+
     dest->last_standing_time = source->last_standing_time;
-    
+
     tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
 }
 
-void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+void private__state_loaded_from_gamestate(struct tm_gamestate_o* gamestate, void* user_data, tm_gamestate_struct_id_t s, void* data, uint32_t data_size)
 {
     deserialize(user_data, data);
     tm_simulation_state_o* state = user_data;
     state->persistent_state_id = s;
 }
-
 
 static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 {
@@ -168,24 +164,24 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
         }
     }
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-    
+
     const char* name = "simulation_state";
     tm_strhash_t name_hash = tm_murmur_hash_string(name);
-    
+
     tm_gamestate_struct_t s = {
         .name = name,
         .user_data = state,
         .size = sizeof(simulate_persistent_state),
         .created = private__state_loaded_from_gamestate,
     };
-    
+
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
     tm_gamestate_api->add_struct_type(gamestate, s);
-    
+
     simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
     serialize(state, dest);
     state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
-    
+
     return state;
 }
 
@@ -202,18 +198,18 @@ static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
             state->mouse_captured = true;
         }
     }
-    
+
     // Capture mouse
     {
         if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
             state->mouse_captured = false;
             tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
         }
-        
+
         if (state->mouse_captured)
             tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
     }
-    
+
     // UI: Crosshair
     tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
     tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
@@ -352,7 +348,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
             }
         }
     }
-    
+
     // Save Persistent State.
     TM_INIT_TEMP_ALLOCATOR(ta);
     simulate_persistent_state* persistent = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
@@ -374,21 +370,21 @@ extern void load_interactable_component(struct tm_api_registry_api* reg, bool lo
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
-    tm_application_api = reg->get(TM_APPLICATION_API_NAME);
-    tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
-    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
-    tm_error_api = reg->get(TM_ERROR_API_NAME);
-    tm_input_api = reg->get(TM_INPUT_API_NAME);
-    tm_physics_collision_api = reg->get(TM_PHYSICS_COLLISION_API_NAME);
-    tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
-    tm_simulation_api = reg->get(TM_SIMULATION_API_NAME);
-    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
-    tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
-    tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
-    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
-    tm_ui_api = reg->get(TM_UI_API_NAME);
-    tm_interactable_component_api = reg->get(TM_INTERACTABLE_COMPONENT_API_NAME);
-    tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
+    tm_application_api = tm_get_api(reg, tm_application_api);
+    tm_draw2d_api = tm_get_api(reg, tm_draw2d_api);
+    tm_entity_api = tm_get_api(reg, tm_entity_api);
+    tm_error_api = tm_get_api(reg, tm_error_api);
+    tm_input_api = tm_get_api(reg, tm_input_api);
+    tm_physics_collision_api = tm_get_api(reg, tm_physics_collision_api);
+    tm_physx_scene_api = tm_get_api(reg, tm_physx_scene_api);
+    tm_simulation_api = tm_get_api(reg, tm_simulation_api);
+    tm_tag_component_api = tm_get_api(reg, tm_tag_component_api);
+    tm_temp_allocator_api = tm_get_api(reg, tm_temp_allocator_api);
+    tm_temp_allocator_api = tm_get_api(reg, tm_temp_allocator_api);
+    tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
+    tm_ui_api = tm_get_api(reg, tm_ui_api);
+    tm_interactable_component_api = tm_get_api(reg, tm_interactable_component_api);
+    tm_gamestate_api = tm_get_api(reg, tm_gamestate_api);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
     load_interactable_component(reg, load);

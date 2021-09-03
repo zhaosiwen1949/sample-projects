@@ -21,9 +21,9 @@ static struct tm_the_truth_common_types_api* tm_the_truth_common_types_api;
 #include <plugins/editor_views/properties.h>
 #include <plugins/entity/entity.h>
 #include <plugins/entity/transform_component.h>
+#include <plugins/gamestate/gamestate.h>
 #include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/ui/ui.h>
-#include <plugins/gamestate/gamestate.h>
 
 #include <foundation/carray.inl>
 #include <foundation/math.inl>
@@ -572,60 +572,60 @@ static void manager_components_created(tm_component_manager_o* man_in)
     manager_init(man);
 }
 
-static void tm_interactable_component__serialize(tm_entity_context_o *ctx, tm_entity_t e, tm_component_type_t c, void *buffer, uint32_t buffer_size)
+static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_entity_t e, tm_component_type_t c, void* buffer, uint32_t buffer_size)
 {
-    interactable_component_t *dest = (interactable_component_t *)buffer;
-    interactable_component_t *source = (interactable_component_t *)tm_entity_api->get_component(ctx, e, c);
-    
+    interactable_component_t* dest = (interactable_component_t*)buffer;
+    interactable_component_t* source = (interactable_component_t*)tm_entity_api->get_component(ctx, e, c);
+
     *dest = *source;
-    
-    tm_entity_api->get_entity_gamestate_id(ctx, source->target, (tm_gamestate_object_id_t*) &dest->target);
-    
+
+    tm_entity_api->get_entity_gamestate_id(ctx, source->target, (tm_gamestate_object_id_t*)&dest->target);
+
     switch (dest->type) {
-        case INTERACTABLE_TYPE_LEVER: {
-            tm_entity_api->get_entity_gamestate_id(ctx, source->lever.handle, (tm_gamestate_object_id_t*) &dest->lever.handle);
-        } break;
-        case INTERACTABLE_TYPE_BUTTON: {
-            tm_entity_api->get_entity_gamestate_id(ctx, source->button.button, (tm_gamestate_object_id_t*) &dest->button.button);
-        } break;
-        case INTERACTABLE_TYPE_ROTATING_DOOR: {
-            tm_entity_api->get_entity_gamestate_id(ctx, source->rotating_door.pivot, (tm_gamestate_object_id_t*) &dest->rotating_door.pivot);
-            tm_entity_api->get_entity_gamestate_id(ctx, source->rotating_door.target, (tm_gamestate_object_id_t*) &dest->rotating_door.target);
-        } break;
+    case INTERACTABLE_TYPE_LEVER: {
+        tm_entity_api->get_entity_gamestate_id(ctx, source->lever.handle, (tm_gamestate_object_id_t*)&dest->lever.handle);
+    } break;
+    case INTERACTABLE_TYPE_BUTTON: {
+        tm_entity_api->get_entity_gamestate_id(ctx, source->button.button, (tm_gamestate_object_id_t*)&dest->button.button);
+    } break;
+    case INTERACTABLE_TYPE_ROTATING_DOOR: {
+        tm_entity_api->get_entity_gamestate_id(ctx, source->rotating_door.pivot, (tm_gamestate_object_id_t*)&dest->rotating_door.pivot);
+        tm_entity_api->get_entity_gamestate_id(ctx, source->rotating_door.target, (tm_gamestate_object_id_t*)&dest->rotating_door.target);
+    } break;
     }
 }
 
-static void tm_interactable_component__deserialize(tm_entity_context_o *ctx, tm_entity_t e, tm_component_type_t c, const void *buffer, uint32_t buffer_size)
+static void tm_interactable_component__deserialize(tm_entity_context_o* ctx, tm_entity_t e, tm_component_type_t c, const void* buffer, uint32_t buffer_size)
 {
-    interactable_component_t *dest = (interactable_component_t *)tm_entity_api->get_component(ctx, e, c);
-    interactable_component_t *source = (interactable_component_t *)buffer;
-    
+    interactable_component_t* dest = (interactable_component_t*)tm_entity_api->get_component(ctx, e, c);
+    interactable_component_t* source = (interactable_component_t*)buffer;
+
     *dest = *source;
-    
-    dest->target = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*) &source->target);
-    
+
+    dest->target = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*)&source->target);
+
     switch (dest->type) {
-        case INTERACTABLE_TYPE_LEVER: {
-            dest->lever.handle = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*) &source->lever.handle);
-        } break;
-        case INTERACTABLE_TYPE_BUTTON: {
-            dest->button.button = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*) &source->button.button);
-        } break;
-        case INTERACTABLE_TYPE_ROTATING_DOOR: {
-            dest->rotating_door.pivot = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*) &source->rotating_door.pivot);
-            source->rotating_door.target= tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*) &source->rotating_door.target);
-        } break;
+    case INTERACTABLE_TYPE_LEVER: {
+        dest->lever.handle = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*)&source->lever.handle);
+    } break;
+    case INTERACTABLE_TYPE_BUTTON: {
+        dest->button.button = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*)&source->button.button);
+    } break;
+    case INTERACTABLE_TYPE_ROTATING_DOOR: {
+        dest->rotating_door.pivot = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*)&source->rotating_door.pivot);
+        source->rotating_door.target = tm_entity_api->lookup_entity_from_gamestate_id(ctx, (tm_gamestate_object_id_t*)&source->rotating_door.target);
+    } break;
     }
 }
 
-static tm_component_gamestate_representation_i *interactable_component_gamestate_representation = &(tm_component_gamestate_representation_i){
+static tm_component_gamestate_representation_i* interactable_component_gamestate_representation = &(tm_component_gamestate_representation_i){
     .notify_reload_before_deserialization = true,
     .size = sizeof(interactable_component_t),
     .serialize = tm_interactable_component__serialize,
     .deserialize = tm_interactable_component__deserialize,
 };
 
-static tm_component_persistence_i* interactable_component_persistence = &(tm_component_persistence_i){0};
+static tm_component_persistence_i* interactable_component_persistence = &(tm_component_persistence_i){ 0 };
 
 static tm_interactable_component_manager_o* component__create(struct tm_entity_context_o* ctx)
 {
@@ -743,16 +743,16 @@ static void create_truth_types(struct tm_the_truth_o* tt)
 
 void load_interactable_component(struct tm_api_registry_api* reg, bool load)
 {
-    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
-    tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
-    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
-    tm_properties_view_api = reg->get(TM_PROPERTIES_VIEW_API_NAME);
-    tm_ui_api = reg->get(TM_UI_API_NAME);
-    tm_logger_api = reg->get(TM_LOGGER_API_NAME);
-    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
-    tm_the_truth_common_types_api = reg->get(TM_THE_TRUTH_COMMON_TYPES_API_NAME);
+    tm_entity_api = tm_get_api(reg, tm_entity_api);
+    tm_the_truth_api = tm_get_api(reg, tm_the_truth_api);
+    tm_localizer_api = tm_get_api(reg, tm_localizer_api);
+    tm_properties_view_api = tm_get_api(reg, tm_properties_view_api);
+    tm_ui_api = tm_get_api(reg, tm_ui_api);
+    tm_logger_api = tm_get_api(reg, tm_logger_api);
+    tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
+    tm_the_truth_common_types_api = tm_get_api(reg, tm_the_truth_common_types_api);
 
-    tm_set_or_remove_api(reg, load, TM_INTERACTABLE_COMPONENT_API_NAME, tm_interactable_component_api);
+    tm_set_or_remove_api(reg, load, tm_interactable_component_api, tm_interactable_component_api);
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
 }

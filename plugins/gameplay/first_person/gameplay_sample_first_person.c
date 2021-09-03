@@ -35,6 +35,9 @@ static struct tm_creation_graph_api* tm_creation_graph_api;
 #include <foundation/the_truth.h>
 #include <foundation/the_truth_assets.h>
 
+#include <plugins/creation_graph/creation_graph.h>
+#include <plugins/creation_graph/creation_graph_output.inl>
+#include <plugins/creation_graph/render_nodes.h>
 #include <plugins/entity/entity.h>
 #include <plugins/entity/tag_component.h>
 #include <plugins/entity/transform_component.h>
@@ -44,13 +47,10 @@ static struct tm_creation_graph_api* tm_creation_graph_api;
 #include <plugins/physics/physics_joint_component.h>
 #include <plugins/physics/physics_shape_component.h>
 #include <plugins/physx/physx_scene.h>
-#include <plugins/renderer/render_backend.h>
-#include <plugins/simulation/simulation_entry.h>
-#include <plugins/simulation/simulation.h>
 #include <plugins/render_utilities/render_component.h>
-#include <plugins/creation_graph/creation_graph.h>
-#include <plugins/creation_graph/render_nodes.h>
-#include <plugins/creation_graph/creation_graph_output.inl>
+#include <plugins/renderer/render_backend.h>
+#include <plugins/simulation/simulation.h>
+#include <plugins/simulation/simulation_entry.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
 
@@ -107,9 +107,9 @@ struct tm_simulation_state_o {
 
     // How we currently are/may interact with the box
     enum box_state box_state;
-    
+
     uint32_t box_color;
-    
+
     // Used to decide when to move box from BOX_STATE_FLYING_UP to BOX_STATE_FLYING_BACK
     float box_fly_timer;
 
@@ -120,7 +120,7 @@ struct tm_simulation_state_o {
     // Current score
     float score;
     TM_PAD(4);
-    
+
     // Misc
     uint64_t processed_events;
     tm_tt_id_t player_collision_type;
@@ -142,30 +142,29 @@ struct tm_simulation_state_o {
 
     bool mouse_captured;
     TM_PAD(7);
-    
+
     tm_gamestate_struct_id_t persistent_state_id;
-    
+
     tm_color_srgb_t crosshair_color;
     TM_PAD(4);
 };
 
-typedef struct simulate_persistent_state
-{
+typedef struct simulate_persistent_state {
     tm_gamestate_object_id_t player;
-     tm_gamestate_object_id_t player_camera;
-     tm_gamestate_object_id_t player_carry_anchor;
-     tm_gamestate_object_id_t box;
+    tm_gamestate_object_id_t player_camera;
+    tm_gamestate_object_id_t player_carry_anchor;
+    tm_gamestate_object_id_t box;
     tm_vec3_t box_starting_point;
     tm_vec4_t box_starting_rot;
-    
+
     enum box_state box_state;
     uint32_t box_color;
-    
+
     float box_fly_timer;
-    
+
     float look_yaw;
     float look_pitch;
-    
+
     float score;
     TM_PAD(4);
 } simulate_persistent_state;
@@ -176,19 +175,19 @@ static void serialize(tm_simulation_state_o* source, simulate_persistent_state* 
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_carry_anchor, &dest->player_carry_anchor);
     tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->box, &dest->box);
-    
+
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;
-    
+
     dest->box_state = source->box_state;
     dest->box_color = source->box_color;
     dest->box_fly_timer = source->box_fly_timer;
-    
+
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
-    
+
     dest->score = source->score;
-    }
+}
 
 static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* source)
 {
@@ -196,50 +195,49 @@ static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* 
     dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
     dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_carry_anchor);
     dest->box = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->box);
-    
+
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;
-    
+
     dest->box_state = source->box_state;
     dest->box_color = source->box_color;
     dest->box_fly_timer = source->box_fly_timer;
-    
+
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
-    
+
     dest->score = source->score;
-    
+
     tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
 }
 
 static void update_box_dcc_asset(tm_simulation_state_o* state)
 {
     tm_entity_t box = state->box;
-    
-    if(box.u64)
-{
+
+    if (box.u64) {
         tm_tt_id_t material = (tm_tt_id_t){ 0 };
-        
+
         switch (state->box_color) {
-            case 0:
+        case 0:
             material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "materials/box-red-mat.creation");
             break;
-            case 1:
+        case 1:
             material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "materials/box-green-mat.creation");
             break;
-            case 2:
+        case 2:
             material = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "materials/box-blue-mat.creation");
             break;
         }
-        
+
         const tm_entity_t cube = box;
-        
+
         if (!cube.u64)
             return;
-        
+
         TM_INIT_TEMP_ALLOCATOR(ta);
-        tm_creation_graph_instance_t **instances = tm_creation_graph_api->get_instances_from_component(state->tt, state->entity_ctx, cube, TM_TT_TYPE_HASH__RENDER_COMPONENT, ta);
-        
+        tm_creation_graph_instance_t** instances = tm_creation_graph_api->get_instances_from_component(state->tt, state->entity_ctx, cube, TM_TT_TYPE_HASH__RENDER_COMPONENT, ta);
+
         tm_creation_graph_context_t cg_ctx = {
             .tt = state->tt,
             .entity_ctx = state->entity_ctx,
@@ -250,60 +248,59 @@ static void update_box_dcc_asset(tm_simulation_state_o* state)
             //.rb = state->render_backend,
             .device_affinity_mask = TM_RENDERER_DEVICE_AFFINITY_MASK_ALL,
         };
-        
+
         tm_resource_reference_t mat = {
             .creation_graph = material,
             .node_type_hash = TM_CREATION_GRAPH__SHADER_INSTANCE_OUTPUT_HASH,
         };
-        
+
         for (uint32_t instance_idx = 0; instance_idx < tm_carray_size(instances); ++instance_idx) {
-            tm_creation_graph_instance_t *instance = instances[instance_idx];
+            tm_creation_graph_instance_t* instance = instances[instance_idx];
             tm_creation_graph_api->set_input_value(instance, &cg_ctx, TM_STATIC_HASH("material", 0xeac0b497876adedfULL), &mat, sizeof(mat));
         }
-        
+
         TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-}
+    }
 }
 
 static void change_box_to_random_color(tm_simulation_state_o* state)
 {
     tm_entity_t box = state->box;
-    
+
     // Chose a random color, but never re-use the current one;
     uint32_t color = UINT32_MAX;
     while (color == UINT32_MAX) {
         const uint32_t c = tm_random_api->next() % 3;
         const tm_strhash_t c_tag = c == 0 ? red_tag : (c == 1 ? green_tag : blue_tag);
-        
+
         if (!tm_tag_component_api->has_tag(state->tag_mgr, box, c_tag))
             color = c;
     }
-    
+
     state->box_color = color;
-    
-    
+
     tm_strhash_t tag = TM_STRHASH(0);
     switch (color) {
-        case 0:
+    case 0:
         tag = red_tag;
         break;
-        case 1:
+    case 1:
         tag = green_tag;
         break;
-        case 2:
+    case 2:
         tag = blue_tag;
         break;
     }
-    
+
     tm_tag_component_api->remove_tag(state->tag_mgr, box, red_tag);
     tm_tag_component_api->remove_tag(state->tag_mgr, box, green_tag);
     tm_tag_component_api->remove_tag(state->tag_mgr, box, blue_tag);
     tm_tag_component_api->add_tag(state->tag_mgr, box, tag);
-    
+
     update_box_dcc_asset(state);
 }
 
-void private__state_loaded_from_gamestate(struct tm_gamestate_o *gamestate, void *user_data, tm_gamestate_struct_id_t s, void *data, uint32_t data_size)
+void private__state_loaded_from_gamestate(struct tm_gamestate_o* gamestate, void* user_data, tm_gamestate_struct_id_t s, void* data, uint32_t data_size)
 {
     tm_simulation_state_o* state = user_data;
     deserialize(state, data);
@@ -354,30 +351,29 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
         if (TM_STRHASH_U64(c->name) == TM_STRHASH_U64(TM_STATIC_HASH("box", 0x9eef98b479cef090ULL)))
             state->box_collision_type = c->collision;
     }
-    
+
     const char* name = "simulation_state";
     tm_strhash_t name_hash = tm_murmur_hash_string(name);
-    
+
     tm_gamestate_struct_t s = {
         .name = name,
         .user_data = state,
         .size = sizeof(simulate_persistent_state),
         .created = private__state_loaded_from_gamestate,
     };
-    
+
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
-    
-    tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score)};
+
+    tm_gamestate_member_t score_member = { .name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score) };
     tm_gamestate_api->add_struct_type(gamestate, s);
     tm_gamestate_api->configure_struct_global_members(gamestate, name_hash, &score_member, 1);
-    
+
     simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
     serialize(state, dest);
     state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
-    
-    
+
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
-    
+
     return state;
 }
 
@@ -394,24 +390,24 @@ static void ui(tm_simulation_state_o* state, tm_simulation_ui_args_t* args)
             state->mouse_captured = true;
         }
     }
-    
+
     // Capture mouse
     {
         if ((args->running_in_editor && state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_ESCAPE]) || !tm_ui_api->window_has_focus(args->ui)) {
             state->mouse_captured = false;
             tm_application_api->set_cursor_hidden(tm_application_api->application(), false);
         }
-        
+
         if (state->mouse_captured)
             tm_application_api->set_cursor_hidden(tm_application_api->application(), true);
     }
-    
+
     // UI: Score
     char label_text[128];
     snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
     tm_rect_t rect = { 5, 5, 20, 20 };
     tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
-    
+
     // UI: Crosshair
     tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
     tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
@@ -427,7 +423,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     state->input.mouse_delta.x = state->input.mouse_delta.y = 0;
     state->input.left_mouse_pressed = false;
     //state->render_backend = args->render_backend;
-    
+
     // Read input
     tm_input_event_t events[32];
     bool mouse_captured_this_frame = state->mouse_captured;
@@ -535,10 +531,10 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 
     // Modified if the raycast below hits the box.
     state->crosshair_color = (tm_color_srgb_t){ 120, 120, 120, 255 };
-    
+
     // Update box color if necessary.
-        update_box_dcc_asset(state);
-    
+    update_box_dcc_asset(state);
+
     // Box state machine
     switch (state->box_state) {
     case BOX_STATE_FREE: {
@@ -581,8 +577,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 20, 0 });
             state->box_fly_timer = 1.0f;
             state->box_state = BOX_STATE_FLYING_UP;
-        }
-        else {
+        } else {
             // If box is not in correct drop zone and player clicks left mouse button, try picking it up using raycast.
 
             const tm_physx_raycast_t r = tm_physx_scene_api->raycast(physx_scene, camera_pos, camera_forward, 2.5f, state->player_collision_type, (tm_physx_raycast_flags_t){ 0 }, 0, 0);
@@ -658,7 +653,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         }
     } break;
     }
-    
+
     // Save Persistent State.
     TM_INIT_TEMP_ALLOCATOR(ta);
     simulate_persistent_state* persistent = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
@@ -679,23 +674,23 @@ static tm_simulation_entry_i simulation_entry_i = {
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     tm_api_registry_api = reg;
-    tm_application_api = reg->get(TM_APPLICATION_API_NAME);
-    tm_draw2d_api = reg->get(TM_DRAW2D_API_NAME);
-    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
-    tm_error_api = reg->get(TM_ERROR_API_NAME);
-    tm_input_api = reg->get(TM_INPUT_API_NAME);
-    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
-    tm_physx_scene_api = reg->get(TM_PHYSX_SCENE_API_NAME);
-    tm_random_api = reg->get(TM_RANDOM_API_NAME);
-    tm_simulation_api = reg->get(TM_SIMULATION_API_NAME);
-    tm_tag_component_api = reg->get(TM_TAG_COMPONENT_API_NAME);
-    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
-    tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
-    tm_the_truth_assets_api = reg->get(TM_THE_TRUTH_ASSETS_API_NAME);
-    tm_physics_collision_api = reg->get(TM_PHYSICS_COLLISION_API_NAME);
-    tm_ui_api = reg->get(TM_UI_API_NAME);
-    tm_gamestate_api = reg->get(TM_GAMESTATE_API_NAME);
-    tm_creation_graph_api = reg->get(TM_CREATION_GRAPH_API_NAME);
+    tm_application_api = tm_get_api(reg, tm_application_api);
+    tm_draw2d_api = tm_get_api(reg, tm_draw2d_api);
+    tm_entity_api = tm_get_api(reg, tm_entity_api);
+    tm_error_api = tm_get_api(reg, tm_error_api);
+    tm_input_api = tm_get_api(reg, tm_input_api);
+    tm_localizer_api = tm_get_api(reg, tm_localizer_api);
+    tm_physx_scene_api = tm_get_api(reg, tm_physx_scene_api);
+    tm_random_api = tm_get_api(reg, tm_random_api);
+    tm_simulation_api = tm_get_api(reg, tm_simulation_api);
+    tm_tag_component_api = tm_get_api(reg, tm_tag_component_api);
+    tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
+    tm_temp_allocator_api = tm_get_api(reg, tm_temp_allocator_api);
+    tm_the_truth_assets_api = tm_get_api(reg, tm_the_truth_assets_api);
+    tm_physics_collision_api = tm_get_api(reg, tm_physics_collision_api);
+    tm_ui_api = tm_get_api(reg, tm_ui_api);
+    tm_gamestate_api = tm_get_api(reg, tm_gamestate_api);
+    tm_creation_graph_api = tm_get_api(reg, tm_creation_graph_api);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
 }

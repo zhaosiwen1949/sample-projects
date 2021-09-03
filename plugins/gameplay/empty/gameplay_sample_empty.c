@@ -11,34 +11,34 @@
 
 #include <plugins/simulation/simulation_entry.h>
 
-static struct tm_logger_api *tm_logger_api;
-static struct tm_localizer_api *tm_localizer_api;
+static struct tm_logger_api* tm_logger_api;
+static struct tm_localizer_api* tm_localizer_api;
 
 struct tm_simulation_state_o {
-    tm_allocator_i *allocator;
+    tm_allocator_i* allocator;
     uint64_t some_state;
 };
 
-static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
+static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 {
     TM_LOG("Empty Sample Start");
- 
-    tm_simulation_state_o *state = tm_alloc(args->allocator, sizeof(*state));
-    *state = (tm_simulation_state_o) {
+
+    tm_simulation_state_o* state = tm_alloc(args->allocator, sizeof(*state));
+    *state = (tm_simulation_state_o){
         .allocator = args->allocator,
     };
 
     return state;
 }
 
-static void stop(tm_simulation_state_o *state)
+static void stop(tm_simulation_state_o* state)
 {
     TM_LOG("Empty Sample Stop");
     tm_allocator_i a = *state->allocator;
     tm_free(&a, state, sizeof(*state));
 }
 
-static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
+static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 {
     TM_LOG("Empty Sample Update. Counter: %u. Frame time: %f", state->some_state, args->dt);
     ++state->some_state;
@@ -54,8 +54,8 @@ static tm_simulation_entry_i simulation_entry_i = {
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
-    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
-    tm_logger_api = reg->get(TM_LOGGER_API_NAME);
+    tm_localizer_api = tm_get_api(reg, tm_localizer_api);
+    tm_logger_api = tm_get_api(reg, tm_logger_api);
 
     tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
 }

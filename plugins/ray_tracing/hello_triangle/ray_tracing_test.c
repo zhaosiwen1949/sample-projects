@@ -311,17 +311,17 @@ static void component__manager_create(tm_entity_context_o* ctx)
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
     tm_api_registry_api = reg;
-    tm_buffer_format_api = reg->get(TM_BUFFER_FORMAT_API_NAME);
-    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
-    tm_logger_api = reg->get(TM_LOGGER_API_NAME);
-    tm_render_graph_execute_api = reg->get(TM_RENDER_GRAPH_EXECUTE_API_NAME);
-    tm_render_graph_module_api = reg->get(TM_RENDER_GRAPH_MODULE_API_NAME);
-    tm_render_graph_setup_api = reg->get(TM_RENDER_GRAPH_SETUP_API_NAME);
-    tm_render_graph_toolbox_api = reg->get(TM_RENDER_GRAPH_TOOLBOX_API_NAME);
-    tm_renderer_api = reg->get(TM_RENDERER_API_NAME);
-    tm_shader_api = reg->get(TM_SHADER_API_NAME);
-    tm_shader_repository_api = reg->get(TM_SHADER_REPOSITORY_API_NAME);
-    tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
+    tm_buffer_format_api = tm_get_api(reg, tm_buffer_format_api);
+    tm_entity_api = tm_get_api(reg, tm_entity_api);
+    tm_logger_api = tm_get_api(reg, tm_logger_api);
+    tm_render_graph_execute_api = tm_get_api(reg, tm_render_graph_execute_api);
+    tm_render_graph_module_api = tm_get_api(reg, tm_render_graph_module_api);
+    tm_render_graph_setup_api = tm_get_api(reg, tm_render_graph_setup_api);
+    tm_render_graph_toolbox_api = tm_get_api(reg, tm_render_graph_toolbox_api);
+    tm_renderer_api = tm_get_api(reg, tm_renderer_api);
+    tm_shader_api = tm_get_api(reg, tm_shader_api);
+    tm_shader_repository_api = tm_get_api(reg, tm_shader_repository_api);
+    tm_the_truth_api = tm_get_api(reg, tm_the_truth_api);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, component__create_truth_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__manager_create);

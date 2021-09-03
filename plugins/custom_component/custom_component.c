@@ -132,11 +132,11 @@ static void component__register_engine(struct tm_entity_context_o* ctx)
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
-    tm_entity_api = reg->get(TM_ENTITY_API_NAME);
-    tm_transform_component_api = reg->get(TM_TRANSFORM_COMPONENT_API_NAME);
-    tm_the_truth_api = reg->get(TM_THE_TRUTH_API_NAME);
-    tm_temp_allocator_api = reg->get(TM_TEMP_ALLOCATOR_API_NAME);
-    tm_localizer_api = reg->get(TM_LOCALIZER_API_NAME);
+    tm_entity_api = tm_get_api(reg, tm_entity_api);
+    tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
+    tm_the_truth_api = tm_get_api(reg, tm_the_truth_api);
+    tm_temp_allocator_api = tm_get_api(reg, tm_temp_allocator_api);
+    tm_localizer_api = tm_get_api(reg, tm_localizer_api);
 
     tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, truth__create_types);
     tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
