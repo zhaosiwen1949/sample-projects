@@ -180,7 +180,7 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     };
     
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
-    tm_gamestate_api->add_struct_type(gamestate, s, 0, 0);
+    tm_gamestate_api->add_struct_type(gamestate, s);
     
     simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
     serialize(state, dest);

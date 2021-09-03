@@ -618,13 +618,14 @@ static void tm_interactable_component__deserialize(tm_entity_context_o *ctx, tm_
     }
 }
 
-static tm_component_persistence_i *interactable_component_persistence = &(tm_component_persistence_i){
-    .custom_persistent_state = true,
+static tm_component_gamestate_representation_i *interactable_component_gamestate_representation = &(tm_component_gamestate_representation_i){
     .notify_reload_before_deserialization = true,
     .size = sizeof(interactable_component_t),
     .serialize = tm_interactable_component__serialize,
     .deserialize = tm_interactable_component__deserialize,
 };
+
+static tm_component_persistence_i* interactable_component_persistence = &(tm_component_persistence_i){0};
 
 static tm_interactable_component_manager_o* component__create(struct tm_entity_context_o* ctx)
 {
@@ -639,6 +640,7 @@ static tm_interactable_component_manager_o* component__create(struct tm_entity_c
         .destroy = component__destroy,
         .manager = (tm_component_manager_o*)m,
         .components_created = manager_components_created,
+        .gamestate_representation = interactable_component_gamestate_representation,
         .persistence = interactable_component_persistence,
     };
 

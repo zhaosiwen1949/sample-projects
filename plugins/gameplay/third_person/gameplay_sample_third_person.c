@@ -226,7 +226,8 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
     
     tm_gamestate_member_t score_member = {.name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score)};
-    tm_gamestate_api->add_struct_type(gamestate, s, &score_member, 1);
+    tm_gamestate_api->add_struct_type(gamestate, s);
+    tm_gamestate_api->configure_struct_global_members(gamestate, name_hash, &score_member, 1);
     
     simulate_persistent_state dest = {0};
     serialize(state, &dest);
