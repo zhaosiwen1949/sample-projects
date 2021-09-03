@@ -4526,6 +4526,40 @@
 		}
 	}
 	{
+		name: "tm_houdini_asset"
+		properties: [
+			{
+				name: "test"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_houdini_component"
+		properties: [
+			{
+				name: "pos0"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "pos1"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "pos2"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "color"
+				type: "subobject"
+				type_hash: "d0c8704d11c0c0f1"
+			}
+		]
+	}
+	{
 		name: "tm_image"
 		properties: [
 			{
@@ -5019,6 +5053,11 @@
 				type: "subobject_set"
 				type_hash: "73e8309bad5667f0"
 			}
+			{
+				name: "send updates to"
+				type: "subobject_set"
+				type_hash: "dc2b19c4af5e7e5c"
+			}
 		]
 	}
 	{
@@ -5072,10 +5111,23 @@
 				name: "update when hidden"
 				type: "bool"
 			}
+			{
+				name: "empty world"
+				type: "bool"
+			}
 		]
 	}
 	{
 		name: "tm_network_node_receiver"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_network_node_send_update_to"
 		properties: [
 			{
 				name: "name"
