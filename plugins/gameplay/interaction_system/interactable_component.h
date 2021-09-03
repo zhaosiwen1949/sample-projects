@@ -8,7 +8,9 @@ typedef struct tm_interactable_component_manager_o tm_interactable_component_man
 #define TM_INTERACTABLE_COMPONENT_API_NAME "tm_interactable_component_api"
 
 struct tm_interactable_component_api {
-    bool (*can_interact)(tm_interactable_component_manager_o *mgr, tm_entity_t interactable, bool is_player);
-    void (*interact)(tm_interactable_component_manager_o *mgr, tm_entity_t interactable);
-    void (*update_active_interactables)(tm_interactable_component_manager_o *mgr, float dt, double t);
+    bool (*can_interact)(tm_interactable_component_manager_o* mgr, tm_entity_t interactable, bool is_player);
+    void (*interact)(tm_interactable_component_manager_o* mgr, tm_entity_t interactable);
+    void (*update_active_interactables)(tm_interactable_component_manager_o* mgr, float dt, double t);
 };
+
+#define tm_interactable_component_api_version TM_VERSION(1, 0, 0)
