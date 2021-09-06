@@ -141,12 +141,10 @@ struct tm_simulation_state_o {
     tm_tag_component_manager_o* tag_mgr;
 
     bool mouse_captured;
-    TM_PAD(7);
+    bool box_interactable;
+    TM_PAD(6);
 
     tm_gamestate_struct_id_t persistent_state_id;
-
-    tm_color_srgb_t crosshair_color;
-    TM_PAD(4);
 };
 
 typedef struct simulate_persistent_state {
@@ -211,7 +209,7 @@ static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* 
     tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
 }
 
-static void update_box_dcc_asset(tm_simulation_state_o* state)
+static void update_box_material(tm_simulation_state_o* state)
 {
     tm_entity_t box = state->box;
 
@@ -297,7 +295,7 @@ static void change_box_to_random_color(tm_simulation_state_o* state)
     tm_tag_component_api->remove_tag(state->tag_mgr, box, blue_tag);
     tm_tag_component_api->add_tag(state->tag_mgr, box, tag);
 
-    update_box_dcc_asset(state);
+    update_box_material(state);
 }
 
 void private__state_loaded_from_gamestate(struct tm_gamestate_o* gamestate, void* user_data, tm_gamestate_struct_id_t s, void* data, uint32_t data_size)
@@ -437,7 +435,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     }
 
     // Capture mouse
-    {
+    if (args->ui) {
         if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
             state->mouse_captured = true;
         }
@@ -513,11 +511,9 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     tm_set_position(state->trans_mgr, state->player_carry_anchor, anchor_pos);
     tm_set_rotation(state->trans_mgr, state->player_carry_anchor, camera_rot);
 
-    // Modified if the raycast below hits the box.
-    state->crosshair_color = (tm_color_srgb_t){ 120, 120, 120, 255 };
-
     // Update box color if necessary.
-    update_box_dcc_asset(state);
+    update_box_material(state);
+    state->box_interactable = false;
 
     // Box state machine
     switch (state->box_state) {
@@ -570,7 +566,8 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
                 const tm_entity_t hit = r.block.body;
 
                 if (state->box.u64 == hit.u64) {
-                    state->crosshair_color = (tm_color_srgb_t){ 255, 255, 255, 255 };
+                    state->box_interactable = true;
+
                     if (state->input.left_mouse_pressed) {
                         tm_physics_shape_component_t* shape = tm_entity_api->get_component(state->entity_ctx, state->box, state->physics_shape_component);
                         shape->collision_id = state->player_collision_type;
@@ -638,22 +635,25 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     } break;
     }
 
-    if (!args->ui)
-        return;
+    if (args->ui) {
+        // UI: Score
+        char label_text[128];
+        snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
+        tm_rect_t rect = { 5, 5, 20, 20 };
+        tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
 
-    // UI: Score
-    char label_text[128];
-    snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
-    tm_rect_t rect = { 5, 5, 20, 20 };
-    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+        // UI: Crosshair
+        tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
+        tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
+        tm_draw2d_style_t style[1] = { 0 };
+        tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
 
-    // UI: Crosshair
-    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
-    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
-    tm_draw2d_style_t style[1] = { 0 };
-    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
-    style->color = state->crosshair_color;
-    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
+        style->color = (state->box_interactable || state->box_state == BOX_STATE_CARRIED)
+            ? (tm_color_srgb_t){ 255, 255, 255, 255 }
+            : (tm_color_srgb_t){ 120, 120, 120, 255 };
+
+        tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
+    }
 
     // Save Persistent State.
     TM_INIT_TEMP_ALLOCATOR(ta);

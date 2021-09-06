@@ -241,7 +241,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     }
 
     // Capture mouse
-    {
+    if (args->ui) {
         if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
             state->mouse_captured = true;
         }
@@ -337,12 +337,14 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     }
 
     // UI: Crosshair
-    tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
-    tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
-    tm_draw2d_style_t style[1] = { 0 };
-    tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
-    style->color = crosshair_color;
-    tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
+    if (args->ui) {
+        tm_ui_buffers_t uib = tm_ui_api->buffers(args->ui);
+        tm_vec2_t crosshair_pos = { args->rect.w / 2, args->rect.h / 2 };
+        tm_draw2d_style_t style[1] = { 0 };
+        tm_ui_api->to_draw_style(args->ui, style, args->uistyle);
+        style->color = crosshair_color;
+        tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
+    }
 
     // Save Persistent State.
     TM_INIT_TEMP_ALLOCATOR(ta);

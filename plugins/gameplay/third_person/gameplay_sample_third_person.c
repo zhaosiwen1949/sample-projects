@@ -300,7 +300,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     }
 
     // Capture mouse
-    {
+    if (args->ui) {
         if (!args->running_in_editor || (tm_ui_api->is_hovering(args->ui, args->rect, 0) && state->input.left_mouse_pressed)) {
             state->mouse_captured = true;
         }
@@ -391,11 +391,13 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     }
 
     // UI
-    char label_text[30];
-    snprintf(label_text, 30, "You reached: %.0f checkpoints", state->score);
+    if (args->ui) {
+        char label_text[30];
+        snprintf(label_text, 30, "You reached: %.0f checkpoints", state->score);
 
-    tm_rect_t rect = { 5, 5, 20, 20 };
-    tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+        tm_rect_t rect = { 5, 5, 20, 20 };
+        tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
+    }
 
     // Save Persistent State.
     simulate_persistent_state persistent = { 0 };
