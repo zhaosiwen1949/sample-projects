@@ -638,6 +638,9 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     } break;
     }
 
+    if (!args->ui)
+        return;
+
     // UI: Score
     char label_text[128];
     snprintf(label_text, 128, "The box has been correctly placed %.0f times", state->score);
