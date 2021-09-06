@@ -1,8 +1,6 @@
-// This file contains all the gameplay code associated with the first person gameplay sample. It adds an implementation
-// of the interface `tm_simulation_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the first
-// person sample project. When simulating `levels/world.entity`, it will look in its folder, or any parent folder, until
-// it finds a `.simulate_entry` file. It will use the `tm_simulation_entry_i` interface referenced in there in order to
-// enter this file.
+// This file contains the gameplay code for the First Person Gameplay sample. It adds an
+// implementation of the interface [[tm_simulation_entry_i]]. There is a Simulation Entry
+// Component on in the project asset `levels/world.entity` that references the implementation.
 
 static struct tm_api_registry_api* tm_api_registry_api;
 static struct tm_application_api* tm_application_api;

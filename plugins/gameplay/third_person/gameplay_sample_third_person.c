@@ -1,8 +1,6 @@
-// This file contains all the gameplay code associated with the third person gameplay sample. It adds an implementation
-// of the interface `tm_simulation_entry_i`, which is referenced by the asset `levels/main.simulate_entry` in the third
-// person sample project. When simulating `levels/world.entity`, it will look in its folder, or any parent folder, until
-// it finds a `.simulate_entry` file. It will use the `tm_simulation_entry_i` interface referenced in there in order to
-// enter this file.
+// This file contains the gameplay code for the Third Person Gameplay sample. It adds an
+// implementation of the interface [[tm_simulation_entry_i]]. There is a Simulation Entry
+// Component on in the project asset `levels/world.entity` that references the implementation.
 
 static struct tm_animation_state_machine_api* tm_animation_state_machine_api;
 static struct tm_api_registry_api* tm_global_api_registry;
