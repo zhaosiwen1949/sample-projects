@@ -45,19 +45,17 @@ static const char* tab__title(tm_tab_o* tab, struct tm_ui_o* ui)
     return "Custom Tab";
 }
 
+static tm_the_machinery_tab_vt* custom_tab_vt;
+
 static tm_tab_i* tab__create(tm_tab_create_context_t* context, tm_ui_o* ui)
 {
     tm_allocator_i* allocator = context->allocator;
     uint64_t* id = context->id;
 
-    static tm_the_machinery_tab_vt* vt = 0;
-    if (!vt)
-        vt = tm_global_api_registry->get(TM_CUSTOM_TAB_VT_NAME);
-
     tm_tab_o* tab = tm_alloc(allocator, sizeof(tm_tab_o));
     *tab = (tm_tab_o){
         .tm_tab_i = {
-            .vt = (tm_tab_vt*)vt,
+            .vt = (tm_tab_vt*)custom_tab_vt,
             .inst = (tm_tab_o*)tab,
             .root_id = *id,
         },
