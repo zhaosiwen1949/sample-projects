@@ -627,7 +627,7 @@ static tm_component_gamestate_representation_i* interactable_component_gamestate
 
 static tm_component_persistence_i* interactable_component_persistence = &(tm_component_persistence_i){ 0 };
 
-static tm_interactable_component_manager_o* component__create(struct tm_entity_context_o* ctx)
+static void component__create(struct tm_entity_context_o* ctx)
 {
     tm_allocator_i a;
     tm_entity_api->create_child_allocator(ctx, TM_TT_TYPE__INTERACTABLE_COMPONENT, &a);
@@ -651,8 +651,6 @@ static tm_interactable_component_manager_o* component__create(struct tm_entity_c
         .ctx = ctx,
         .interactable_component_type = interactable_component_type,
     };
-
-    return m;
 }
 
 // This defines all the The Truth types needed and also makes it possible to see the Interactable Component in the
@@ -753,6 +751,6 @@ void load_interactable_component(struct tm_api_registry_api* reg, bool load)
     tm_the_truth_common_types_api = tm_get_api(reg, tm_the_truth_common_types_api);
 
     tm_set_or_remove_api(reg, load, tm_interactable_component_api, tm_interactable_component_api);
-    tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, create_truth_types);
-    tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
+    tm_add_or_remove_implementation(reg, load, tm_the_truth_create_types_i, create_truth_types);
+    tm_add_or_remove_implementation(reg, load, tm_entity_create_component_i, component__create);
 }

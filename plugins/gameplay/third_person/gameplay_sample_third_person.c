@@ -228,7 +228,7 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     serialize(state, &dest);
     state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, &dest, sizeof(simulate_persistent_state));
 
-    state->rb = (tm_renderer_backend_i*)(*tm_global_api_registry->implementations(TM_RENDER_BACKEND_INTERFACE_NAME));
+    state->rb = tm_first_implementation(tm_global_api_registry, tm_renderer_backend_i);
     return state;
 }
 
@@ -429,5 +429,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
     tm_gamestate_api = tm_get_api(reg, tm_gamestate_api);
 
-    tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
+    tm_add_or_remove_implementation(reg, load, tm_simulation_entry_i, &simulation_entry_i);
 }

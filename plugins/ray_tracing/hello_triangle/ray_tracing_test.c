@@ -37,7 +37,7 @@
 #define TM_TT_TYPE__RAY_TRACING_TEST "tm_default_render_pipe_ray_tracing_hello_triangle"
 #define TM_RAY_TRACING_TEMP_OUTPUT TM_STATIC_HASH("tm_ray_tracing_hello_triangle__output", 0xc994b4c08a3b6dadULL)
 
-static struct tm_api_registry_api* tm_api_registry_api;
+static struct tm_api_registry_api* tm_global_api_registry;
 static struct tm_buffer_format_api* tm_buffer_format_api;
 static struct tm_entity_api* tm_entity_api;
 static struct tm_logger_api* tm_logger_api;
@@ -73,7 +73,7 @@ typedef struct tm_module_runtime_data_o {
 
 static inline bool backend__check_support(void)
 {
-    tm_renderer_backend_i* backend = *tm_api_registry_api->implementations(TM_RENDER_BACKEND_INTERFACE_NAME);
+    tm_renderer_backend_i* backend = tm_first_implementation(tm_global_api_registry, tm_renderer_backend_i);
     return backend->supports_ray_tracing(backend->inst, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
 }
 
@@ -152,7 +152,7 @@ static void module__init_trace_pass(void* const_data, tm_allocator_i* allocator,
 
     manager->tlas_handle = tm_renderer_api->tm_renderer_resource_command_buffer_api->create_top_level_acceleration_structure(res_buf, &tlas_desc, TM_RENDERER_DEVICE_AFFINITY_MASK_ALL);
 
-    tm_shader_repository_o* shader_repo = tm_api_registry_api->single_implementation(TM_SHADER_REPOSITORY_INSTANCE_NAME);
+    tm_shader_repository_o* shader_repo = tm_single_implementation(tm_global_api_registry, tm_shader_repository_o);
     manager->shaders[0] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("raygen", 0x5a7f3dc6adf96104ULL));
     manager->shaders[1] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("miss", 0x92070bf3352c5ce3ULL));
     manager->shaders[2] = tm_shader_repository_api->lookup_shader(shader_repo, TM_STATIC_HASH("hit", 0x6f2598e77d07074cULL));
@@ -248,7 +248,7 @@ static void module__execute_trace_pass(const void* const_data, void* runtime_dat
 
 static void component__manager_destroy(tm_component_manager_o* manager)
 {
-    tm_renderer_backend_i* backend = tm_api_registry_api->single_implementation(TM_RENDER_BACKEND_INTERFACE_NAME);
+    tm_renderer_backend_i* backend = tm_single_implementation(tm_global_api_registry, tm_renderer_backend_i);
 
     tm_renderer_resource_command_buffer_o* res_buf;
     backend->create_resource_command_buffers(backend->inst, &res_buf, 1);
@@ -310,7 +310,8 @@ static void component__manager_create(tm_entity_context_o* ctx)
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
 {
-    tm_api_registry_api = reg;
+    tm_global_api_registry = reg;
+
     tm_buffer_format_api = tm_get_api(reg, tm_buffer_format_api);
     tm_entity_api = tm_get_api(reg, tm_entity_api);
     tm_logger_api = tm_get_api(reg, tm_logger_api);
@@ -323,6 +324,6 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_shader_repository_api = tm_get_api(reg, tm_shader_repository_api);
     tm_the_truth_api = tm_get_api(reg, tm_the_truth_api);
 
-    tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, component__create_truth_types);
-    tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__manager_create);
+    tm_add_or_remove_implementation(reg, load, tm_the_truth_create_types_i, component__create_truth_types);
+    tm_add_or_remove_implementation(reg, load, tm_entity_create_component_i, component__manager_create);
 }

@@ -57,5 +57,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_localizer_api = tm_get_api(reg, tm_localizer_api);
     tm_logger_api = tm_get_api(reg, tm_logger_api);
 
-    tm_add_or_remove_implementation(reg, load, TM_SIMULATION_ENTRY_INTERFACE_NAME, &simulation_entry_i);
+    tm_add_or_remove_implementation(reg, load, tm_simulation_entry_i, &simulation_entry_i);
 }

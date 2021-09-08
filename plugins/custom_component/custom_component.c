@@ -138,7 +138,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_temp_allocator_api = tm_get_api(reg, tm_temp_allocator_api);
     tm_localizer_api = tm_get_api(reg, tm_localizer_api);
 
-    tm_add_or_remove_implementation(reg, load, TM_THE_TRUTH_CREATE_TYPES_INTERFACE_NAME, truth__create_types);
-    tm_add_or_remove_implementation(reg, load, TM_ENTITY_CREATE_COMPONENT_INTERFACE_NAME, component__create);
-    tm_add_or_remove_implementation(reg, load, TM_ENTITY_SIMULATION_REGISTER_ENGINES_INTERFACE_NAME, component__register_engine);
+    tm_add_or_remove_implementation(reg, load, tm_the_truth_create_types_i, truth__create_types);
+    tm_add_or_remove_implementation(reg, load, tm_entity_create_component_i, component__create);
+    tm_add_or_remove_implementation(reg, load, tm_entity_register_engines_simulation_i, component__register_engine);
 }

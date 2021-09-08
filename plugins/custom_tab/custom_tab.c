@@ -72,13 +72,15 @@ static void tab__destroy(tm_tab_o* tab)
 }
 
 static tm_the_machinery_tab_vt* custom_tab_vt = &(tm_the_machinery_tab_vt){
-    .name = TM_CUSTOM_TAB_VT_NAME,
-    .name_hash = TM_CUSTOM_TAB_VT_NAME_HASH,
-    .create_menu_name = tab__create_menu_name,
-    .create = tab__create,
-    .destroy = tab__destroy,
-    .title = tab__title,
-    .ui = tab__ui
+    .super = {
+        .name = TM_CUSTOM_TAB_VT_NAME,
+        .name_hash = TM_CUSTOM_TAB_VT_NAME_HASH,
+        .create_menu_name = tab__create_menu_name,
+        .create = tab__create,
+        .destroy = tab__destroy,
+        .title = tab__title,
+        .ui = tab__ui,
+    }
 };
 
 TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
@@ -88,5 +90,5 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api* reg, bool load)
     tm_draw2d_api = tm_get_api(reg, tm_draw2d_api);
     tm_ui_api = tm_get_api(reg, tm_ui_api);
 
-    tm_add_or_remove_implementation(reg, load, TM_TAB_VT_INTERFACE_NAME, custom_tab_vt);
+    tm_add_or_remove_implementation(reg, load, tm_tab_vt, &custom_tab_vt->super);
 }
