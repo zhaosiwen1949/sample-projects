@@ -4865,6 +4865,16 @@
 				type_hash: "5467f1db7c000048"
 			}
 			{
+				name: "disconnect handlers"
+				type: "subobject_set"
+				type_hash: "f3d6609dd4b49cd9"
+			}
+			{
+				name: "not responding handlers"
+				type: "subobject_set"
+				type_hash: "f8ba1d5665e8db23"
+			}
+			{
 				name: "disabled components"
 				type: "subobject_set"
 				type_hash: "245d01d2562b22e9"
@@ -4883,6 +4893,11 @@
 				name: "send updates to"
 				type: "subobject_set"
 				type_hash: "dc2b19c4af5e7e5c"
+			}
+			{
+				name: "graph events to transmit"
+				type: "subobject_set"
+				type_hash: "3658ceff2ca147ae"
 			}
 		]
 	}
@@ -4923,6 +4938,28 @@
 		]
 	}
 	{
+		name: "tm_network_node_disconnected_handler"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_network_node_graph_event_to_transmit"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "transmit sorted globally"
+				type: "bool"
+			}
+		]
+	}
+	{
 		name: "tm_network_node_instance"
 		properties: [
 			{
@@ -4940,6 +4977,15 @@
 			{
 				name: "empty world"
 				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_network_node_not_responding_handler"
+		properties: [
+			{
+				name: "name"
+				type: "string"
 			}
 		]
 	}
