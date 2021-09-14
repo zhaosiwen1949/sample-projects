@@ -167,10 +167,10 @@ typedef struct simulate_persistent_state {
 
 static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
 {
-    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
-    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
-    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_carry_anchor, &dest->player_carry_anchor);
-    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->box, &dest->box);
+    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player, &dest->player);
+    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player_camera, &dest->player_camera);
+    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player_carry_anchor, &dest->player_carry_anchor);
+    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->box, &dest->box);
 
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;

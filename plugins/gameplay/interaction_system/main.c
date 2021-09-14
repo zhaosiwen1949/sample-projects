@@ -101,8 +101,8 @@ typedef struct simulate_persistent_state {
 
 static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
 {
-    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player, &dest->player);
-    tm_entity_api->get_entity_gamestate_id(source->entity_ctx, source->player_camera, &dest->player_camera);
+    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player, &dest->player);
+    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player_camera, &dest->player_camera);
 
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;

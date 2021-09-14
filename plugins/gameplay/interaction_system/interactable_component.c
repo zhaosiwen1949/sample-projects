@@ -579,18 +579,18 @@ static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_en
 
     *dest = *source;
 
-    tm_entity_api->get_entity_gamestate_id(ctx, source->target, (tm_gamestate_object_id_t*)&dest->target);
+    tm_entity_api->get_entity_persistent_id(ctx, source->target, (tm_gamestate_object_id_t*)&dest->target);
 
     switch (dest->type) {
     case INTERACTABLE_TYPE_LEVER: {
-        tm_entity_api->get_entity_gamestate_id(ctx, source->lever.handle, (tm_gamestate_object_id_t*)&dest->lever.handle);
+        tm_entity_api->get_entity_persistent_id(ctx, source->lever.handle, (tm_gamestate_object_id_t*)&dest->lever.handle);
     } break;
     case INTERACTABLE_TYPE_BUTTON: {
-        tm_entity_api->get_entity_gamestate_id(ctx, source->button.button, (tm_gamestate_object_id_t*)&dest->button.button);
+        tm_entity_api->get_entity_persistent_id(ctx, source->button.button, (tm_gamestate_object_id_t*)&dest->button.button);
     } break;
     case INTERACTABLE_TYPE_ROTATING_DOOR: {
-        tm_entity_api->get_entity_gamestate_id(ctx, source->rotating_door.pivot, (tm_gamestate_object_id_t*)&dest->rotating_door.pivot);
-        tm_entity_api->get_entity_gamestate_id(ctx, source->rotating_door.target, (tm_gamestate_object_id_t*)&dest->rotating_door.target);
+        tm_entity_api->get_entity_persistent_id(ctx, source->rotating_door.pivot, (tm_gamestate_object_id_t*)&dest->rotating_door.pivot);
+        tm_entity_api->get_entity_persistent_id(ctx, source->rotating_door.target, (tm_gamestate_object_id_t*)&dest->rotating_door.target);
     } break;
     }
 }
