@@ -1560,6 +1560,10 @@
 				name: "version"
 				type: "uint64_t"
 			}
+			{
+				name: "skipped_version"
+				type: "uint64_t"
+			}
 		]
 	}
 	{
@@ -2691,7 +2695,15 @@
 				type: "bool"
 			}
 			{
+				name: "merge_images"
+				type: "bool"
+			}
+			{
 				name: "extract_materials"
+				type: "bool"
+			}
+			{
+				name: "merge_materials"
 				type: "bool"
 			}
 			{
@@ -2772,6 +2784,10 @@
 				type: "subobject"
 				type_hash: "d0c8704d11c0c0f1"
 			}
+			{
+				name: "saturation"
+				type: "float"
+			}
 		]
 		default: {
 			enabled: true
@@ -2784,6 +2800,7 @@
 			}
 			slope: {
 			}
+			saturation: 1
 		}
 	}
 	{
@@ -4924,6 +4941,11 @@
 				type_hash: "dc2b19c4af5e7e5c"
 			}
 			{
+				name: "send events to"
+				type: "subobject_set"
+				type_hash: "f28aa021f7b27fbd"
+			}
+			{
 				name: "graph events to transmit"
 				type: "subobject_set"
 				type_hash: "3658ceff2ca147ae"
@@ -5007,6 +5029,22 @@
 				name: "empty world"
 				type: "bool"
 			}
+			{
+				name: "download bandwidth"
+				type: "uint32_t"
+			}
+			{
+				name: "upload bandwidth"
+				type: "uint32_t"
+			}
+			{
+				name: "min latency ms"
+				type: "double"
+			}
+			{
+				name: "max latency ms"
+				type: "double"
+			}
 		]
 	}
 	{
@@ -5020,6 +5058,15 @@
 	}
 	{
 		name: "tm_network_node_receiver"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_network_node_send_event_to"
 		properties: [
 			{
 				name: "name"
@@ -7205,8 +7252,30 @@
 				type: "string"
 			}
 			{
+				name: "root_uuid"
+				type: "subobject"
+				type_hash: "63d44d07a8f8ea75"
+			}
+			{
+				name: "root_type"
+				type: "uint64_t"
+			}
+			{
 				name: "sort_index"
 				type: "float"
+			}
+			{
+				name: "settings_view"
+				type: "bool"
+			}
+			{
+				name: "pinned"
+				type: "bool"
+			}
+			{
+				name: "settings_state"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -7474,6 +7543,35 @@
 		]
 	}
 	{
+		name: "tm_ui_box_container_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "z_depth"
+				type: "float"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				y: 45
+				w: 100
+				h: 100
+			}
+			layout: {
+			}
+		}
+	}
+	{
 		name: "tm_ui_button_component"
 		properties: [
 			{
@@ -7489,6 +7587,11 @@
 				name: "style"
 				type: "subobject"
 				type_hash: "addbef93e740abf2"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
 			}
 			{
 				name: "text"
@@ -7543,6 +7646,8 @@
 				h: 100
 			}
 			style: {
+			}
+			layout: {
 			}
 			text: "text"
 			color: {
@@ -7630,6 +7735,55 @@
 		}
 	}
 	{
+		name: "tm_ui_checkbox_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "z_depth"
+				type: "float"
+			}
+			{
+				name: "style"
+				type: "subobject"
+				type_hash: "addbef93e740abf2"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				y: 45
+				w: 100
+				h: 100
+			}
+			style: {
+			}
+			layout: {
+			}
+			text: "text"
+		}
+	}
+	{
 		name: "tm_ui_component_unit_types"
 		properties: [
 			{
@@ -7649,6 +7803,29 @@
 				type: "uint32_t"
 			}
 		]
+	}
+	{
+		name: "tm_ui_components_custom_layout"
+		properties: [
+			{
+				name: "fixed_left"
+				type: "bool"
+			}
+			{
+				name: "fixed_right"
+				type: "bool"
+			}
+			{
+				name: "fixed_top"
+				type: "bool"
+			}
+			{
+				name: "fixed_bottom"
+				type: "bool"
+			}
+		]
+		default: {
+		}
 	}
 	{
 		name: "tm_ui_components_custom_spritesheet"
@@ -8344,6 +8521,85 @@
 		}
 	}
 	{
+		name: "tm_ui_hsplitter_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "z_depth"
+				type: "float"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
+				name: "splitter_width"
+				type: "float"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				y: 45
+				w: 100
+				h: 100
+			}
+			layout: {
+			}
+			splitter_width: 5
+		}
+	}
+	{
+		name: "tm_ui_label_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "z_depth"
+				type: "float"
+			}
+			{
+				name: "style"
+				type: "subobject"
+				type_hash: "addbef93e740abf2"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				y: 45
+				w: 100
+				h: 100
+			}
+			style: {
+			}
+			layout: {
+			}
+			text: "label"
+		}
+	}
+	{
 		name: "tm_ui_minimal_textured_rect_component"
 		properties: [
 			{
@@ -8396,6 +8652,55 @@
 		}
 	}
 	{
+		name: "tm_ui_radio_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "z_depth"
+				type: "float"
+			}
+			{
+				name: "style"
+				type: "subobject"
+				type_hash: "addbef93e740abf2"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
+				name: "text"
+				type: "string"
+			}
+			{
+				name: "tooltip"
+				type: "string"
+			}
+			{
+				name: "is_disabled"
+				type: "bool"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				y: 45
+				w: 100
+				h: 100
+			}
+			style: {
+			}
+			layout: {
+			}
+			text: "text"
+		}
+	}
+	{
 		name: "tm_ui_rect_component"
 		properties: [
 			{
@@ -8406,6 +8711,16 @@
 			{
 				name: "z_depth"
 				type: "float"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
+				name: "background_texture"
+				type: "subobject"
+				type_hash: "a4bf771c92f7b3b7"
 			}
 			{
 				name: "background_color"
@@ -8436,6 +8751,14 @@
 				y: 45
 				w: 100
 				h: 100
+			}
+			layout: {
+			}
+			background_texture: {
+				uv: {
+					w: 1
+					h: 1
+				}
 			}
 			background_color: {
 			}
@@ -8480,6 +8803,11 @@
 				type_hash: "addbef93e740abf2"
 			}
 			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
 				name: "align"
 				type: "uint32_t"
 			}
@@ -8509,6 +8837,8 @@
 				h: 100
 			}
 			style: {
+			}
+			layout: {
 			}
 			text: "text"
 			color: {
@@ -8585,6 +8915,40 @@
 		]
 	}
 	{
+		name: "tm_ui_vsplitter_component"
+		properties: [
+			{
+				name: "rect"
+				type: "subobject"
+				type_hash: "a6e9c5f4ec093df1"
+			}
+			{
+				name: "z_depth"
+				type: "float"
+			}
+			{
+				name: "layout"
+				type: "subobject"
+				type_hash: "38fb4684ad46aba1"
+			}
+			{
+				name: "splitter_height"
+				type: "float"
+			}
+		]
+		default: {
+			rect: {
+				x: 45
+				y: 45
+				w: 100
+				h: 100
+			}
+			layout: {
+			}
+			splitter_height: 5
+		}
+	}
+	{
 		name: "tm_uint32_t"
 		properties: [
 			{
@@ -8598,6 +8962,19 @@
 		properties: [
 			{
 				name: "uint64_t"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_uuid_t"
+		properties: [
+			{
+				name: "a"
+				type: "uint64_t"
+			}
+			{
+				name: "b"
 				type: "uint64_t"
 			}
 		]
