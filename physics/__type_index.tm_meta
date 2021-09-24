@@ -1386,6 +1386,19 @@
 		}
 	}
 	{
+		name: "tm_color_scopes_tab_settings"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "brightness"
+				type: "float"
+			}
+		]
+	}
+	{
 		name: "tm_color_space"
 		properties: [
 			{
@@ -4929,9 +4942,9 @@
 				type_hash: "dc2b19c4af5e7e5c"
 			}
 			{
-				name: "send events to"
+				name: "send graph changes to"
 				type: "subobject_set"
-				type_hash: "f28aa021f7b27fbd"
+				type_hash: "58e819b2446aae91"
 			}
 			{
 				name: "graph events to transmit"
@@ -5055,6 +5068,15 @@
 	}
 	{
 		name: "tm_network_node_send_event_to"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_network_node_send_graph_changes_to"
 		properties: [
 			{
 				name: "name"
