@@ -489,7 +489,7 @@ static void component_loaded_from_gamestate(tm_component_manager_o* mgr_in, tm_e
 }
 
 // Loads stuff from The Truth into the structs that we get when we call tm_entity_api->get_component()
-static void component__asset_loaded(tm_component_manager_o* mgr_in, tm_entity_t e, void* data)
+static void component__asset_loaded(tm_component_manager_o* mgr_in,struct tm_entity_commands_o *commands, tm_entity_t e, void* data)
 {
     tm_interactable_component_manager_o* mgr = (tm_interactable_component_manager_o*)mgr_in;
     interactable_component_t* c = data;

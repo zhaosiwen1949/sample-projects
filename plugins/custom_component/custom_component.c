@@ -51,7 +51,7 @@ static void truth__create_types(struct tm_the_truth_o* tt)
     tm_the_truth_api->set_aspect(tt, custom_component_type, TM_CI_EDITOR_UI, editor_aspect);
 }
 
-static bool component__load_asset(tm_component_manager_o* man, tm_entity_t e, void* c_vp, const tm_the_truth_o* tt, tm_tt_id_t asset)
+static bool component__load_asset(tm_component_manager_o* man,struct tm_entity_commands_o *commands, tm_entity_t e, void* c_vp, const tm_the_truth_o* tt, tm_tt_id_t asset)
 {
     struct tm_custom_component_t* c = c_vp;
     const tm_the_truth_object_o* asset_r = tm_tt_read(tt, asset);
@@ -73,7 +73,7 @@ static void component__create(struct tm_entity_context_o* ctx)
 }
 
 // Runs on (custom_component, transform_component)
-static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* data)
+static void engine_update__custom(tm_engine_o* inst, tm_engine_update_set_t* data,struct tm_entity_commands_o *commands)
 {
     TM_INIT_TEMP_ALLOCATOR(ta);
 

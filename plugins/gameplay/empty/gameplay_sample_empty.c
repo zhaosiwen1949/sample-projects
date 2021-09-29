@@ -31,7 +31,7 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     return state;
 }
 
-static void stop(tm_simulation_state_o* state)
+static void stop(tm_simulation_state_o* state,struct tm_entity_commands_o *commands)
 {
     TM_LOG("Empty Sample Stop");
     tm_allocator_i a = *state->allocator;
