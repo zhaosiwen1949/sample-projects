@@ -136,7 +136,7 @@ static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t
 {
     tm_entity_t p = e;
     while (true) {
-        tm_entity_t par = tm_entity_api->parent(entity_ctx, p);
+        tm_entity_t par = tm_entity_api->asset_parent(entity_ctx, p);
 
         if (!par.u64)
             break;
