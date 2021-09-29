@@ -141,8 +141,6 @@ struct tm_simulation_state_o {
     bool mouse_captured;
     bool box_interactable;
     TM_PAD(6);
-
-    tm_gamestate_struct_id_t persistent_state_id;
 };
 
 typedef struct simulate_persistent_state {
@@ -165,8 +163,11 @@ typedef struct simulate_persistent_state {
     TM_PAD(4);
 } simulate_persistent_state;
 
-static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
+static void serialize(void* s, void* d)
 {
+    tm_simulation_state_o* source = (tm_simulation_state_o*) s;
+    simulate_persistent_state* dest = (simulate_persistent_state*) d;
+    
     tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player, &dest->player);
     tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player_camera, &dest->player_camera);
     tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player_carry_anchor, &dest->player_carry_anchor);
@@ -185,8 +186,11 @@ static void serialize(tm_simulation_state_o* source, simulate_persistent_state* 
     dest->score = source->score;
 }
 
-static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* source)
+static void deserialize(void* d, void* s)
 {
+    tm_simulation_state_o* dest = (tm_simulation_state_o*) d;
+    simulate_persistent_state* source = (simulate_persistent_state*) s;
+    
     dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
     dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
     dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_carry_anchor);
@@ -296,13 +300,6 @@ static void change_box_to_random_color(tm_simulation_state_o* state)
     update_box_material(state);
 }
 
-void private__state_loaded_from_gamestate(struct tm_gamestate_o* gamestate, void* user_data, tm_gamestate_struct_id_t s, void* data, uint32_t data_size)
-{
-    tm_simulation_state_o* state = user_data;
-    deserialize(state, data);
-    state->persistent_state_id = s;
-}
-
 static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
 {
     tm_simulation_state_o* state = tm_alloc(args->allocator, sizeof(*state));
@@ -348,26 +345,18 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
             state->box_collision_type = c->collision;
     }
 
-    const char* name = "simulation_state";
-    tm_strhash_t name_hash = tm_murmur_hash_string(name);
-
-    tm_gamestate_struct_t s = {
-        .name = name,
-        .user_data = state,
-        .size = sizeof(simulate_persistent_state),
-        .created = private__state_loaded_from_gamestate,
-    };
-
+    const char* singleton_name = "first_person_simulation_state";
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
-
-    tm_gamestate_member_t score_member = { .name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score) };
-    tm_gamestate_api->add_struct_type(gamestate, s);
-    tm_gamestate_api->configure_struct_global_members(gamestate, name_hash, &score_member, 1);
-
-    simulate_persistent_state* dest = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
-    serialize(state, dest);
-    state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, dest, sizeof(simulate_persistent_state));
-
+    tm_gamestate_singleton_t s = {
+        .name = singleton_name,
+        .size = sizeof(simulate_persistent_state),
+        .serialize = serialize,
+        .deserialize = deserialize,
+    };
+    
+    tm_gamestate_api->add_singleton(gamestate, s, state);
+    tm_gamestate_api->deserialize_singleton(gamestate, singleton_name, state);
+    
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 
     return state;
@@ -549,7 +538,6 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
                 state->box_fly_timer = 0.7f;
                 state->box_state = BOX_STATE_FLYING_UP;
                 state->score += 1.0f;
-                tm_gamestate_api->float_member_set(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, "score", state->score);
             }
         } else if (box_pos.y < -10.0f) {
             tm_physx_scene_api->set_velocity(physx_scene, state->box, (tm_vec3_t){ 0, 20, 0 });
@@ -652,13 +640,6 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 
         tm_draw2d_api->fill_circle(uib.vbuffer, uib.ibuffers[TM_UI_BUFFER_MAIN], style, crosshair_pos, 3);
     }
-
-    // Save Persistent State.
-    TM_INIT_TEMP_ALLOCATOR(ta);
-    simulate_persistent_state* persistent = tm_temp_alloc(ta, sizeof(simulate_persistent_state));
-    serialize(state, persistent);
-    tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, persistent, sizeof(simulate_persistent_state));
-    TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 }
 
 static tm_simulation_entry_i simulation_entry_i = {

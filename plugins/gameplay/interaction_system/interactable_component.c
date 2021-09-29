@@ -483,6 +483,11 @@ static tm_properties_aspect_i* properties_aspect = &(tm_properties_aspect_i){
     .custom_ui = component_properties_ui,
 };
 
+static void component_loaded_from_gamestate(tm_component_manager_o* mgr_in, tm_entity_t e, void* data)
+{
+
+}
+
 // Loads stuff from The Truth into the structs that we get when we call tm_entity_api->get_component()
 static void component__asset_loaded(tm_component_manager_o* mgr_in, tm_entity_t e, void* data)
 {
@@ -619,7 +624,7 @@ static void tm_interactable_component__deserialize(tm_entity_context_o* ctx, tm_
 }
 
 static tm_component_gamestate_representation_i* interactable_component_gamestate_representation = &(tm_component_gamestate_representation_i){
-    .notify_reload_before_deserialization = true,
+    .loaded = component_loaded_from_gamestate,
     .size = sizeof(interactable_component_t),
     .serialize = tm_interactable_component__serialize,
     .deserialize = tm_interactable_component__deserialize,

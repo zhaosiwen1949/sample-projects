@@ -111,8 +111,6 @@ struct tm_simulation_state_o {
 
     bool mouse_captured;
     TM_PAD(7);
-
-    tm_gamestate_struct_id_t persistent_state_id;
 };
 
 typedef struct simulate_persistent_state {
@@ -123,8 +121,11 @@ typedef struct simulate_persistent_state {
     double last_standing_time;
 } simulate_persistent_state;
 
-static void serialize(tm_simulation_state_o* source, simulate_persistent_state* dest)
+static void serialize(void* s, void* d)
 {
+    tm_simulation_state_o* source = (tm_simulation_state_o*) s;
+    simulate_persistent_state* dest = (simulate_persistent_state*) d;
+    
     dest->current_checkpoint = source->current_checkpoint;
     dest->camera_tilt = source->camera_tilt;
     dest->score = source->score;
@@ -145,45 +146,15 @@ static tm_entity_t find_root_entity(tm_entity_context_o* entity_ctx, tm_entity_t
     return p;
 }
 
-static void private__load_game(tm_simulation_state_o* state)
+static void deserialize(void* d, void* s)
 {
-    state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
-
-    state->player_camera_pivot = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL));
-    state->checkpoint_sphere = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
-    state->camera_tilt = 3.18f;
-    state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
-
-    const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
-    tm_simulation_api->set_camera(state->simulation_ctx, camera);
-
-    const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
-    char checkpoint_path[30];
-    for (uint32_t i = 0; i < 8; ++i) {
-        snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
-        const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
-
-        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
-            continue;
-
-        state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
-    }
-}
-
-static void deserialize(tm_simulation_state_o* dest, simulate_persistent_state* source)
-{
+    tm_simulation_state_o* dest = (tm_simulation_state_o*) d;
+    simulate_persistent_state* source = (simulate_persistent_state*) s;
+    
     dest->current_checkpoint = source->current_checkpoint;
     dest->camera_tilt = source->camera_tilt;
     dest->score = source->score;
     dest->last_standing_time = source->last_standing_time;
-}
-
-void private__state_loaded_from_gamestate(struct tm_gamestate_o* gamestate, void* user_data, tm_gamestate_struct_id_t s, void* data, uint32_t data_size)
-{
-    tm_simulation_state_o* state = user_data;
-    private__load_game(state);
-    deserialize(state, data);
-    state->persistent_state_id = s;
 }
 
 static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
@@ -206,28 +177,40 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     state->trans_mgr = (tm_transform_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->transform_component);
     state->tag_mgr = (tm_tag_component_manager_o*)tm_entity_api->component_manager(state->entity_ctx, state->tag_component);
 
-    private__load_game(state);
-
-    const char* name = "simulation_state";
-    tm_strhash_t name_hash = tm_murmur_hash_string(name);
-
-    tm_gamestate_struct_t s = {
-        .name = name,
-        .user_data = state,
-        .size = sizeof(simulate_persistent_state),
-        .created = private__state_loaded_from_gamestate,
-    };
-
+    state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
+    
+    state->player_camera_pivot = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera_pivot", 0x37610e33774a5b13ULL));
+    state->checkpoint_sphere = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("checkpoint", 0x76169e4aa68e805dULL));
+    state->camera_tilt = 3.18f;
+    state->particle_entity = tm_the_truth_assets_api->asset_object_from_path(state->tt, state->asset_root, "vfx/particles.entity");
+    
+    const tm_entity_t camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("camera", 0x60ed8c3931822dc7ULL));
+    tm_simulation_api->set_camera(state->simulation_ctx, camera);
+    
+    const tm_entity_t root_entity = find_root_entity(state->entity_ctx, state->player);
+    char checkpoint_path[30];
+    for (uint32_t i = 0; i < 8; ++i) {
+        snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
+        const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
+        
+        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
+            continue;
+        
+        state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
+    }
+    
+    const char* singleton_name = "third_person_simulation_state";
     tm_gamestate_o* gamestate = tm_entity_api->gamestate(state->entity_ctx);
-
-    tm_gamestate_member_t score_member = { .name = "score", .type = TM_GAMESTATE_MEMBER_TYPE__FLOAT, .offset = offsetof(simulate_persistent_state, score) };
-    tm_gamestate_api->add_struct_type(gamestate, s);
-    tm_gamestate_api->configure_struct_global_members(gamestate, name_hash, &score_member, 1);
-
-    simulate_persistent_state dest = { 0 };
-    serialize(state, &dest);
-    state->persistent_state_id = tm_gamestate_api->create_struct(gamestate, tm_gamestate_api->reserve_object_id(gamestate), name_hash, &dest, sizeof(simulate_persistent_state));
-
+    tm_gamestate_singleton_t s = {
+        .name = singleton_name,
+        .size = sizeof(simulate_persistent_state),
+        .serialize = serialize,
+        .deserialize = deserialize,
+    };
+    
+    tm_gamestate_api->add_singleton(gamestate, s, state);
+    tm_gamestate_api->deserialize_singleton(gamestate, singleton_name, state);
+    
     state->rb = tm_first_implementation(tm_global_api_registry, tm_renderer_backend_i);
     return state;
 }
@@ -396,11 +379,6 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
         tm_rect_t rect = { 5, 5, 20, 20 };
         tm_ui_api->label(args->ui, args->uistyle, &(tm_ui_label_t){ .rect = rect, .text = label_text });
     }
-
-    // Save Persistent State.
-    simulate_persistent_state persistent = { 0 };
-    serialize(state, &persistent);
-    tm_gamestate_api->set_struct_raw(tm_entity_api->gamestate(state->entity_ctx), state->persistent_state_id, &persistent, sizeof(simulate_persistent_state));
 }
 
 static tm_simulation_entry_i simulation_entry_i = {
