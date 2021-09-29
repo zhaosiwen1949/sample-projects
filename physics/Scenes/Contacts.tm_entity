@@ -687,24 +687,6 @@ children: [
 				}
 			}
 			{
-				__type: "tm_ui_element_component"
-				__uuid: "41ced882-8a27-a095-d52c-1fe769582c27"
-				"font scale": 2
-				control: {
-					__type: "tm_ui_control_label"
-					__uuid: "c179fac6-2156-3c7c-c32c-477e780c2f68"
-					rect: {
-						__uuid: "e706f165-6d82-e6fc-14ab-86df76119f17"
-						x: 20
-						y: 20
-						w: 1000
-						h: 40
-					}
-					text: "Boxes get pushed by contact events"
-					tooltip: ""
-				}
-			}
-			{
 				__type: "tm_ui_canvas_component"
 				__uuid: "6a5039dd-2404-2385-f68f-4bef3e333892"
 				reference_screen_size: {
@@ -721,6 +703,26 @@ children: [
 				theme: "93da491c-67ae-3157-d91a-57f4598d7153"
 				font_size: 12
 			}
+			{
+				__type: "tm_ui_label_component"
+				__uuid: "3925960f-5084-174e-417f-31fde6b68fc8"
+				rect: {
+					__uuid: "35eda4e1-2f26-a806-a8d7-23f98af7b3b0"
+					x: 20
+					y: 20
+					w: 1000
+					h: 40
+				}
+				style: {
+					__uuid: "80f169a5-433f-3eb7-59b9-0ded874b71f5"
+					"font scale": 2
+				}
+				layout: {
+					__uuid: "da70140b-3136-5319-6a89-d2d99d55cca8"
+				}
+				text: "Use RIGHT MOUSE and WASD to fly"
+				tooltip: ""
+			}
 		]
 		children: [
 			{
@@ -728,22 +730,24 @@ children: [
 				name: "Entity 2"
 				components: [
 					{
-						__type: "tm_ui_element_component"
-						__uuid: "861f8cc9-c2cd-d0bf-854d-5630124133cf"
-						"font scale": 2
-						control: {
-							__type: "tm_ui_control_label"
-							__uuid: "2b0d1809-9644-b472-48d6-cebbed3cfd97"
-							rect: {
-								__uuid: "d41e24ed-147d-05c0-5859-8c7fd9ed23f6"
-								x: 20
-								y: 60
-								w: 1000
-								h: 40
-							}
-							text: "Press SPACE to throw a ball"
-							tooltip: ""
+						__type: "tm_ui_label_component"
+						__uuid: "63b768d9-0b0b-ffb6-cb84-3b0cbb931237"
+						rect: {
+							__uuid: "5086e12c-8ff5-ca9b-d91f-d38cdea7119c"
+							x: 20
+							y: 60
+							w: 1000
+							h: 40
 						}
+						style: {
+							__uuid: "ba222a66-4075-78e6-22ca-baf5c5bab00e"
+							"font scale": 2
+						}
+						layout: {
+							__uuid: "4da02991-2f87-8f34-7194-249a045e512a"
+						}
+						text: "Press SPACE to throw a ball"
+						tooltip: ""
 					}
 				]
 			}

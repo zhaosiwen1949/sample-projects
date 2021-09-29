@@ -3549,24 +3549,6 @@ children: [
 				}
 			}
 			{
-				__type: "tm_ui_element_component"
-				__uuid: "4ddf5ec1-4cdc-f53b-a2de-d9a2319ee9ad"
-				"font scale": 2
-				control: {
-					__type: "tm_ui_control_label"
-					__uuid: "417d8f65-7693-2315-c461-1cfca83fb5d3"
-					rect: {
-						__uuid: "d53949a2-76c2-2bb2-271f-5d6bfa074b78"
-						x: 20
-						y: 20
-						w: 1000
-						h: 40
-					}
-					text: "Press LEFT MOUSE to shoot"
-					tooltip: ""
-				}
-			}
-			{
 				__type: "tm_ui_canvas_component"
 				__uuid: "abf7b066-eadc-c7c8-d632-4390ed747e92"
 				reference_screen_size: {
@@ -3583,6 +3565,26 @@ children: [
 				theme: "93da491c-67ae-3157-d91a-57f4598d7153"
 				font_size: 12
 			}
+			{
+				__type: "tm_ui_label_component"
+				__uuid: "05887676-c0ec-6d6f-3a24-13fa384fbffb"
+				rect: {
+					__uuid: "63adf661-fe8d-6876-afc1-f966aa881140"
+					x: 20
+					y: 20
+					w: 1000
+					h: 40
+				}
+				style: {
+					__uuid: "184ad062-bcd8-05a9-292a-66b70c8ba82f"
+					"font scale": 2
+				}
+				layout: {
+					__uuid: "6f7dbd53-d9e0-5125-fa49-96e42f2f30d6"
+				}
+				text: "Press LEFT MOUSE to shoot"
+				tooltip: ""
+			}
 		]
 		children: [
 			{
@@ -3590,22 +3592,24 @@ children: [
 				name: "Entity 2"
 				components: [
 					{
-						__type: "tm_ui_element_component"
-						__uuid: "6d16748e-8c80-e766-9071-6476a4d871c0"
-						"font scale": 2
-						control: {
-							__type: "tm_ui_control_label"
-							__uuid: "98e978b5-3424-2635-3297-9237b2c06c7c"
-							rect: {
-								__uuid: "637fa427-fb62-03dc-9c45-fe2492236f88"
-								x: 20
-								y: 60
-								w: 1000
-								h: 40
-							}
-							text: "Press SPACE to throw a ball"
-							tooltip: ""
+						__type: "tm_ui_label_component"
+						__uuid: "d478cc5b-6c2c-62a9-9b04-37dc7100e9df"
+						rect: {
+							__uuid: "254084c9-62db-0458-d15b-a50a4c25e1b3"
+							x: 20
+							y: 60
+							w: 1000
+							h: 40
 						}
+						style: {
+							__uuid: "528f1596-df16-bfb2-3f18-89022c1e9946"
+							"font scale": 2
+						}
+						layout: {
+							__uuid: "d8182ca4-cbbb-dfb1-0037-bd5b75ee42f0"
+						}
+						text: "Press SPACE to throw a ball"
+						tooltip: ""
 					}
 				]
 			}
@@ -3614,22 +3618,24 @@ children: [
 				name: "Entity 2"
 				components: [
 					{
-						__type: "tm_ui_element_component"
-						__uuid: "9f5b9f76-fa1a-ba27-b0ba-be236883a10b"
-						"font scale": 2
-						control: {
-							__type: "tm_ui_control_label"
-							__uuid: "c579f665-2cf5-b288-cb3d-ef53a8361d38"
-							rect: {
-								__uuid: "092a213b-b96a-9738-7f57-510d0f39821a"
-								x: 20
-								y: 100
-								w: 1000
-								h: 40
-							}
-							text: "Use RIGHT MOUSE and WASD to fly"
-							tooltip: ""
+						__type: "tm_ui_label_component"
+						__uuid: "c859e082-f05c-f1f3-c867-d8a59da8d5c8"
+						rect: {
+							__uuid: "d8ecf78d-16a0-d7f0-e000-8d25551793f4"
+							x: 20
+							y: 100
+							w: 1000
+							h: 40
 						}
+						style: {
+							__uuid: "fe82a945-ed84-44e3-5442-682d894a692d"
+							"font scale": 2
+						}
+						layout: {
+							__uuid: "da8e3528-3a10-a7ae-2686-404899143029"
+						}
+						text: "Use RIGHT MOUSE and WASD to fly"
+						tooltip: ""
 					}
 				]
 			}
@@ -3641,6 +3647,7 @@ children: [
 			{
 				__uuid: "cbe24d11-050f-189f-a080-754e4d52c847"
 				entity: "e62d51b1-a8d0-e2ab-7616-c9d9516a3fe5"
+				value: 1
 			}
 			{
 				__uuid: "d8e4946b-950c-97f3-e890-ad76b33e2f28"

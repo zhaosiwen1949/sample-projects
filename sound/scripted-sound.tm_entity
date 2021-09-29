@@ -198,6 +198,7 @@ children: [
 					w: 100
 					h: 100
 				}
+				fullscreen: true
 				theme: "cccccc63-b93a-ab15-2274-62f718b1c1f8"
 			}
 		]
@@ -220,22 +221,24 @@ children: [
 						}
 					}
 					{
-						__type: "tm_ui_element_component"
-						__uuid: "54eda79a-cc1b-5dca-8c15-c2cfe11d76c7"
-						"font scale": 2
-						control: {
-							__type: "tm_ui_control_label"
-							__uuid: "3ed8869d-d1e4-fd53-535d-2529719b4891"
-							rect: {
-								__uuid: "e862ec27-a99f-530e-94a4-e95458c35dcc"
-								x: 20
-								y: 20
-								w: 135.8927764892578
-								h: 59.72499465942383
-							}
-							text: "Plays music and raises the pitch after 10 seconds"
-							tooltip: ""
+						__type: "tm_ui_label_component"
+						__uuid: "0417a27f-a2a5-e8c2-798f-952484d8c93e"
+						rect: {
+							__uuid: "8a2ebe12-54bb-0d5e-e347-f6a504759fda"
+							x: 20
+							y: 20
+							w: 1000
+							h: 40
 						}
+						style: {
+							__uuid: "af253de9-2989-d3ae-7f18-f1fbfdb59f18"
+							"font scale": 2
+						}
+						layout: {
+							__uuid: "4a6e24a8-c207-f67f-cf0a-a4b9c851d714"
+						}
+						text: "Plays music and raises the pitch after 10 seconds"
+						tooltip: ""
 					}
 				]
 			}

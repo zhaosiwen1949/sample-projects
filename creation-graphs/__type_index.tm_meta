@@ -1360,6 +1360,19 @@
 		}
 	}
 	{
+		name: "tm_color_scopes_tab_settings"
+		properties: [
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "brightness"
+				type: "float"
+			}
+		]
+	}
+	{
 		name: "tm_color_space"
 		properties: [
 			{
@@ -2939,6 +2952,43 @@
 		}
 	}
 	{
+		name: "tm_default_render_pipe_ssr_component"
+		properties: [
+			{
+				name: "enabled"
+				type: "bool"
+			}
+			{
+				name: "depth_thickness"
+				type: "float"
+			}
+			{
+				name: "brdf_bias"
+				type: "float"
+			}
+			{
+				name: "edge_fade"
+				type: "float"
+			}
+			{
+				name: "min_iterations"
+				type: "uint32_t"
+			}
+			{
+				name: "max_iterations"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			enabled: true
+			depth_thickness: 1
+			brdf_bias: 0.4000000059604645
+			edge_fade: 0.1500000059604645
+			min_iterations: 12
+			max_iterations: 64
+		}
+	}
+	{
 		name: "tm_default_render_pipe_volume_component"
 		properties: [
 			{
@@ -4160,19 +4210,27 @@
 				type_hash: "73e8309bad5667f0"
 			}
 			{
-				name: "send updates to"
+				name: "dont send gamestate changes to"
 				type: "subobject_set"
 				type_hash: "dc2b19c4af5e7e5c"
 			}
 			{
-				name: "send events to"
+				name: "dont send graph changes to"
 				type: "subobject_set"
-				type_hash: "f28aa021f7b27fbd"
+				type_hash: "58e819b2446aae91"
 			}
 			{
-				name: "graph events to transmit"
+				name: "graph events to transmit sorted"
 				type: "subobject_set"
-				type_hash: "3658ceff2ca147ae"
+				type_hash: "fccd76a481ef88b0"
+			}
+			{
+				name: "has ownership on all entities"
+				type: "bool"
+			}
+			{
+				name: "send keyboard input to connected nodes"
+				type: "bool"
 			}
 		]
 	}
@@ -4235,6 +4293,15 @@
 		]
 	}
 	{
+		name: "tm_network_node_graph_event_to_transmit_sorted"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
 		name: "tm_network_node_instance"
 		properties: [
 			{
@@ -4291,6 +4358,15 @@
 	}
 	{
 		name: "tm_network_node_send_event_to"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+		]
+	}
+	{
+		name: "tm_network_node_send_graph_changes_to"
 		properties: [
 			{
 				name: "name"
@@ -5214,31 +5290,7 @@
 		name: "tm_scene_tab_settings"
 		properties: [
 			{
-				name: "use_world_axes"
-				type: "bool"
-			}
-			{
-				name: "multi_select_pivot"
-				type: "uint32_t"
-			}
-			{
-				name: "move_snap"
-				type: "bool"
-			}
-			{
-				name: "move_snap_size"
-				type: "float"
-			}
-			{
-				name: "rotation_snap"
-				type: "bool"
-			}
-			{
-				name: "rotation_snap_angle"
-				type: "float"
-			}
-			{
-				name: "scaling_absolute_handle"
+				name: "native_resolution"
 				type: "bool"
 			}
 		]
@@ -6146,12 +6198,36 @@
 		]
 	}
 	{
+		name: "tm_simulate_tab_settings"
+		properties: [
+			{
+				name: "native_resolution"
+				type: "bool"
+			}
+		]
+	}
+	{
 		name: "tm_simulation_entry_component"
 		properties: [
 			{
 				name: "ids"
 				type: "subobject_set"
 				type_hash: "b11aa2e510ce635e"
+			}
+			{
+				name: "settings"
+				type: "subobject_set"
+				type_hash: "629dde0cd00b54c8"
+			}
+		]
+	}
+	{
+		name: "tm_simulation_entry_settings"
+		properties: [
+			{
+				name: "settings"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -6597,6 +6673,11 @@
 				type: "subobject"
 				type_hash: "38fb4684ad46aba1"
 			}
+			{
+				name: "reference_size"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
 		]
 		default: {
 			rect: {
@@ -6606,6 +6687,10 @@
 				h: 100
 			}
 			layout: {
+			}
+			reference_size: {
+				x: 100
+				y: 100
 			}
 		}
 	}
@@ -7539,6 +7624,11 @@
 				type: "float"
 			}
 			{
+				name: "reference_size"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+			{
 				name: "rows"
 				type: "uint32_t"
 			}
@@ -7553,6 +7643,10 @@
 				y: 45
 				w: 100
 				h: 100
+			}
+			reference_size: {
+				x: 100
+				y: 100
 			}
 			rows: 1
 			columns: 1
@@ -7571,6 +7665,11 @@
 				type: "float"
 			}
 			{
+				name: "reference_size"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+			{
 				name: "layout"
 				type: "subobject"
 				type_hash: "38fb4684ad46aba1"
@@ -7586,6 +7685,10 @@
 				y: 45
 				w: 100
 				h: 100
+			}
+			reference_size: {
+				x: 100
+				y: 100
 			}
 			layout: {
 			}
@@ -7965,6 +8068,11 @@
 				type: "float"
 			}
 			{
+				name: "reference_size"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+			{
 				name: "layout"
 				type: "subobject"
 				type_hash: "38fb4684ad46aba1"
@@ -7980,6 +8088,10 @@
 				y: 45
 				w: 100
 				h: 100
+			}
+			reference_size: {
+				x: 100
+				y: 100
 			}
 			layout: {
 			}
