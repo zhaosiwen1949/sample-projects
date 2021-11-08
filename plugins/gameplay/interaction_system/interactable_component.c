@@ -425,8 +425,8 @@ static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_re
         TM_LOCALIZE("Rotating Door"),
     };
 
-    const tm_rect_t label_r = tm_rect_split_frac_left(item_rect, args->metrics[TM_PROPERTIES_METRIC_LABEL_FRACTION], args->metrics[TM_PROPERTIES_METRIC_MARGIN], 0);
-    const tm_rect_t dropdown_r = tm_rect_split_frac_left(item_rect, args->metrics[TM_PROPERTIES_METRIC_LABEL_FRACTION], args->metrics[TM_PROPERTIES_METRIC_MARGIN], 1);
+    const tm_rect_t label_r = tm_rect_split_left(item_rect, args->label_width, args->metrics[TM_PROPERTIES_METRIC_MARGIN], 0);
+    const tm_rect_t dropdown_r = tm_rect_split_left(item_rect, args->label_width, args->metrics[TM_PROPERTIES_METRIC_MARGIN], 1);
 
     tm_properties_view_api->ui_label(args, label_r, TM_LOCALIZE("Type"), 0);
 
