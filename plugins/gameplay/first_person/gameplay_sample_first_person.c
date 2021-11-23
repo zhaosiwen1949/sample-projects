@@ -328,7 +328,6 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
-    change_box_to_random_color(state);
     const tm_transform_component_t* box_trans = tm_entity_api->get_component(state->entity_ctx, state->box, state->transform_component);
     state->box_starting_point = box_trans->world.pos;
     state->box_starting_rot = box_trans->world.rot;
@@ -355,7 +354,8 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
     };
     
     tm_gamestate_api->add_singleton(gamestate, s, state);
-    tm_gamestate_api->deserialize_singleton(gamestate, singleton_name, state);
+    if(!tm_gamestate_api->deserialize_singleton(gamestate, singleton_name, state))
+        change_box_to_random_color(state);
     
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 
