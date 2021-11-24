@@ -425,7 +425,7 @@ static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_re
         TM_LOCALIZE("Rotating Door"),
     };
 
-    const tm_rect_t dropdown_r = tm_properties_view_api->ui_label_split(args, label_r, TM_LOCALIZE("Type"), 0);
+    const tm_rect_t dropdown_r = tm_properties_view_api->ui_label_split(args, item_rect, TM_LOCALIZE("Type"), 0);
 
     const tm_ui_dropdown_t d = {
         .rect = dropdown_r,
