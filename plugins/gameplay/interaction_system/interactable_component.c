@@ -404,7 +404,7 @@ static struct tm_interactable_component_api* tm_interactable_component_api = &(s
 };
 
 // Special UI for editing the component in property editor
-static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_rect_t item_rect, tm_tt_id_t component_id, uint32_t indent)
+static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_rect_t item_rect, tm_tt_id_t component_id)
 {
     tm_the_truth_o* tt = args->tt;
     tm_tt_id_t desc = tm_the_truth_api->get_subobject(tt, tm_tt_read(tt, component_id), INTERACTABLE_COMPONENT_PROP__DESC);
@@ -472,7 +472,7 @@ static float component_properties_ui(struct tm_properties_ui_args_t* args, tm_re
     }
 
     item_rect.y += item_rect.h + args->metrics[TM_PROPERTIES_METRIC_MARGIN];
-    item_rect.y = tm_properties_view_api->ui_object(args, item_rect, desc, indent);
+    item_rect.y = tm_properties_view_api->ui_object(args, item_rect, desc);
     item_rect.y = tm_properties_view_api->ui_reference(args, item_rect, TM_LOCALIZE("Target"), TM_LOCALIZE("The target will activate when the number of seconds since activation is greater or equal to Target Activation Delay"), component_id, INTERACTABLE_COMPONENT_PROP__TARGET);
     item_rect.y = tm_properties_view_api->ui_float(args, item_rect, TM_LOCALIZE("Target Activation Delay"), TM_LOCALIZE("Set to a negative value to disable automatic activation, then this interactable decides using its own code when to activate target"), component_id, INTERACTABLE_COMPONENT_PROP__TARGET_ACTIVATION_DELAY, 0);
     item_rect.y = tm_properties_view_api->ui_bool(args, item_rect, TM_LOCALIZE("Player Can Activate"), 0, component_id, INTERACTABLE_COMPONENT_PROP__PLAYER_CAN_ACTIVATE);
