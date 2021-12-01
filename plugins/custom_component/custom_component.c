@@ -48,7 +48,7 @@ static void truth__create_types(struct tm_the_truth_o* tt)
     const tm_tt_id_t default_object = tm_the_truth_api->quick_create_object(tt, TM_TT_NO_UNDO_SCOPE, TM_TT_TYPE_HASH__CUSTOM_COMPONENT, TM_TT_PROP__CUSTOM_COMPONENT__FREQUENCY, 1.0f, TM_TT_PROP__CUSTOM_COMPONENT__AMPLITUDE, 1.0f, -1);
     tm_the_truth_api->set_default_object(tt, custom_component_type, default_object);
 
-    tm_the_truth_api->set_aspect(tt, custom_component_type, TM_CI_EDITOR_UI, editor_aspect);
+    tm_tt_set_aspect(tt, custom_component_type, tm_ci_editor_ui_i, editor_aspect);
 }
 
 static bool component__load_asset(tm_component_manager_o* man,struct tm_entity_commands_o *commands, tm_entity_t e, void* c_vp, const tm_the_truth_o* tt, tm_tt_id_t asset)

@@ -667,7 +667,7 @@ static void create_truth_types(struct tm_the_truth_o* tt)
     };
 
     const tm_tt_type_t interactable_component_type = tm_the_truth_api->create_object_type(tt, TM_TT_TYPE__INTERACTABLE_COMPONENT, interactable_component_properties, TM_ARRAY_COUNT(interactable_component_properties));
-    tm_the_truth_api->set_property_aspect(tt, interactable_component_type, INTERACTABLE_COMPONENT_PROP__TARGET, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void*)1);
+    tm_tt_set_property_aspect(tt, interactable_component_type, INTERACTABLE_COMPONENT_PROP__TARGET, tm_tt_prop_aspect__properties__use_local_entity_picker, (void*)1);
     const tm_tt_id_t default_interactable_component = tm_the_truth_api->create_object_of_type(tt, interactable_component_type, TM_TT_NO_UNDO_SCOPE);
 
     if (default_interactable_component.u64) {
@@ -677,8 +677,8 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         tm_the_truth_api->set_default_object(tt, interactable_component_type, default_interactable_component);
     }
 
-    tm_the_truth_api->set_aspect(tt, interactable_component_type, TM_CI_EDITOR_UI, editor_aspect);
-    tm_the_truth_api->set_aspect(tt, interactable_component_type, TM_TT_ASPECT__PROPERTIES, properties_aspect);
+    tm_tt_set_aspect(tt, interactable_component_type, tm_ci_editor_ui_i, editor_aspect);
+    tm_tt_set_aspect(tt, interactable_component_type, tm_properties_aspect_i, properties_aspect);
 
     {
         tm_the_truth_property_definition_t lever_properties[] = {
@@ -695,7 +695,7 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         const tm_tt_type_t interactable_lever_type = tm_the_truth_api->create_object_type(tt, TT_TYPE__INTERACTABLE_LEVER, lever_properties, TM_ARRAY_COUNT(lever_properties));
 
         // This makes it possible to pick entities in the scene when the property panel renders this property.
-        tm_the_truth_api->set_property_aspect(tt, interactable_lever_type, INTERACTABLE_LEVER_PROP__HANDLE, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void*)1);
+        tm_tt_set_property_aspect(tt, interactable_lever_type, INTERACTABLE_LEVER_PROP__HANDLE, tm_tt_prop_aspect__properties__use_local_entity_picker, (void*)1);
 
         tm_the_truth_api->set_default_object_to_create_subobjects(tt, interactable_lever_type);
     }
@@ -715,7 +715,7 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         const tm_tt_type_t interactable_button_type = tm_the_truth_api->create_object_type(tt, TT_TYPE__INTERACTABLE_BUTTON, button_properties, TM_ARRAY_COUNT(button_properties));
 
         // This makes it possible to pick entities in the scene when the property panel renders this property.
-        tm_the_truth_api->set_property_aspect(tt, interactable_button_type, INTERACTABLE_BUTTON_PROP__BUTTON, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void*)1);
+        tm_tt_set_property_aspect(tt, interactable_button_type, INTERACTABLE_BUTTON_PROP__BUTTON, tm_tt_prop_aspect__properties__use_local_entity_picker, (void*)1);
 
         tm_the_truth_api->set_default_object_to_create_subobjects(tt, interactable_button_type);
     }
@@ -735,7 +735,7 @@ static void create_truth_types(struct tm_the_truth_o* tt)
         const tm_tt_type_t rotating_door_type = tm_the_truth_api->create_object_type(tt, TT_TYPE__INTERACTABLE_ROTATING_DOOR, rotating_door, TM_ARRAY_COUNT(rotating_door));
 
         // This makes it possible to pick entities in the scene when the property panel renders this property.
-        tm_the_truth_api->set_property_aspect(tt, rotating_door_type, ROTATING_DOOR_PROP__PIVOT, TM_TT_PROP_ASPECT__PROPERTIES__USE_LOCAL_ENTITY_PICKER, (void*)1);
+        tm_tt_set_property_aspect(tt, rotating_door_type, ROTATING_DOOR_PROP__PIVOT, tm_tt_prop_aspect__properties__use_local_entity_picker, (void*)1);
 
         tm_the_truth_api->set_default_object_to_create_subobjects(tt, rotating_door_type);
     }

@@ -97,7 +97,7 @@ static void component__create_truth_types(struct tm_the_truth_o* tt)
     };
 
     const tm_tt_type_t component_type = tm_the_truth_api->create_object_type(tt, TM_TT_TYPE__RAY_TRACING_TEST, 0, 0);
-    tm_the_truth_api->set_aspect(tt, component_type, TM_CI_SHADER, &shader_aspect);
+    tm_tt_set_aspect(tt, component_type, tm_ci_shader_i, &shader_aspect);
 }
 
 // Creates the bottom-level acceleration structure, top-level acceleration structure, and initializes the shaders needed.
