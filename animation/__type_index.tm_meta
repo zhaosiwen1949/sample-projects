@@ -10,10 +10,15 @@
 				name: "facing"
 				type: "uint64_t"
 			}
+			{
+				name: "position_space"
+				type: "uint64_t"
+			}
 		]
 		default: {
 			mode: "4760ce77729b23b0"
 			facing: "e3a9b29676289efc"
+			position_space: "b89991a82d0f8d08"
 		}
 	}
 	{
@@ -679,11 +684,6 @@
 				type: "bool"
 			}
 			{
-				name: "default_camera"
-				type: "subobject"
-				type_hash: "41418a36f804f101"
-			}
-			{
 				name: "network_settings"
 				type: "subobject"
 				type_hash: "395cfd1a7615a887"
@@ -737,11 +737,6 @@
 				type: "uint32_t"
 			}
 			{
-				name: "projects_settings"
-				type: "subobject_set"
-				type_hash: "e1defaa0c3c62d2d"
-			}
-			{
 				name: "updates"
 				type: "subobject"
 				type_hash: "867afcc63ad63fa6"
@@ -771,9 +766,9 @@
 				type_hash: "b0a29343c40c021f"
 			}
 			{
-				name: "plugins_settings"
+				name: "settings_owner"
 				type: "subobject"
-				type_hash: "93691adbe6989919"
+				type_hash: "010492ab95537beb"
 			}
 		]
 		default: {
@@ -1706,7 +1701,7 @@
 			near_plane: 0.1000000014901161
 			far_plane: 10000
 			vertical_fov__box_height__focal_length: 1.396263360977173
-			shutter_speed: 100
+			shutter_speed: 10
 			aperture: 4
 			iso: 100
 			sensor_size: {
@@ -3362,11 +3357,37 @@
 				name: "num_mip_levels"
 				type: "uint32_t"
 			}
+			{
+				name: "enable_foreground_post_filter"
+				type: "bool"
+			}
+			{
+				name: "enable_background_post_filter"
+				type: "bool"
+			}
+			{
+				name: "mode"
+				type: "uint32_t"
+			}
+			{
+				name: "use_camera_focus_distance"
+				type: "bool"
+			}
+			{
+				name: "focus_distance"
+				type: "float"
+			}
+			{
+				name: "focus_range"
+				type: "float"
+			}
 		]
 		default: {
 			enabled: true
 			num_gather_rings: 4
 			num_mip_levels: 4
+			enable_background_post_filter: true
+			use_camera_focus_distance: true
 		}
 	}
 	{
@@ -5072,11 +5093,6 @@
 				type: "subobject_set"
 				type_hash: "b11aa2e510ce635e"
 			}
-			{
-				name: "debugger_persistent_settings"
-				type: "reference"
-				type_hash: "74079da6d852b357"
-			}
 		]
 		default: {
 			debug_watch_wire_overlay_mode: 5
@@ -6474,6 +6490,27 @@
 		]
 	}
 	{
+		name: "tm_preview_settings"
+		properties: [
+			{
+				name: "camera_world_position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "camera_world_rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+		]
+		default: {
+			camera_world_position: {
+			}
+			camera_world_rotation: {
+			}
+		}
+	}
+	{
 		name: "tm_project_management_settings"
 		properties: [
 			{
@@ -7037,6 +7074,20 @@
 		]
 	}
 	{
+		name: "tm_setting"
+		properties: [
+			{
+				name: "object"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "variation_key"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_settings"
 		properties: [
 			{
@@ -7067,6 +7118,16 @@
 		]
 		default: {
 		}
+	}
+	{
+		name: "tm_settings_owner"
+		properties: [
+			{
+				name: "settings"
+				type: "subobject_set"
+				type_hash: "739a2b85d086ccb4"
+			}
+		]
 	}
 	{
 		name: "tm_shader_system_blob"
