@@ -193,7 +193,7 @@ static tm_simulation_state_o* start(tm_simulation_start_args_t* args)
         snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
         const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
         
-        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), tm_error_api->def, "Failed to find checkpoint entity"))
+        if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), "Failed to find checkpoint entity"))
             continue;
         
         state->checkpoints_positions[i] = tm_get_position(state->trans_mgr, c);
@@ -300,7 +300,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
 
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
 
-    if (!TM_ASSERT(player_mover, tm_error_api->def, "Invalid player"))
+    if (!TM_ASSERT(player_mover, "Invalid player"))
         return;
 
     // For fudging jump timing

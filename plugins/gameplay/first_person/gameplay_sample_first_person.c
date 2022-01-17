@@ -444,7 +444,7 @@ static void tick(tm_simulation_state_o* state, tm_simulation_frame_args_t* args)
     const tm_vec4_t camera_rot = tm_get_rotation(state->trans_mgr, state->player_camera);
     struct tm_physx_mover_component_t* player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
 
-    if (!TM_ASSERT(player_mover, tm_error_api->def, "Invalid player"))
+    if (!TM_ASSERT(player_mover, "Invalid player"))
         return;
 
     // Process input if mouse is captured.
