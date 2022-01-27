@@ -10,8 +10,14 @@ graph: {
 		{
 			__uuid: "08d5bfc4-eece-1eb1-9b4a-2e99a4168149"
 			type: "shader_deconstruct_float4"
-			position_x: 376.9623718261719
-			position_y: -536.504150390625
+			position_x: 381.9587707519531
+			position_y: -640.9290771484375
+		}
+		{
+			__uuid: "47c39a56-e558-7514-abe4-86ba2432618b"
+			type: "shader_variable_node"
+			position_x: 378.6352233886719
+			position_y: -506.5293579101563
 		}
 	]
 	connections: [
@@ -28,6 +34,20 @@ graph: {
 			to_node: "49cbc4af-8314-05fa-fabc-00884be0de7a"
 			from_connector_hash: "f2afab6f85f8e4dc"
 			to_connector_hash: "2bbe599c6c8fe881"
+		}
+		{
+			__uuid: "b9a0f89d-b9a4-e17c-9d98-e515fd834bb9"
+			from_node: "e8ae24df-57c2-1d6c-0f9a-4ac0ea2c5f39"
+			to_node: "47c39a56-e558-7514-abe4-86ba2432618b"
+			from_connector_hash: "28ea8618ca52c232"
+			to_connector_hash: "2bbcabe5074ade9e"
+		}
+		{
+			__uuid: "01b633c7-2cc6-8882-fa89-6d444024bd49"
+			from_node: "47c39a56-e558-7514-abe4-86ba2432618b"
+			to_node: "49cbc4af-8314-05fa-fabc-00884be0de7a"
+			from_connector_hash: "920b430f38928dc9"
+			to_connector_hash: "7dedf79780bcd5c1"
 		}
 	]
 	comments: [
@@ -46,10 +66,10 @@ graph: {
 		{
 			__uuid: "21c48672-623e-049f-1a68-4107e3250c87"
 			text: "Opacity"
-			position_x: 252.8207092285156
-			position_y: -591.334716796875
+			position_x: 257.8171081542969
+			position_y: -695.7596435546875
 			width: 242.4402160644531
-			height: 215.2103881835938
+			height: 286.6590576171875
 			font_scale: 2
 			override_color: true
 			tint_color: {
@@ -89,12 +109,12 @@ graph: {
 				__prototype_type: "tm_graph_cached_node_result"
 				__prototype_uuid: "e104c843-70a9-86c9-5e7f-a63212c7a8fa"
 				node: "49cbc4af-8314-05fa-fabc-00884be0de7a"
-				validity_hash: "c23d29ebf93b503f"
+				validity_hash: "1e18bda74c0b9701"
 				object: {
 					__type: "tm_shader_system_compiled_result"
-					__uuid: "4732efe9-f29f-74af-9f2a-98a28090125f"
-					name: "c23d29ebf93b503f"
-					buffer: "270baa115372b912"
+					__uuid: "33f91297-b958-d1f8-e35c-601fed42d787"
+					name: "1e18bda74c0b9701"
+					buffer: "def05114d82661bc"
 				}
 			}
 		]

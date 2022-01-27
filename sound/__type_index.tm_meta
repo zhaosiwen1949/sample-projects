@@ -10,10 +10,15 @@
 				name: "facing"
 				type: "uint64_t"
 			}
+			{
+				name: "position_space"
+				type: "uint64_t"
+			}
 		]
 		default: {
 			mode: "4760ce77729b23b0"
 			facing: "e3a9b29676289efc"
+			position_space: "b89991a82d0f8d08"
 		}
 	}
 	{
@@ -170,6 +175,34 @@
 		}
 	}
 	{
+		name: "shader_procedural_stochastic_height_blend_node_settings"
+		properties: [
+			{
+				name: "color_space"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			color_space: "51528fc212c53dfd"
+		}
+	}
+	{
+		name: "shader_procedural_stochastic_sample_2d_node_settings"
+		properties: [
+			{
+				name: "encoding"
+				type: "uint64_t"
+			}
+			{
+				name: "flip_green"
+				type: "bool"
+			}
+		]
+		default: {
+			encoding: "8a3d1c8f15de2776"
+		}
+	}
+	{
 		name: "shader_sample_2d_node_settings"
 		properties: [
 			{
@@ -207,6 +240,18 @@
 		]
 		default: {
 			resoure: "9b8038e00d19107f"
+		}
+	}
+	{
+		name: "shader_transform_node_settings"
+		properties: [
+			{
+				name: "type"
+				type: "uint64_t"
+			}
+		]
+		default: {
+			type: "8bbeb160190f613a"
 		}
 	}
 	{
@@ -679,11 +724,6 @@
 				type: "bool"
 			}
 			{
-				name: "default_camera"
-				type: "subobject"
-				type_hash: "41418a36f804f101"
-			}
-			{
 				name: "network_settings"
 				type: "subobject"
 				type_hash: "395cfd1a7615a887"
@@ -737,11 +777,6 @@
 				type: "uint32_t"
 			}
 			{
-				name: "projects_settings"
-				type: "subobject_set"
-				type_hash: "e1defaa0c3c62d2d"
-			}
-			{
 				name: "updates"
 				type: "subobject"
 				type_hash: "867afcc63ad63fa6"
@@ -771,9 +806,9 @@
 				type_hash: "b0a29343c40c021f"
 			}
 			{
-				name: "plugins_settings"
+				name: "settings_owner"
 				type: "subobject"
-				type_hash: "93691adbe6989919"
+				type_hash: "010492ab95537beb"
 			}
 		]
 		default: {
@@ -1030,7 +1065,14 @@
 				type: "subobject_set"
 				type_hash: "8944e0b1cefd4756"
 			}
+			{
+				name: "grid_size"
+				type: "float"
+			}
 		]
+		default: {
+			grid_size: 30
+		}
 	}
 	{
 		name: "tm_asm_motion_mixer"
@@ -1697,7 +1739,7 @@
 			near_plane: 0.1000000014901161
 			far_plane: 10000
 			vertical_fov__box_height__focal_length: 1.396263360977173
-			shutter_speed: 100
+			shutter_speed: 10
 			aperture: 4
 			iso: 100
 			sensor_size: {
@@ -1717,6 +1759,39 @@
 			}
 			{
 				name: "is_cut"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_collaboration_tab_settings"
+		properties: [
+			{
+				name: "join_internet_server__address"
+				type: "string"
+			}
+			{
+				name: "host_internet_server__port"
+				type: "string"
+			}
+			{
+				name: "join_nat_server__address"
+				type: "string"
+			}
+			{
+				name: "join_nat_server__password"
+				type: "string"
+			}
+			{
+				name: "host_nat_server__password"
+				type: "string"
+			}
+			{
+				name: "chat_handle"
+				type: "string"
+			}
+			{
+				name: "use_upnp"
 				type: "bool"
 			}
 		]
@@ -3290,11 +3365,42 @@
 				name: "num_mip_levels"
 				type: "uint32_t"
 			}
+			{
+				name: "num_dilate_passes"
+				type: "uint32_t"
+			}
+			{
+				name: "enable_foreground_post_filter"
+				type: "bool"
+			}
+			{
+				name: "enable_background_post_filter"
+				type: "bool"
+			}
+			{
+				name: "mode"
+				type: "uint32_t"
+			}
+			{
+				name: "use_camera_focus_distance"
+				type: "bool"
+			}
+			{
+				name: "focus_distance"
+				type: "float"
+			}
+			{
+				name: "focus_range"
+				type: "float"
+			}
 		]
 		default: {
 			enabled: true
 			num_gather_rings: 4
 			num_mip_levels: 4
+			num_dilate_passes: 2
+			enable_background_post_filter: true
+			use_camera_focus_distance: true
 		}
 	}
 	{
@@ -3876,6 +3982,15 @@
 		]
 	}
 	{
+		name: "tm_global_state_graph_settings"
+		properties: [
+			{
+				name: "enable_snapping"
+				type: "bool"
+			}
+		]
+	}
+	{
 		name: "tm_gpu_image_create_settings"
 		properties: [
 			{
@@ -3950,6 +4065,10 @@
 	{
 		name: "tm_gpu_simulation_descriptor"
 		properties: [
+			{
+				name: "storage_policy"
+				type: "uint32_t"
+			}
 			{
 				name: "lifetime"
 				type: "float"
@@ -4345,11 +4464,6 @@
 				type: "subobject_set"
 				type_hash: "b11aa2e510ce635e"
 			}
-			{
-				name: "debugger_persistent_settings"
-				type: "reference"
-				type_hash: "74079da6d852b357"
-			}
 		]
 		default: {
 			debug_watch_wire_overlay_mode: 5
@@ -4422,49 +4536,11 @@
 				name: "infinite"
 				type: "bool"
 			}
-			{
-				name: "thin_color"
-				type: "subobject"
-				type_hash: "11e53fa0440a07e4"
-			}
-			{
-				name: "thick_color"
-				type: "subobject"
-				type_hash: "11e53fa0440a07e4"
-			}
-			{
-				name: "origin_axis_x_color"
-				type: "subobject"
-				type_hash: "11e53fa0440a07e4"
-			}
-			{
-				name: "origin_axis_z_color"
-				type: "subobject"
-				type_hash: "11e53fa0440a07e4"
-			}
 		]
 		default: {
 			cell_size: 1
 			extent: 4000
 			infinite: true
-			thin_color: {
-				r: 0.07000000029802322
-				g: 0.07000000029802322
-				b: 0.07000000029802322
-			}
-			thick_color: {
-				r: 0
-				g: 0
-				b: 0
-			}
-			origin_axis_x_color: {
-				g: 0.03299999982118607
-				b: 0.07999999821186066
-			}
-			origin_axis_z_color: {
-				r: 0.02199999988079071
-				g: 0.2630000114440918
-			}
 		}
 	}
 	{
@@ -5820,6 +5896,27 @@
 		]
 	}
 	{
+		name: "tm_preview_settings"
+		properties: [
+			{
+				name: "camera_world_position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "camera_world_rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+		]
+		default: {
+			camera_world_position: {
+			}
+			camera_world_rotation: {
+			}
+		}
+	}
+	{
 		name: "tm_project_management_settings"
 		properties: [
 			{
@@ -6373,6 +6470,20 @@
 		]
 	}
 	{
+		name: "tm_setting"
+		properties: [
+			{
+				name: "object"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "variation_key"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_settings"
 		properties: [
 			{
@@ -6402,6 +6513,61 @@
 			}
 		]
 		default: {
+		}
+	}
+	{
+		name: "tm_settings_owner"
+		properties: [
+			{
+				name: "settings"
+				type: "subobject_set"
+				type_hash: "739a2b85d086ccb4"
+			}
+		]
+	}
+	{
+		name: "tm_shader_loop_settings"
+		properties: [
+			{
+				name: "variables"
+				type: "subobject_set"
+				type_hash: "beba497a0fe65862"
+			}
+		]
+	}
+	{
+		name: "tm_shader_loop_settings_ref"
+		properties: [
+			{
+				name: "settings"
+				type: "reference"
+				type_hash: "e4c2522909a7e37e"
+			}
+		]
+	}
+	{
+		name: "tm_shader_loop_variable"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "type"
+				type: "uint32_t"
+			}
+			{
+				name: "num_components"
+				type: "uint32_t"
+			}
+			{
+				name: "num_rows"
+				type: "uint32_t"
+			}
+		]
+		default: {
+			num_components: 1
+			num_rows: 1
 		}
 	}
 	{
@@ -7409,8 +7575,8 @@
 				type: "uint32_t"
 			}
 			{
-				name: "y_range_auto"
-				type: "bool"
+				name: "y_range"
+				type: "uint32_t"
 			}
 			{
 				name: "y_min"
@@ -7427,7 +7593,6 @@
 			}
 		]
 		default: {
-			y_range_auto: true
 		}
 	}
 	{
@@ -7445,6 +7610,14 @@
 				name: "color"
 				type: "subobject"
 				type_hash: "d0c8704d11c0c0f1"
+			}
+			{
+				name: "y_min"
+				type: "double"
+			}
+			{
+				name: "y_max"
+				type: "double"
 			}
 		]
 		default: {
@@ -9523,6 +9696,10 @@
 				type: "bool"
 			}
 			{
+				name: "hide_global_tabwell"
+				type: "bool"
+			}
+			{
 				name: "tabwell"
 				type: "subobject"
 				type_hash: "a1953ee0036f73e1"
@@ -9532,7 +9709,18 @@
 				type: "subobject_set"
 				type_hash: "cdcdce9f19a8aef1"
 			}
+			{
+				name: "global_tabwell"
+				type: "subobject"
+				type_hash: "a1953ee0036f73e1"
+			}
+			{
+				name: "global_tabwell_bias"
+				type: "float"
+			}
 		]
+		default: {
+		}
 	}
 	{
 		name: "tm_window_layouts"
@@ -9559,6 +9747,10 @@
 				name: "tabwell"
 				type: "subobject"
 				type_hash: "a1953ee0036f73e1"
+			}
+			{
+				name: "hide_global_tabwell"
+				type: "bool"
 			}
 		]
 	}
