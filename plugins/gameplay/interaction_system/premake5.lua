@@ -21,7 +21,7 @@ workspace "gameplay_sample_interaction_system"
     targetdir "bin/%{cfg.buildcfg}"
 
 filter "system:windows"
-    platforms { "Win64" }
+    platforms { "x64" }
     systemversion("latest")
 
 filter {"system:linux"}
