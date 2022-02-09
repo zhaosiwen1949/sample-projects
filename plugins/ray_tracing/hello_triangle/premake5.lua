@@ -43,7 +43,7 @@ filter { "system:windows", "options:clang" }
     }
     removeflags {"FatalWarnings"}
 
-filter "platforms:Win64"
+filter "platforms:x64"
     defines { "TM_OS_WINDOWS", "_CRT_SECURE_NO_WARNINGS" }
     includedirs { "%TM_SDK_DIR%/headers" }
     staticruntime "On"

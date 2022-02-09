@@ -43,7 +43,7 @@ filter { "system:windows", "options:clang" }
     }
     removeflags {"FatalLinkWarnings"}        -- clang linker doesn't understand /WX
 
-filter "platforms:Win64"
+filter "platforms:x64"
     defines { "TM_OS_WINDOWS", "_CRT_SECURE_NO_WARNINGS" }
     includedirs { "%TM_SDK_DIR%/headers" }
     staticruntime "On"
