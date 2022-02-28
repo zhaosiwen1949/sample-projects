@@ -1794,6 +1794,10 @@
 				name: "use_upnp"
 				type: "bool"
 			}
+			{
+				name: "mode"
+				type: "uint32_t"
+			}
 		]
 	}
 	{
@@ -1882,6 +1886,12 @@
 				type: "bool"
 			}
 		]
+		default: {
+			color_primary: 1
+			transfer_function: 2
+			color_model: 1
+			color_depth: 24
+		}
 	}
 	{
 		name: "tm_color_space_settings"
@@ -2145,6 +2155,11 @@
 				type: "subobject"
 				type_hash: "01527750cf1208ef"
 			}
+			{
+				name: "aux_node_data"
+				type: "subobject_set"
+				type_hash: "1185bf963862ec03"
+			}
 		]
 		default: {
 			graph: {
@@ -2160,6 +2175,21 @@
 				name: "creation_graph"
 				type: "reference"
 				type_hash: "c5f12f23d4534d76"
+			}
+		]
+	}
+	{
+		name: "tm_creation_graph_aux_data"
+		properties: [
+			{
+				name: "node"
+				type: "reference"
+				type_hash: "b17436407c9497ec"
+			}
+			{
+				name: "aux_node_data"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
 			}
 		]
 	}
@@ -3378,19 +3408,7 @@
 				type: "bool"
 			}
 			{
-				name: "mode"
-				type: "uint32_t"
-			}
-			{
-				name: "use_camera_focus_distance"
-				type: "bool"
-			}
-			{
-				name: "focus_distance"
-				type: "float"
-			}
-			{
-				name: "focus_range"
+				name: "bokeh_scale"
 				type: "float"
 			}
 		]
@@ -3400,7 +3418,7 @@
 			num_mip_levels: 4
 			num_dilate_passes: 2
 			enable_background_post_filter: true
-			use_camera_focus_distance: true
+			bokeh_scale: 1
 		}
 	}
 	{
@@ -3476,6 +3494,14 @@
 				type: "float"
 			}
 			{
+				name: "custom_influence_radius"
+				type: "bool"
+			}
+			{
+				name: "influence_radius"
+				type: "float"
+			}
+			{
 				name: "spot_inner_angle"
 				type: "float"
 			}
@@ -3533,6 +3559,7 @@
 			color: {
 			}
 			intensity: 1
+			influence_radius: 5
 			spot_inner_angle: 0.3490658700466156
 			spot_outer_angle: 1.221730589866638
 			shadow_depth_bias: 0.2000000029802322
@@ -4619,10 +4646,6 @@
 				name: "output_format"
 				type: "uint32_t"
 			}
-			{
-				name: "release_gpu_image_input"
-				type: "bool"
-			}
 		]
 		default: {
 			input_color_space: 1
@@ -4850,6 +4873,11 @@
 			{
 				name: "throttle_in_background"
 				type: "bool"
+			}
+			{
+				name: "color_space"
+				type: "subobject"
+				type_hash: "f8d234cac5aac973"
 			}
 		]
 		default: {
@@ -5304,6 +5332,54 @@
 				name: "instances"
 				type: "subobject_set"
 				type_hash: "62cbfcc2497d86c7"
+			}
+		]
+	}
+	{
+		name: "tm_paint_node_aux_data"
+		properties: [
+			{
+				name: "strokes"
+				type: "subobject_set"
+				type_hash: "313ec8ea063081cc"
+			}
+		]
+	}
+	{
+		name: "tm_paint_settings"
+		properties: [
+			{
+				name: "frequency"
+				type: "float"
+			}
+			{
+				name: "manual_plane_normal"
+				type: "bool"
+			}
+			{
+				name: "plane_normal"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+		default: {
+			frequency: 0.25
+			plane_normal: {
+				y: 1
+			}
+		}
+	}
+	{
+		name: "tm_paint_stroke"
+		properties: [
+			{
+				name: "points"
+				type: "subobject_set"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "radius"
+				type: "float"
 			}
 		]
 	}
@@ -5847,7 +5923,19 @@
 				name: "joint_limits"
 				type: "bool"
 			}
+			{
+				name: "culling_box_size"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
 		]
+		default: {
+			culling_box_size: {
+				x: 10
+				y: 10
+				z: 10
+			}
+		}
 	}
 	{
 		name: "tm_plugin"

@@ -1871,6 +1871,12 @@
 				type: "bool"
 			}
 		]
+		default: {
+			color_primary: 1
+			transfer_function: 2
+			color_model: 1
+			color_depth: 24
+		}
 	}
 	{
 		name: "tm_color_space_settings"
@@ -4746,6 +4752,11 @@
 				name: "throttle_in_background"
 				type: "bool"
 			}
+			{
+				name: "color_space"
+				type: "subobject"
+				type_hash: "f8d234cac5aac973"
+			}
 		]
 		default: {
 			resolution_scale: 1
@@ -5211,6 +5222,30 @@
 				type_hash: "313ec8ea063081cc"
 			}
 		]
+	}
+	{
+		name: "tm_paint_settings"
+		properties: [
+			{
+				name: "frequency"
+				type: "float"
+			}
+			{
+				name: "manual_plane_normal"
+				type: "bool"
+			}
+			{
+				name: "plane_normal"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+		]
+		default: {
+			frequency: 0.25
+			plane_normal: {
+				y: 1
+			}
+		}
 	}
 	{
 		name: "tm_paint_stroke"
