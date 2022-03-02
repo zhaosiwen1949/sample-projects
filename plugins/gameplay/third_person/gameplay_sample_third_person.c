@@ -196,7 +196,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
     for (uint32_t i = 0; i < 8; ++i)
     {
         snprintf(checkpoint_path, 30, "Checkpoints/checkpoint-%u", (i + 1));
-        const tm_entity_t c = tm_entity_api->resolve_path(state->entity_ctx, root_entity, checkpoint_path);
+        const tm_entity_t c = tm_entity_api->resolve_asset_path(state->entity_ctx, root_entity, checkpoint_path);
 
         if (!TM_ASSERT(tm_entity_api->is_alive(state->entity_ctx, c), "Failed to find checkpoint entity"))
             continue;
