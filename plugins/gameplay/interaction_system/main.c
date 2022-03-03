@@ -105,8 +105,8 @@ static void serialize(void *s, void *d)
     tm_simulation_state_o *source = (tm_simulation_state_o *)s;
     simulate_persistent_state *dest = (simulate_persistent_state *)d;
 
-    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player, &dest->player);
-    tm_entity_api->get_entity_persistent_id(source->entity_ctx, source->player_camera, &dest->player_camera);
+    tm_entity_api->entity_is_persistent(source->entity_ctx, source->player, 0, &dest->player, 0);
+    tm_entity_api->entity_is_persistent(source->entity_ctx, source->player_camera, 0, &dest->player_camera, 0);
 
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
