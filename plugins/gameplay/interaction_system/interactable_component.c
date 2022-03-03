@@ -574,7 +574,7 @@ static void manager_components_created(tm_component_manager_o* man_in)
     manager_init(man);
 }
 
-static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_entity_t e, tm_component_type_t c, void* buffer, uint32_t buffer_size)
+static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_gamestate_o* gamestate, tm_entity_t e, tm_component_type_t c, void* buffer, uint32_t buffer_size)
 {
     interactable_component_t* dest = (interactable_component_t*)buffer;
     interactable_component_t* source = (interactable_component_t*)tm_entity_api->get_component(ctx, e, c);
@@ -597,7 +597,7 @@ static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_en
     }
 }
 
-static void tm_interactable_component__deserialize(tm_entity_context_o* ctx, tm_entity_t e, tm_component_type_t c, const void* buffer, uint32_t buffer_size)
+static void tm_interactable_component__deserialize(tm_entity_context_o* ctx, tm_gamestate_o* gamestate, tm_entity_t e, tm_component_type_t c, const void* buffer, uint32_t buffer_size)
 {
     interactable_component_t* dest = (interactable_component_t*)tm_entity_api->get_component(ctx, e, c);
     interactable_component_t* source = (interactable_component_t*)buffer;

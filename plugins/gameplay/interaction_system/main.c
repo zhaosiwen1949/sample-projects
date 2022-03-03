@@ -166,7 +166,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 
     const char *singleton_name = "interation_sample_simulation_state";
-    tm_gamestate_o *gamestate = tm_entity_api->gamestate(state->entity_ctx);
+    tm_gamestate_o *gamestate = tm_simulation_api->gamestate(state->simulation_ctx);
     tm_gamestate_singleton_t s = {
         .name = singleton_name,
         .size = sizeof(simulate_persistent_state),
