@@ -337,7 +337,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
-    const tm_transform_component_t *box_trans = tm_entity_api->get_component(state->entity_ctx, state->box, state->transform_component);
+    const tm_transform_component_t *box_trans = tm_entity_api->read_component(state->entity_ctx, state->box, state->transform_component);
     state->box_starting_point = box_trans->world.pos;
     state->box_starting_rot = box_trans->world.rot;
 
@@ -471,7 +471,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
     tm_physx_scene_o *physx_scene = args->physx_scene;
     const tm_vec3_t camera_pos = tm_get_position(state->trans_mgr, state->player_camera);
     const tm_vec4_t camera_rot = tm_get_rotation(state->trans_mgr, state->player_camera);
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
+    struct tm_physx_mover_component_t *player_mover = tm_entity_api->write_component(state->entity_ctx, state->player, state->mover_component);
 
     if (!TM_ASSERT(player_mover, "Invalid player"))
         return;
@@ -598,7 +598,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
 
                     if (state->input.left_mouse_pressed)
                     {
-                        tm_physics_shape_component_t *shape = tm_entity_api->get_component(state->entity_ctx, state->box, state->physics_shape_component);
+                        tm_physics_shape_component_t *shape = tm_entity_api->write_component(state->entity_ctx, state->box, state->physics_shape_component);
                         shape->collision_id = state->player_collision_type;
 
                         // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
@@ -625,7 +625,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
 
             tm_entity_api->remove_component(state->entity_ctx, state->box, state->physics_joint_component);
             tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_joint_component);
-            tm_physics_shape_component_t *shape = tm_entity_api->get_component(state->entity_ctx, state->box, state->physics_shape_component);
+            tm_physics_shape_component_t *shape = tm_entity_api->write_component(state->entity_ctx, state->box, state->physics_shape_component);
             shape->collision_id = state->box_collision_type;
 
             // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.

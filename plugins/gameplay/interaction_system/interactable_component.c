@@ -319,7 +319,7 @@ static void update_active_interactables(tm_interactable_component_manager_o* mgr
 {
     for (int32_t active_idx = 0; active_idx < (int32_t)tm_carray_size(mgr->active); ++active_idx) {
         active_interaction_t* a = mgr->active + active_idx;
-        interactable_component_t* c = tm_entity_api->get_component(mgr->ctx, a->interactable, mgr->interactable_component_type);
+        interactable_component_t* c = tm_entity_api->write_component(mgr->ctx, a->interactable, mgr->interactable_component_type);
 
         if (!a->start_time)
             a->start_time = t;
@@ -374,7 +374,7 @@ static bool can_interact(tm_interactable_component_manager_o* mgr, tm_entity_t i
     if (!tm_entity_api->is_alive(mgr->ctx, interactable))
         return false;
 
-    const interactable_component_t* c = tm_entity_api->get_component(mgr->ctx, interactable, mgr->interactable_component_type);
+    const interactable_component_t* c = tm_entity_api->read_component(mgr->ctx, interactable, mgr->interactable_component_type);
 
     if (!c)
         return false;
@@ -577,7 +577,7 @@ static void manager_components_created(tm_component_manager_o* man_in)
 static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_gamestate_o* gamestate, tm_entity_t e, tm_component_type_t c, void* buffer, uint32_t buffer_size)
 {
     interactable_component_t* dest = (interactable_component_t*)buffer;
-    interactable_component_t* source = (interactable_component_t*)tm_entity_api->get_component(ctx, e, c);
+    const interactable_component_t* source = (interactable_component_t*)tm_entity_api->read_component(ctx, e, c);
 
     *dest = *source;
 
@@ -599,7 +599,7 @@ static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_ga
 
 static void tm_interactable_component__deserialize(tm_entity_context_o* ctx, tm_gamestate_o* gamestate, tm_entity_t e, tm_component_type_t c, const void* buffer, uint32_t buffer_size)
 {
-    interactable_component_t* dest = (interactable_component_t*)tm_entity_api->get_component(ctx, e, c);
+    interactable_component_t* dest = (interactable_component_t*)tm_entity_api->write_component(ctx, e, c);
     interactable_component_t* source = (interactable_component_t*)buffer;
 
     *dest = *source;

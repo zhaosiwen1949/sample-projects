@@ -238,7 +238,7 @@ static void private__set_shader_constant(tm_shader_io_o *io, tm_renderer_resourc
 static void private__adjust_effect_start_color(tm_simulation_state_o *state, tm_entity_t p, tm_vec3_t color)
 {
     // Show how to poke at a custom shader variable (`start_color`) exposed in a creation graph bound to a specific draw call (`vfx`)
-    tm_render_component_public_t *rc = tm_entity_api->get_component(state->entity_ctx, p, state->render_component);
+    tm_render_component_public_t *rc = tm_entity_api->write_component(state->entity_ctx, p, state->render_component);
     const tm_creation_graph_draw_call_data_t *draw = tm_render_component_api->draw_call(rc, TM_STATIC_HASH("vfx", 0xfc741b5732202063ULL));
 
     if (draw && draw->shader)
@@ -316,7 +316,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
         }
     }
 
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->get_component(state->entity_ctx, state->player, state->mover_component);
+    struct tm_physx_mover_component_t *player_mover = tm_entity_api->write_component(state->entity_ctx, state->player, state->mover_component);
 
     if (!TM_ASSERT(player_mover, "Invalid player"))
         return;
@@ -349,7 +349,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
         tm_set_local_rotation(state->trans_mgr, state->player_camera_pivot, camera_pivot_rot);
 
         // Control animation state machine using input
-        tm_animation_state_machine_component_t *smc = tm_entity_api->get_component(state->entity_ctx, state->player, state->asm_component);
+        tm_animation_state_machine_component_t *smc = tm_entity_api->write_component(state->entity_ctx, state->player, state->asm_component);
         tm_animation_state_machine_o *sm = smc->state_machine;
         tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("w", 0x22727cb14c3bb41dULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_W]);
         tm_animation_state_machine_api->set_variable(sm, TM_STATIC_HASH("a", 0x71717d2d36b6b11ULL), (float)state->input.held_keys[TM_INPUT_KEYBOARD_ITEM_A]);
