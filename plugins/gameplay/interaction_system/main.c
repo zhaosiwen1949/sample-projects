@@ -280,7 +280,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
 
     const tm_vec3_t camera_pos = tm_get_position(state->trans_mgr, state->player_camera);
     const tm_vec4_t camera_rot = tm_get_rotation(state->trans_mgr, state->player_camera);
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->write_component_by_hash(state->entity_ctx, state->player, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
+    struct tm_physics_mover_component_t *player_mover = tm_entity_api->write_component_by_hash(state->entity_ctx, state->player, TM_TT_TYPE_HASH__PHYSICS_MOVER_COMPONENT);
 
     if (!TM_ASSERT(player_mover, "Invalid player"))
         return;

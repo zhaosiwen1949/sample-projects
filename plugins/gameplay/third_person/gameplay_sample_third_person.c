@@ -35,7 +35,7 @@ static struct tm_gamestate_api *tm_gamestate_api;
 #include <plugins/entity/tag_component.h>
 #include <plugins/entity/transform_component.h>
 #include <plugins/gamestate/gamestate.h>
-#include <plugins/physx/physx_scene.h>
+#include <plugins/physics/physics_mover_component.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/commands.h>
 #include <plugins/renderer/render_backend.h>
@@ -172,7 +172,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
         .asset_root = args->asset_root,
     };
 
-    state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
+    state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_MOVER_COMPONENT);
     state->asm_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__ANIMATION_STATE_MACHINE_COMPONENT);
     state->render_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__RENDER_COMPONENT);
     state->tag_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
@@ -316,7 +316,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
         }
     }
 
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->write_component(state->entity_ctx, state->player, state->mover_component);
+    struct tm_physics_mover_component_t *player_mover = tm_entity_api->write_component(state->entity_ctx, state->player, state->mover_component);
 
     if (!TM_ASSERT(player_mover, "Invalid player"))
         return;

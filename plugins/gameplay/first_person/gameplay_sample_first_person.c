@@ -44,6 +44,7 @@ static struct tm_creation_graph_api *tm_creation_graph_api;
 #include <plugins/physics/physics_collision.h>
 #include <plugins/physics/physics_joint_component.h>
 #include <plugins/physics/physics_shape_component.h>
+#include <plugins/physics/physics_mover_component.h>
 #include <plugins/physx/physx_scene.h>
 #include <plugins/render_utilities/render_component.h>
 #include <plugins/renderer/render_backend.h>
@@ -129,13 +130,11 @@ struct tm_simulation_state_o
 
     // Component types
     tm_component_type_t mover_component;
-    tm_component_type_t physics_shape_component;
-    tm_component_type_t physics_joint_component;
-    tm_component_type_t physx_rigid_body_component;
-    tm_component_type_t physx_joint_component;
+    tm_component_type_t shape_component;
+    tm_component_type_t rigid_body_component;
+    tm_component_type_t joint_component;
     tm_component_type_t tag_component;
     tm_component_type_t transform_component;
-    TM_PAD(4);
 
     // Component managers
     tm_transform_component_manager_o *trans_mgr;
@@ -320,11 +319,10 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
         .asset_root = args->asset_root,
     };
 
-    state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_MOVER_COMPONENT);
-    state->physics_joint_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
-    state->physics_shape_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
-    state->physx_joint_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_JOINT_COMPONENT);
-    state->physx_rigid_body_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSX_RIGID_BODY_COMPONENT);
+    state->mover_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_MOVER_COMPONENT);
+    state->joint_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_JOINT_COMPONENT);
+    state->shape_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_SHAPE_COMPONENT);
+    state->rigid_body_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__PHYSICS_BODY_COMPONENT);
     state->tag_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TAG_COMPONENT);
     state->transform_component = tm_entity_api->lookup_component_type(state->entity_ctx, TM_TT_TYPE_HASH__TRANSFORM_COMPONENT);
 
@@ -471,7 +469,7 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
     tm_physx_scene_o *physx_scene = args->physx_scene;
     const tm_vec3_t camera_pos = tm_get_position(state->trans_mgr, state->player_camera);
     const tm_vec4_t camera_rot = tm_get_rotation(state->trans_mgr, state->player_camera);
-    struct tm_physx_mover_component_t *player_mover = tm_entity_api->write_component(state->entity_ctx, state->player, state->mover_component);
+    struct tm_physics_mover_component_t *player_mover = tm_entity_api->write_component(state->entity_ctx, state->player, state->mover_component);
 
     if (!TM_ASSERT(player_mover, "Invalid player"))
         return;
@@ -597,15 +595,12 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
                     state->box_interactable = true;
 
                     if (state->input.left_mouse_pressed)
-                    {
-                        tm_physics_shape_component_t *shape = tm_entity_api->write_component(state->entity_ctx, state->box, state->physics_shape_component);
-                        shape->collision_id = state->player_collision_type;
-
-                        // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
-                        tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_rigid_body_component);
+                        {
+                        tm_physics_shape_component_t *shape = tm_entity_api->write_component(state->entity_ctx, state->box, state->shape_component);
+                            tm_physx_scene_api->update_collision_id(physx_scene, shape, state->player_collision_type);
 
                         tm_set_position(state->trans_mgr, state->box, anchor_pos);
-                        tm_physics_joint_component_t *j = tm_entity_api->add_component(state->entity_ctx, state->box, state->physics_joint_component);
+                        tm_physics_joint_component_t *j = tm_entity_api->add_component(state->entity_ctx, state->box, state->joint_component);
                         j->joint_type = TM_PHYSICS_JOINT__FIXED;
                         j->body_0 = state->box;
                         j->body_1 = state->player_carry_anchor;
@@ -622,14 +617,9 @@ static void tick(tm_simulation_state_o *state, tm_simulation_frame_args_t *args)
         if (state->input.left_mouse_pressed)
         {
             // Drop box
-
-            tm_entity_api->remove_component(state->entity_ctx, state->box, state->physics_joint_component);
-            tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_joint_component);
-            tm_physics_shape_component_t *shape = tm_entity_api->write_component(state->entity_ctx, state->box, state->physics_shape_component);
-            shape->collision_id = state->box_collision_type;
-
-            // Forces re-mirroring of physx rigid body, so the physx shape gets correct collision type.
-            tm_entity_api->remove_component(state->entity_ctx, state->box, state->physx_rigid_body_component);
+            tm_entity_api->remove_component(state->entity_ctx, state->box, state->joint_component);
+            tm_physics_shape_component_t *shape = tm_entity_api->write_component(state->entity_ctx, state->box, state->shape_component);
+                tm_physx_scene_api->update_collision_id(physx_scene, shape, state->box_collision_type);
 
             tm_physx_scene_api->set_kinematic(physx_scene, state->box, false);
             tm_physx_scene_api->add_force(physx_scene, state->box, tm_vec3_mul(camera_forward, 1500 * args->dt), TM_PHYSX_FORCE_FLAGS__IMPULSE);
