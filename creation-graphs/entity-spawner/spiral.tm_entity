@@ -8,6 +8,9 @@ components: [
 		local_position: {
 			__uuid: "dd9bfc2e-29ef-c0fd-cf2e-0874e938f283"
 		}
+		local_position_double: {
+			__uuid: "91abae71-6ad7-6d89-47c5-2166a8c526b5"
+		}
 		local_rotation: {
 			__uuid: "dc27ba35-49b0-feae-eef4-c08bea3610e9"
 		}
@@ -31,6 +34,11 @@ children: [
 					__uuid: "1b3bf913-0c33-c29d-7ec9-0282015b8132"
 					__prototype_type: "tm_position"
 					__prototype_uuid: "88b95045-8310-69d0-043b-843362d826a9"
+				}
+				local_position_double: {
+					__uuid: "13228c48-a6c9-809c-bf4e-baa002230399"
+					__prototype_type: "tm_position_double"
+					__prototype_uuid: "1dfb1ead-389c-6cd9-0cf8-36bd10e3817c"
 				}
 				local_rotation: {
 					__uuid: "2422b2cc-d5fd-decd-e46e-d78fd6e088c7"
@@ -60,6 +68,11 @@ children: [
 					__prototype_type: "tm_position"
 					__prototype_uuid: "9a71d429-5db8-3a96-528d-41aeaa3b6358"
 				}
+				local_position_double: {
+					__uuid: "14588797-6091-0080-827a-32962d79e84e"
+					__prototype_type: "tm_position_double"
+					__prototype_uuid: "67bba28f-923f-c9ef-9b32-f5784ad60cdc"
+				}
 				local_rotation: {
 					__uuid: "eaa13007-eab3-248d-3428-c1b3e5b1e076"
 					__prototype_type: "tm_rotation"
@@ -83,6 +96,9 @@ children: [
 				local_position: {
 					__uuid: "57a1cb5f-78fb-3dee-9ca0-1917adc303f1"
 				}
+				local_position_double: {
+					__uuid: "9284b80b-a58a-38cf-1c30-c107cf2d1f8b"
+				}
 				local_rotation: {
 					__uuid: "86c17592-d74c-ce76-d1d4-32fab01ed927"
 				}
@@ -93,6 +109,15 @@ children: [
 			{
 				__type: "tm_entity_spawner_component"
 				__uuid: "e7271334-9f08-1b16-7b95-1a97314d8440"
+				init_creation_graph: {
+					__uuid: "923d41de-558f-b2d1-4ef5-34d7dc2bcf7b"
+					graph: {
+						__uuid: "0733640a-2ba0-cdda-38b9-d6062da466a0"
+						interface: {
+							__uuid: "fe864c32-5144-debe-d42b-c47d0969ef33"
+						}
+					}
+				}
 				channels: [
 					{
 						__uuid: "8d6b8612-70ec-ecd3-ec94-9ff0b1d8252a"
@@ -678,6 +703,11 @@ children: [
 					__uuid: "9545e769-8272-ce93-ec83-7287b705ccdd"
 					__prototype_type: "tm_position"
 					__prototype_uuid: "b9d8fefc-af9b-9536-a121-3a6ba8f81b78"
+				}
+				local_position_double: {
+					__uuid: "18656b48-401f-63df-5722-b46cce49c1da"
+					__prototype_type: "tm_position_double"
+					__prototype_uuid: "eb94b30a-ce9e-e7c5-d9c9-d391228abf4c"
 				}
 				local_rotation: {
 					__uuid: "77f0aea4-c39e-2fea-2206-a1308eb90c4b"
