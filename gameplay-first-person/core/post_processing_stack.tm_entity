@@ -4,19 +4,13 @@ components: [
 	{
 		__type: "tm_default_render_pipe_exposure_component"
 		__uuid: "ab12d1f4-69fd-8c67-bea6-72a09817a944"
-		max_ev100: 10
-		speed_up: 8
-		speed_down: 4
+		metering_mode: 1
 	}
 	{
 		__type: "tm_default_render_pipe_bloom_component"
 		__uuid: "95a48a49-1926-d91d-e5e7-dc1ed865723f"
-		threshold: 2
-		falloff: 0.1000000014901161
 		tint: {
 			__uuid: "918010ae-f494-f30f-29ce-b33bc747c2b7"
-			g: 0.9084981083869934
-			b: 0.8355709910392761
 		}
 	}
 	{
@@ -25,16 +19,15 @@ components: [
 		local_position: {
 			__uuid: "88b95045-8310-69d0-043b-843362d826a9"
 		}
+		local_position_double: {
+			__uuid: "c6cb6f95-e34a-ba1b-303c-89bb3c337661"
+		}
 		local_rotation: {
 			__uuid: "5cf8fe5e-1dad-5d12-29dd-5a52a4c1b871"
 		}
 		local_scale: {
 			__uuid: "d6ca4509-d3e0-25d8-c3f7-507748a71ee9"
 		}
-	}
-	{
-		__type: "tm_default_render_pipe_ssao_component"
-		__uuid: "a5619a28-4381-66b0-0917-6d87cd588a64"
 	}
 ]
 __asset_uuid: "0488ef63-d369-a1c9-4d23-61e2d394d734"

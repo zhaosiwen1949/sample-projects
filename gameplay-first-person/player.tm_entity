@@ -7,6 +7,9 @@ components: [
 		local_position: {
 			__uuid: "6790dbfa-ca94-33a0-2ca9-5afc67c114b7"
 		}
+		local_position_double: {
+			__uuid: "da44ae47-8403-aef7-49e7-9b3ea8e1ed12"
+		}
 		local_rotation: {
 			__uuid: "69d6a8fc-3bb4-5db3-e686-6fa219ec52e3"
 		}
@@ -56,12 +59,21 @@ children: [
 			{
 				__type: "tm_camera_component"
 				__uuid: "269bc040-87be-aebc-63cc-77424a9d1f79"
+				sensor_size: {
+					__uuid: "10048080-4762-ecb8-6486-16b3347efb46"
+					x: 36
+					y: 24
+				}
 			}
 			{
 				__type: "tm_transform_component"
 				__uuid: "e02cb178-9454-11c5-c785-f919f63b8548"
 				local_position: {
 					__uuid: "da5dbce5-1a1d-3c31-38cb-a58b53ac0faf"
+					y: 1.549999952316284
+				}
+				local_position_double: {
+					__uuid: "980d7da5-9838-df42-d98f-ea27ef6cb1fc"
 					y: 1.549999952316284
 				}
 				local_rotation: {
@@ -89,6 +101,9 @@ children: [
 				__uuid: "ed9cbb89-7322-b68c-e327-02cd661fda83"
 				local_position: {
 					__uuid: "dfb90db6-d9d7-08cd-e60f-d1e045f78e01"
+				}
+				local_position_double: {
+					__uuid: "6eddf2ee-8b4a-5cb9-9f94-1971af217018"
 				}
 				local_rotation: {
 					__uuid: "390f34ed-cd18-f025-2020-607e263cfc66"
@@ -135,6 +150,10 @@ children: [
 				__uuid: "01e485c3-f178-5794-b873-5fb3d8ea2796"
 				local_position: {
 					__uuid: "8b5d175c-6026-4bb4-5a02-76e52bf9ab46"
+					y: 1
+				}
+				local_position_double: {
+					__uuid: "258872f7-2ccd-b477-8900-fcc2004573da"
 					y: 1
 				}
 				local_rotation: {
@@ -184,6 +203,11 @@ children: [
 					__uuid: "2f1aa824-d3dc-b1f6-b6f7-a9a7a2ea2872"
 					__prototype_type: "tm_position"
 					__prototype_uuid: "ec380f8c-5f62-4d21-3ec6-db1bdd3199ea"
+				}
+				local_position_double: {
+					__uuid: "b19bc5a2-5146-e81c-c488-f200c054c5de"
+					__prototype_type: "tm_position_double"
+					__prototype_uuid: "38ce7141-c2fa-fbe6-f405-3ba94e804944"
 				}
 				local_rotation: {
 					__uuid: "058a7e83-b10b-f834-245c-d792610b07d5"
