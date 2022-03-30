@@ -113,6 +113,15 @@
 		}
 	}
 	{
+		name: "primitive_drawer_depth_test"
+		properties: [
+			{
+				name: "depth_test"
+				type: "uint32_t"
+			}
+		]
+	}
+	{
 		name: "shader_if_node_settings"
 		properties: [
 			{
@@ -709,11 +718,6 @@
 				type: "bool"
 			}
 			{
-				name: "network_settings"
-				type: "subobject"
-				type_hash: "395cfd1a7615a887"
-			}
-			{
 				name: "grid_settings"
 				type: "subobject"
 				type_hash: "8547d86433b5494c"
@@ -797,8 +801,6 @@
 			}
 		]
 		default: {
-			network_settings: {
-			}
 			window_layouts: {
 			}
 			interface_settings: {
@@ -1479,6 +1481,18 @@
 		]
 	}
 	{
+		name: "tm_asset_reference"
+		properties: [
+			{
+				name: "asset"
+				type: "reference"
+				type_hash: "ca71127abbb72960"
+			}
+		]
+		default: {
+		}
+	}
+	{
 		name: "tm_asset_root"
 		properties: [
 			{
@@ -1771,6 +1785,157 @@
 			{
 				name: "is_cut"
 				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_clouds_component"
+		properties: [
+			{
+				name: "sky_entity"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "low_frequency_3d_noise"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "high_frequency_3d_noise"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "weather_map"
+				type: "reference"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
+				name: "weather_map_offset"
+				type: "subobject"
+				type_hash: "5ea1bb7b6537de46"
+			}
+			{
+				name: "low_freq_noise_scale"
+				type: "float"
+			}
+			{
+				name: "high_freq_noise_scale"
+				type: "float"
+			}
+			{
+				name: "global_coverage"
+				type: "float"
+			}
+			{
+				name: "global_density"
+				type: "float"
+			}
+			{
+				name: "min_altitude"
+				type: "float"
+			}
+			{
+				name: "max_altitude"
+				type: "float"
+			}
+			{
+				name: "scattering"
+				type: "float"
+			}
+			{
+				name: "extinction"
+				type: "float"
+			}
+			{
+				name: "silver_intensity"
+				type: "float"
+			}
+			{
+				name: "silver_spread"
+				type: "float"
+			}
+			{
+				name: "phase_g"
+				type: "float"
+			}
+			{
+				name: "full_resolution"
+				type: "bool"
+			}
+			{
+				name: "shadows"
+				type: "bool"
+			}
+		]
+		default: {
+			weather_map_offset: {
+			}
+			low_freq_noise_scale: 3
+			high_freq_noise_scale: 3
+			global_coverage: 1
+			global_density: 1
+			min_altitude: 2
+			max_altitude: 10
+			scattering: 1
+			extinction: 1
+			silver_intensity: 0.800000011920929
+			silver_spread: 0.699999988079071
+			phase_g: 0.4000000059604645
+		}
+	}
+	{
+		name: "tm_collaboration_avatar"
+		properties: [
+			{
+				name: "collaborator_uuid_a"
+				type: "uint64_t"
+			}
+			{
+				name: "collaborator_uuid_b"
+				type: "uint64_t"
+			}
+			{
+				name: "scene"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "position"
+				type: "subobject"
+				type_hash: "7a29b8f6b1ca42ec"
+			}
+			{
+				name: "rotation"
+				type: "subobject"
+				type_hash: "a4d2f46b41c9d717"
+			}
+			{
+				name: "selection"
+				type: "reference"
+				type_hash: "8944e0b1cefd4756"
+			}
+		]
+		default: {
+			position: {
+			}
+			rotation: {
+			}
+		}
+	}
+	{
+		name: "tm_collaboration_root"
+		properties: [
+			{
+				name: "avatars"
+				type: "subobject_set"
+				type_hash: "0d5a5900fc864da8"
+			}
+			{
+				name: "panels"
+				type: "subobject_set"
+				type_hash: "ff156da2e01c4a3d"
 			}
 		]
 	}
@@ -2210,6 +2375,10 @@
 			{
 				name: "component_name"
 				type: "uint64_t"
+			}
+			{
+				name: "requred"
+				type: "bool"
 			}
 		]
 	}
@@ -3293,6 +3462,14 @@
 				type: "bool"
 			}
 			{
+				name: "reextract_on_reimport"
+				type: "bool"
+			}
+			{
+				name: "update_rigged_entities_on_reimport"
+				type: "bool"
+			}
+			{
 				name: "import_image_cg"
 				type: "reference"
 				type_hash: "c5f12f23d4534d76"
@@ -3311,6 +3488,8 @@
 			extract_images: true
 			extract_materials: true
 			rig_entity: true
+			reextract_on_reimport: true
+			update_rigged_entities_on_reimport: true
 			import_image_cg: "9f829e31-b0cb-b5fe-21af-ab561d841602"
 			drop_image_cg: "37ddeda8-49a6-95e6-4506-7f2bb8c2a32f"
 		}
@@ -3632,33 +3811,16 @@
 				type: "bool"
 			}
 			{
-				name: "update_frequency"
-				type: "uint32_t"
-			}
-			{
 				name: "density"
-				type: "float"
-			}
-			{
-				name: "samples_per_iteration"
-				type: "uint32_t"
-			}
-			{
-				name: "occlusion_bias"
-				type: "float"
-			}
-			{
-				name: "deringing_weight"
-				type: "float"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
 			}
 		]
 		default: {
 			enabled: true
-			update_frequency: 2
-			density: 1
-			samples_per_iteration: 4
-			occlusion_bias: 0.1000000014901161
-			deringing_weight: 3.141592741012573
+			density: {
+				x: 1
+			}
 		}
 	}
 	{
@@ -3869,8 +4031,12 @@
 				type_hash: "eaaf394705f83715"
 			}
 			{
-				name: "persistence"
-				type: "uint32_t"
+				name: "non persistent"
+				type: "bool"
+			}
+			{
+				name: "non replicated"
+				type: "bool"
 			}
 		]
 	}
@@ -4022,11 +4188,24 @@
 		name: "tm_entity_spawner_component"
 		properties: [
 			{
+				name: "init_creation_graph"
+				type: "subobject"
+				type_hash: "c5f12f23d4534d76"
+			}
+			{
 				name: "channels"
 				type: "subobject_set"
 				type_hash: "436a01576b7bf03c"
 			}
 		]
+		default: {
+			init_creation_graph: {
+				graph: {
+					interface: {
+					}
+				}
+			}
+		}
 	}
 	{
 		name: "tm_entiy_rigger_component"
@@ -6626,6 +6805,23 @@
 		]
 	}
 	{
+		name: "tm_position_double"
+		properties: [
+			{
+				name: "x"
+				type: "double"
+			}
+			{
+				name: "y"
+				type: "double"
+			}
+			{
+				name: "z"
+				type: "double"
+			}
+		]
+	}
+	{
 		name: "tm_preview_settings"
 		properties: [
 			{
@@ -6822,6 +7018,30 @@
 					}
 				}
 			}
+		}
+	}
+	{
+		name: "tm_render_component_debug_draw_settings"
+		properties: [
+			{
+				name: "visualize_bounding_box"
+				type: "bool"
+			}
+			{
+				name: "visualize_bounding_sphere"
+				type: "bool"
+			}
+			{
+				name: "visualize_centered_bounding_sphere"
+				type: "bool"
+			}
+			{
+				name: "visualize_global_centered_bounding_sphere"
+				type: "bool"
+			}
+		]
+		default: {
+			visualize_bounding_box: true
 		}
 	}
 	{
@@ -8583,6 +8803,11 @@
 				type_hash: "7a29b8f6b1ca42ec"
 			}
 			{
+				name: "local_position_double"
+				type: "subobject"
+				type_hash: "ad2cfdff1f81380a"
+			}
+			{
 				name: "local_rotation"
 				type: "subobject"
 				type_hash: "a4d2f46b41c9d717"
@@ -8599,6 +8824,8 @@
 		]
 		default: {
 			local_position: {
+			}
+			local_position_double: {
 			}
 			local_rotation: {
 			}
