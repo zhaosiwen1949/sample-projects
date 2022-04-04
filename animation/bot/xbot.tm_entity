@@ -813,6 +813,47 @@ components: [
 										type: "tm_sequence_node"
 										position_x: -73.82455444335938
 										position_y: 291.6360778808594
+										settings: {
+											__type: "tm_graph_node_dynamic_connectors_settings"
+											__uuid: "446ada3c-c9fa-c17d-595d-516bcdee0caa"
+											allowed_types_output: [
+												{
+													__uuid: "550e9d62-8fb8-69fc-88c0-e40902ea642c"
+													type_hash: "914718f91949c893"
+													edit_type_hash: "914718f91949c893"
+												}
+											]
+											outputs: [
+												{
+													__uuid: "30bdab45-f0a2-302d-a0ba-6388683cc1e1"
+													name: "0"
+													display_name: "0"
+													type_hash: "914718f91949c893"
+													edit_hash: "914718f91949c893"
+												}
+												{
+													__uuid: "1d42e50b-b565-2300-f9b1-b12b6981da42"
+													name: "1"
+													display_name: "1"
+													type_hash: "914718f91949c893"
+													edit_hash: "914718f91949c893"
+												}
+												{
+													__uuid: "3dcbc22e-349f-d43f-89fe-e7582407764b"
+													name: "2"
+													display_name: "2"
+													type_hash: "914718f91949c893"
+													edit_hash: "914718f91949c893"
+												}
+												{
+													__uuid: "8a08eab2-d3bd-8c64-66fb-2ef8ea3db733"
+													name: "3"
+													display_name: "3"
+													type_hash: "914718f91949c893"
+													edit_hash: "914718f91949c893"
+												}
+											]
+										}
 									}
 									{
 										__uuid: "6ee1b2b8-4ef4-0bcc-c300-a8cf0bbdb8dd"
@@ -1671,6 +1712,24 @@ components: [
 					position_x: 820.0771484375
 					position_y: 234.2550659179688
 				}
+				{
+					__uuid: "81d91479-2b86-5fd8-d8cb-35c52ca58837"
+					type: "tm_init_event"
+					position_x: -1192.319213867188
+					position_y: 432.784423828125
+				}
+				{
+					__uuid: "033ac817-3560-e865-9d78-d5f3d34e0514"
+					type: "tm_scene_entity"
+					position_x: -1185.027099609375
+					position_y: 525.5072631835938
+				}
+				{
+					__uuid: "c53c10bf-9d42-ca18-2067-c3dcd0396c00"
+					type: "tm_set_camera"
+					position_x: -930.2452392578125
+					position_y: 451.81787109375
+				}
 			]
 			connections: [
 				{
@@ -1989,6 +2048,18 @@ components: [
 					to_node: "ee3dcc58-ef53-35b4-f8fd-6ae00f18d891"
 					from_connector_hash: "47bf0dd9d7937e37"
 				}
+				{
+					__uuid: "6baaaddb-fdc3-cbbc-a2ea-c802e5c6049c"
+					from_node: "81d91479-2b86-5fd8-d8cb-35c52ca58837"
+					to_node: "c53c10bf-9d42-ca18-2067-c3dcd0396c00"
+				}
+				{
+					__uuid: "d0dee56b-a649-731f-0af0-6f65b257d4f8"
+					from_node: "033ac817-3560-e865-9d78-d5f3d34e0514"
+					to_node: "c53c10bf-9d42-ca18-2067-c3dcd0396c00"
+					from_connector_hash: "9831ca893b0d087d"
+					to_connector_hash: "7115e430772d6a11"
+				}
 			]
 			data: [
 				{
@@ -2250,6 +2321,16 @@ components: [
 						string: "mouse_captured"
 					}
 				}
+				{
+					__uuid: "4945f69a-a2df-6eb0-0b9d-edde36bdebe8"
+					to_node: "033ac817-3560-e865-9d78-d5f3d34e0514"
+					to_connector_hash: "9831ca893b0d087d"
+					data: {
+						__type: "tm_local_entity_asset_reference"
+						__uuid: "db5b5719-b754-3b46-0f4f-198c6783424c"
+						entity: "6d805fe7-5021-0154-45cc-005f4ebc5cdd"
+					}
+				}
 			]
 			comments: [
 				{
@@ -2353,6 +2434,22 @@ components: [
 					font_scale: 2
 					tint_color: {
 						__uuid: "a492b87b-11b0-c8e6-8832-6f8bde51326f"
+						r: 0.4125427007675171
+						g: 0.3371636569499969
+						b: 0.1529261618852615
+						a: 0.1176470592617989
+					}
+				}
+				{
+					__uuid: "5b056622-1dca-60d8-6947-7975ba5f620f"
+					text: "Set Camera"
+					position_x: -1311.7265625
+					position_y: 389.1273803710938
+					width: 493.105224609375
+					height: 234.3659057617188
+					font_scale: 2
+					tint_color: {
+						__uuid: "ceceb6ba-7bec-5270-9167-238542d8a7ba"
 						r: 0.4125427007675171
 						g: 0.3371636569499969
 						b: 0.1529261618852615
@@ -2537,6 +2634,8 @@ children: [
 				}
 				local_rotation: {
 					__uuid: "3c4db4b8-d3f9-919d-20c4-9ab7c017b543"
+					y: 1
+					w: -4.371138828673793e-08
 				}
 				local_scale: {
 					__uuid: "2f17357a-1d56-5584-c71c-1344d2882f10"
