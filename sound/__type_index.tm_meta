@@ -777,6 +777,10 @@
 				type: "uint32_t"
 			}
 			{
+				name: "builtin_ui_theme_sync_with_computer"
+				type: "bool"
+			}
+			{
 				name: "workspaces_bar_mode"
 				type: "uint32_t"
 			}
@@ -816,13 +820,26 @@
 			}
 		]
 		default: {
+			grid_settings: {
+			}
 			window_layouts: {
 			}
 			interface_settings: {
 			}
+			localization_settings: {
+				language: ""
+			}
+			keyboard_shortcuts: {
+			}
+			updates: {
+			}
+			docking_settings: {
+			}
 			project_management: {
 			}
 			security: {
+			}
+			settings_owner: {
 			}
 		}
 	}
@@ -3779,6 +3796,11 @@
 		]
 	}
 	{
+		name: "tm_default_render_pipe_ray_tracing_hello_triangle"
+		properties: [
+		]
+	}
+	{
 		name: "tm_default_render_pipe_ssao_component"
 		properties: [
 			{
@@ -4577,6 +4599,81 @@
 		]
 	}
 	{
+		name: "tm_graph_node_dynamic_connector"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "edit_hash"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph_node_dynamic_connector_type"
+		properties: [
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "edit_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "exclusive"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_graph_node_dynamic_connectors_settings"
+		properties: [
+			{
+				name: "allowed_types_input"
+				type: "subobject_set"
+				type_hash: "b50bb50cc0d72ee2"
+			}
+			{
+				name: "allowed_types_output"
+				type: "subobject_set"
+				type_hash: "b50bb50cc0d72ee2"
+			}
+			{
+				name: "inputs"
+				type: "subobject_set"
+				type_hash: "cc98415b9f2306d1"
+			}
+			{
+				name: "outputs"
+				type: "subobject_set"
+				type_hash: "cc98415b9f2306d1"
+			}
+			{
+				name: "inputs_max_num"
+				type: "uint32_t"
+			}
+			{
+				name: "outputs_max_num"
+				type: "uint32_t"
+			}
+			{
+				name: "last_id"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_graph_output"
 		properties: [
 			{
@@ -5160,6 +5257,10 @@
 			}
 		]
 		default: {
+			microsoft_cache: {
+			}
+			google_cache: {
+			}
 		}
 	}
 	{
@@ -7421,6 +7522,16 @@
 			}
 			{
 				name: "intersection_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
+			}
+			{
+				name: "task_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
+			}
+			{
+				name: "mesh_stage"
 				type: "subobject"
 				type_hash: "585f51410d1cb18f"
 			}
@@ -10035,6 +10146,10 @@
 			}
 		]
 		default: {
+			tabwell: {
+			}
+			global_tabwell: {
+			}
 		}
 	}
 	{
