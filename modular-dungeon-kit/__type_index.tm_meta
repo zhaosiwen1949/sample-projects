@@ -762,6 +762,10 @@
 				type: "uint32_t"
 			}
 			{
+				name: "builtin_ui_theme_sync_with_computer"
+				type: "bool"
+			}
+			{
 				name: "workspaces_bar_mode"
 				type: "uint32_t"
 			}
@@ -801,13 +805,26 @@
 			}
 		]
 		default: {
+			grid_settings: {
+			}
 			window_layouts: {
 			}
 			interface_settings: {
 			}
+			localization_settings: {
+				language: ""
+			}
+			keyboard_shortcuts: {
+			}
+			updates: {
+			}
+			docking_settings: {
+			}
 			project_management: {
 			}
 			security: {
+			}
+			settings_owner: {
 			}
 		}
 	}
@@ -5275,6 +5292,81 @@
 		]
 	}
 	{
+		name: "tm_graph_node_dynamic_connector"
+		properties: [
+			{
+				name: "name"
+				type: "string"
+			}
+			{
+				name: "display_name"
+				type: "string"
+			}
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "edit_hash"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
+		name: "tm_graph_node_dynamic_connector_type"
+		properties: [
+			{
+				name: "type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "edit_type_hash"
+				type: "uint64_t"
+			}
+			{
+				name: "exclusive"
+				type: "bool"
+			}
+		]
+	}
+	{
+		name: "tm_graph_node_dynamic_connectors_settings"
+		properties: [
+			{
+				name: "allowed_types_input"
+				type: "subobject_set"
+				type_hash: "b50bb50cc0d72ee2"
+			}
+			{
+				name: "allowed_types_output"
+				type: "subobject_set"
+				type_hash: "b50bb50cc0d72ee2"
+			}
+			{
+				name: "inputs"
+				type: "subobject_set"
+				type_hash: "cc98415b9f2306d1"
+			}
+			{
+				name: "outputs"
+				type: "subobject_set"
+				type_hash: "cc98415b9f2306d1"
+			}
+			{
+				name: "inputs_max_num"
+				type: "uint32_t"
+			}
+			{
+				name: "outputs_max_num"
+				type: "uint32_t"
+			}
+			{
+				name: "last_id"
+				type: "uint64_t"
+			}
+		]
+	}
+	{
 		name: "tm_graph_output"
 		properties: [
 			{
@@ -5640,6 +5732,113 @@
 		]
 	}
 	{
+		name: "tm_interactable_button"
+		properties: [
+			{
+				name: "button"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "button_push_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "button_push_distance"
+				type: "float"
+			}
+			{
+				name: "button_push_time"
+				type: "float"
+			}
+		]
+		default: {
+			button_push_axis: {
+			}
+		}
+	}
+	{
+		name: "tm_interactable_component"
+		properties: [
+			{
+				name: "desc"
+				type: "subobject"
+				type_hash: "8944e0b1cefd4756"
+			}
+			{
+				name: "target"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "target_activation_delay"
+				type: "float"
+			}
+			{
+				name: "player_can_activate"
+				type: "bool"
+			}
+		]
+		default: {
+			player_can_activate: true
+		}
+	}
+	{
+		name: "tm_interactable_lever"
+		properties: [
+			{
+				name: "handle"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "handle_rotate_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "handle_rotate_angle"
+				type: "float"
+			}
+			{
+				name: "handle_open_time"
+				type: "float"
+			}
+		]
+		default: {
+			handle_rotate_axis: {
+			}
+		}
+	}
+	{
+		name: "tm_interactable_rotating_door"
+		properties: [
+			{
+				name: "pivot"
+				type: "reference"
+				type_hash: "ff156da2e01c4a3d"
+			}
+			{
+				name: "pivot_rotate_axis"
+				type: "subobject"
+				type_hash: "8d1487af36b1e3e1"
+			}
+			{
+				name: "pivot_rotate_angle"
+				type: "float"
+			}
+			{
+				name: "pivot_rotate_time"
+				type: "float"
+			}
+		]
+		default: {
+			pivot_rotate_axis: {
+			}
+		}
+	}
+	{
 		name: "tm_interface_settings"
 		properties: [
 			{
@@ -5765,6 +5964,10 @@
 			}
 		]
 		default: {
+			microsoft_cache: {
+			}
+			google_cache: {
+			}
 		}
 	}
 	{
@@ -8034,6 +8237,16 @@
 			}
 			{
 				name: "intersection_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
+			}
+			{
+				name: "task_stage"
+				type: "subobject"
+				type_hash: "585f51410d1cb18f"
+			}
+			{
+				name: "mesh_stage"
 				type: "subobject"
 				type_hash: "585f51410d1cb18f"
 			}
@@ -10742,6 +10955,10 @@
 			}
 		]
 		default: {
+			tabwell: {
+			}
+			global_tabwell: {
+			}
 		}
 	}
 	{
