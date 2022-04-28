@@ -243,5 +243,288 @@ scenes: [
 ]
 settings: {
 	__uuid: "fb098204-6917-3963-ef30-8fb166bb785f"
+	import_settings: {
+		__uuid: "10c4dd7e-4f72-ccc0-cade-b7f9b58697a3"
+		__prototype_type: "tm_dcc_import_settings"
+		__prototype_uuid: "3d6fc54e-f444-60df-f999-e34cf184636f"
+	}
+	extracted_materials: [
+		{
+			__uuid: "7f6c64a8-0fbe-94c0-787f-35c08bf005b9"
+			object: "89304c57-78e6-da82-1601-ea431fce4ca3"
+			object__type: "tm_dcc_asset_material"
+			resource: "301f8c61-ab57-ead5-aa68-f22f3280fe16"
+			resource__type: "tm_creation_graph"
+		}
+	]
+	source_import_settings: {
+		__uuid: "727d74db-99f1-b530-08fc-56d2c738b6cf"
+		source_path: ""
+		rotation: {
+			__uuid: "cb8109b2-4e8e-ee24-1096-ff56dcd016ac"
+		}
+		scale: {
+			__uuid: "bc4efb07-5b4b-2301-42bf-339ee4cee93f"
+		}
+	}
+}
+preview_entity: {
+	__uuid: "557d01cb-41a4-d01e-fa88-53dd88b3604c"
+	entity: {
+		__uuid: "7b6055d6-d098-0d6b-4dd7-0195200b0314"
+		components: [
+			{
+				__type: "tm_transform_component"
+				__uuid: "9d327c29-dfb0-4548-0378-1e0d16f1545a"
+				local_position: {
+					__uuid: "462d2b7b-1285-b8a5-ab1a-e4a7c96c6d48"
+				}
+				local_position_double: {
+					__uuid: "f10fa5e0-7793-2997-eb14-7f148fdb688a"
+				}
+				local_rotation: {
+					__uuid: "fbef599e-29bd-b75f-2328-d1e57190cbd8"
+				}
+				local_scale: {
+					__uuid: "53136097-673c-273c-5a5a-15811e2cce47"
+				}
+			}
+			{
+				__type: "tm_scene_tree_component"
+				__uuid: "0d42a689-ff0d-17ec-2301-65d0c07e53c4"
+				node: "cb48bd0b05ad6e55"
+				node_names: "89f77beff1852a7a"
+				asset: "064618f9-d960-2e4e-cf30-63c42498081a"
+				asset__type: "tm_dcc_asset"
+			}
+		]
+		children: [
+			{
+				__uuid: "7fb05dc4-8c99-4996-b224-29e59ae4cd3e"
+				name: "Meshes"
+				children: [
+					{
+						__uuid: "5d6e9e43-d195-eb23-2974-cc3d6e8dfe06"
+						name: "object1_1:Grey"
+						components: [
+							{
+								__type: "tm_transform_component"
+								__uuid: "534df9b4-9388-b72a-fd7d-8bda848076be"
+								local_position: {
+									__uuid: "5aca1b9e-32fa-3dd4-c4af-2d8aa7178eae"
+								}
+								local_position_double: {
+									__uuid: "160c8475-896d-9a98-6eee-a516c6d8abe7"
+								}
+								local_rotation: {
+									__uuid: "b54cf08f-c6d8-e4fc-b33f-1d2dce563d85"
+								}
+								local_scale: {
+									__uuid: "40308a38-6311-be3f-693a-a5381e724df7"
+								}
+								scene_tree_node: "94ab0d68f43aa7a8"
+							}
+							{
+								__type: "tm_render_component"
+								__uuid: "b94ea307-bef9-9a25-c004-6c7642fb12ac"
+								creation_graph: {
+									__uuid: "ac27cbb7-24db-8299-1f5b-98cb5590095e"
+									__prototype_type: "tm_creation_graph"
+									__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+									graph: {
+										__uuid: "afe3535f-a7fe-3f1f-a3c4-c3c43633b757"
+										__prototype_type: "tm_graph"
+										__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+										interface: {
+											__uuid: "5d9aadbf-bcb8-32ee-2810-e86740952112"
+											__prototype_type: "tm_graph_interface"
+											__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+											inputs__instantiated: [
+												{
+													__uuid: "84f056d3-9e8c-a41c-7e08-2d5f0524bd74"
+													__prototype_type: "tm_graph_input"
+													__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+													value: {
+														__type: "tm_dcc_asset_mesh_node_settings"
+														__uuid: "5ddc7481-0859-2187-2c88-fcd4e259303a"
+														dcc_asset: "064618f9-d960-2e4e-cf30-63c42498081a"
+														mesh: "c80efcf1-560d-dcf1-37d9-0aa3be33ceea"
+													}
+												}
+												{
+													__uuid: "9ac6483d-c2a8-fa38-41a0-668ab53ee9ba"
+													__prototype_type: "tm_graph_input"
+													__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+													value: {
+														__type: "tm_creation_graph_resource_reference"
+														__uuid: "14d9af00-f4f2-2abc-9a69-4523fb718620"
+														creation_graph: "301f8c61-ab57-ead5-aa68-f22f3280fe16"
+														node_type_hash: "f09329374a5bbd5e"
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						]
+					}
+					{
+						__uuid: "92f24190-024b-04ac-fac1-38cac78b7f07"
+						name: "object2_1:Grey"
+						components: [
+							{
+								__type: "tm_transform_component"
+								__uuid: "2a668b5c-ca01-2d75-45d9-f680c3242ffd"
+								local_position: {
+									__uuid: "31e2ad25-c9dd-4787-d4d5-64d3cd97a3fe"
+								}
+								local_position_double: {
+									__uuid: "e4da3aee-adc3-c01a-01f7-4c32fe096224"
+								}
+								local_rotation: {
+									__uuid: "b44b3772-8817-2552-3260-56106736c35d"
+								}
+								local_scale: {
+									__uuid: "1473ceb4-7792-9f0b-5c96-fb38cb72dab1"
+								}
+								scene_tree_node: "8086fdf4f2064955"
+							}
+							{
+								__type: "tm_render_component"
+								__uuid: "29163683-1612-4c06-28b6-7364ca79604f"
+								creation_graph: {
+									__uuid: "56c0a677-a5d8-8936-8b89-f2b2ac273d53"
+									__prototype_type: "tm_creation_graph"
+									__prototype_uuid: "ae204997-eea9-53c1-17bd-2faca6857c73"
+									graph: {
+										__uuid: "203e001e-5f4e-0ca3-572e-88c632cbaef9"
+										__prototype_type: "tm_graph"
+										__prototype_uuid: "598f61d4-5463-c4ad-4a46-ece4e0ab67ce"
+										interface: {
+											__uuid: "0f4fbde1-844d-0009-ced9-0c2726d4ecd6"
+											__prototype_type: "tm_graph_interface"
+											__prototype_uuid: "74313b81-241f-e816-b55d-f2cdf7db8ae7"
+											inputs__instantiated: [
+												{
+													__uuid: "5a921bf4-863a-0025-7d51-cc3f485bcf9f"
+													__prototype_type: "tm_graph_input"
+													__prototype_uuid: "46f74015-42bc-db9c-5409-e9ff0b71c683"
+													value: {
+														__type: "tm_dcc_asset_mesh_node_settings"
+														__uuid: "bb801488-ec68-2e5a-0227-d539321848b9"
+														dcc_asset: "064618f9-d960-2e4e-cf30-63c42498081a"
+														mesh: "5a43e34e-6375-184a-4d33-99ca4d09051a"
+													}
+												}
+												{
+													__uuid: "9454a6ff-bf08-74ea-a0ea-ba45666cac83"
+													__prototype_type: "tm_graph_input"
+													__prototype_uuid: "843c467f-112b-d657-fd18-d4d3c2717896"
+													value: {
+														__type: "tm_creation_graph_resource_reference"
+														__uuid: "64750a68-4fc3-a69a-e640-22b62fcf08cd"
+														creation_graph: "301f8c61-ab57-ead5-aa68-f22f3280fe16"
+														node_type_hash: "f09329374a5bbd5e"
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+	extracted_materials: [
+		{
+			__uuid: "bcbc8017-9570-3a1a-830c-7fd33645f293"
+			resource: {
+				__type: "tm_creation_graph"
+				__uuid: "301f8c61-ab57-ead5-aa68-f22f3280fe16"
+				__prototype_type: "tm_creation_graph"
+				__prototype_uuid: "ac7a9eda-f140-837a-ae1d-6d1ade0472ae"
+				graph: {
+					__uuid: "4991cce9-6997-baef-d809-160914e762e4"
+					__prototype_type: "tm_graph"
+					__prototype_uuid: "e0657bbe-dac2-b0a9-3387-4a8490c89176"
+					interface: {
+						__uuid: "914f76db-f8a9-fbb7-bead-fd6aecbf19dd"
+						__prototype_type: "tm_graph_interface"
+						__prototype_uuid: "0323c374-e610-d3a9-25b1-0216ead37043"
+						inputs__instantiated: [
+							{
+								__uuid: "63c702b9-912e-95ef-30a1-a70dc6201a03"
+								__prototype_type: "tm_graph_input"
+								__prototype_uuid: "c342ebfa-25a7-b4a4-965a-5049d5e7f1c0"
+								value: {
+									__type: "tm_dcc_asset_material_node_settings"
+									__uuid: "b2b67d12-5d7f-18ae-5d5b-ddcbaef63978"
+									dcc_asset: "064618f9-d960-2e4e-cf30-63c42498081a"
+									material: "89304c57-78e6-da82-1601-ea431fce4ca3"
+								}
+							}
+							{
+								__uuid: "285feedc-18dc-3578-f095-1eea6c50df4b"
+								__prototype_type: "tm_graph_input"
+								__prototype_uuid: "42b5a86f-3bbf-5550-67d2-e0238e3da275"
+								value: {
+									__type: "tm_color_rgba"
+									__uuid: "9dccf7ed-304c-a2c2-b3c8-079dce33c5ef"
+									__prototype_type: "tm_color_rgba"
+									__prototype_uuid: "7c06e1ca-c946-34b9-8c14-558c2cc4a73b"
+									r: 0.7372999787330627
+									g: 0.7372999787330627
+									b: 0.7372999787330627
+								}
+							}
+							{
+								__uuid: "085738d4-b38c-57b8-1f83-62e0a53b643e"
+								__prototype_type: "tm_graph_input"
+								__prototype_uuid: "fc7eba21-e398-24fe-1374-da25d580fb6f"
+								value: {
+									__type: "tm_float"
+									__uuid: "25b448b8-b7a7-cf26-5bbd-0a067120362a"
+									__prototype_type: "tm_float"
+									__prototype_uuid: "2b2665f0-f3f1-b654-f02c-a5f5e64f4be7"
+									float: 1
+								}
+							}
+							{
+								__uuid: "14ee5463-c763-ae64-d338-9fc33fbc3ff2"
+								__prototype_type: "tm_graph_input"
+								__prototype_uuid: "c9fab5fe-1f36-56b4-7a72-140e8766c664"
+								value: {
+									__type: "tm_float"
+									__uuid: "6cab7978-8f42-d92d-a54c-196bf2d88405"
+									__prototype_type: "tm_float"
+									__prototype_uuid: "0e1db22d-3f81-2886-a667-80c4b304c3b9"
+								}
+							}
+							{
+								__uuid: "117db93b-cb71-f439-4e91-eaa0941ce574"
+								__prototype_type: "tm_graph_input"
+								__prototype_uuid: "4b15b9f4-094b-bc7a-7123-522b637491ba"
+								value: {
+									__type: "tm_color_rgb"
+									__uuid: "bf4dc61f-5803-5501-bc87-9c7dba86a414"
+									__prototype_type: "tm_color_rgb"
+									__prototype_uuid: "dd016ed9-3821-23d6-8f54-867b95d5a36a"
+								}
+							}
+						]
+					}
+				}
+			}
+		}
+	]
 }
 __asset_uuid: "8bf3c07e-cc87-9171-852e-5efe7a1d5711"
+__asset_thumbnail: {
+	__uuid: "8432db7f-c2f0-52d5-dfa5-a9ff66d8a405"
+	thumbnail: "45f18f091a9a0ef7"
+	validity_hash: "ffffffffffffffff"
+}
