@@ -171,10 +171,10 @@ static void serialize(void *s, void *d)
     tm_simulation_state_o *source = (tm_simulation_state_o *)s;
     simulate_persistent_state *dest = (simulate_persistent_state *)d;
 
-    tm_entity_api->entity_is_persistent(source->entity_ctx, source->player, 0, &dest->player, 0);
-    tm_entity_api->entity_is_persistent(source->entity_ctx, source->player_camera, 0, &dest->player_camera, 0);
-    tm_entity_api->entity_is_persistent(source->entity_ctx, source->player_carry_anchor, 0, &dest->player_carry_anchor, 0);
-    tm_entity_api->entity_is_persistent(source->entity_ctx, source->box, 0, &dest->box, 0);
+    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player, 0, &dest->player, 0);
+    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player_camera, 0, &dest->player_camera, 0);
+    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player_carry_anchor, 0, &dest->player_carry_anchor, 0);
+    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->box, 0, &dest->box, 0);
 
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;
@@ -194,10 +194,10 @@ static void deserialize(void *d, void *s)
     tm_simulation_state_o *dest = (tm_simulation_state_o *)d;
     simulate_persistent_state *source = (simulate_persistent_state *)s;
 
-    dest->player = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player);
-    dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_camera);
-    dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->player_carry_anchor);
-    dest->box = tm_entity_api->lookup_entity_from_gamestate_id(dest->entity_ctx, &source->box);
+    dest->player = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player);
+    dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player_camera);
+    dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player_carry_anchor);
+    dest->box = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->box);
 
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;
