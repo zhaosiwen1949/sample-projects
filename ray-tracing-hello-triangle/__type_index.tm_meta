@@ -1941,6 +1941,14 @@
 				type: "string"
 			}
 			{
+				name: "palette_color_main"
+				type: "uint32_t"
+			}
+			{
+				name: "palette_color_alt"
+				type: "uint32_t"
+			}
+			{
 				name: "chat_handle"
 				type: "string"
 			}
@@ -3755,6 +3763,8 @@
 			enabled: true
 			density: {
 				x: 1
+				y: 1
+				z: 1
 			}
 		}
 	}
@@ -5020,6 +5030,10 @@
 				name: "color_space"
 				type: "subobject"
 				type_hash: "f8d234cac5aac973"
+			}
+			{
+				name: "sound_volume"
+				type: "float"
 			}
 		]
 		default: {
