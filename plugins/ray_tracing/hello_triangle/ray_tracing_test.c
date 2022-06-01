@@ -183,7 +183,7 @@ static void module__setup_trace_pass(const void* const_data, void* runtime_data,
     output_desc.usage_flags = TM_RENDERER_IMAGE_USAGE_UAV;
     output_desc.debug_tag = "Hello Triangle Temporary Output";
     tm_render_graph_setup_api->create_gpu_images(graph_setup, &output_desc, 1, &rdata->output_handle);
-    tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, TM_RENDERER_RESOURCE_LOAD_OP_CLEAR, 0, TM_RAY_TRACING_TEMP_OUTPUT, 0);
+    tm_render_graph_setup_api->write_gpu_resource(graph_setup, rdata->output_handle, &(tm_render_graph_setup_write_args){ .write_bind_flags = TM_RENDER_GRAPH_WRITE_BIND_FLAG_UAV, .wanted_resource_state = TM_RENDERER_RESOURCE_STATE_UAV | TM_RENDERER_RESOURCE_STATE_RAY_TRACING_SHADER, .blackboard_key = TM_RAY_TRACING_TEMP_OUTPUT });
 
     rdata->group_count[0] = output_desc.width;
     rdata->group_count[1] = output_desc.height;
