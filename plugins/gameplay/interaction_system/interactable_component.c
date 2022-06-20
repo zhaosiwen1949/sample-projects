@@ -6,6 +6,7 @@ static struct tm_ui_api* tm_ui_api;
 static struct tm_logger_api* tm_logger_api;
 static struct tm_transform_component_api* tm_transform_component_api;
 static struct tm_the_truth_common_types_api* tm_the_truth_common_types_api;
+static struct tm_simulation_gamestate_api* tm_simulation_gamestate_api;
 
 #include "interactable_component.h"
 
@@ -22,6 +23,7 @@ static struct tm_the_truth_common_types_api* tm_the_truth_common_types_api;
 #include <plugins/entity/entity.h>
 #include <plugins/entity/transform_component.h>
 #include <plugins/gamestate/gamestate.h>
+#include <plugins/simulation/simulation_gamestate.h>
 #include <plugins/the_machinery_shared/component_interfaces/editor_ui_interface.h>
 #include <plugins/ui/ui.h>
 
@@ -574,48 +576,48 @@ static void manager_components_created(tm_component_manager_o* man_in)
     manager_init(man);
 }
 
-static void tm_interactable_component__serialize(tm_entity_context_o* ctx, tm_gamestate_o* gamestate, tm_entity_t e, tm_component_type_t c, void* buffer, uint32_t buffer_size)
+static void tm_interactable_component__serialize(struct tm_simulation_gamestate_context_o* gs, tm_entity_t e, tm_component_type_t c, void* buffer, uint32_t buffer_size)
 {
     interactable_component_t* dest = (interactable_component_t*)buffer;
-    const interactable_component_t* source = (interactable_component_t*)tm_entity_api->read_component(ctx, e, c);
+    const interactable_component_t* source = (interactable_component_t*)tm_entity_api->read_component(tm_simulation_gamestate_api->entity_ctx(gs), e, c);
 
     *dest = *source;
 
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(ctx), source->target, 0, (tm_gamestate_object_id_t*)&dest->target, 0);
+    tm_simulation_gamestate_api->entity_is_persistent(gs, source->target, 0, (tm_gamestate_object_id_t*)&dest->target, 0);
 
     switch (dest->type) {
     case INTERACTABLE_TYPE_LEVER: {
-            tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(ctx), source->lever.handle, 0, (tm_gamestate_object_id_t*)&dest->lever.handle, 0);
+            tm_simulation_gamestate_api->entity_is_persistent(gs, source->lever.handle, 0, (tm_gamestate_object_id_t*)&dest->lever.handle, 0);
     } break;
     case INTERACTABLE_TYPE_BUTTON: {
-            tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(ctx), source->button.button, 0, (tm_gamestate_object_id_t*)&dest->button.button, 0);
+            tm_simulation_gamestate_api->entity_is_persistent(gs, source->button.button, 0, (tm_gamestate_object_id_t*)&dest->button.button, 0);
     } break;
     case INTERACTABLE_TYPE_ROTATING_DOOR: {
-            tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(ctx), source->rotating_door.pivot, 0, (tm_gamestate_object_id_t*)&dest->rotating_door.pivot, 0);
-            tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(ctx), source->rotating_door.target, 0, (tm_gamestate_object_id_t*)&dest->rotating_door.target, 0);
+            tm_simulation_gamestate_api->entity_is_persistent(gs, source->rotating_door.pivot, 0, (tm_gamestate_object_id_t*)&dest->rotating_door.pivot, 0);
+            tm_simulation_gamestate_api->entity_is_persistent(gs, source->rotating_door.target, 0, (tm_gamestate_object_id_t*)&dest->rotating_door.target, 0);
     } break;
     }
 }
 
-static void tm_interactable_component__deserialize(tm_entity_context_o* ctx, tm_gamestate_o* gamestate, tm_entity_t e, tm_component_type_t c, const void* buffer, uint32_t buffer_size)
+static void tm_interactable_component__deserialize(struct tm_simulation_gamestate_context_o* gs, tm_entity_t e, tm_component_type_t c, const void* buffer, uint32_t buffer_size)
 {
-    interactable_component_t* dest = (interactable_component_t*)tm_entity_api->write_component(ctx, e, c);
+    interactable_component_t* dest = (interactable_component_t*)tm_entity_api->write_component(tm_simulation_gamestate_api->entity_ctx(gs), e, c);
     interactable_component_t* source = (interactable_component_t*)buffer;
 
     *dest = *source;
 
-    dest->target = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(ctx), (tm_gamestate_object_id_t*)&source->target);
+    dest->target = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gs, (tm_gamestate_object_id_t*)&source->target);
 
     switch (dest->type) {
     case INTERACTABLE_TYPE_LEVER: {
-            dest->lever.handle = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(ctx), (tm_gamestate_object_id_t*)&source->lever.handle);
+            dest->lever.handle = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gs, (tm_gamestate_object_id_t*)&source->lever.handle);
     } break;
     case INTERACTABLE_TYPE_BUTTON: {
-            dest->button.button = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(ctx), (tm_gamestate_object_id_t*)&source->button.button);
+            dest->button.button = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gs, (tm_gamestate_object_id_t*)&source->button.button);
     } break;
     case INTERACTABLE_TYPE_ROTATING_DOOR: {
-            dest->rotating_door.pivot = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(ctx), (tm_gamestate_object_id_t*)&source->rotating_door.pivot);
-            source->rotating_door.target = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(ctx), (tm_gamestate_object_id_t*)&source->rotating_door.target);
+            dest->rotating_door.pivot = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gs, (tm_gamestate_object_id_t*)&source->rotating_door.pivot);
+            source->rotating_door.target = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gs, (tm_gamestate_object_id_t*)&source->rotating_door.target);
     } break;
     }
 }
@@ -642,17 +644,20 @@ static void component__create(struct tm_entity_context_o* ctx)
         .destroy = component__destroy,
         .manager = (tm_component_manager_o*)m,
         .components_created = manager_components_created,
-        .gamestate_representation = interactable_component_gamestate_representation,
-        .persistence = interactable_component_persistence,
     };
 
     const tm_component_type_t interactable_component_type = tm_entity_api->register_component(ctx, &component);
-
+    
     *m = (tm_interactable_component_manager_o){
         .allocator = a,
         .ctx = ctx,
         .interactable_component_type = interactable_component_type,
     };
+}
+
+static void gamestate_component__create(struct tm_simulation_gamestate_context_o* gs)
+{
+    tm_simulation_gamestate_api->register_component(gs, interactable_component_gamestate_representation, interactable_component_persistence, 0);
 }
 
 // This defines all the The Truth types needed and also makes it possible to see the Interactable Component in the
@@ -751,8 +756,10 @@ void load_interactable_component(struct tm_api_registry_api* reg, bool load)
     tm_logger_api = tm_get_api(reg, tm_logger_api);
     tm_transform_component_api = tm_get_api(reg, tm_transform_component_api);
     tm_the_truth_common_types_api = tm_get_api(reg, tm_the_truth_common_types_api);
+    tm_simulation_gamestate_api = tm_get_api(reg, tm_simulation_gamestate_api);
 
     tm_set_or_remove_api(reg, load, tm_interactable_component_api, tm_interactable_component_api);
     tm_add_or_remove_implementation(reg, load, tm_the_truth_create_types_i, create_truth_types);
     tm_add_or_remove_implementation(reg, load, tm_entity_create_component_i, component__create);
+    tm_add_or_remove_implementation(reg, load, tm_simulation_create_gamestate_component_i, gamestate_component__create);
 }

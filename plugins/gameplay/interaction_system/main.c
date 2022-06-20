@@ -20,6 +20,7 @@ static struct tm_transform_component_api *tm_transform_component_api;
 static struct tm_ui_api *tm_ui_api;
 static struct tm_interactable_component_api *tm_interactable_component_api;
 static struct tm_gamestate_api *tm_gamestate_api;
+static struct tm_simulation_gamestate_api* tm_simulation_gamestate_api;
 
 #include "interactable_component.h"
 
@@ -41,6 +42,7 @@ static struct tm_gamestate_api *tm_gamestate_api;
 #include <plugins/physx/physx_scene.h>
 #include <plugins/simulation/simulation.h>
 #include <plugins/simulation/simulation_entry.h>
+#include <plugins/simulation/simulation_gamestate.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
 
@@ -76,7 +78,7 @@ struct tm_simulation_state_o
     uint64_t processed_events;
     tm_entity_context_o *entity_ctx;
     tm_the_truth_o *tt;
-    tm_simulation_o *simulation_ctx;
+    tm_simulation_o *sim;
     tm_allocator_i *allocator;
 
     tm_transform_component_manager_o *trans_mgr;
@@ -105,8 +107,8 @@ static void serialize(void *s, void *d)
     tm_simulation_state_o *source = (tm_simulation_state_o *)s;
     simulate_persistent_state *dest = (simulate_persistent_state *)d;
 
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player, 0, &dest->player, 0);
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player_camera, 0, &dest->player_camera, 0);
+    tm_simulation_gamestate_api->entity_is_persistent(tm_simulation_api->gamestate_context(source->sim), source->player, 0, &dest->player, 0);
+    tm_simulation_gamestate_api->entity_is_persistent(tm_simulation_api->gamestate_context(source->sim), source->player_camera, 0, &dest->player_camera, 0);
 
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
@@ -119,15 +121,15 @@ static void deserialize(void *d, void *s)
     tm_simulation_state_o *dest = (tm_simulation_state_o *)d;
     simulate_persistent_state *source = (simulate_persistent_state *)s;
 
-    dest->player = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player);
-    dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player_camera);
+    dest->player = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(tm_simulation_api->gamestate_context(dest->sim), &source->player);
+    dest->player_camera = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(tm_simulation_api->gamestate_context(dest->sim), &source->player_camera);
 
     dest->look_yaw = source->look_yaw;
     dest->look_pitch = source->look_pitch;
 
     dest->last_standing_time = source->last_standing_time;
 
-    tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
+    tm_simulation_api->set_camera(dest->sim, dest->player_camera);
 }
 
 static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
@@ -136,7 +138,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
     *state = (tm_simulation_state_o){
         .allocator = args->allocator,
         .entity_ctx = args->entity_ctx,
-        .simulation_ctx = args->simulation_ctx,
+        .sim = args->simulation_ctx,
         .tt = args->tt,
     };
 
@@ -150,7 +152,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    tm_simulation_api->set_camera(state->simulation_ctx, state->player_camera);
+    tm_simulation_api->set_camera(state->sim, state->player_camera);
 
     TM_INIT_TEMP_ALLOCATOR(ta);
     tm_physics_collision_t *all_collision_types = tm_physics_collision_api->find_all(state->tt, ta);
@@ -166,7 +168,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
     TM_SHUTDOWN_TEMP_ALLOCATOR(ta);
 
     const char *singleton_name = "interation_sample_simulation_state";
-    tm_gamestate_o *gamestate = tm_simulation_api->gamestate(state->simulation_ctx);
+    tm_gamestate_o *gamestate = tm_simulation_api->gamestate(state->sim);
     tm_gamestate_singleton_t s = {
         .name = singleton_name,
         .size = sizeof(simulate_persistent_state),
@@ -400,6 +402,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
     tm_ui_api = tm_get_api(reg, tm_ui_api);
     tm_interactable_component_api = tm_get_api(reg, tm_interactable_component_api);
     tm_gamestate_api = tm_get_api(reg, tm_gamestate_api);
+    tm_simulation_gamestate_api = tm_get_api(reg, tm_simulation_gamestate_api);
 
     tm_add_or_remove_implementation(reg, load, tm_simulation_entry_i, &simulation_entry_i);
     load_interactable_component(reg, load);

@@ -20,6 +20,7 @@ static struct tm_transform_component_api *tm_transform_component_api;
 static struct tm_ui_api *tm_ui_api;
 static struct tm_gamestate_api *tm_gamestate_api;
 static struct tm_creation_graph_api *tm_creation_graph_api;
+static struct tm_simulation_gamestate_api* tm_simulation_gamestate_api;
 
 #include <foundation/allocator.h>
 #include <foundation/api_registry.h>
@@ -50,6 +51,7 @@ static struct tm_creation_graph_api *tm_creation_graph_api;
 #include <plugins/renderer/render_backend.h>
 #include <plugins/simulation/simulation.h>
 #include <plugins/simulation/simulation_entry.h>
+#include <plugins/simulation/simulation_gamestate.h>
 #include <plugins/ui/draw2d.h>
 #include <plugins/ui/ui.h>
 
@@ -91,7 +93,7 @@ struct tm_simulation_state_o
     tm_entity_context_o *entity_ctx;
 
     // For interfacing with `tm_simulation_api`.
-    tm_simulation_o *simulation_ctx;
+    tm_simulation_o *sim;
 
     // For interfacing with many functions in `tm_the_truth_assets_api`.
     tm_tt_id_t asset_root;
@@ -170,11 +172,12 @@ static void serialize(void *s, void *d)
 {
     tm_simulation_state_o *source = (tm_simulation_state_o *)s;
     simulate_persistent_state *dest = (simulate_persistent_state *)d;
-
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player, 0, &dest->player, 0);
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player_camera, 0, &dest->player_camera, 0);
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->player_carry_anchor, 0, &dest->player_carry_anchor, 0);
-    tm_entity_api->entity_is_persistent(tm_entity_api->gamestate_context(source->entity_ctx), source->box, 0, &dest->box, 0);
+    
+    struct tm_simulation_gamestate_context_o* gamestate = tm_simulation_api->gamestate_context(source->sim);
+    tm_simulation_gamestate_api->entity_is_persistent(gamestate, source->player, 0, &dest->player, 0);
+    tm_simulation_gamestate_api->entity_is_persistent(gamestate, source->player_camera, 0, &dest->player_camera, 0);
+    tm_simulation_gamestate_api->entity_is_persistent(gamestate, source->player_carry_anchor, 0, &dest->player_carry_anchor, 0);
+    tm_simulation_gamestate_api->entity_is_persistent(gamestate, source->box, 0, &dest->box, 0);
 
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;
@@ -193,11 +196,13 @@ static void deserialize(void *d, void *s)
 {
     tm_simulation_state_o *dest = (tm_simulation_state_o *)d;
     simulate_persistent_state *source = (simulate_persistent_state *)s;
-
-    dest->player = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player);
-    dest->player_camera = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player_camera);
-    dest->player_carry_anchor = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->player_carry_anchor);
-    dest->box = tm_entity_api->lookup_entity_from_gamestate_id(tm_entity_api->gamestate_context(dest->entity_ctx), &source->box);
+    
+    struct tm_simulation_gamestate_context_o* gamestate = tm_simulation_api->gamestate_context(dest->sim);
+    
+    dest->player = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gamestate, &source->player);
+    dest->player_camera = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gamestate, &source->player_camera);
+    dest->player_carry_anchor = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gamestate, &source->player_carry_anchor);
+    dest->box = tm_simulation_gamestate_api->lookup_entity_from_gamestate_id(gamestate, &source->box);
 
     dest->box_starting_point = source->box_starting_point;
     dest->box_starting_rot = source->box_starting_rot;
@@ -211,7 +216,7 @@ static void deserialize(void *d, void *s)
 
     dest->score = source->score;
 
-    tm_simulation_api->set_camera(dest->simulation_ctx, dest->player_camera);
+    tm_simulation_api->set_camera(dest->sim, dest->player_camera);
 }
 
 static void update_box_material(tm_simulation_state_o *state)
@@ -315,7 +320,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
         .allocator = args->allocator,
         .tt = args->tt,
         .entity_ctx = args->entity_ctx,
-        .simulation_ctx = args->simulation_ctx,
+        .sim = args->simulation_ctx,
         .asset_root = args->asset_root,
     };
 
@@ -331,7 +336,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
 
     state->player = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player", 0xafff68de8a0598dfULL));
     state->player_camera = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_camera", 0x689cd442a211fda4ULL));
-    tm_simulation_api->set_camera(state->simulation_ctx, state->player_camera);
+    tm_simulation_api->set_camera(state->sim, state->player_camera);
     state->player_carry_anchor = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("player_carry_anchor", 0xc3ff6c2ebc868f1fULL));
 
     state->box = tm_tag_component_api->find_first(state->tag_mgr, TM_STATIC_HASH("box", 0x9eef98b479cef090ULL));
@@ -353,7 +358,7 @@ static tm_simulation_state_o *start(tm_simulation_start_args_t *args)
     }
 
     const char *singleton_name = "first_person_simulation_state";
-    tm_gamestate_o *gamestate = tm_simulation_api->gamestate(state->simulation_ctx);
+    tm_gamestate_o *gamestate = tm_simulation_api->gamestate(state->sim);
     tm_gamestate_singleton_t s = {
         .name = singleton_name,
         .size = sizeof(simulate_persistent_state),
@@ -716,6 +721,7 @@ TM_DLL_EXPORT void tm_load_plugin(struct tm_api_registry_api *reg, bool load)
     tm_ui_api = tm_get_api(reg, tm_ui_api);
     tm_gamestate_api = tm_get_api(reg, tm_gamestate_api);
     tm_creation_graph_api = tm_get_api(reg, tm_creation_graph_api);
+    tm_simulation_gamestate_api = tm_get_api(reg, tm_simulation_gamestate_api);
 
     tm_add_or_remove_implementation(reg, load, tm_simulation_entry_i, &simulation_entry_i);
 }
