@@ -657,7 +657,7 @@ static void component__create(struct tm_entity_context_o* ctx)
 
 static void gamestate_component__create(struct tm_simulation_gamestate_context_o* gs)
 {
-    tm_simulation_gamestate_api->register_component(gs, interactable_component_gamestate_representation, interactable_component_persistence, 0);
+    tm_simulation_gamestate_api->register_component(gs, TM_TT_TYPE_HASH__INTERACTABLE_COMPONENT, interactable_component_gamestate_representation, interactable_component_persistence, 0);
 }
 
 // This defines all the The Truth types needed and also makes it possible to see the Interactable Component in the
